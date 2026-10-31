@@ -1,0 +1,30 @@
+---
+title: Switch
+description: Switch represents an immediate on or off setting.
+---
+
+import "../assets/reference-content.css";
+
+import { Switch } from '@terra-symposium/styling/ui';
+
+
+Switch represents an immediate on or off setting.
+
+## Public exports
+
+- `Switch`
+- `SwitchThumb`
+
+## Import
+
+```tsx
+import { Switch, SwitchThumb } from '@terra-symposium/styling/ui';
+```
+
+## Example
+
+<label className='component-demo-surface'><Switch defaultChecked aria-label='Enable public access' /><span>Enable public access</span></label>
+
+## Usage notes
+
+Use the component family for the interaction or content role described above. For compound components, place each exported part inside its owning root and preserve the accessible label, keyboard behavior, and state semantics. Check the exported TypeScript props for required values and controlled-state options.

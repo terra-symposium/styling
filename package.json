@@ -24,21 +24,20 @@
       "types": "./dist/lib/tailwind-preset.d.ts",
       "import": "./dist/lib/tailwind-preset.js"
     },
-    "./docs-base.css": "./dist/docs-base.css",
-    "./ui-base.css": "./dist/ui-base.css",
-    "./effects.css": "./dist/effects.css",
-    "./ui.css": "./dist/ui.css",
-    "./tokens.css": "./dist/tokens.css"
+    "./global.css": "./dist/global.css",
+    "./ui.css": "./dist/global.css",
+    "./effects.css": "./dist/effects.css"
   },
   "scripts": {
-    "build": "rm -rf dist && tsc && mkdir -p dist/assets/fonts/licenses && cp src/styles/tokens.css dist/tokens.css && cp src/assets/fonts/*.woff src/assets/fonts/*.woff2 dist/assets/fonts/ && cp src/assets/fonts/README.md dist/assets/fonts/README.md && cp src/assets/fonts/licenses/OFL-1.1.txt dist/assets/fonts/OFL-1.1.txt && cp src/assets/fonts/licenses/Inter-OFL-1.1.txt dist/assets/fonts/licenses/Inter-OFL-1.1.txt && tailwindcss --postcss tailwind.postcss.config.cjs -c tailwind.docs-base.config.mjs -i src/styles/docs-base.css -o dist/docs-base.css --minify && tailwindcss --postcss tailwind.postcss.config.cjs -c tailwind.ui.config.mjs -i src/styles/ui-base.css -o dist/ui-base.css --minify && node scripts/compile-effects.cjs && tailwindcss --postcss tailwind.postcss.config.cjs -c tailwind.ui.config.mjs -i src/styles/ui.css -o dist/ui.css --minify",
+    "build": "rm -rf dist && tsc && mkdir -p dist/assets/fonts/licenses && cp src/assets/fonts/*.woff src/assets/fonts/*.woff2 dist/assets/fonts/ && cp src/assets/fonts/README.md dist/assets/fonts/README.md && cp src/assets/fonts/licenses/OFL-1.1.txt dist/assets/fonts/OFL-1.1.txt && cp src/assets/fonts/licenses/Inter-OFL-1.1.txt dist/assets/fonts/licenses/Inter-OFL-1.1.txt && tailwindcss --postcss tailwind.postcss.config.cjs -c tailwind.global.config.mjs -i src/styles/global.css -o dist/global.css --minify && node scripts/compile-effects.cjs",
     "typecheck": "tsc --noEmit",
-    "docs:build": "pnpm build && cd docs && ../node_modules/.bin/astro build",
-    "docs:dev": "pnpm build && cd docs && ASTRO_BASE_PATH=/ ../node_modules/.bin/astro dev",
+    "docs:build": "pnpm build && terra-docs build --title Styling --description 'Standardised colouring and components.' --site https://kaimacann.netlify.app --base ${ASTRO_BASE_PATH:-/styling-docs/}",
+    "docs:dev": "pnpm build && terra-docs dev --title Styling --description 'Standardised colouring and components.' --base /",
     "test": "pnpm build && tsx --test test/lib/*.test.ts test/components/ui/*.test.ts",
     "prepare": "husky",
     "changeset": "changeset",
-    "version-packages": "changeset version"
+    "version-packages": "changeset version",
+    "docs:preview": "terra-docs preview --title Styling --description 'Standardised colouring and components.' --site https://kaimacann.netlify.app --base ${ASTRO_BASE_PATH:-/styling-docs/}"
   },
   "dependencies": {
     "@carbon/icons-react": "11.90.0",
@@ -87,15 +86,13 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
-    "@astrojs/react": "^7.1.0",
     "@changesets/cli": "^3.0.3",
-    "@terra-symposium/docs": "file:vendor/terra-symposium-docs-0.1.42.tgz",
-    "@terra-symposium/styling": "file:vendor/terra-symposium-styling-0.1.27.tgz",
+    "@terra-symposium/docs": "^0.1.73",
+    "@terra-symposium/styling": "0.1.34",
     "@types/bezier-easing": "^2.1.2",
     "@types/node": "^24.0.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "astro": "^7.4.2",
     "debug": "4.4.3",
     "husky": "^9.1.7",
     "postcss": "8.5.31",
@@ -111,9 +108,7 @@
     "react-dom": "^19.0.0"
   },
   "sideEffects": [
-    "./dist/ui.css",
-    "./dist/docs-base.css",
-    "./dist/ui-base.css",
+    "./dist/global.css",
     "./dist/effects.css"
   ]
 }

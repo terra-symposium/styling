@@ -1,0 +1,35 @@
+---
+title: "ContextMenu"
+description: "ContextMenu exposes actions for the item under the pointer or keyboard focus."
+group: "Menus and overlays"
+---
+
+ContextMenu exposes actions for the item under the pointer or keyboard focus.
+
+## Public exports
+
+- `ContextMenu`
+- `ContextMenuTrigger`
+- `ContextMenuContent`
+- `ContextMenuItem`
+- `ContextMenuCheckboxItem`
+- `ContextMenuRadioItem`
+- `ContextMenuLabel`
+- `ContextMenuSeparator`
+- `ContextMenuShortcut`
+- `ContextMenuGroup`
+- `ContextMenuPortal`
+- `ContextMenuSub`
+- `ContextMenuRadioGroup`
+- `ContextMenuSubContent`
+- `ContextMenuSubTrigger`
+
+## Import
+
+```tsx
+import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuCheckboxItem, ContextMenuRadioItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut, ContextMenuGroup, ContextMenuPortal, ContextMenuSub, ContextMenuRadioGroup, ContextMenuSubContent, ContextMenuSubTrigger } from '@terra-symposium/styling/ui';
+```
+
+## Usage notes
+
+Use the component family for the interaction or content role described above. For compound components, place each exported part inside its owning root and preserve the accessible label, keyboard behavior, and state semantics. Check the exported TypeScript props for required values and controlled-state options.

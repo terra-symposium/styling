@@ -1,0 +1,32 @@
+---
+title: Button
+description: Button performs an action; ButtonLink applies the same action styles to a link.
+---
+
+import "../assets/reference-content.css";
+
+import { Button } from '@terra-symposium/styling/ui';
+
+
+Button performs an action; ButtonLink applies the same action styles to a link.
+
+## Public exports
+
+- `Button`
+- `ButtonLink`
+
+## Import
+
+```tsx
+import { Button, ButtonLink } from '@terra-symposium/styling/ui';
+```
+
+## Example
+
+<div className='component-demo-surface'><Button variant='primary-default'>Create workspace</Button><Button variant='secondary-outline'>Cancel</Button></div>
+
+## Usage notes
+
+Use the component family for the interaction or content role described above. For compound components, place each exported part inside its owning root and preserve the accessible label, keyboard behavior, and state semantics. Check the exported TypeScript props for required values and controlled-state options.
+
+For the supported color and treatment combinations, see the [color and treatment matrix](../../matrices/color-treatment/).

@@ -1,0 +1,45 @@
+---
+title: "Card"
+description: "Card groups related content and supports link, disclosure, and surface presentations."
+group: "Content and feedback"
+---
+
+import { Card } from '@terra-symposium/styling/ui';
+import { CardHeader } from '@terra-symposium/styling/ui';
+import { CardTitle } from '@terra-symposium/styling/ui';
+import { CardDescription } from '@terra-symposium/styling/ui';
+import { CardContent } from '@terra-symposium/styling/ui';
+
+
+Card groups related content and supports link, disclosure, and surface presentations.
+
+## Public exports
+
+- `Card`
+- `CardSummary`
+- `CardHeader`
+- `CardFooter`
+- `CardTitle`
+- `CardHeading`
+- `CardDescription`
+- `CardAction`
+- `CardText`
+- `CardQuote`
+- `CardMeta`
+- `CardContent`
+
+## Import
+
+```tsx
+import { Card, CardSummary, CardHeader, CardFooter, CardTitle, CardHeading, CardDescription, CardAction, CardText, CardQuote, CardMeta, CardContent } from '@terra-symposium/styling/ui';
+```
+
+## Example
+
+<Card><CardHeader><CardTitle>Workspace</CardTitle><CardDescription>Shared project settings</CardDescription></CardHeader><CardContent>Manage members and access.</CardContent></Card>
+
+## Usage notes
+
+Use the component family for the interaction or content role described above. For compound components, place each exported part inside its owning root and preserve the accessible label, keyboard behavior, and state semantics. Check the exported TypeScript props for required values and controlled-state options.
+
+For the supported color and treatment combinations, see the [color and treatment matrix](../../matrices/color-treatment/).

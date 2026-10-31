@@ -12,7 +12,7 @@ pnpm build
 pnpm docs:build
 ```
 
-The guide is the Markdown and MDX files in [`docs/`](docs/). `@terra-symposium/docs` supplies its Astro site, navigation, search, styling, and 404 page. Run `pnpm docs:dev` to preview it locally; `pnpm docs:build` writes the static site to `docs-dist/`. Relative Markdown links and assets work from the content tree. The published guide is served under `/styling-docs/`.
+The guide is the Markdown and MDX files in [`docs/`](docs/). `@terra-symposium/docs` supplies its Astro site, navigation, search, styling, and 404 page. Run `pnpm docs:dev` to preview it locally; `pnpm docs:build` writes the static site to `dist/docs/`. Relative Markdown links and assets work from the content tree. The published guide is served under `/styling-docs/`.
 
 ## Agent skills
 

@@ -49,7 +49,7 @@ pnpm docs:dev
 pnpm docs:build
 ```
 
-`pnpm docs:dev` builds the package first, then starts the Astro docs app at the local root. `pnpm docs:build` builds the package and writes the static docs site to `site-dist/`. The Astro config aliases Styling imports to this checkout's `dist/`, so local source changes appear in the guide and component gallery.
+`pnpm docs:dev` builds the package first, then starts the Astro docs app at the local root. `pnpm docs:build` builds the package and writes the static docs site to `dist/docs/`. The Astro config aliases Styling imports to this checkout's `dist/`, so local source changes appear in the guide and component gallery.
 
 Add guide pages as Markdown files in `docs/content/` and register them in `docs/pages.mjs`. That catalog supplies route metadata and the navigation tree used by the Docs workspace. The interactive gallery is implemented in `docs/src/components/ComponentShowcase.tsx`.
 

@@ -5,7 +5,8 @@
   "license": "Apache-2.0",
   "type": "module",
   "files": [
-    "dist"
+    "dist",
+    "!dist/docs/**"
   ],
   "exports": {
     ".": {
@@ -31,13 +32,13 @@
   "scripts": {
     "build": "rm -rf dist && tsc && mkdir -p dist/assets/fonts/licenses && cp src/assets/fonts/*.woff src/assets/fonts/*.woff2 dist/assets/fonts/ && cp src/assets/fonts/README.md dist/assets/fonts/README.md && cp src/assets/fonts/licenses/OFL-1.1.txt dist/assets/fonts/OFL-1.1.txt && cp src/assets/fonts/licenses/Inter-OFL-1.1.txt dist/assets/fonts/licenses/Inter-OFL-1.1.txt && tailwindcss --postcss tailwind.postcss.config.cjs -c tailwind.global.config.mjs -i src/styles/global.css -o dist/global.css --minify && node scripts/compile-effects.cjs",
     "typecheck": "tsc --noEmit",
-    "docs:build": "pnpm build && terra-docs build --title Styling --description 'Standardised colouring and components.' --site https://kaimacann.netlify.app --base ${ASTRO_BASE_PATH:-/styling-docs/}",
+    "docs:build": "pnpm build && terra-docs build --title Styling --description 'Standardised colouring and components.' --site https://kaimacann.netlify.app --base ${ASTRO_BASE_PATH:-/styling-docs/} --out dist/docs",
     "docs:dev": "pnpm build && terra-docs dev --title Styling --description 'Standardised colouring and components.' --base /",
     "test": "pnpm build && tsx --test test/lib/*.test.ts test/components/ui/*.test.ts",
     "prepare": "husky",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "docs:preview": "terra-docs preview --title Styling --description 'Standardised colouring and components.' --site https://kaimacann.netlify.app --base ${ASTRO_BASE_PATH:-/styling-docs/}"
+    "docs:preview": "terra-docs preview --title Styling --description 'Standardised colouring and components.' --site https://kaimacann.netlify.app --base ${ASTRO_BASE_PATH:-/styling-docs/} --out dist/docs"
   },
   "dependencies": {
     "@carbon/icons-react": "11.90.0",

@@ -1,6 +1,6 @@
 /**
  * src/components/docs/toolbar-frame.tsx
- * Shared sticky toolbar wrapper used across Terra Docs hosts.
+ * Shared sticky toolbar wrapper used across Docs hosts.
  * https://ui.shadcn.com/docs/components
  */
 
@@ -16,7 +16,7 @@ COMPONENTS
 //////////////////////////////////////////////////*/
 
 // DOCS TOOLBAR
-/** Provides the shared sticky frame for toolbars in all Terra Docs hosts.
+/** Provides the shared sticky frame for toolbars in all Docs hosts.
  *
  * @param props Toolbar content to place inside the frame.
  * @return A sticky, print-hidden toolbar frame.

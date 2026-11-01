@@ -27,4 +27,4 @@
 
 - 1b62625: Ship the restored global UI cascade and font assets through the versioned Styling package.
   ---
-- Restore the original Terra Docs base, component, and typography styles in the shared Styling package, including the original font assets and Docs-only preflight entrypoint.
+- Restore the original Docs base, component, and typography styles in the shared Styling package, including the original font assets and Docs-only preflight entrypoint.

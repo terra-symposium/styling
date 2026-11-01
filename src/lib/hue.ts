@@ -19,7 +19,7 @@ import type { ArrayOf12, ColorGenOpts, ColorScales } from './types.js';
 /**
  * Returns an explicit hue when supplied, or a stable hue derived from a label.
  * Markdown filenames and display separators are normalized the same way as
- * Terra Docs tree labels before hashing, so every host gets the same palette.
+ * Docs tree labels before hashing, so every host gets the same palette.
  *
  * @param title - Document title or filename used to derive a hue.
  * @param hue - Optional explicit hue, returned unchanged when supplied as a number.

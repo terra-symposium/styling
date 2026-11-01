@@ -1,0 +1,35 @@
+---
+title: "Textarea"
+description: "Textarea is a multiline control with the shared form color and treatment variants."
+group: "Actions and forms"
+---
+
+
+import { ComponentTsDocs } from './_ComponentTsDocs.tsx';
+
+import { Textarea } from '@terra-symposium/styling/ui';
+
+
+Textarea is a multiline control with the shared form color and treatment variants.
+
+## Public exports
+
+- `Textarea`
+
+## Import
+
+```tsx
+import { Textarea } from '@terra-symposium/styling/ui';
+```
+
+## Example
+
+<Textarea aria-label='Notes' variant='primary-outline' placeholder='Add notes' />
+
+## Usage notes
+
+Use the component family for the interaction or content role described above. For compound components, place each exported part inside its owning root and preserve the accessible label, keyboard behavior, and state semantics. Check the exported TypeScript props for required values and controlled-state options.
+
+For the supported color and treatment combinations, see the [color and treatment matrix](/styling/matrices/color-treatment/).
+
+<ComponentTsDocs component="textarea" />

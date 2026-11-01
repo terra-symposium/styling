@@ -1,5 +1,6 @@
 /**
  * src/components/ui/alert-dialog.tsx
+ * https://ui.shadcn.com/docs/components/alert-dialog
  * Accessible confirmation dialog built on Radix AlertDialog and shared UI primitives.
  */
 

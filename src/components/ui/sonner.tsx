@@ -1,5 +1,6 @@
 /**
  * src/components/ui/sonner.tsx
+ * https://ui.shadcn.com/docs/components/sonner
  * Toast notification renderer themed with shared Styling tokens and icons.
  */
 

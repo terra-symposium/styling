@@ -205,7 +205,7 @@ const SelectContent = React.forwardRef<
         ref={ref}
         className={cn(
           "relative z-[110] max-h-[--radix-select-content-available-height] min-w-32 origin-[--radix-select-content-transform-origin]",
-          "overflow-y-auto overflow-x-hidden rounded-md border",
+          "overflow-y-auto overflow-x-hidden rounded-md border bg-primary-2 text-primary-12",
           OVERLAY_SURFACE_VARIANTS(),
           OVERLAY_MOTION_VARIANTS(),
           RADIX_SIDE_POSITION_VARIANTS(),

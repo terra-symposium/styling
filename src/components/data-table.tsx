@@ -1,6 +1,7 @@
 /**
  * src/components/data-table.tsx
  * Shared card and table composition for searchable, editable entity directories.
+ * https://ui.shadcn.com/docs/components/table
  */
 
 /*//////////////////////////////////////////////////

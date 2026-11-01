@@ -1,5 +1,6 @@
 /**
  * src/components/ui/avatar.tsx
+ * https://ui.shadcn.com/docs/components/avatar
  */
 
 /*//////////////////////////////////////////////////

@@ -1,0 +1,34 @@
+---
+title: Separator
+description: Separator marks a visual or semantic division between adjacent content.
+---
+
+
+import { ComponentTsDocs } from './_ComponentTsDocs.tsx';
+
+import "../assets/reference-content.css";
+
+import { Separator } from '@terra-symposium/styling/ui';
+
+
+Separator marks a visual or semantic division between adjacent content.
+
+## Public exports
+
+- `Separator`
+
+## Import
+
+```tsx
+import { Separator } from '@terra-symposium/styling/ui';
+```
+
+## Example
+
+<div className='component-demo-surface'><span>General</span><Separator /><span>Advanced</span></div>
+
+## Usage notes
+
+Use the component family for the interaction or content role described above. For compound components, place each exported part inside its owning root and preserve the accessible label, keyboard behavior, and state semantics. Check the exported TypeScript props for required values and controlled-state options.
+
+<ComponentTsDocs component="separator" />

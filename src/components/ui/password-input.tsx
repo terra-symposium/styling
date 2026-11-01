@@ -1,5 +1,6 @@
 /**
  * astro/src/components/ui/password-input.tsx
+ * https://ui.shadcn.com/docs/components/input
  * Password input with an accessible visibility toggle.
  */
 

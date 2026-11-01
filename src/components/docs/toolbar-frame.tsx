@@ -1,6 +1,7 @@
 /**
  * src/components/docs/toolbar-frame.tsx
  * Shared sticky toolbar wrapper used across Terra Docs hosts.
+ * https://ui.shadcn.com/docs/components
  */
 
 /*//////////////////////////////////////////////////

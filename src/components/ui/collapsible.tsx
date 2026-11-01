@@ -1,5 +1,6 @@
 /**
  * src/components/ui/collapsible.tsx
+ * https://ui.shadcn.com/docs/components/collapsible
  * Accessible disclosure component built on Radix Collapsible.
  */
 

@@ -1,0 +1,43 @@
+---
+title: "Alert"
+description: "Alert presents a status message; helpers provide error, success, warning, and information treatments."
+group: "Content and feedback"
+---
+
+
+import { ComponentTsDocs } from './_ComponentTsDocs.tsx';
+
+import { Alert } from '@terra-symposium/styling/ui';
+import { AlertTitle } from '@terra-symposium/styling/ui';
+import { AlertDescription } from '@terra-symposium/styling/ui';
+
+
+Alert presents a status message; helpers provide error, success, warning, and information treatments.
+
+## Public exports
+
+- `Alert`
+- `AlertTitle`
+- `AlertDescription`
+- `AlertError`
+- `AlertSuccess`
+- `AlertWarning`
+- `AlertInfo`
+
+## Import
+
+```tsx
+import { Alert, AlertTitle, AlertDescription, AlertError, AlertSuccess, AlertWarning, AlertInfo } from '@terra-symposium/styling/ui';
+```
+
+## Example
+
+<Alert variant='success-tonal'><AlertTitle>Saved</AlertTitle><AlertDescription>Your changes are available.</AlertDescription></Alert>
+
+## Usage notes
+
+Use the component family for the interaction or content role described above. For compound components, place each exported part inside its owning root and preserve the accessible label, keyboard behavior, and state semantics. Check the exported TypeScript props for required values and controlled-state options.
+
+For the supported color and treatment combinations, see the [color and treatment matrix](/styling/matrices/color-treatment/).
+
+<ComponentTsDocs component="alert" />

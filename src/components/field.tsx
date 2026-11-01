@@ -1,6 +1,7 @@
 /**
  * src/components/field.tsx
  * General form-field layout primitives shared by applications.
+ * https://ui.shadcn.com/docs/components/base/field
  */
 
 /*//////////////////////////////////////////////////

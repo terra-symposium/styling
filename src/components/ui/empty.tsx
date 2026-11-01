@@ -1,5 +1,6 @@
 /**
  * src/components/ui/empty.tsx
+ * https://ui.shadcn.com/docs/components/base/empty
  * The shared empty state used by Terra's editors and document surfaces.
  * Supplying `onUpload` turns the placeholder into a file drop and browse target.
  */

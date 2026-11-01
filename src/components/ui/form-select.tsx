@@ -1,5 +1,6 @@
 /**
  * src/components/ui/form-select.tsx
+ * https://ui.shadcn.com/docs/components/select
  * Data-driven form select that integrates with React Hook Form when available.
  */
 

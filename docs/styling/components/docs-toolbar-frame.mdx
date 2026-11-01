@@ -1,0 +1,33 @@
+---
+title: "DocsToolbarFrame"
+description: "DocsToolbarFrame provides the shared sticky container for a Docs host toolbar."
+group: "Documentation"
+---
+
+
+
+import { ComponentTsDocs } from './_ComponentTsDocs.tsx';
+
+`DocsToolbarFrame` provides the shared sticky container used by Terra Docs hosts. Place the host's toolbar controls in its children; the frame supplies the shared surface, backdrop, stacking order, and print behavior.
+
+## Public export
+
+- `DocsToolbarFrame`
+
+## Import
+
+```tsx
+import { DocsToolbarFrame } from '@terra-symposium/styling/ui';
+```
+
+## Example
+
+```tsx
+<DocsToolbarFrame>
+  <YourDocsToolbar />
+</DocsToolbarFrame>
+```
+
+The component accepts `children` and no additional props. It is intended for Docs host toolbars and depends on the shared Styling stylesheet for its utility classes.
+
+<ComponentTsDocs component="docs-toolbar-frame" />

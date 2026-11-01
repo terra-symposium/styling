@@ -1,5 +1,6 @@
 /**
  * src/components/ui/hint.tsx
+ * https://ui.shadcn.com/docs/components/tooltip
  * Accessible tooltip hint composed from the shared tooltip primitives.
  */
 

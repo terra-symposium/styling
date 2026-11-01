@@ -1,6 +1,7 @@
 /**
  * src/components/forms.tsx
  * Data-driven shared form controls and layouts.
+ * https://ui.shadcn.com/docs/components/base/field
  *
  * FormFieldLayout is intentionally distinct from the React Hook Form-bound
  * FormField export in ui/form.tsx. It can render native or controlled fields

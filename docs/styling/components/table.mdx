@@ -1,0 +1,33 @@
+---
+title: "Table"
+description: "Table primitives provide semantic headers, rows, cells, footers, and captions."
+group: "Content and feedback"
+---
+
+
+import { ComponentTsDocs } from './_ComponentTsDocs.tsx';
+
+Table primitives provide semantic headers, rows, cells, footers, and captions.
+
+## Public exports
+
+- `Table`
+- `TableHeader`
+- `TableBody`
+- `TableHead`
+- `TableRow`
+- `TableCell`
+- `TableFooter`
+- `TableCaption`
+
+## Import
+
+```tsx
+import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell, TableFooter, TableCaption } from '@terra-symposium/styling/ui';
+```
+
+## Usage notes
+
+Use the component family for the interaction or content role described above. For compound components, place each exported part inside its owning root and preserve the accessible label, keyboard behavior, and state semantics. Check the exported TypeScript props for required values and controlled-state options.
+
+<ComponentTsDocs component="table" />

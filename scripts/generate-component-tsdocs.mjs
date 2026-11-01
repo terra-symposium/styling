@@ -18,7 +18,7 @@ const sourceAliases = {
   "mapped-form-fields": join(root, "src/components/forms.tsx"),
   toaster: join(sourceDir, "sonner.tsx"),
 };
-const outputFile = join(root, ".terra-docs/cache/component-tsdocs.ts");
+const outputFile = join(root, "dist/cache/component-tsdocs.ts");
 const pages = (await readdir(docsDir)).filter((name) => name.endsWith(".mdx"));
 const entries = [];
 

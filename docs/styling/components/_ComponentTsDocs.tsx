@@ -1,4 +1,4 @@
-import { componentTsDocs } from '../../../.terra-docs/cache/component-tsdocs.js';
+import { componentTsDocs } from '../../../dist/cache/component-tsdocs.js';
 
 type ComponentName = keyof typeof componentTsDocs;
 

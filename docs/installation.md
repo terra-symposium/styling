@@ -61,4 +61,4 @@ export default {
 };
 ```
 
-See the [component guide](./components/) for variants and component families, and the [Hue and themes guide](./hue/) for scoped palettes.
+See the [component guide](../components/) for variants and component families, and the [Hue and themes guide](../hue/) for scoped palettes.

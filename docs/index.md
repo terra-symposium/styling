@@ -11,7 +11,7 @@ Terra Styling is a React component and theming package extracted from the Terra 
 ## Start here
 
 - [Install the package](./installation/) and load its global stylesheet.
-- Browse the [component guide](./components-overview/), individual component pages in the Components group, or the [color and treatment matrix](../matrices/color-treatment/).
+- Browse the [component guide](./components/), individual component pages in the Components group, or the [color and treatment matrix](../matrices/color-treatment/).
 - Read [Hue and themes](./hue/) for the color API.
 - Use the [repository guide](./repository-guide/) when developing the package itself.
 

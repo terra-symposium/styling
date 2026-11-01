@@ -19,7 +19,7 @@ import { ChevronDown as ChevronDownIcon, ChevronLeft as ChevronLeftIcon, Chevron
 import { DayPicker } from 'react-day-picker';
 
 // TYPES
-import type { ButtonVariantProps, DefaultClassNames } from './types.js';
+import type { ButtonVariantProps } from './types.js';
 import type { CompactSize } from './types.js';
 import type { DayButton } from 'react-day-picker';
 
@@ -79,7 +79,7 @@ function Calendar({
 	...props
 }: React.ComponentProps<typeof DayPicker> & { buttonVariant?: ButtonVariantProps; size?: CompactSize | 'responsive' }): React.JSX.Element {
 	// cache default class names from DayPicker (typed as a simple rec)
-	const defaultClassNames: DefaultClassNames = getDefaultClassNames();
+	const defaultClassNames: (Record<string, string>) = getDefaultClassNames();
 
 	// LOGIC HELPERS
 	// 'xs' is the only layout using compact nav buttons

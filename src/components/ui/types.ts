@@ -22,30 +22,43 @@ COMPONENT CONTRACTS
 
 // BUTTONS
 
-/** State names used to style a button that triggers a menu. */
-export type ButtonMenuTrigger = 'active' | 'inactive';
-/** Native button attributes plus the shared action variant and button behavior props. */
-export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & Omit<VariantProps<typeof ACTION_VARIANTS>, 'variant'> & { variant?: ButtonVariant; asChild?: boolean; loading?: boolean; loadingText?: React.ReactNode; menuTrigger?: ButtonMenuTrigger };
+
+
+
+
 /** Action styles, including color treatments and named navigation or specialized-control variants. */
-export type ButtonVariant = UiColor | UiMatrixVariant | `${UiColor}-link` | 'default' | 'secondary' | 'destructive' | 'outline' | 'ghost' | 'tonal' | 'underline' | 'ghost-destructive' | 'inline' | 'dashboard-nav' | 'plain' | 'authority' | 'connection' | 'drawer';
+export type ButtonVariant = UiColor | (`${UiColor}-${Exclude<UiType, 'saturated' | 'link'>}`) | `${UiColor}-link` | 'default' | 'secondary' | 'destructive' | 'outline' | 'ghost' | 'tonal' | 'underline' | 'ghost-destructive' | 'inline' | 'dashboard-nav' | 'plain' | 'authority' | 'connection' | 'drawer';
 /** Alias used by component props named `buttonVariant`. */
 export type ButtonVariantProps = ButtonVariant;
 /** Alias for the shared button contract used by button-adjacent controls. */
-export type UiButtonButtonProps = ButtonProps;
+export type UiButtonButtonProps = (React.ButtonHTMLAttributes<HTMLButtonElement> & Omit<VariantProps<typeof ACTION_VARIANTS>, 'variant'> & {
+    variant?: ButtonVariant;
+    asChild?: boolean;
+    loading?: boolean;
+    loadingText?: React.ReactNode;
+    menuTrigger?: ('active' | 'inactive');
+});
 
 // CALENDAR
 
-/** String-keyed class map used to merge DayPicker's default classes. */
-export type DefaultClassNames = Record<string, string>;
+
+
 
 // CARDS
 
 /** Props for a card rendered as a link; `href` is required. */
 export type AnchorCardProps = { variant?: SurfaceVariant; size?: Size; inverse?: boolean; interactive?: boolean; printed?: boolean; disabled?: boolean } & CardBehaviorProps & React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
-type BaseCardProps = { variant?: SurfaceVariant; size?: Size; inverse?: boolean; interactive?: boolean; printed?: boolean; disabled?: boolean } & CardBehaviorProps;
+
 type CardBehaviorProps = { asChild?: boolean; collapsible?: boolean; disclosureVariant?: 'card' | 'section'; defaultOpen?: boolean; open?: boolean; onOpenChange?: (open: boolean) => void };
 /** Props for cards that render as a div or, when `href` is present, as an anchor. */
-export type CardProps = (BaseCardProps & React.HTMLAttributes<HTMLDivElement> & { href?: never }) | AnchorCardProps;
+export type CardProps = (({
+    variant?: SurfaceVariant;
+    size?: Size;
+    inverse?: boolean;
+    interactive?: boolean;
+    printed?: boolean;
+    disabled?: boolean;
+} & CardBehaviorProps) & React.HTMLAttributes<HTMLDivElement> & { href?: never }) | AnchorCardProps;
 /** Props for the summary disclosure trigger inside a collapsible card. */
 export type CardSummaryProps = Omit<React.ComponentProps<'button'>, 'size'> & {
 	variant?: 'default' | 'surface' | 'bordered' | 'section' | 'card' | 'compact' | 'accordion' | 'accordionMuted' | 'pill' | 'tiny';
@@ -105,8 +118,8 @@ export type SurfaceMatrixVariant = `${UiColor}-${Exclude<UiType, 'link' | 'under
 export type SurfaceVariant = UiColor | SurfaceMatrixVariant | 'transparent' | 'dark' | 'error' | 'correct' | 'info' | 'success' | 'warning';
 /** Palette colors available to the shared UI style matrices. */
 export type UiColor = 'primary' | 'secondary' | 'gray' | 'destructive' | 'success' | 'caution';
-/** Color/treatment combinations excluding saturated and link treatments. */
-export type UiMatrixVariant = `${UiColor}-${Exclude<UiType, 'saturated' | 'link'>}`;
+
+
 /** Visual treatments used to build the shared color variant families. */
 export type UiType = 'default' | 'outline' | 'ghost' | 'tonal' | 'saturated' | 'link' | 'underline' | 'glass';
 

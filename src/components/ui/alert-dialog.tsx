@@ -26,7 +26,7 @@ import type { UiSize } from './types.js';
 TYPES
 //////////////////////////////////////////////////*/
 
-type AlertDialogButtonProps = Pick<React.ComponentProps<typeof Button>, 'variant' | 'size' | 'loading'> & { loadingText?: React.ReactNode };
+
 
 /*//////////////////////////////////////////////////
 COMPONENTS
@@ -181,7 +181,9 @@ function AlertDialogAction({
 	loadingText,
 	children,
 	...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Action> & AlertDialogButtonProps): React.JSX.Element {
+}: React.ComponentProps<typeof AlertDialogPrimitive.Action> & (Pick<React.ComponentProps<typeof Button>, 'variant' | 'size' | 'loading'> & {
+    loadingText?: React.ReactNode;
+})): React.JSX.Element {
 	return (
 		<Button variant={variant} size={size} loading={loading} asChild>
 			<AlertDialogPrimitive.Action data-slot='alert-dialog-action' className={className} {...props}>

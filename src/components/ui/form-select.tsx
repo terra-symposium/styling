@@ -38,24 +38,7 @@ export type FormSelectOptionProps = {
 /** Short name for the `FormSelectOptionProps` contract. */
 export type FormSelectOptProps = FormSelectOptionProps;
 
-type FormSelectProps = Omit<React.ComponentProps<typeof Select>, 'children' | 'defaultValue' | 'disabled' | 'name' | 'onValueChange' | 'required' | 'value'> &
-	Pick<React.ComponentProps<typeof SelectTrigger>, 'size' | 'variant' | 'width' | 'hideChevron'> & {
-		children?: React.ReactNode;
-		options?: readonly FormSelectOptionProps[];
-		ariaLabel?: string;
-		'aria-label'?: string;
-		ariaInvalid?: React.AriaAttributes['aria-invalid'];
-		className?: string;
-		defaultValue?: string;
-		disabled?: boolean;
-		id?: string;
-		name?: string;
-		onValueChange?: (value: string) => void;
-		placeholder?: string;
-		renderValue?: (value: string) => React.ReactNode;
-		required?: boolean;
-		value?: string;
-	};
+
 
 /*//////////////////////////////////////////////////
 HELPERS
@@ -106,7 +89,23 @@ function FormSelect({
 	width,
 	hideChevron,
 	...selectProps
-}: FormSelectProps): React.JSX.Element {
+}: (Omit<React.ComponentProps<typeof Select>, 'children' | 'defaultValue' | 'disabled' | 'name' | 'onValueChange' | 'required' | 'value'> & Pick<React.ComponentProps<typeof SelectTrigger>, 'size' | 'variant' | 'width' | 'hideChevron'> & {
+    children?: React.ReactNode;
+    options?: readonly FormSelectOptionProps[];
+    ariaLabel?: string;
+    'aria-label'?: string;
+    ariaInvalid?: React.AriaAttributes['aria-invalid'];
+    className?: string;
+    defaultValue?: string;
+    disabled?: boolean;
+    id?: string;
+    name?: string;
+    onValueChange?: (value: string) => void;
+    placeholder?: string;
+    renderValue?: (value: string) => React.ReactNode;
+    required?: boolean;
+    value?: string;
+})): React.JSX.Element {
 	const form = useOptionalFormContext<FieldValues>();
 	const formValue = form && name ? form.watch(name as never) : undefined;
 	const hasFormField = Boolean(form && name);

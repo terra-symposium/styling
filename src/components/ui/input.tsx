@@ -52,7 +52,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ): React.JSX.Element => {
     const form = useOptionalFormContext<FieldValues>();
     const registration =
-      form && name && type !== "file"
+      form && name && type !== "file" && !onChange
         ? form.register(name, {
             setValueAs: (raw) => {
               const normalized =

@@ -4,15 +4,13 @@ description: "Card groups related content and supports link, disclosure, and sur
 group: "Content and feedback"
 ---
 
+import { ComponentTsDocs } from "./_ComponentTsDocs.tsx";
 
-import { ComponentTsDocs } from './_ComponentTsDocs.tsx';
-
-import { Card } from '@terra-symposium/styling/ui';
-import { CardHeader } from '@terra-symposium/styling/ui';
-import { CardTitle } from '@terra-symposium/styling/ui';
-import { CardDescription } from '@terra-symposium/styling/ui';
-import { CardContent } from '@terra-symposium/styling/ui';
-
+import { Card } from "@terra-symposium/styling/ui";
+import { CardHeader } from "@terra-symposium/styling/ui";
+import { CardTitle } from "@terra-symposium/styling/ui";
+import { CardDescription } from "@terra-symposium/styling/ui";
+import { CardContent } from "@terra-symposium/styling/ui";
 
 Card groups related content and supports link, disclosure, and surface presentations.
 
@@ -34,12 +32,31 @@ Card groups related content and supports link, disclosure, and surface presentat
 ## Import
 
 ```tsx
-import { Card, CardSummary, CardHeader, CardFooter, CardTitle, CardHeading, CardDescription, CardAction, CardText, CardQuote, CardMeta, CardContent } from '@terra-symposium/styling/ui';
+import {
+  Card,
+  CardSummary,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardHeading,
+  CardDescription,
+  CardAction,
+  CardText,
+  CardQuote,
+  CardMeta,
+  CardContent,
+} from "@terra-symposium/styling/ui";
 ```
 
 ## Example
 
-<Card><CardHeader><CardTitle>Workspace</CardTitle><CardDescription>Shared project settings</CardDescription></CardHeader><CardContent>Manage members and access.</CardContent></Card>
+<Card>
+  <CardHeader>
+    <CardTitle>Workspace</CardTitle>
+    <CardDescription>Shared project settings</CardDescription>
+  </CardHeader>
+  <CardContent>Manage members and access.</CardContent>
+</Card>
 
 ## Usage notes
 

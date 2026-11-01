@@ -8,12 +8,12 @@ IMPORTS
 //////////////////////////////////////////////////*/
 
 // API
-import { cn } from '../../lib/cn.js';
+import { cn } from "../../lib/cn.js";
 
 // COMPONENTS
-import * as LabelPrimitive from '@radix-ui/react-label';
-import * as React from 'react';
-import { FORM_LABEL_VARIANTS } from './variants.js';
+import * as LabelPrimitive from "@radix-ui/react-label";
+import * as React from "react";
+import { FORM_LABEL_VARIANTS } from "./variants.js";
 
 /*//////////////////////////////////////////////////
 COMPONENTS
@@ -24,10 +24,17 @@ COMPONENTS
  *
  * @returns React element for the form label.
  */
-const Label = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>>(({ className, ...props }, ref): React.JSX.Element => (
-	<LabelPrimitive.Root ref={ref} className={cn(FORM_LABEL_VARIANTS(), className)} {...props} />
+const Label = React.forwardRef<
+  React.ElementRef<typeof LabelPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
+>(({ className, ...props }, ref): React.JSX.Element => (
+  <LabelPrimitive.Root
+    ref={ref}
+    className={cn(FORM_LABEL_VARIANTS(), className)}
+    {...props}
+  />
 ));
 
-Label.displayName = 'Label';
+Label.displayName = "Label";
 
 export { Label };

@@ -4,13 +4,11 @@ description: "Alert presents a status message; helpers provide error, success, w
 group: "Content and feedback"
 ---
 
+import { ComponentTsDocs } from "./_ComponentTsDocs.tsx";
 
-import { ComponentTsDocs } from './_ComponentTsDocs.tsx';
-
-import { Alert } from '@terra-symposium/styling/ui';
-import { AlertTitle } from '@terra-symposium/styling/ui';
-import { AlertDescription } from '@terra-symposium/styling/ui';
-
+import { Alert } from "@terra-symposium/styling/ui";
+import { AlertTitle } from "@terra-symposium/styling/ui";
+import { AlertDescription } from "@terra-symposium/styling/ui";
 
 Alert presents a status message; helpers provide error, success, warning, and information treatments.
 
@@ -27,12 +25,23 @@ Alert presents a status message; helpers provide error, success, warning, and in
 ## Import
 
 ```tsx
-import { Alert, AlertTitle, AlertDescription, AlertError, AlertSuccess, AlertWarning, AlertInfo } from '@terra-symposium/styling/ui';
+import {
+  Alert,
+  AlertTitle,
+  AlertDescription,
+  AlertError,
+  AlertSuccess,
+  AlertWarning,
+  AlertInfo,
+} from "@terra-symposium/styling/ui";
 ```
 
 ## Example
 
-<Alert variant='success-tonal'><AlertTitle>Saved</AlertTitle><AlertDescription>Your changes are available.</AlertDescription></Alert>
+<Alert variant="success-tonal">
+  <AlertTitle>Saved</AlertTitle>
+  <AlertDescription>Your changes are available.</AlertDescription>
+</Alert>
 
 ## Usage notes
 

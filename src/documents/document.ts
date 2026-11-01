@@ -52,9 +52,10 @@ export function createWordTemplate(
   const font = brand.fonts.body;
   const bodyInk =
     "#" +
-    brand.scales.gray.light[11]!
-      .split(" ")
-      .map((channel) => Math.round(Number(channel)).toString(16).padStart(2, "0"))
+    brand.scales.gray.light[11]!.split(" ")
+      .map((channel) =>
+        Math.round(Number(channel)).toString(16).padStart(2, "0"),
+      )
       .join("");
   const bodyLine = 276;
   const tableWidth = 9706;
@@ -202,16 +203,24 @@ export function createWordTemplate(
     new Paragraph({
       style: "Title",
       keepNext: true,
-      children: [runText(options.title ?? "Invoice", { font: "Avara", italics: true })],
+      children: [
+        runText(options.title ?? "Invoice", { font: "Avara", italics: true }),
+      ],
     }),
     new Paragraph({
       style: "Subtitle",
       keepNext: true,
-      children: [runText(options.subtitle ?? "Invoice number  [Invoice number]")],
+      children: [
+        runText(options.subtitle ?? "Invoice number  [Invoice number]"),
+      ],
     }),
     new Paragraph({
       style: "InvoiceMeta",
-      children: [runText("Services rendered  [Service date]   ·   Invoice issued  [Issue date]")],
+      children: [
+        runText(
+          "Services rendered  [Service date]   ·   Invoice issued  [Issue date]",
+        ),
+      ],
     }),
     makeTable(
       [
@@ -246,7 +255,7 @@ export function createWordTemplate(
         new TableRow({
           tableHeader: true,
           children: [
-              cell([tableText("Description", undefined, "TableHeader")], 5100, {
+            cell([tableText("Description", undefined, "TableHeader")], 5100, {
               fill: c.primarySoft,
               borders: { bottom: sectionRule },
             }),
@@ -265,9 +274,21 @@ export function createWordTemplate(
           ],
         }),
         ...[
-          { group: "Professional services", item: "[Workshop delivery]", qty: "[1]" },
-          { group: "Preparation", item: "[Planning and materials]", qty: "[1]" },
-          { group: "Additional costs", item: "[Travel or approved expenses]", qty: "[1]" },
+          {
+            group: "Professional services",
+            item: "[Workshop delivery]",
+            qty: "[1]",
+          },
+          {
+            group: "Preparation",
+            item: "[Planning and materials]",
+            qty: "[1]",
+          },
+          {
+            group: "Additional costs",
+            item: "[Travel or approved expenses]",
+            qty: "[1]",
+          },
         ].flatMap((entry) => [
           new TableRow({
             cantSplit: true,
@@ -317,54 +338,113 @@ export function createWordTemplate(
     ),
     heading("Payment details", 2),
     heading("Bank transfer", 3),
-    paragraph("Account name  [Account name]     BSB  [BSB]     Account number  [Account number]", "Payment"),
+    paragraph(
+      "Account name  [Account name]     BSB  [BSB]     Account number  [Account number]",
+      "Payment",
+    ),
     paragraph("Please include the invoice number with your payment.", "Small"),
   );
 
   if (options.showcase) {
     children.push(
-      new Paragraph({ pageBreakBefore: true, style: "Title", children: [runText("Document style guide")] }),
-      paragraph("A compact review of the reusable Terra Word styles.", "Subtitle"),
+      new Paragraph({
+        pageBreakBefore: true,
+        style: "Title",
+        children: [runText("Document style guide")],
+      }),
+      paragraph(
+        "A compact review of the reusable Terra Word styles.",
+        "Subtitle",
+      ),
       heading("Reading hierarchy", 1),
-      paragraph("Body text keeps the page easy to read. The heading levels below are Word styles, so a recipient can update the document without restyling each heading.", "Normal"),
+      paragraph(
+        "Body text keeps the page easy to read. The heading levels below are Word styles, so a recipient can update the document without restyling each heading.",
+        "Normal",
+      ),
       heading("Section heading", 2),
-      paragraph("Use this level to divide a longer section into named topics.", "Normal"),
+      paragraph(
+        "Use this level to divide a longer section into named topics.",
+        "Normal",
+      ),
       heading("Detail heading", 3),
-      paragraph("This smaller heading keeps related details together without competing with the document title.", "Normal"),
+      paragraph(
+        "This smaller heading keeps related details together without competing with the document title.",
+        "Normal",
+      ),
       heading("Lists and emphasis", 1),
-      paragraph("Use bold for a short emphasis only; keep longer explanations in regular AUTHENTIC Sans.", "Normal"),
-      new Paragraph({ bullet: { level: 0 }, style: "ListParagraph", children: [runText("A short scannable item with one clear point.")] }),
-      new Paragraph({ bullet: { level: 0 }, style: "ListParagraph", children: [runText("A second item that continues the same list.")] }),
-      new Paragraph({ numbering: { reference: "demo-steps", level: 0 }, style: "ListParagraph", children: [runText("First action with an owner and outcome.")] }),
-      new Paragraph({ numbering: { reference: "demo-steps", level: 0 }, style: "ListParagraph", children: [runText("Next action with a clear follow-up.")] }),
+      paragraph(
+        "Use bold for a short emphasis only; keep longer explanations in regular AUTHENTIC Sans.",
+        "Normal",
+      ),
+      new Paragraph({
+        bullet: { level: 0 },
+        style: "ListParagraph",
+        children: [runText("A short scannable item with one clear point.")],
+      }),
+      new Paragraph({
+        bullet: { level: 0 },
+        style: "ListParagraph",
+        children: [runText("A second item that continues the same list.")],
+      }),
+      new Paragraph({
+        numbering: { reference: "demo-steps", level: 0 },
+        style: "ListParagraph",
+        children: [runText("First action with an owner and outcome.")],
+      }),
+      new Paragraph({
+        numbering: { reference: "demo-steps", level: 0 },
+        style: "ListParagraph",
+        children: [runText("Next action with a clear follow-up.")],
+      }),
       heading("Comparison table", 1),
-      paragraph("A compact table for values that readers need to compare.", "Small"),
+      paragraph(
+        "A compact table for values that readers need to compare.",
+        "Small",
+      ),
       makeTable(
         [
           new TableRow({
             tableHeader: true,
             children: [
-              cell([tableText("Work item", undefined, "TableHeader")], 4100, { fill: c.primarySoft, borders: { bottom: sectionRule } }),
-              cell([tableText("Owner", undefined, "TableHeader")], 2400, { fill: c.primarySoft, borders: { bottom: sectionRule } }),
-              cell([tableText("Status", "center", "TableHeader")], 1400, { fill: c.primarySoft, borders: { bottom: sectionRule } }),
-              cell([tableText("Due", "right", "TableHeader")], 1906, { fill: c.primarySoft, borders: { bottom: sectionRule } }),
+              cell([tableText("Work item", undefined, "TableHeader")], 4100, {
+                fill: c.primarySoft,
+                borders: { bottom: sectionRule },
+              }),
+              cell([tableText("Owner", undefined, "TableHeader")], 2400, {
+                fill: c.primarySoft,
+                borders: { bottom: sectionRule },
+              }),
+              cell([tableText("Status", "center", "TableHeader")], 1400, {
+                fill: c.primarySoft,
+                borders: { bottom: sectionRule },
+              }),
+              cell([tableText("Due", "right", "TableHeader")], 1906, {
+                fill: c.primarySoft,
+                borders: { bottom: sectionRule },
+              }),
             ],
           }),
           ...[
             ["Prepare materials", "Project lead", "Ready", "[Date]"],
             ["Confirm attendees", "Coordinator", "Open", "[Date]"],
             ["Share follow-up", "Facilitator", "Planned", "[Date]"],
-          ].map((row) =>
-            new TableRow({
-              cantSplit: true,
-              children: row.map((value, index) =>
-                cell(
-                  [tableText(value, index === 2 ? "center" : index === 3 ? "right" : undefined)],
-                  [4100, 2400, 1400, 1906][index]!,
-                  { borders: { bottom: { ...thinRule, size: 2 } } },
+          ].map(
+            (row) =>
+              new TableRow({
+                cantSplit: true,
+                children: row.map((value, i) =>
+                  cell(
+                    [
+                      tableText(
+                        value,
+                        i === 2 ? "center" : i === 3 ? "right" : undefined,
+                      ),
+                    ],
+                    [4100, 2400, 1400, 1906][i]!,
+                    { borders: { bottom: { ...thinRule, size: 2 } } },
+                  ),
                 ),
-              ),
-            }),
+              }),
           ),
         ],
         [4100, 2400, 1400, 1906],
@@ -374,14 +454,31 @@ export function createWordTemplate(
         [
           new TableRow({
             children: [
-              cell([paragraph("Reference", "CardLabel"), paragraph("[Project code]", "CardBody")], 4853, { fill: c.primarySoft }),
-              cell([paragraph("Contact", "CardLabel"), paragraph("[Name and email]", "CardBody")], 4853, { fill: c.primarySoft }),
+              cell(
+                [
+                  paragraph("Reference", "CardLabel"),
+                  paragraph("[Project code]", "CardBody"),
+                ],
+                4853,
+                { fill: c.primarySoft },
+              ),
+              cell(
+                [
+                  paragraph("Contact", "CardLabel"),
+                  paragraph("[Name and email]", "CardBody"),
+                ],
+                4853,
+                { fill: c.primarySoft },
+              ),
             ],
           }),
         ],
         [4853, 4853],
       ),
-      paragraph("Tables in this template use generated primary-scale fills and rules; the source palette is created at build time.", "Small"),
+      paragraph(
+        "Tables in this template use generated primary-scale fills and rules; the source palette is created at build time.",
+        "Small",
+      ),
     );
   }
 
@@ -418,7 +515,12 @@ export function createWordTemplate(
           name: "Title",
           basedOn: "Normal",
           next: "Normal",
-          run: { font: "Avara", size: 44, color: c.primaryStrong.replace(/^#/, ""), italics: true },
+          run: {
+            font: "Avara",
+            size: 44,
+            color: c.primaryStrong.replace(/^#/, ""),
+            italics: true,
+          },
           paragraph: { spacing: { before: 80, after: 50 }, keepNext: true },
         },
         {
@@ -427,7 +529,10 @@ export function createWordTemplate(
           basedOn: "Normal",
           next: "Normal",
           run: { font, size: 22, color: c.primaryStrong.replace(/^#/, "") },
-          paragraph: { spacing: { before: 0, after: 35, line: bodyLine }, keepNext: true },
+          paragraph: {
+            spacing: { before: 0, after: 35, line: bodyLine },
+            keepNext: true,
+          },
         },
         {
           id: "Heading1",
@@ -435,7 +540,10 @@ export function createWordTemplate(
           basedOn: "Normal",
           next: "Normal",
           run: { font, size: 28, color: c.primaryStrong.replace(/^#/, "") },
-          paragraph: { spacing: { before: 200, after: 70, line: bodyLine }, keepNext: true },
+          paragraph: {
+            spacing: { before: 200, after: 70, line: bodyLine },
+            keepNext: true,
+          },
         },
         {
           id: "Heading2",
@@ -443,7 +551,10 @@ export function createWordTemplate(
           basedOn: "Normal",
           next: "Normal",
           run: { font, size: 23, color: bodyInk.replace(/^#/, "") },
-          paragraph: { spacing: { before: 140, after: 45, line: bodyLine }, keepNext: true },
+          paragraph: {
+            spacing: { before: 140, after: 45, line: bodyLine },
+            keepNext: true,
+          },
         },
         {
           id: "Heading3",
@@ -451,7 +562,10 @@ export function createWordTemplate(
           basedOn: "Normal",
           next: "Normal",
           run: { font, size: 21, color: bodyInk.replace(/^#/, "") },
-          paragraph: { spacing: { before: 90, after: 35, line: bodyLine }, keepNext: true },
+          paragraph: {
+            spacing: { before: 90, after: 35, line: bodyLine },
+            keepNext: true,
+          },
         },
         {
           id: "InvoiceMeta",
@@ -474,7 +588,12 @@ export function createWordTemplate(
           name: "Brand mark",
           basedOn: "Normal",
           next: "Normal",
-          run: { font: "Avara", size: 22, color: c.primaryStrong.replace(/^#/, ""), italics: true },
+          run: {
+            font: "Avara",
+            size: 22,
+            color: c.primaryStrong.replace(/^#/, ""),
+            italics: true,
+          },
           paragraph: { spacing: { after: 0, line: bodyLine } },
         },
         {
@@ -514,7 +633,12 @@ export function createWordTemplate(
           name: "Table group",
           basedOn: "Normal",
           next: "Normal",
-          run: { font, size: 20, color: c.primaryStrong.replace(/^#/, ""), bold: true },
+          run: {
+            font,
+            size: 20,
+            color: c.primaryStrong.replace(/^#/, ""),
+            bold: true,
+          },
           paragraph: { spacing: { before: 0, after: 0, line: bodyLine } },
         },
         {

@@ -42,8 +42,6 @@ export type PresentationTemplateOptions = {
   saturation?: TerraDocumentBrandOptions["saturation"];
 };
 
-
-
 /*//////////////////////////////////////////////////
 PRESENTATION HELPERS
 //////////////////////////////////////////////////*/

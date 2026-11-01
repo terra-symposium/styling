@@ -106,7 +106,12 @@ const SelectTrigger = React.forwardRef<
     const resolvedSize = [size, React.useContext(SelectSizeCtx)][
       Number(size === "default")
     ];
-    const formVariant = variant === "default" ? "primary" : variant === "ghost" ? "primary-ghost" : variant;
+    const formVariant =
+      variant === "default"
+        ? "primary"
+        : variant === "ghost"
+          ? "primary-ghost"
+          : variant;
     const ghostVariant = variant === "ghost" || variant.endsWith("-ghost");
     return (
       <SelectPrimitive.Trigger

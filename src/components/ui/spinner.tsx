@@ -8,10 +8,10 @@ IMPORTS
 //////////////////////////////////////////////////*/
 
 // API
-import { cn } from '../../lib/cn.js';
+import { cn } from "../../lib/cn.js";
 
 // COMPONENTS
-import { Loader2Icon as LoadIcon } from 'lucide-react';
+import { Loader2Icon as LoadIcon } from "lucide-react";
 
 /*//////////////////////////////////////////////////
 COMPONENTS
@@ -23,10 +23,20 @@ COMPONENTS
  * @param props - SVG attributes forwarded to the loading icon.
  * @returns An SVG status icon labelled `Loading`.
  */
-function Spinner({ className, ...props }: React.ComponentProps<'svg'>): React.JSX.Element {
-	return <LoadIcon role='status' aria-label='Loading' className={cn('size-4 animate-spin', className)} {...props} />;
+function Spinner({
+  className,
+  ...props
+}: React.ComponentProps<"svg">): React.JSX.Element {
+  return (
+    <LoadIcon
+      role="status"
+      aria-label="Loading"
+      className={cn("size-4 animate-spin", className)}
+      {...props}
+    />
+  );
 }
 
-Spinner.displayName = 'Spinner';
+Spinner.displayName = "Spinner";
 
 export { Spinner };

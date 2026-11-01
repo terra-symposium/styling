@@ -224,7 +224,7 @@ export function FormFieldLayout({
   orientation = "vertical",
   helper,
   description,
-  error,
+  error: err,
 }: {
   label: ReactNode;
   children: ReactNode;
@@ -238,7 +238,7 @@ export function FormFieldLayout({
   error?: ReactNode;
 }): React.JSX.Element {
   const descriptionId = htmlFor ? `${htmlFor}-description` : undefined;
-  const errorId = htmlFor ? `${htmlFor}-error` : undefined;
+  const errId = htmlFor ? `${htmlFor}-error` : undefined;
   const labelContent = (
     <>
       {label}
@@ -281,28 +281,45 @@ export function FormFieldLayout({
 
   if (orientation === "horizontal") {
     return (
-      <div className={cn("grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-2 gap-y-1", className)}>
+      <div
+        className={cn(
+          "grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-2 gap-y-1",
+          className,
+        )}
+      >
         {children}
-        <Label htmlFor={htmlFor} className={cn("col-start-2 row-start-1", labelClassName)}>
+        <Label
+          htmlFor={htmlFor}
+          className={cn("col-start-2 row-start-1", labelClassName)}
+        >
           {labelContent}
         </Label>
         {helperContent && <div className="col-start-2">{helperContent}</div>}
         {description && (
           <p
             id={descriptionId}
-            className={cn(TEXT_VARIANTS({ tone: "muted", size: "sm" }), "col-start-2")}
+            className={cn(
+              TEXT_VARIANTS({ tone: "muted", size: "sm" }),
+              "col-start-2",
+            )}
           >
             {description}
           </p>
         )}
-        {error && <FormErrorText id={errorId} className="col-start-2">{error}</FormErrorText>}
+        {err && (
+          <FormErrText id={errId} className="col-start-2">
+            {err}
+          </FormErrText>
+        )}
       </div>
     );
   }
 
   return (
     <div className={cn("grid gap-2", className)}>
-      <Label htmlFor={htmlFor} className={labelClassName}>{labelContent}</Label>
+      <Label htmlFor={htmlFor} className={labelClassName}>
+        {labelContent}
+      </Label>
       {children}
       {helperContent}
       {description && (
@@ -313,7 +330,7 @@ export function FormFieldLayout({
           {description}
         </p>
       )}
-      {error && <FormErrorText id={errorId}>{error}</FormErrorText>}
+      {err && <FormErrText id={errId}>{err}</FormErrText>}
     </div>
   );
 }
@@ -323,7 +340,7 @@ export function FormFieldLayout({
  * @param props Error content and optional element id.
  * @return An alert paragraph containing the error content.
  */
-function FormErrorText({
+function FormErrText({
   id,
   className,
   children,
@@ -365,9 +382,7 @@ export function MappedFormFieldError({
   if (!field.error) return null;
   const id = field.id ?? ("name" in field ? field.name : undefined);
   return (
-    <FormErrorText id={id ? `${id}-error` : undefined}>
-      {field.error}
-    </FormErrorText>
+    <FormErrText id={id ? `${id}-error` : undefined}>{field.error}</FormErrText>
   );
 }
 
@@ -562,34 +577,38 @@ export function MappedFormControl({
  * @return A grid containing the labelled field controls.
  */
 export function MappedFormFields({
-	data,
+  data,
   fields,
   fieldClassName,
   labelClassName = "",
   className,
   layout = "stacked",
 }: {
-	data?: readonly MappedFormField[];
-	fields?: readonly MappedFormField[];
+  data?: readonly MappedFormField[];
+  fields?: readonly MappedFormField[];
   fieldClassName?: string;
   labelClassName?: string;
   className?: string;
   layout?: FormLayout;
 }): React.JSX.Element {
-	const generatedId = React.useId();
-	const fieldData = data ?? fields ?? [];
+  const genId = React.useId();
+  const fieldData = data ?? fields ?? [];
   return (
     <div className={cn(formLayoutClassName(layout), className)}>
-			{fieldData.map((field, index) => {
-        const suppliedId = field.id ?? ("name" in field ? field.name : undefined);
-        const hasCustomControl = "control" in field && field.control !== undefined;
-        const id = suppliedId ?? (hasCustomControl ? undefined : `${generatedId}-${index}`);
-        const orientation = field.type === "checkbox"
-          ? (field as MappedCheckboxFormField).orientation
-          : undefined;
+      {fieldData.map((field, i) => {
+        const suppliedId =
+          field.id ?? ("name" in field ? field.name : undefined);
+        const hasCustomControl =
+          "control" in field && field.control !== undefined;
+        const id =
+          suppliedId ?? (hasCustomControl ? undefined : `${genId}-${i}`);
+        const orientation =
+          field.type === "checkbox"
+            ? (field as MappedCheckboxFormField).orientation
+            : undefined;
         return (
           <FormFieldLayout
-            key={field.key ?? `${String(field.label)}-${index}`}
+            key={field.key ?? `${String(field.label)}-${i}`}
             label={field.label}
             required={field.required}
             htmlFor={id}

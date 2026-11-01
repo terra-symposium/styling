@@ -23,8 +23,6 @@ export type SpreadsheetCellEdits = Record<
 SPREADSHEET TEMPLATE
 //////////////////////////////////////////////////*/
 
-
-
 /**
  * Converts a CSS hex color to the eight-digit ARGB format used by ExcelJS.
  *

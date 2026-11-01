@@ -18,7 +18,7 @@ jobs:
           version: 10.30.3
       - uses: actions/setup-node@v4
         with:
-          node-version: '24.12.0'
+          node-version: "24.12.0"
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
@@ -32,7 +32,7 @@ jobs:
           version: 10.30.3
       - uses: actions/setup-node@v4
         with:
-          node-version: '24.12.0'
+          node-version: "24.12.0"
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
@@ -46,7 +46,7 @@ jobs:
           version: 10.30.3
       - uses: actions/setup-node@v4
         with:
-          node-version: '24.12.0'
+          node-version: "24.12.0"
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm docs:build
@@ -63,7 +63,7 @@ jobs:
           version: 10.30.3
       - uses: actions/setup-node@v4
         with:
-          node-version: '24.12.0'
+          node-version: "24.12.0"
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - uses: Terra-Symposium/standards/packages/testing@3d782b9dfc4cc5b421ccbe395d65aacec9d8956d

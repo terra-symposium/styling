@@ -8,13 +8,13 @@ IMPORTS
 //////////////////////////////////////////////////*/
 
 // API
-import { clsx } from 'clsx';
-import { Children, isValidElement } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { clsx } from "clsx";
+import { Children, isValidElement } from "react";
+import { twMerge } from "tailwind-merge";
 
 // TYPES
-import type { ClassValue } from 'clsx';
-import type { ReactNode } from 'react';
+import type { ClassValue } from "clsx";
+import type { ReactNode } from "react";
 
 /*//////////////////////////////////////////////////
 HELPERS
@@ -36,9 +36,23 @@ export function cn(...inputs: ClassValue[]): string {
  * @param children - React children whose text should be collected.
  * @return Concatenated primitive text; non-text nodes and elements without truthy children contribute an empty string.
  */
-export function transformChildrenToString(children: ReactNode | ReactNode[]): string {
-  if (!Array.isArray(children) && !isValidElement(children)) return childToString(children);
-  return Children.toArray(children).reduce((text: string, child: ReactNode) => text.concat(isValidElement<{ children?: ReactNode | ReactNode[] }>(child) && Boolean(child.props.children) ? transformChildrenToString(child.props.children) : isValidElement(child) ? '' : childToString(child)), '');
+export function transformChildrenToString(
+  children: ReactNode | ReactNode[],
+): string {
+  if (!Array.isArray(children) && !isValidElement(children))
+    return childToString(children);
+  return Children.toArray(children).reduce(
+    (text: string, child: ReactNode) =>
+      text.concat(
+        isValidElement<{ children?: ReactNode | ReactNode[] }>(child) &&
+          Boolean(child.props.children)
+          ? transformChildrenToString(child.props.children)
+          : isValidElement(child)
+            ? ""
+            : childToString(child),
+      ),
+    "",
+  );
 }
 
 /**
@@ -48,7 +62,8 @@ export function transformChildrenToString(children: ReactNode | ReactNode[]): st
  * @return The text for a string, number, or bigint; an empty string otherwise.
  */
 function childToString(child?: ReactNode): string {
-  if (typeof child === 'string') return child;
-  if (typeof child === 'number' || typeof child === 'bigint') return child.toString();
-  return '';
+  if (typeof child === "string") return child;
+  if (typeof child === "number" || typeof child === "bigint")
+    return child.toString();
+  return "";
 }

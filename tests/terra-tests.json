@@ -4,8 +4,12 @@
     {
       "name": "unit",
       "command": "pnpm",
-      "args": ["test"],
-      "owns": ["test"]
+      "args": [
+        "test"
+      ],
+      "owns": [
+        "test/**"
+      ]
     }
   ]
 }

@@ -1,15 +1,1 @@
-{
-  "$schema": "./node_modules/@terra-symposium/standards-quality/quality.schema.json",
-  "root": ".",
-  "sourceRoots": ["src", "scripts", "test"],
-  "extensions": [".js", ".jsx", ".mjs", ".cjs", ".ts", ".tsx", ".mts", ".cts"],
-  "singleUse": {
-    "skippedDirectories": ["src", "scripts", "test"]
-  },
-  "documentation": {
-    "required": {
-      "functions": false,
-      "exportedFunctions": true
-    }
-  }
-}
+config/quality.json

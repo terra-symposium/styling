@@ -45,7 +45,7 @@
     "typecheck": "tsc --noEmit -p config/tsconfig.json",
     "lint": "eslint --config config/eslint.config.mjs src tests scripts config",
     "knip": "knip --config config/knip.json",
-    "docs": "pnpm run build && node scripts/generate-component-tsdocs.mjs && DOCS_DEV_PORT=2030 docs dev --base /",
+    "docs": "pnpm run build && node scripts/generate-component-tsdocs.mjs && docs dev --base / --port 2030",
     "test": "pnpm run build && tsx --test tests/lib/*.test.ts tests/components/ui/*.test.ts",
     "prepare": "husky config/husky"
   },

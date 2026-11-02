@@ -11,7 +11,8 @@
     "config/tailwind.postcss.config.cjs",
     "docs/styling/**/*.mdx",
     "docs/styling/components/_ComponentTsDocs.tsx",
-    "test/**/*.{ts,tsx}"
+    "test/**/*.{ts,tsx}",
+    "config/**/*.{js,mjs,cjs,ts}"
   ],
   "project": ["**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,mdx}"],
   "ignoreDependencies": [

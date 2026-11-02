@@ -20,6 +20,7 @@ jobs:
         with:
           node-version: "24.12.0"
           cache: pnpm
+          cache-dependency-path: config/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - run: pnpm run typecheck
 
@@ -34,6 +35,7 @@ jobs:
         with:
           node-version: "24.12.0"
           cache: pnpm
+          cache-dependency-path: config/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
 
@@ -48,6 +50,7 @@ jobs:
         with:
           node-version: "24.12.0"
           cache: pnpm
+          cache-dependency-path: config/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build && pnpm exec docs build
 
@@ -65,6 +68,7 @@ jobs:
         with:
           node-version: "24.12.0"
           cache: pnpm
+          cache-dependency-path: config/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - uses: Terra-Symposium/standards/packages/testing@3d782b9dfc4cc5b421ccbe395d65aacec9d8956d
         with:

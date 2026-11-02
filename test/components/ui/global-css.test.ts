@@ -27,7 +27,7 @@ test("one global stylesheet provides the shared base, components, utilities, and
   assert.doesNotMatch(stylesheet, /terra-styling|--primary-\d+\s*:/);
   assert.doesNotMatch(stylesheet, /\.grain|\.animate-crt|@keyframes shake/);
   assert.match(source("src/styles/effects.css"), /\.grain/);
-  assert.match(source("tailwind.global.config.mjs"), /preflight:\s*true/);
+  assert.match(source("config/tailwind.global.config.mjs"), /preflight:\s*true/);
   assert.match(
     source("package.json"),
     /"\.\/global\.css":\s*"\.\/dist\/global\.css"/,

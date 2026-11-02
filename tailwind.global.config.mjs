@@ -1,1 +1,0 @@
-config/tailwind.global.config.mjs

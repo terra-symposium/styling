@@ -36,31 +36,31 @@ The package root exports hue utilities. The `./ui` entry point exports shared co
 
 ```sh
 pnpm install
-pnpm build
-pnpm typecheck
+pnpm run build
+pnpm run typecheck
 ```
 
-`pnpm build` rebuilds `dist/`, emits type declarations and CSS, and compiles the package styles. `pnpm typecheck` runs the TypeScript compiler without emitting output.
+`pnpm run build` rebuilds `dist/`, emits type declarations and CSS, and compiles the package styles. `pnpm run typecheck` runs the TypeScript compiler without emitting output.
 
 ## Run and build the docs
 
 ```sh
-pnpm docs:dev
-pnpm docs:build
+pnpm run docs
+pnpm exec terra-docs build
 ```
 
-`pnpm docs:dev` builds the package first, then starts the Astro docs app at the local root. `pnpm docs:build` builds the package and writes the static docs site to `dist/docs/`. The Astro config aliases Styling imports to this checkout's `dist/`, so local source changes appear in the guide and component gallery.
+`pnpm run docs` builds the package first, then starts the Astro docs app at the local root. `pnpm exec terra-docs build` builds the package and writes the static docs site to `dist/docs/`. The Astro config aliases Styling imports to this checkout's `dist/`, so local source changes appear in the guide and component gallery.
 
 Add guide pages as Markdown files in `docs/content/` and register them in `docs/pages.mjs`. That catalog supplies route metadata and the navigation tree used by the Docs workspace. The interactive gallery is implemented in `docs/src/components/ComponentShowcase.tsx`.
 
 ## Checks
 
 ```sh
-pnpm test
+pnpm run test
 git diff --check
 ```
 
-`pnpm test` builds the package and runs the Node test files under `test/lib/` and `test/components/ui/`. Run it after changing shared component or hue behavior. Use `git diff --check` before sending a change to catch whitespace errors.
+`pnpm run test` builds the package and runs the Node test files under `test/lib/` and `test/components/ui/`. Run it after changing shared component or hue behavior. Use `git diff --check` before sending a change to catch whitespace errors.
 
 ## Component and style contributions
 

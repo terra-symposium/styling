@@ -8,7 +8,7 @@
         "test"
       ],
       "owns": [
-        "test/**"
+        "tests/**"
       ]
     }
   ]

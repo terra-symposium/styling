@@ -72,4 +72,4 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - uses: Terra-Symposium/standards/packages/testing@3d782b9dfc4cc5b421ccbe395d65aacec9d8956d
         with:
-          manifest: tests/terra-tests.json
+          manifest: config/terra-tests.json

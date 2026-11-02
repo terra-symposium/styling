@@ -1,8 +1,16 @@
+# Dependencies
 node_modules/
+
+# Build and generated output
 dist/
-outputs/
 dist/.docs/
 .astro/
+outputs/
+
+# Local environment
 .env
 .env.*
+!.env.example
+
+# Vendored dependencies
 vendor/*

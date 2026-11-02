@@ -228,7 +228,7 @@ export function createPresentationTemplate(
   // Named native layouts keep content editable in PowerPoint and Keynote.
   registerMaster("TERRA_COVER", c.paper, "cover");
   registerMaster("TERRA_SECTION", c.surface, "section");
-  registerMaster("TERRA_CONTENT", c.paper, "content");
+  registerMaster("CONTENT", c.paper, "content");
   registerMaster("TERRA_TABLE", c.paper, "table");
   registerMaster("TERRA_CLOSING", c.ink, "closing");
 
@@ -422,7 +422,7 @@ export function createPresentationTemplate(
   }
   // Palette slide shows roles and contrast without exposing serialized hex or RGB values.
   {
-    const slide = pptx.addSlide({ masterName: "TERRA_CONTENT" });
+    const slide = pptx.addSlide({ masterName: "CONTENT" });
     addText(slide, "Color roles", textOptions(brand.fonts.body, 25, c.ink), {
       x: 0.62,
       y: 0.72,

@@ -33,7 +33,7 @@
       "import": "./dist/documents/index.js"
     }
   },
-  "terraDocs": {
+  "docs": {
     "title": "Styling",
     "description": "Standardised colouring and components.",
     "site": "https://kaimacann.netlify.app",
@@ -43,7 +43,7 @@
   "scripts": {
     "build": "pnpm exec terra-quality error-boundaries --all && rm -rf dist && tsc -p config/tsconfig.json && mkdir -p dist/assets/fonts/licenses dist/documents && cp src/assets/fonts/*.woff src/assets/fonts/*.woff2 dist/assets/fonts/ && cp src/assets/fonts/README.md dist/assets/fonts/README.md && cp src/assets/fonts/licenses/OFL-1.1.txt dist/assets/fonts/licenses/OFL-1.1.txt && cp src/assets/fonts/licenses/Inter-OFL-1.1.txt dist/assets/fonts/licenses/Inter-OFL-1.1.txt && node scripts/create-document-templates.mjs --package && tailwindcss --postcss config/tailwind.postcss.config.cjs -c config/tailwind.global.config.mjs -i src/styles/global.css -o dist/global.css --minify && node scripts/compile-effects.cjs",
     "typecheck": "tsc --noEmit -p config/tsconfig.json",
-    "docs": "pnpm run build && node scripts/generate-component-tsdocs.mjs && terra-docs dev --base /",
+    "docs": "pnpm run build && node scripts/generate-component-tsdocs.mjs && docs dev --base /",
     "test": "pnpm run build && tsx --test test/lib/*.test.ts test/components/ui/*.test.ts",
     "prepare": "husky"
   },

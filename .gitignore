@@ -1,7 +1,7 @@
 node_modules/
 dist/
 outputs/
-dist/.terra-docs/
+dist/.docs/
 .astro/
 .DS_Store
 .env

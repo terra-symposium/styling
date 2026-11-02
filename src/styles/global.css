@@ -2,7 +2,7 @@
 @tailwind components;
 
 /* Docs inherits its host palette; only semantic tokens need local fallbacks. */
-:where(.terra-docs-workspace) {
+:where(.docs-workspace) {
   --background: var(--primary-1, 255 255 255);
   --ring: var(--primary-8, 133 179 133);
 }

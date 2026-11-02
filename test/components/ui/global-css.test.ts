@@ -23,7 +23,7 @@ test("one global stylesheet provides the shared base, components, utilities, and
     stylesheet,
     /body\s*\{\s*-webkit-font-smoothing:\s*antialiased;/,
   );
-  assert.match(stylesheet, /:where\(\.terra-docs-workspace\)/);
+  assert.match(stylesheet, /:where\(\.docs-workspace\)/);
   assert.doesNotMatch(stylesheet, /terra-styling|--primary-\d+\s*:/);
   assert.doesNotMatch(stylesheet, /\.grain|\.animate-crt|@keyframes shake/);
   assert.match(source("src/styles/effects.css"), /\.grain/);

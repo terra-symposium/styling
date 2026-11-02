@@ -71,7 +71,7 @@ git diff --check
 - Add or update Markdown when a public export, supported variant, default, or setup step changes.
 - Run the package build and the narrowest relevant checks; visually inspect the docs route when the change affects presentation.
 
-The repository UI workflow is documented in `.agents/styling/skills/skills/ui/SKILL.md`.
+The repository UI workflow is documented in [`docs/agents/skills/ui/SKILL.md`](../../agents/skills/ui/SKILL.md).
 
 ## Versioning and release preparation
 

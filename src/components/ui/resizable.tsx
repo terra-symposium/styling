@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/resizable.tsx
+ * src/components/ui/resizable.tsx
  * https://ui.shadcn.com/docs/components/resizable
  */
 
@@ -21,9 +21,11 @@ COMPONENTS
 /**
  * Resizable grip.
  *
+ * @param props - Additional handle props forwarded to the primitive.
  * @param withHandle - Whether the resize handle should be visible.
  * @param className - Optional class name applied to the handle.
- * @param props - Additional handle props forwarded to the primitive.
+ *
+ * @return A vertical separator that can display a resize grip handle.
  */
 const ResizableGrip = ({ withHandle, className, ...props }: React.HTMLAttributes<HTMLDivElement> & { withHandle?: boolean }): React.JSX.Element => (
 	<div

@@ -1,3 +1,4 @@
+import { terraErrorBoundaryIntegration as __terraErrorBoundaryIntegration } from '@terra-symposium/standards-error-boundaries/astro-integration';
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import { fileURLToPath } from 'node:url';
@@ -8,7 +9,7 @@ export default defineConfig({
   site: 'https://kaimacann.netlify.app',
   base: process.env.ASTRO_BASE_PATH ?? '/styling-docs',
   outDir: '../site-dist',
-  integrations: [react()],
+  integrations: [__terraErrorBoundaryIntegration(), react()],
   vite: {
     optimizeDeps: {
       // The Docs tarball lives outside the app source scan. Prebundle its entry

@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/command.tsx
+ * src/components/ui/command.tsx
  * https://ui.shadcn.com/docs/components/command
  */
 
@@ -17,7 +17,6 @@ import { Command as CommandPrimitive } from 'cmdk';
 import { Dialog, DialogContent } from './dialog.js';
 
 // TYPES
-// TYPES
 import type { CommandDialogProps, CommandInputProps } from './types.js';
 
 /*//////////////////////////////////////////////////
@@ -34,10 +33,12 @@ const Command = React.forwardRef<React.ElementRef<typeof CommandPrimitive>, Reac
 /**
  * Command dialog.
  *
+ * @param props - Additional command props forwarded to the primitive.
  * @param className - Optional class name applied to the command element.
  * @param children - Command content rendered inside the control.
  * @param size - Command size variant used by the control.
- * @param props - Additional command props forwarded to the primitive.
+ *
+ * @return The command palette rendered inside a dialog.
  */
 const CommandDialog = ({ className, children, size, ...props }: CommandDialogProps): React.JSX.Element => {
 	return (

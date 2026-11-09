@@ -1,16 +1,12 @@
 /**
- * tailwind.preset.ts
- *
+ * src/lib/tailwind-preset.ts
  * @file Tailwind CSS Preset
- *
  * This file defines a reusable Tailwind CSS config preset.
  * It includes a custom theme with color palettes, font families,
  * animations, and other design tokens. It also configures several
  * Tailwind CSS plugins to extend the framework's functionality.
- *
  * This preset is intended to be used in the main `tailwind.config.js`
  * file to ensure a consistent design system across the project.
- *
  * @see https://tailwindcss.com/docs/presets
  */
 
@@ -19,23 +15,25 @@ IMPORTS
 //////////////////////////////////////////////////*/
 
 // API
-import headlessui from '@headlessui/tailwindcss';
-import typography from '@tailwindcss/typography';
 import animate from 'tailwindcss-animate';
-import scrimGradients from 'tailwindcss-scrim-gradients';
+import headlessui from '@headlessui/tailwindcss';
 import plugin from 'tailwindcss/plugin.js';
+import scrimGradients from 'tailwindcss-scrim-gradients';
+import typography from '@tailwindcss/typography';
 
 // TYPES
 import type { Config } from 'tailwindcss';
 
 /*//////////////////////////////////////////////////
-HELPERS
+CONFIG
 //////////////////////////////////////////////////*/
 
 /**
  * Applies the apply Opacity Value.
  *
  * @param variable - The variable to inspect.
+ *
+ * @return A callback that formats opacity-aware RGB values for the theme variable.
  */
 const applyOpacityValue = (variable: string) => {
 	return (prop: Partial<{ opacityVariable: string; opacityValue: number }>) => {
@@ -43,10 +41,8 @@ const applyOpacityValue = (variable: string) => {
 		return `rgb(var(${variable}) / ${opacityValue || '100'})`;
 	};
 };
-
 const transform =
 	'translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) ';
-
 const preset: Omit<Config, 'content'> = {
 	darkMode: ['variant', ['@media (prefers-color-scheme: dark) { &:not(.light *, .light) }', '&:is(.dark *, .dark)']],
 	theme: {
@@ -216,5 +212,4 @@ const preset: Omit<Config, 'content'> = {
 		}),
 	],
 };
-
 export default preset;

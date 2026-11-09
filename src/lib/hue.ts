@@ -6,8 +6,6 @@
 IMPORTS
 //////////////////////////////////////////////////*/
 
-// API
-
 // COMPONENTS
 import * as RadixColors from '@radix-ui/colors';
 import BezierEasing from 'bezier-easing';
@@ -20,12 +18,16 @@ import type { ArrayOf12, ColorGenOpts, ColorScales } from './types.js';
  * Returns an explicit hue when supplied, or a stable hue derived from a label.
  * Markdown filenames and display separators are normalized the same way as
  * Terra Docs tree labels before hashing, so every host gets the same palette.
+ *
+ * @param title - Document or section label used to derive a stable hue.
+ * @param hue - Optional explicit hue value in degrees.
+ * @return The explicit hue or the stable value derived from the normalized label.
  */
 export function getHue(title: string, hue?: number): number {
 	if (typeof hue === 'number') return hue;
-	const normalizedTitle = title.replace(/\.pdf$/i, '').replace(/\.(?:md|mdx)$/i, '').replace(/^_+/, '').replace(/[-_]+/g, ' ').toLowerCase();
+	const normTitle = title.replace(/\.pdf$/i, '').replace(/\.(?:md|mdx)$/i, '').replace(/^_+/, '').replace(/[-_]+/g, ' ').toLowerCase();
 	let result = 0;
-	for (const char of normalizedTitle) result = (result * 31 + char.charCodeAt(0)) | 0;
+	for (const char of normTitle) result = (result * 31 + char.charCodeAt(0)) | 0;
 	return result % 300;
 }
 
@@ -68,6 +70,7 @@ HELPERS
  * @return Tuple containing accent and gray color scales
  */
 export function colors(hue: number | null, opts: ColorGenOpts = {}): [ColorScales, ColorScales] {
+
 	// VALIDATE
 	if (hue !== null && (typeof hue !== 'number' || !Number.isFinite(hue))) throw new Error(`Invalid hue: ${JSON.stringify(hue)}`);
 
@@ -88,7 +91,8 @@ export function colors(hue: number | null, opts: ColorGenOpts = {}): [ColorScale
 		/**
 		 * Converts a Radix color value to the RGB triplet format used by the theme.
 		 *
-		 * @param value - Radix color value to convert.
+		 * @param val - Radix color value to convert.
+		 * @return The color represented as three space-separated 8-bit RGB channels.
 		 */
 		const toRgbTriplet = (val: string): string =>
 			new Color(val)
@@ -112,7 +116,6 @@ export function colors(hue: number | null, opts: ColorGenOpts = {}): [ColorScale
 	const accent = new Color('oklch', [accentLightness, accentChroma, normHue]).toString({ format: 'hex' });
 	const light = genRadixColors({ appearance: 'light', accent, gray, bg: '#FFFFFF', hoverLightnessShift, hoverChromaMultiplier });
 	const dark = genRadixColors({ appearance: 'dark', accent, gray, bg: '#111111', hoverLightnessShift, hoverChromaMultiplier });
-
 	const result: [ColorScales, ColorScales] = [
 		{ light: light.asRgb, dark: dark.asRgb },
 		{ light: light.gsRgb, dark: dark.gsRgb },
@@ -140,6 +143,7 @@ export function invert(hue: number | null): number | null {
 /**
  * Resolves the active document theme, allowing an explicit class to override the system preference.
  *
+ * @param scope - Optional element whose nearest theme class takes precedence.
  * @return `true` when an explicit dark theme is active or the browser prefers dark mode; otherwise `false`.
  */
 export function isDarkMode(scope?: HTMLElement): boolean {
@@ -313,6 +317,7 @@ function genRadixColors({
 	hoverChromaMultiplier = 0.93,
 	...args
 }: { appearance: 'light' | 'dark'; accent: string; gray: string; bg: string } & Pick<ColorGenOpts, 'hoverLightnessShift' | 'hoverChromaMultiplier'>) {
+
 	// STATES
 	// define scales
 	const bgColors = new Color(args.bg).to('oklch');
@@ -380,36 +385,48 @@ function genRadixColors({
 
 		/**
 		 * Returns alpha-blended sRGB accents.
+		 *
+		 * @return The twelve accent swatches blended with the background.
 		 */
 		get asAlpha() {
 			return asHex.map(c => getAlphaColorSrgb(c, bgHex)) as ArrayOf12<string>;
 		},
 		/**
 		 * Returns wide-gamut accent tones in OKLCH form.
+		 *
+		 * @return The twelve accent swatches in wide-gamut OKLCH notation.
 		 */
 		get asWideGamut() {
 			return asColors.map(toOklchString) as ArrayOf12<string>;
 		},
 		/**
 		 * Returns alpha-blended wide-gamut accents.
+		 *
+		 * @return The twelve wide-gamut accent swatches blended with the background.
 		 */
 		get asAlphaWideGamut() {
 			return asHex.map(c => getAlphaColorP3(c, bgHex)) as ArrayOf12<string>;
 		},
 		/**
 		 * Returns the accent contrast color.
+		 *
+		 * @return The accent contrast color as a hexadecimal sRGB value.
 		 */
 		get accentContrast() {
 			return accentContrastColor.to('srgb').toString({ format: 'hex' });
 		},
 		/**
 		 * Returns a surface tint derived from the accent palette.
+		 *
+		 * @return The accent-derived surface tint for the current appearance.
 		 */
 		get accentSurface() {
 			return appearance === 'light' ? getAlphaColorSrgb(asHex[1], bgHex, 0.8) : getAlphaColorSrgb(asHex[1], bgHex, 0.5);
 		},
 		/**
 		 * Returns a wide-gamut surface tint derived from the accent palette.
+		 *
+		 * @return The wide-gamut accent-derived surface tint for the current appearance.
 		 */
 		get accentSurfaceWideGamut() {
 			const asWideGamut = this.asWideGamut;
@@ -417,30 +434,40 @@ function genRadixColors({
 		},
 		/**
 		 * Returns alpha-blended gray scale swatches.
+		 *
+		 * @return The twelve gray swatches blended with the background.
 		 */
 		get gsAlpha() {
 			return gsHex.map(c => getAlphaColorSrgb(c, bgHex)) as ArrayOf12<string>;
 		},
 		/**
 		 * Returns wide-gamut gray scale swatches.
+		 *
+		 * @return The twelve gray swatches in wide-gamut OKLCH notation.
 		 */
 		get gsWideGamut() {
 			return gsColors.map(toOklchString) as ArrayOf12<string>;
 		},
 		/**
 		 * Returns alpha-blended wide-gamut gray scale swatches.
+		 *
+		 * @return The twelve wide-gamut gray swatches blended with the background.
 		 */
 		get gsAlphaWideGamut() {
 			return gsHex.map(c => getAlphaColorP3(c, bgHex)) as ArrayOf12<string>;
 		},
 		/**
 		 * Returns the default gray surface color.
+		 *
+		 * @return The default gray surface color for the current appearance.
 		 */
 		get graySurface() {
 			return appearance === 'light' ? '#ffffffcc' : 'rgba(0, 0, 0, 0.05)';
 		},
 		/**
 		 * Gets step9 colors.
+		 *
+		 * @return The wide-gamut gray surface color for the current appearance.
 		 */
 		get graySurfaceWideGamut() {
 			return appearance === 'light' ? 'color(display-p3 1 1 1 / 80%)' : 'color(display-p3 0 0 0 / 5%)';
@@ -531,12 +558,10 @@ function getScaleFromColor(src: Color, scales: Record<string, ArrayOf12<Color>>,
 	// Note the chroma difference between the src color and the base color
 	// Modify hue and chroma only when the base scale has chroma. A grayscale
 	// base has no hue to transfer, and dividing by its zero chroma would create NaN channels.
-	if (baseColor.coords[1] > Number.EPSILON) {
-		scale.forEach(c => {
+	if (baseColor.coords[1] > Number.EPSILON) scale.forEach(c => {
 			c.coords[1] = Math.min(src.coords[1] * 1.5, c.coords[1] * (src.coords[1] / baseColor.coords[1]));
 			c.coords[2] = src.coords[2];
 		});
-	}
 
 	// Light mode
 	if (bgColor.coords[0] > 0.5) {

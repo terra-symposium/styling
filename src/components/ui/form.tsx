@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/form.tsx
+ * src/components/ui/form.tsx
  * https://ui.shadcn.com/docs/components/form
  * Prefer this component with react-hook-form and a Zod schema for every
  * user-facing form that contains a visible input.
@@ -34,8 +34,7 @@ import { FORM_LABEL_VARIANTS } from './variants.js';
 
 // TYPES
 import type { ControllerProps, FieldPath, FieldValues } from 'react-hook-form';
-import type { FormFieldCtxVal } from './types.js';
-import type { IdArgs } from './types.js';
+import type { FormFieldCtxVal, IdArgs } from './types.js';
 
 /*//////////////////////////////////////////////////
 INTERNAL CONTEXT
@@ -53,6 +52,8 @@ HOOKS
 
 /**
  * Use form field.
+ *
+ * @return The current field identifiers, validation state, and accessible message IDs.
  */
 const useFormField = () => {
 	const fieldCtx = React.useContext(FormFieldCtx);
@@ -72,6 +73,8 @@ const useFormField = () => {
  * Form field.
  *
  * @param props - Form control props forwarded to the rendered field.
+ *
+ * @return The controller field connected to the form field context.
  */
 const FormField = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>({
 	...props

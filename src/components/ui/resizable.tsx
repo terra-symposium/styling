@@ -21,7 +21,7 @@ COMPONENTS
 /**
  * Resizable grip.
  *
- * @param props
+ * @param props - Additional handle props forwarded to the primitive.
  * @param withHandle - Whether the resize handle should be visible.
  *
  * @return A vertical separator with an optional visible grip.

@@ -5,3 +5,6 @@ site-dist/
 .DS_Store
 .env
 .env.*
+
+# Local error logs
+error.log

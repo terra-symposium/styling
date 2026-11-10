@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/radio-group.tsx
+ * src/components/ui/radio-group.tsx
  * https://ui.shadcn.com/docs/components/radio-group
  */
 
@@ -10,14 +10,16 @@ IMPORTS
 // API
 import { cn } from "../../lib/cn.js";
 import { useOptionalFormContext } from "./form.js";
-import { INTERACTIVE_CONTROL_VARIANTS, SURFACE_VARIANTS } from "./variants.js";
 
 // COMPONENTS
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import * as React from "react";
-import type { FieldValues } from "react-hook-form";
+
+// DATA
+import { INTERACTIVE_CONTROL_VARIANTS, SURFACE_VARIANTS } from "./variants.js";
 
 // TYPES
+import type { FieldValues } from "react-hook-form";
 import type { UiSize } from "./types.js";
 
 /*//////////////////////////////////////////////////
@@ -31,7 +33,6 @@ const RADIO_CARD_SIZE_CLASSES: Record<UiSize, string> = {
   lg: "p-4 text-base",
   xl: "p-6 text-lg",
 };
-
 const RADIO_CARD_VARIANT_CLASSES: Record<
   "correct" | "ghost" | "incorrect" | "primary" | "secondary",
   string
@@ -209,9 +210,7 @@ const RadioGroupIndicator = Object.assign(
   )),
   { displayName: RadioGroupPrimitive.Indicator.displayName },
 );
-
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
 RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
 RadioGroupCard.displayName = "RadioGroupCard";
-
 export { RadioGroup, RadioGroupItem, RadioGroupCard, RadioGroupIndicator };

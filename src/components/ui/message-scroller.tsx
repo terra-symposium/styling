@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/message-scroller.tsx
+ * src/components/ui/message-scroller.tsx
  * https://ui.shadcn.com/docs/components/base/message-scroller
  */
 
@@ -22,7 +22,8 @@ COMPONENTS
  * Provides the context used by the message-scroller primitives.
  *
  * @param props - Provider settings and children for the message-scroller context.
- * @returns The message-scroller context provider.
+ *
+ * @return The message-scroller context provider.
  */
 function MessageScrollerProvider(
   props: React.ComponentProps<typeof MessageScrollerPrimitive.Provider>,
@@ -34,7 +35,8 @@ function MessageScrollerProvider(
  * Root container that fills its parent and clips overflow.
  *
  * @param props - Root attributes and message-scroller settings.
- * @returns A clipped root for the message-scroller viewport and content.
+ *
+ * @return A clipped root for the message-scroller viewport and content.
  */
 function MessageScroller({
   className,
@@ -58,7 +60,8 @@ function MessageScroller({
  * Vertically scrollable viewport for message content.
  *
  * @param props - Viewport attributes and scroll settings.
- * @returns A vertically scrollable message viewport.
+ *
+ * @return A vertically scrollable message viewport.
  */
 function MessageScrollerViewport({
   className,
@@ -82,7 +85,8 @@ function MessageScrollerViewport({
  * Column container that grows to the viewport height and expands with its items.
  *
  * @param props - Content attributes and message items.
- * @returns A column that fills the viewport and grows with its items.
+ *
+ * @return A column that fills the viewport and grows with its items.
  */
 function MessageScrollerContent({
   className,
@@ -103,7 +107,8 @@ function MessageScrollerContent({
  * Message item wrapper; `scrollAnchor` is false unless explicitly enabled.
  *
  * @param props - Item attributes and optional scroll anchoring.
- * @returns A message item wrapper with the requested scroll-anchor setting.
+ *
+ * @return A message item wrapper with the requested scroll-anchor setting.
  */
 function MessageScrollerItem({
   className,
@@ -126,7 +131,6 @@ MessageScroller.displayName = "MessageScroller";
 MessageScrollerViewport.displayName = "MessageScrollerViewport";
 MessageScrollerContent.displayName = "MessageScrollerContent";
 MessageScrollerItem.displayName = "MessageScrollerItem";
-
 export {
   MessageScrollerProvider,
   MessageScroller,

@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/calendar.tsx
+ * src/components/ui/calendar.tsx
  * https://ui.shadcn.com/docs/components/calendar
  * @test dashboard.management.schedule.source-contracts
  */
@@ -23,8 +23,7 @@ import {
 import { DayPicker } from "react-day-picker";
 
 // TYPES
-import type { ButtonVariantProps } from "./types.js";
-import type { CompactSize } from "./types.js";
+import type { ButtonVariantProps, CompactSize } from "./types.js";
 import type { DayButton } from "react-day-picker";
 
 /*//////////////////////////////////////////////////
@@ -62,8 +61,6 @@ function getNavButtonClassName(
       "not-disabled:hover:bg-primary-1 border border-primary-5 text-primary-12",
     variant === "ghost" && "enabled:hover:bg-primary-3",
     variant === "underline" && "p-0 enabled:hover:underline",
-    variant === "inline" &&
-      "not-disabled:hover:underline text-primary-12 underline-offset-4",
   );
 }
 
@@ -76,7 +73,8 @@ COMPONENT
  * `size` scales calendar cells and text; `buttonVariant` styles month navigation.
  *
  * @param props - DayPicker settings, size, navigation variant, and class overrides.
- * @returns A styled calendar with a custom day button.
+ *
+ * @return A styled calendar with a custom day button.
  */
 function Calendar({
   className,
@@ -324,7 +322,8 @@ function Calendar({
  * Custom day button that preserves DayPicker focus and selection state styling.
  *
  * @param props - Day data, modifiers, and button attributes supplied by DayPicker.
- * @returns A day button with DayPicker's keyboard and selection state.
+ *
+ * @return A day button with DayPicker's keyboard and selection state.
  */
 function CalendarDayButton({
   className,

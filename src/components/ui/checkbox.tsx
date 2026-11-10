@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/checkbox.tsx
+ * src/components/ui/checkbox.tsx
  * https://ui.shadcn.com/docs/components/checkbox
  */
 
@@ -10,16 +10,20 @@ IMPORTS
 // API
 import { cn } from "../../lib/cn.js";
 import { useOptionalFormContext } from "./form.js";
-import { INTERACTIVE_CONTROL_VARIANTS } from "./variants.js";
 
 // COMPONENTS
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import * as React from "react";
-import type { FieldValues } from "react-hook-form";
 import {
   Checkmark as CheckIcon,
   Subtract as SubtractIcon,
 } from "@carbon/icons-react";
+
+// DATA
+import { INTERACTIVE_CONTROL_VARIANTS } from "./variants.js";
+
+// TYPES
+import type { FieldValues } from "react-hook-form";
 
 /*//////////////////////////////////////////////////
 COMPONENTS
@@ -115,7 +119,5 @@ const CheckboxIndicator = Object.assign(
   )),
   { displayName: CheckboxPrimitive.Indicator.displayName },
 );
-
 Checkbox.displayName = CheckboxPrimitive.Root.displayName;
-
 export { Checkbox, CheckboxIndicator };

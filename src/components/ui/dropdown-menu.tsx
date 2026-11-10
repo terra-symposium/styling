@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/dropdown-menu.tsx
+ * src/components/ui/dropdown-menu.tsx
  * https://ui.shadcn.com/docs/components/dropdown-menu
  */
 
@@ -9,14 +9,7 @@ IMPORTS
 
 // API
 import { cn } from "../../lib/cn.js";
-import {
-  MENU_ITEM,
-  MENU_ITEM_INDICATOR,
-  menuItemVariants,
-  OVERLAY_MOTION_VARIANTS,
-  OVERLAY_SURFACE_VARIANTS,
-  RADIX_SIDE_POSITION_VARIANTS,
-} from "./variants.js";
+import { menuItemVariants } from "./variants.js";
 
 // COMPONENTS
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
@@ -26,6 +19,15 @@ import {
   ChevronRight as SubmenuIcon,
   CircleSolid as RadioIcon,
 } from "@carbon/icons-react";
+
+// DATA
+import {
+  MENU_ITEM,
+  MENU_ITEM_INDICATOR,
+  OVERLAY_MOTION_VARIANTS,
+  OVERLAY_SURFACE_VARIANTS,
+  RADIX_SIDE_POSITION_VARIANTS,
+} from "./variants.js";
 
 // TYPES
 import type { VariantProps } from "class-variance-authority";
@@ -44,7 +46,6 @@ const DropdownMenuSub = DropdownMenuPrimitive.Sub;
 const DropdownMenuRadioGroup = Object.assign(DropdownMenuPrimitive.RadioGroup, {
   displayName: DropdownMenuPrimitive.RadioGroup.displayName,
 });
-
 const classes = {
   item: cn(
     "relative flex w-full cursor-default select-none items-center gap-x-2 rounded-sm px-2 py-1 text-sm outline-none focus:ring-0",
@@ -258,7 +259,6 @@ const DropdownMenuShortcut = Object.assign(
   },
   { displayName: "DropdownMenuShortcut" },
 );
-
 DropdownMenuTrigger.displayName = DropdownMenuPrimitive.Trigger.displayName;
 DropdownMenuGroup.displayName = DropdownMenuPrimitive.Group.displayName;
 DropdownMenuSub.displayName = DropdownMenuPrimitive.Sub.displayName;
@@ -270,7 +270,6 @@ DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
-
 export {
   DropdownMenu,
   DropdownMenuTrigger,

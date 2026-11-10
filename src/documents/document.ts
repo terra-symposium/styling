@@ -1,9 +1,19 @@
+/**
+ * src/documents/document.ts
+ */
+
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
+
+// API
 import fs from "node:fs/promises";
-import { readFileSync } from "node:fs";
 import path from "node:path";
+import { createDocumentBrand } from "./theme.js";
+import { readFileSync } from "node:fs";
+
+// COMPONENTS
+import JSZip from "jszip";
 import {
   AlignmentType,
   BorderStyle,
@@ -21,15 +31,20 @@ import {
   VerticalAlignTable,
   WidthType,
 } from "docx";
-import JSZip from "jszip";
-import {
-  createDocumentBrand,
-  type TerraDocumentBrandOptions,
-} from "./theme.js";
+
+// TYPES
+import type { TerraDocumentBrandOptions } from "./theme.js";
+
+/*//////////////////////////////////////////////////
+REGEX
+//////////////////////////////////////////////////*/
+
+const SHARED_REGEX = /^#/;
 
 /*//////////////////////////////////////////////////
 WORD TEMPLATE
 //////////////////////////////////////////////////*/
+
 export type WordTemplateOptions = {
   title?: string;
   subtitle?: string;
@@ -42,7 +57,8 @@ export type WordTemplateOptions = {
  * Creates an editable, Pages-friendly invoice starter based on Terra's invoice layout.
  *
  * @param options - Optional title, subtitle, style showcase, and Terra brand settings.
- * @returns A Word invoice with reusable headings, customer details, line items, and payment fields.
+ *
+ * @return A Word invoice with reusable headings, customer details, line items, and payment fields.
  */
 export function createWordTemplate(
   options: WordTemplateOptions = {},
@@ -53,9 +69,7 @@ export function createWordTemplate(
   const bodyInk =
     "#" +
     brand.scales.gray.light[11]!.split(" ")
-      .map((channel) =>
-        Math.round(Number(channel)).toString(16).padStart(2, "0"),
-      )
+      .map((c) => Math.round(Number(c)).toString(16).padStart(2, "0"))
       .join("");
   const bodyLine = 276;
   const tableWidth = 9706;
@@ -63,12 +77,12 @@ export function createWordTemplate(
   const thinRule = {
     style: BorderStyle.SINGLE,
     size: 5,
-    color: c.line.replace(/^#/, ""),
+    color: c.line.replace(SHARED_REGEX, ""),
   };
   const sectionRule = {
     style: BorderStyle.SINGLE,
     size: 10,
-    color: c.primaryStrong.replace(/^#/, ""),
+    color: c.primaryStrong.replace(SHARED_REGEX, ""),
   };
   const emptyTableBorders = {
     top: noBorder,
@@ -81,7 +95,7 @@ export function createWordTemplate(
   const cellMargins = { top: 100, bottom: 100, left: 140, right: 140 };
   const colorFill = (color: string) => ({
     type: ShadingType.CLEAR,
-    fill: color.replace(/^#/, ""),
+    fill: color.replace(SHARED_REGEX, ""),
   });
   const runText = (value: string, run: Record<string, unknown> = {}) =>
     new TextRun({ text: value, font, ...run });
@@ -89,12 +103,7 @@ export function createWordTemplate(
     value: string,
     style = "Normal",
     alignment?: (typeof AlignmentType)[keyof typeof AlignmentType],
-  ) =>
-    new Paragraph({
-      style,
-      alignment,
-      children: [runText(value)],
-    });
+  ) => new Paragraph({ style, alignment, children: [runText(value)] });
   const heading = (headingText: string, level: 1 | 2 | 3) => {
     const levelMap = {
       1: { heading: HeadingLevel.HEADING_1, style: "Heading1" },
@@ -157,7 +166,7 @@ export function createWordTemplate(
       children: [runText(value, { bold: true })],
     });
   const children: (Paragraph | Table)[] = [];
-  if (brand.logo === "terra-wordmark") {
+  if (brand.logo === "terra-wordmark")
     children.push(
       new Paragraph({
         style: "BrandMark",
@@ -169,14 +178,14 @@ export function createWordTemplate(
             font: "Avara",
             size: 22,
             italics: true,
-            color: c.primaryStrong.replace(/^#/, ""),
+            color: c.primaryStrong.replace(SHARED_REGEX, ""),
           }),
         ],
       }),
       paragraph("ABN  [Business number]", "SupplierInfo", AlignmentType.RIGHT),
       paragraph("[Email address]", "SupplierInfo", AlignmentType.RIGHT),
     );
-  } else if (brand.logo) {
+  else if (brand.logo) {
     children.push(
       new Paragraph({
         alignment: AlignmentType.RIGHT,
@@ -289,11 +298,11 @@ export function createWordTemplate(
             item: "[Travel or approved expenses]",
             qty: "[1]",
           },
-        ].flatMap((entry) => [
+        ].flatMap((e) => [
           new TableRow({
             cantSplit: true,
             children: [
-              cell([paragraph(entry.group, "TableGroup")], tableWidth, {
+              cell([paragraph(e.group, "TableGroup")], tableWidth, {
                 fill: c.primarySoft,
                 columnSpan: 4,
                 borders: { top: sectionRule, bottom: sectionRule },
@@ -303,13 +312,13 @@ export function createWordTemplate(
           new TableRow({
             cantSplit: true,
             children: [
-              cell([tableText(entry.item)], 5100, {
+              cell([tableText(e.item)], 5100, {
                 borders: { bottom: { ...thinRule, size: 2 } },
               }),
               cell([tableText("[Rate]", "right")], 1800, {
                 borders: { bottom: { ...thinRule, size: 2 } },
               }),
-              cell([tableText(entry.qty, "right")], 900, {
+              cell([tableText(e.qty, "right")], 900, {
                 borders: { bottom: { ...thinRule, size: 2 } },
               }),
               cell([tableText("[Subtotal]", "right")], 1906, {
@@ -344,8 +353,7 @@ export function createWordTemplate(
     ),
     paragraph("Please include the invoice number with your payment.", "Small"),
   );
-
-  if (options.showcase) {
+  if (options.showcase)
     children.push(
       new Paragraph({
         pageBreakBefore: true,
@@ -429,14 +437,14 @@ export function createWordTemplate(
             ["Confirm attendees", "Coordinator", "Open", "[Date]"],
             ["Share follow-up", "Facilitator", "Planned", "[Date]"],
           ].map(
-            (row) =>
+            (r) =>
               new TableRow({
                 cantSplit: true,
-                children: row.map((value, i) =>
+                children: r.map((v, i) =>
                   cell(
                     [
                       tableText(
-                        value,
+                        v,
                         i === 2 ? "center" : i === 3 ? "right" : undefined,
                       ),
                     ],
@@ -480,8 +488,6 @@ export function createWordTemplate(
         "Small",
       ),
     );
-  }
-
   return new Document({
     creator: "Terra Symposium",
     description: "Editable Terra invoice and document style template",
@@ -505,7 +511,7 @@ export function createWordTemplate(
     styles: {
       default: {
         document: {
-          run: { font, size: 21, color: bodyInk.replace(/^#/, "") },
+          run: { font, size: 21, color: bodyInk.replace(SHARED_REGEX, "") },
           paragraph: { spacing: { after: 75, line: bodyLine } },
         },
       },
@@ -518,7 +524,7 @@ export function createWordTemplate(
           run: {
             font: "Avara",
             size: 44,
-            color: c.primaryStrong.replace(/^#/, ""),
+            color: c.primaryStrong.replace(SHARED_REGEX, ""),
             italics: true,
           },
           paragraph: { spacing: { before: 80, after: 50 }, keepNext: true },
@@ -528,7 +534,11 @@ export function createWordTemplate(
           name: "Subtitle",
           basedOn: "Normal",
           next: "Normal",
-          run: { font, size: 22, color: c.primaryStrong.replace(/^#/, "") },
+          run: {
+            font,
+            size: 22,
+            color: c.primaryStrong.replace(SHARED_REGEX, ""),
+          },
           paragraph: {
             spacing: { before: 0, after: 35, line: bodyLine },
             keepNext: true,
@@ -539,7 +549,11 @@ export function createWordTemplate(
           name: "Heading 1",
           basedOn: "Normal",
           next: "Normal",
-          run: { font, size: 28, color: c.primaryStrong.replace(/^#/, "") },
+          run: {
+            font,
+            size: 28,
+            color: c.primaryStrong.replace(SHARED_REGEX, ""),
+          },
           paragraph: {
             spacing: { before: 200, after: 70, line: bodyLine },
             keepNext: true,
@@ -550,7 +564,7 @@ export function createWordTemplate(
           name: "Heading 2",
           basedOn: "Normal",
           next: "Normal",
-          run: { font, size: 23, color: bodyInk.replace(/^#/, "") },
+          run: { font, size: 23, color: bodyInk.replace(SHARED_REGEX, "") },
           paragraph: {
             spacing: { before: 140, after: 45, line: bodyLine },
             keepNext: true,
@@ -561,7 +575,7 @@ export function createWordTemplate(
           name: "Heading 3",
           basedOn: "Normal",
           next: "Normal",
-          run: { font, size: 21, color: bodyInk.replace(/^#/, "") },
+          run: { font, size: 21, color: bodyInk.replace(SHARED_REGEX, "") },
           paragraph: {
             spacing: { before: 90, after: 35, line: bodyLine },
             keepNext: true,
@@ -572,7 +586,11 @@ export function createWordTemplate(
           name: "Invoice metadata",
           basedOn: "Normal",
           next: "Normal",
-          run: { font, size: 20, color: c.primaryStrong.replace(/^#/, "") },
+          run: {
+            font,
+            size: 20,
+            color: c.primaryStrong.replace(SHARED_REGEX, ""),
+          },
           paragraph: { spacing: { before: 0, after: 30, line: bodyLine } },
         },
         {
@@ -580,7 +598,11 @@ export function createWordTemplate(
           name: "Supplier information",
           basedOn: "Normal",
           next: "Normal",
-          run: { font, size: 18, color: c.primaryStrong.replace(/^#/, "") },
+          run: {
+            font,
+            size: 18,
+            color: c.primaryStrong.replace(SHARED_REGEX, ""),
+          },
           paragraph: { spacing: { before: 0, after: 0, line: bodyLine } },
         },
         {
@@ -591,7 +613,7 @@ export function createWordTemplate(
           run: {
             font: "Avara",
             size: 22,
-            color: c.primaryStrong.replace(/^#/, ""),
+            color: c.primaryStrong.replace(SHARED_REGEX, ""),
             italics: true,
           },
           paragraph: { spacing: { after: 0, line: bodyLine } },
@@ -601,7 +623,11 @@ export function createWordTemplate(
           name: "Card label",
           basedOn: "Normal",
           next: "Normal",
-          run: { font, size: 20, color: c.primaryStrong.replace(/^#/, "") },
+          run: {
+            font,
+            size: 20,
+            color: c.primaryStrong.replace(SHARED_REGEX, ""),
+          },
           paragraph: { spacing: { after: 35, line: bodyLine } },
         },
         {
@@ -609,7 +635,7 @@ export function createWordTemplate(
           name: "Card body",
           basedOn: "Normal",
           next: "Normal",
-          run: { font, size: 20, color: bodyInk.replace(/^#/, "") },
+          run: { font, size: 20, color: bodyInk.replace(SHARED_REGEX, "") },
           paragraph: { spacing: { after: 30, line: bodyLine } },
         },
         {
@@ -617,7 +643,7 @@ export function createWordTemplate(
           name: "Table header",
           basedOn: "Normal",
           next: "Normal",
-          run: { font, size: 20, color: bodyInk.replace(/^#/, "") },
+          run: { font, size: 20, color: bodyInk.replace(SHARED_REGEX, "") },
           paragraph: { spacing: { before: 0, after: 0, line: bodyLine } },
         },
         {
@@ -625,7 +651,7 @@ export function createWordTemplate(
           name: "Table body",
           basedOn: "Normal",
           next: "Normal",
-          run: { font, size: 20, color: bodyInk.replace(/^#/, "") },
+          run: { font, size: 20, color: bodyInk.replace(SHARED_REGEX, "") },
           paragraph: { spacing: { before: 0, after: 0, line: bodyLine } },
         },
         {
@@ -636,7 +662,7 @@ export function createWordTemplate(
           run: {
             font,
             size: 20,
-            color: c.primaryStrong.replace(/^#/, ""),
+            color: c.primaryStrong.replace(SHARED_REGEX, ""),
             bold: true,
           },
           paragraph: { spacing: { before: 0, after: 0, line: bodyLine } },
@@ -646,7 +672,11 @@ export function createWordTemplate(
           name: "Table total",
           basedOn: "Normal",
           next: "Normal",
-          run: { font, size: 22, color: c.primaryStrong.replace(/^#/, "") },
+          run: {
+            font,
+            size: 22,
+            color: c.primaryStrong.replace(SHARED_REGEX, ""),
+          },
           paragraph: { spacing: { before: 0, after: 0, line: bodyLine } },
         },
         {
@@ -654,7 +684,7 @@ export function createWordTemplate(
           name: "Payment details",
           basedOn: "Normal",
           next: "Normal",
-          run: { font, size: 20, color: bodyInk.replace(/^#/, "") },
+          run: { font, size: 20, color: bodyInk.replace(SHARED_REGEX, "") },
           paragraph: { spacing: { before: 0, after: 45, line: bodyLine } },
         },
         {
@@ -662,7 +692,11 @@ export function createWordTemplate(
           name: "Small supporting text",
           basedOn: "Normal",
           next: "Normal",
-          run: { font, size: 18, color: c.primaryStrong.replace(/^#/, "") },
+          run: {
+            font,
+            size: 18,
+            color: c.primaryStrong.replace(SHARED_REGEX, ""),
+          },
           paragraph: { spacing: { before: 30, after: 65, line: bodyLine } },
         },
       ],
@@ -686,7 +720,8 @@ export function createWordTemplate(
  *
  * @param destinationPath - Destination path for the generated `.docx` file.
  * @param options - Optional title, subtitle, and Terra brand settings.
- * @returns Resolves after the document has been written.
+ *
+ * @return Resolves after the document has been written.
  */
 export async function writeWordTemplate(
   destinationPath: string,
@@ -705,7 +740,9 @@ export async function writeWordTemplate(
  * @param sourcePath - Existing package-generated document to edit.
  * @param destinationPath - Path where the edited document is written.
  * @param replacements - Map of exact source text to replacement text.
- * @returns Resolves after all matching text runs have been replaced.
+ *
+ * @return Resolves after all matching text runs have been replaced.
+ *
  * @throws If none of the requested source text occurs in editable document parts.
  */
 export async function editWordTemplate(
@@ -722,7 +759,9 @@ export async function editWordTemplate(
  * @param sourcePath - Existing DOCX package to edit.
  * @param destinationPath - Path where the updated DOCX package is written.
  * @param replacements - Map of exact source text to replacement text.
- * @returns Resolves after the edited package has been written.
+ *
+ * @return Resolves after the edited package has been written.
+ *
  * @throws If none of the requested text occurs in editable document parts.
  */
 async function replaceWordText(
@@ -761,7 +800,8 @@ async function replaceWordText(
  * Escapes XML-sensitive characters in text content.
  *
  * @param value - Text to escape.
- * @returns The value with XML entities substituted for reserved characters.
+ *
+ * @return The value with XML entities substituted for reserved characters.
  */
 const escapeXml = (value: string): string =>
   value

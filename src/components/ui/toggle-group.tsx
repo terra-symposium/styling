@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/toggle-group.tsx
+ * src/components/ui/toggle-group.tsx
  * https://ui.shadcn.com/docs/components/toggle-group
  */
 
@@ -98,7 +98,6 @@ const ToggleGroupItem = React.forwardRef<
     );
   },
 );
-
 ToggleGroupCtx.displayName = "ToggleGroupContext";
 ToggleGroup.displayName = "ToggleGroup";
 ToggleGroupItem.displayName = "ToggleGroupItem";

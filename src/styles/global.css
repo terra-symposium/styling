@@ -131,7 +131,7 @@
   }
 
   /* Used for marquee */
-  @keyframes slide {
+  @keyframes styling-marquee-slide {
     from {
       transform: translateX(0);
     }

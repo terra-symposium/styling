@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/scroll-area.tsx
+ * src/components/ui/scroll-area.tsx
  * https://ui.shadcn.com/docs/components/scroll-area
  */
 
@@ -106,8 +106,6 @@ const ScrollBar = React.forwardRef<
     </ScrollAreaPrimitive.ScrollAreaScrollbar>
   ),
 );
-
 ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName;
 ScrollBar.displayName = ScrollAreaPrimitive.ScrollAreaScrollbar.displayName;
-
 export { ScrollArea, ScrollBar };

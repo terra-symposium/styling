@@ -16,10 +16,10 @@ Not applicable.
 ```sh
 pnpm install
 pnpm run build
-pnpm exec docs build
+pnpm run docs:build
 ```
 
-The guide is the Markdown and MDX files in [`docs/`](docs/). `@terra-symposium/docs` supplies its Astro site, navigation, search, styling, and 404 page. Run `pnpm run docs` to preview it locally; `pnpm exec docs build` writes the static site to `dist/docs/`. Component pages include build-cached API docs extracted from their TypeScript source and a related shadcn/ui reference. Agent guidance and skills live in [`docs/agents/`](docs/agents/), with each `SKILL.md` available as the index page for its folder in the Agents section. Relative Markdown links and assets work from the content tree. The published guide is served under `/styling-docs/`.
+The guide content lives in [`docs/`](docs/). `@terra-symposium/docs` supplies its Astro site, navigation, search, styling, and 404 page. Run `pnpm run docs` to preview it locally or `pnpm run docs:build` to write the static site to `dist/docs/`. The Components catalog shows live previews for every exported component family. One generated detail route serves every component slug, with API references extracted from TypeScript exports and JSDoc. Agent guidance and skills live in [`docs/agents/`](docs/agents/), with each `SKILL.md` available as the index page for its folder in the Agents section. Relative Markdown links and assets work from the content tree. The published guide is served under `/styling-docs/`.
 
 ## Usage
 

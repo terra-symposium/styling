@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/input.tsx
+ * src/components/ui/input.tsx
  * https://ui.shadcn.com/docs/components/input
  */
 
@@ -166,7 +166,5 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     );
   },
 );
-
 Input.displayName = "Input";
-
 export { Input };

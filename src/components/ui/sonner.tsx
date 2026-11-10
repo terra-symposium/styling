@@ -30,6 +30,7 @@ COMPONENTS
  * Renders Sonner notifications with shared palette defaults and Carbon status icons.
  *
  * @param props - Sonner settings spread after the shared defaults, so supplied values can override them.
+ *
  * @return The configured Sonner notification renderer.
  */
 const Toaster = (props: ToasterProps): React.JSX.Element => (
@@ -59,5 +60,4 @@ const Toaster = (props: ToasterProps): React.JSX.Element => (
     {...props}
   />
 );
-
 export { Toaster };

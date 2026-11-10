@@ -11,9 +11,9 @@ IMPORTS
 
 // API
 import { cn } from "../../lib/cn.js";
+import { useState } from "react";
 
 // COMPONENTS
-import { useState } from "react";
 import { Spinner } from "./spinner.js";
 
 // TYPES
@@ -29,7 +29,8 @@ COMPONENTS
  * first selected or dropped file is passed to the callback.
  *
  * @param props - Content, layout, upload callback and file-type filter, disabled state, accessible input label, loading message, and class name.
- * @returns A static empty-state container or an upload label with a hidden file input.
+ *
+ * @return A static empty-state container or an upload label with a hidden file input.
  */
 export function Empty({
   children,
@@ -159,7 +160,8 @@ export function Empty({
  * Panel-style empty state for tables, directories, and other data surfaces.
  *
  * @param props - Panel title, supporting text, optional action, and class name.
- * @returns A bordered empty-state panel with the supplied content.
+ *
+ * @return A bordered empty-state panel with the supplied content.
  */
 export function EmptyState({
   title,

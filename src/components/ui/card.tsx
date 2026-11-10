@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/card.tsx
+ * src/components/ui/card.tsx
  * https://ui.shadcn.com/docs/components/card
  */
 
@@ -13,15 +13,15 @@ import { cva } from "class-variance-authority";
 
 // COMPONENTS
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
-import { ChevronDown } from "@carbon/icons-react";
 import { Button } from "./button.js";
+import { ChevronDown } from "@carbon/icons-react";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "./collapsible.js";
 import { Hint } from "./hint.js";
+import { Slot } from "@radix-ui/react-slot";
 
 // DATA
 import { SURFACE_VARIANTS } from "./variants.js";
@@ -88,7 +88,7 @@ COMPONENTS
 //////////////////////////////////////////////////*/
 
 /**
- * Card container component.
+ * Card container component, defaulting to the primary-tonal surface.
  *
  * Renders a `<div>` by default, and upgrades to an `<a>` element when an
  * `href` is supplied.
@@ -271,6 +271,7 @@ const Card = React.forwardRef<HTMLDivElement | HTMLAnchorElement, CardProps>(
  * Marker child whose props configure the collapsible summary rendered by `Card`.
  *
  * @param _props - Summary label and presentation options consumed by `Card`.
+ *
  * @return `null`; the parent card renders the configured summary.
  */
 function CardSummary(_props: CardSummaryProps): null {
@@ -413,7 +414,6 @@ const CardDescription = React.forwardRef<
     description
   );
 });
-
 const CardAction = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>

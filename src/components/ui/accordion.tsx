@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/accordion.tsx
+ * src/components/ui/accordion.tsx
  * https://ui.shadcn.com/docs/components/accordion
  */
 
@@ -49,7 +49,6 @@ COMPONENTS
 
 const VariantCtx = React.createContext<Variant>("default");
 VariantCtx.displayName = "AccordionVariantContext";
-
 function useAccordionVariant(
   variant?: Variant,
 ): (typeof ACCORDION_VARIANT_CLASSES)[Variant] {

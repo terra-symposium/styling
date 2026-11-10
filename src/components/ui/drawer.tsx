@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/drawer.tsx
+ * src/components/ui/drawer.tsx
  * https://ui.shadcn.com/docs/components/drawer
  */
 
@@ -9,11 +9,13 @@ IMPORTS
 
 // API
 import { cn } from "../../lib/cn.js";
-import { SURFACE_VARIANTS } from "./variants.js";
 
 // COMPONENTS
 import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
+
+// DATA
+import { SURFACE_VARIANTS } from "./variants.js";
 
 /*//////////////////////////////////////////////////
 CONFIG
@@ -107,10 +109,10 @@ COMPONENTS
 /**
  * Renders the drawer component root primitive.
  *
- * @param shouldScaleBackground - Whether background scales down when open.
  * @param props - Open state, event callbacks, and supported root attributes forwarded to the drawer primitive.
+ * @param shouldScaleBackground - Whether background scales down when open.
  *
- * @returns React element for the drawer root primitive.
+ * @return React element for the drawer root primitive.
  */
 function Drawer({
   shouldScaleBackground = true,
@@ -129,7 +131,7 @@ function Drawer({
  *
  * @param props - HTML attributes for the header container.
  *
- * @returns React element for the drawer header.
+ * @return React element for the drawer header.
  */
 function DrawerHeader({
   className,
@@ -148,7 +150,7 @@ function DrawerHeader({
  *
  * @param props - HTML attributes for the footer container.
  *
- * @returns React element for the drawer footer.
+ * @return React element for the drawer footer.
  */
 function DrawerFooter({
   className,
@@ -161,7 +163,6 @@ function DrawerFooter({
     />
   );
 }
-
 Drawer.displayName = "Drawer";
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 DrawerContent.displayName = "DrawerContent";

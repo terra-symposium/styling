@@ -143,8 +143,8 @@ const preset: Omit<Config, "content"> = {
       ringColor: { ring: applyOpacityValue("--ring") },
       ringOffsetColor: { background: applyOpacityValue("--background") },
       scale: { 175: "1.75", 200: "2" },
-      minWidth: ({ theme }: { theme: (path: string) => unknown }) => ({
-        ...(theme("maxWidth") as Record<string, string>),
+      minWidth: ({ theme: t }: { theme: (path: string) => unknown }) => ({
+        ...(t("maxWidth") as Record<string, string>),
       }),
       // Simple 20 column grid
       gridTemplateColumns: { 20: "repeat(20, minmax(0, 1fr))" },
@@ -184,31 +184,31 @@ const preset: Omit<Config, "content"> = {
       gridColumnEnd: {13:'13',14:'14',15:'15',16:'16',17:'17',18:'18',19:'19',20:'20',21:'21',},
       // prettier-ignore
       gridRowEnd: { 8: '8', 9: '9', 10: '10', 11: '11', 12: '12', 13: '13', 14: '14', 15: '15', 16: '16', 17: '17', 18: '18', 19: '19', 20: '20', 21: '21' },
-      typography: ({ theme }: { theme: (path: string) => unknown }) => ({
+      typography: ({ theme: t }: { theme: (path: string) => unknown }) => ({
         DEFAULT: {
           css: {
-            "--tw-prose-body": theme("colors.gray[11]"),
-            "--tw-prose-headings": theme("colors.gray[12]"),
-            "--tw-prose-lead": theme("colors.gray[10]"),
-            "--tw-prose-links": theme("colors.gray[12]"),
-            "--tw-prose-bold": theme("colors.gray[12]"),
-            "--tw-prose-counters": theme("colors.primary[600]"),
-            "--tw-prose-bullets": theme("colors.primary[400]"),
-            "--tw-prose-hr": theme("colors.gray[7]"),
-            "--tw-prose-quotes": theme("colors.gray[12]"),
-            "--tw-prose-quote-borders": theme("colors.gray[7]"),
-            "--tw-prose-captions": theme("colors.gray[10]"),
-            "--tw-prose-code": theme("colors.gray[12]"),
-            "--tw-prose-pre-code": theme("colors.gray[3]"),
-            "--tw-prose-pre-bg": theme("colors.gray[12]"),
-            "--tw-prose-th-borders": theme("colors.gray[7]"),
-            "--tw-prose-td-borders": theme("colors.gray[6]"),
+            "--tw-prose-body": t("colors.gray[11]"),
+            "--tw-prose-headings": t("colors.gray[12]"),
+            "--tw-prose-lead": t("colors.gray[10]"),
+            "--tw-prose-links": t("colors.gray[12]"),
+            "--tw-prose-bold": t("colors.gray[12]"),
+            "--tw-prose-counters": t("colors.primary[600]"),
+            "--tw-prose-bullets": t("colors.primary[400]"),
+            "--tw-prose-hr": t("colors.gray[7]"),
+            "--tw-prose-quotes": t("colors.gray[12]"),
+            "--tw-prose-quote-borders": t("colors.gray[7]"),
+            "--tw-prose-captions": t("colors.gray[10]"),
+            "--tw-prose-code": t("colors.gray[12]"),
+            "--tw-prose-pre-code": t("colors.gray[3]"),
+            "--tw-prose-pre-bg": t("colors.gray[12]"),
+            "--tw-prose-th-borders": t("colors.gray[7]"),
+            "--tw-prose-td-borders": t("colors.gray[6]"),
             "code::before": false,
             "code::after": false,
             strong: { color: "inherit" },
             a: {
               position: "relative",
-              fontWeight: theme("fontWeight.semibold"),
+              fontWeight: t("fontWeight.semibold"),
               textDecoration: "underline",
               textUnderlineOffset: "3px",
             },
@@ -235,12 +235,12 @@ const preset: Omit<Config, "content"> = {
     headlessui,
     scrimGradients,
     animate,
-    plugin(function ({ addVariant, matchVariant }) {
-      addVariant("hocus", ["&:hover", "&:focus"]);
-      addVariant("hocus-visible", ["&:hover", "&:focus-visible"]);
-      addVariant("enabled", "&:not(:disabled)");
+    plugin(function ({ addVariant: a, matchVariant: m }) {
+      a("hocus", ["&:hover", "&:focus"]);
+      a("hocus-visible", ["&:hover", "&:focus-visible"]);
+      a("enabled", "&:not(:disabled)");
       // Default value for `child:`
-      matchVariant("*", (value) => `:where(& > ${value.replace(/_/g, " ")})`, {
+      m("*", (v) => `:where(& > ${v.replace(/_/g, " ")})`, {
         values: { DEFAULT: "*" },
       });
     }),

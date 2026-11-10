@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/select.tsx
+ * src/components/ui/select.tsx
  * https://ui.shadcn.com/docs/components/select
  */
 
@@ -324,7 +324,6 @@ const SelectSeparator = React.forwardRef<
     {...props}
   />
 ));
-
 SelectGroup.displayName = SelectPrimitive.Group.displayName;
 SelectValue.displayName = SelectPrimitive.Value.displayName;
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;

@@ -1,3 +1,7 @@
+/**
+ * src/documents/index.ts
+ */
+
 export { createDocumentBrand, randomDocumentHue } from "./theme.js";
 export type {
   DocumentColors,
@@ -27,14 +31,18 @@ export {
   editWordTemplate,
 } from "./document.js";
 export type { WordTemplateOptions } from "./document.js";
+
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
+
+// API
 import { fileURLToPath } from "node:url";
 
 /*//////////////////////////////////////////////////
 TEMPLATE FILES
 //////////////////////////////////////////////////*/
+
 /** Names of the editable starter files shipped with the package. */
 export const DOCUMENT_TEMPLATE_FILES = {
   presentationLow: "terra-presentation-low.pptx",
@@ -52,7 +60,8 @@ export const DOCUMENT_TEMPLATE_FILES = {
  * Resolves the on-disk path to a shipped native Office template.
  *
  * @param name - One of the file names listed in `DOCUMENT_TEMPLATE_FILES`.
- * @returns The absolute path to the packaged template.
+ *
+ * @return The absolute path to the packaged template.
  */
 export function resolveDocumentTemplate(
   name: (typeof DOCUMENT_TEMPLATE_FILES)[keyof typeof DOCUMENT_TEMPLATE_FILES],

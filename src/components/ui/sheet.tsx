@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/sheet.tsx
+ * src/components/ui/sheet.tsx
  * https://ui.shadcn.com/docs/components/sheet
  */
 
@@ -110,11 +110,10 @@ const SheetContent = React.forwardRef<
 /**
  * Header region for sheet content, typically containing title and description.
  *
+ * @param props - Additional div attributes forwarded to the header container.
  * @param className - Optional style overrides for the header container.
  *
- * @param props - Additional div attributes forwarded to the header container.
- *
- * @returns A flex column for the sheet title and description.
+ * @return A flex column for the sheet title and description.
  */
 const SheetHeader = ({
   className,
@@ -131,11 +130,10 @@ const SheetHeader = ({
 /**
  * Footer container for primary and secondary sheet actions.
  *
+ * @param props - Additional div attributes forwarded to the footer container.
  * @param className - Optional style overrides for the footer container.
  *
- * @param props - Additional div attributes forwarded to the footer container.
- *
- * @returns A responsive div that reverses actions on small screens and aligns them in a row at larger sizes.
+ * @return A responsive div that reverses actions on small screens and aligns them in a row at larger sizes.
  */
 const SheetFooter = ({
   className,

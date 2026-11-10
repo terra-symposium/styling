@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/variants.ts
+ * src/components/ui/variants.ts
  * Shared style contracts for Terra's shadcn primitives.
  * Keep color/treatment/size families here when more than one UI component uses
  * the same visual contract. Put one-consumer layout, slot, and behavior styles
@@ -95,7 +95,7 @@ export const DISABLED_STATE_VARIANTS = cva("", {
 export const FORM_LABEL_VARIANTS = cva(
   cn(
     TEXT_VARIANTS({ tone: "muted", size: "sm", weight: "medium" }),
-    "flex items-center gap-2 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+    "flex items-center gap-0.5 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
   ),
 );
 /** Common focus and disabled behavior for activated controls. */
@@ -119,7 +119,6 @@ const ACTION_MATRIX_VALUES = flattenColorTypeGrid({
     ghost: "enabled:hover:bg-primary-3",
     tonal:
       "not-disabled:hover:bg-primary-9/10 border border-primary-9/30 bg-primary-9/5 text-primary-12",
-    link: "not-disabled:hover:underline text-primary-12 underline-offset-4",
     underline: "p-0 enabled:hover:underline",
     glass:
       "border border-white/15 bg-primary-9/40 text-white/90 shadow-lg backdrop-blur-xl hover:bg-primary-9/50",
@@ -132,7 +131,6 @@ const ACTION_MATRIX_VALUES = flattenColorTypeGrid({
     ghost: "enabled:hover:bg-secondary-3 text-secondary-11",
     tonal:
       "not-disabled:hover:bg-secondary-4 border border-secondary-6 bg-secondary-3 text-secondary-11",
-    link: "not-disabled:hover:underline text-secondary-11 underline-offset-4",
     underline: "p-0 text-secondary-11 enabled:hover:underline",
     glass:
       "border border-white/15 bg-secondary-9/40 text-white/90 shadow-lg backdrop-blur-xl hover:bg-secondary-9/50",
@@ -144,7 +142,6 @@ const ACTION_MATRIX_VALUES = flattenColorTypeGrid({
     ghost: "enabled:hover:bg-gray-2 text-gray-12",
     tonal:
       "not-disabled:hover:bg-gray-3 border border-gray-6 bg-gray-2 text-gray-12",
-    link: "not-disabled:hover:underline text-gray-11 underline-offset-4",
     underline: "p-0 text-gray-11 enabled:hover:underline",
     glass:
       "border border-white/15 bg-gray-9/40 text-white/90 shadow-lg backdrop-blur-xl hover:bg-gray-9/50",
@@ -158,7 +155,6 @@ const ACTION_MATRIX_VALUES = flattenColorTypeGrid({
       "text-red-600 enabled:hover:bg-red-200 dark:enabled:hover:bg-red-800",
     tonal:
       "not-disabled:hover:bg-rose-100 border border-rose-700/30 bg-rose-50 text-rose-900 dark:bg-rose-950/60 dark:text-rose-100",
-    link: "not-disabled:hover:underline text-red-600 underline-offset-4",
     underline: "p-0 text-red-600 enabled:hover:underline",
     glass:
       "border border-white/15 bg-rose-700/40 text-white/90 shadow-lg backdrop-blur-xl hover:bg-rose-700/50",
@@ -172,7 +168,6 @@ const ACTION_MATRIX_VALUES = flattenColorTypeGrid({
       "text-emerald-800 enabled:hover:bg-emerald-50 dark:text-emerald-300 dark:enabled:hover:bg-emerald-950",
     tonal:
       "not-disabled:hover:bg-emerald-100 border border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-100",
-    link: "not-disabled:hover:underline text-emerald-800 underline-offset-4 dark:text-emerald-300",
     underline:
       "p-0 text-emerald-800 enabled:hover:underline dark:text-emerald-300",
     glass:
@@ -187,7 +182,6 @@ const ACTION_MATRIX_VALUES = flattenColorTypeGrid({
       "text-amber-800 enabled:hover:bg-amber-50 dark:text-amber-300 dark:enabled:hover:bg-amber-950",
     tonal:
       "not-disabled:hover:bg-amber-100 border border-amber-300 bg-amber-50 text-amber-950 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100",
-    link: "not-disabled:hover:underline text-amber-800 underline-offset-4 dark:text-amber-300",
     underline: "p-0 text-amber-800 enabled:hover:underline dark:text-amber-300",
     glass:
       "border border-white/15 bg-amber-700/40 text-white/90 shadow-lg backdrop-blur-xl hover:bg-amber-700/50",
@@ -248,7 +242,6 @@ export const ACTION_VARIANTS = cva(ACTION_BASE, {
         ghost: ACTION_MATRIX_VALUES["primary-ghost"],
         tonal: ACTION_MATRIX_VALUES["primary-tonal"],
         "ghost-destructive": ACTION_MATRIX_VALUES["destructive-ghost"],
-        inline: ACTION_MATRIX_VALUES["primary-link"],
         underline: ACTION_MATRIX_VALUES["primary-underline"],
         "dashboard-nav":
           "data-[state=active]:text-primary-9 min-h-14 rounded-none border-0 bg-transparent text-[0.93rem] font-semibold tracking-[-0.01em] text-white/80 hover:bg-transparent hover:text-white/95",
@@ -285,10 +278,7 @@ const TOGGLE_SELECTED_COLORS: Record<UiColor, string> = {
 };
 const TOGGLE_MATRIX_VALUES = Object.fromEntries(
   Object.entries(ACTION_MATRIX_VALUES)
-    .filter(
-      ([variant]) =>
-        !variant.endsWith("-link") && !variant.endsWith("-underline"),
-    )
+    .filter(([variant]) => !variant.endsWith("-underline"))
     .map(([variant, className]) => [
       variant,
       cn(
@@ -309,7 +299,7 @@ const TOGGLE_MATRIX_VALUES = Object.fromEntries(
       ),
     ]),
 ) as Record<
-  | /* Toggle color/treatment keys, excluding link treatments. */ UiColor
+  | /* Toggle color/treatment keys, excluding underline treatments. */ UiColor
   | `${UiColor}-${Extract<UiType, "outline" | "ghost" | "tonal">}`,
   string
 >;
@@ -412,11 +402,11 @@ const SURFACE_MATRIX_VALUES = flattenColorTypeGrid({
   UiColor,
   Record<
     // Treatments that can be applied to surfaces.
-    Exclude<UiType, "link" | "underline">,
+    Exclude<UiType, "underline">,
     string
   >
 >) as Record<
-  UiColor | `${UiColor}-${Exclude<UiType, "default" | "link" | "underline">}`,
+  UiColor | `${UiColor}-${Exclude<UiType, "default" | "underline">}`,
   string
 >;
 

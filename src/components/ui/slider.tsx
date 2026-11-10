@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/slider.tsx
+ * src/components/ui/slider.tsx
  * https://ui.shadcn.com/docs/components/slider
  */
 
@@ -9,12 +9,13 @@ IMPORTS
 
 // API
 import { cn } from "../../lib/cn.js";
-import { INTERACTIVE_CONTROL_VARIANTS } from "./variants.js";
 
 // COMPONENTS
 import * as React from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 
+// DATA
+import { INTERACTIVE_CONTROL_VARIANTS } from "./variants.js";
 const SLIDER_TRACK_CLASSES =
   "relative grow overflow-hidden rounded-full border bg-primary-1 data-[orientation=horizontal]:h-1.5 data-[orientation=vertical]:h-full data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-1.5";
 const SLIDER_RANGE_CLASSES =
@@ -30,7 +31,8 @@ COMPONENTS
  * entry, and renders two thumbs when neither prop is an array.
  *
  * @param props - Radix slider settings, optional custom children, and accessible labels.
- * @returns A slider root with a track, range, and value-matched thumbs.
+ *
+ * @return A slider root with a track, range, and value-matched thumbs.
  */
 function Slider({
   className,
@@ -160,7 +162,5 @@ const SliderThumb = Object.assign(
   )),
   { displayName: SliderPrimitive.Thumb.displayName },
 );
-
 Slider.displayName = SliderPrimitive.Root.displayName;
-
 export { Slider, SliderTrack, SliderRange, SliderThumb };

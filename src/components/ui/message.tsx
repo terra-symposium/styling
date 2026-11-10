@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/message.tsx
+ * src/components/ui/message.tsx
  * https://ui.shadcn.com/docs/components/base/message
  */
 
@@ -21,7 +21,8 @@ COMPONENTS
  * Vertical container for a related sequence of messages.
  *
  * @param props - Div attributes for the message group.
- * @returns A vertical container for related messages.
+ *
+ * @return A vertical container for related messages.
  */
 function MessageGroup({
   className,
@@ -40,7 +41,8 @@ function MessageGroup({
  * Message row; `align="end"` reverses its flex direction.
  *
  * @param props - Div attributes and message alignment.
- * @returns A message row with the requested alignment metadata.
+ *
+ * @return A message row with the requested alignment metadata.
  */
 function Message({
   className,
@@ -66,7 +68,8 @@ function Message({
  * Flexible body container for message text and other content.
  *
  * @param props - Div attributes for the message body.
- * @returns A flexible body container for message content.
+ *
+ * @return A flexible body container for message content.
  */
 function MessageContent({
   className,
@@ -88,7 +91,8 @@ function MessageContent({
  * Compact, muted header line for message metadata.
  *
  * @param props - Div attributes for the message metadata line.
- * @returns A compact, muted metadata line.
+ *
+ * @return A compact, muted metadata line.
  */
 function MessageHeader({
   className,
@@ -109,5 +113,4 @@ MessageGroup.displayName = "MessageGroup";
 Message.displayName = "Message";
 MessageContent.displayName = "MessageContent";
 MessageHeader.displayName = "MessageHeader";
-
 export { MessageGroup, Message, MessageContent, MessageHeader };

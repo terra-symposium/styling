@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/bubble.tsx
+ * src/components/ui/bubble.tsx
  * https://ui.shadcn.com/docs/components/base/bubble
  */
 
@@ -51,7 +51,8 @@ COMPONENTS
  * Message bubble whose `variant` selects its surface and whose `align` is exposed as data.
  *
  * @param props - Div attributes, variant, and alignment for the bubble.
- * @returns A message bubble with variant and alignment metadata.
+ *
+ * @return A message bubble with variant and alignment metadata.
  */
 function Bubble({
   variant = "default",
@@ -77,7 +78,8 @@ function Bubble({
  * Rounded, wrapping container for the bubble's body content.
  *
  * @param props - Div attributes for the bubble body.
- * @returns A rounded, wrapping div for message content.
+ *
+ * @return A rounded, wrapping div for message content.
  */
 function BubbleContent({
   className,
@@ -96,5 +98,4 @@ function BubbleContent({
 }
 Bubble.displayName = "Bubble";
 BubbleContent.displayName = "BubbleContent";
-
 export { Bubble, BubbleContent };

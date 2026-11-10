@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/sidebar.tsx
+ * src/components/ui/sidebar.tsx
  * https://ui.shadcn.com/docs/components/sidebar
  */
 
@@ -100,6 +100,7 @@ const SidebarProvider = React.forwardRef<
       const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
       /**
        * Updates mobile state when the viewport crosses the breakpoint.
+       *
        */
       const onChange = () => {
         setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
@@ -972,5 +973,4 @@ export {
   SidebarTrigger,
   useSidebar,
 };
-
 const MOBILE_BREAKPOINT = 768;

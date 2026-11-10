@@ -325,14 +325,14 @@ function getScales(theme: "light" | "dark", grayOnly = false) {
           "yellow",
           "amber",
         ] as const)
-    ).map((name) => [
-      name,
+    ).map((n) => [
+      n,
       Object.values(
-        RadixColors[`${name}${theme === "light" ? "P3" : "DarkP3"}`] as Record<
+        RadixColors[`${n}${theme === "light" ? "P3" : "DarkP3"}`] as Record<
           string,
           string
         >,
-      ).map((color) => new Color(color).to("oklch")),
+      ).map((c) => new Color(c).to("oklch")),
     ]),
   ) as Record<string, ArrayOf12<Color>>;
   SCALES_CACHE[key] = result;

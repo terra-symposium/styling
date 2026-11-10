@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/button-group.tsx
+ * src/components/ui/button-group.tsx
  * https://ui.shadcn.com/docs/components/button-group
  */
 
@@ -69,7 +69,5 @@ function ButtonGroup({
     />
   );
 }
-
 ButtonGroup.displayName = "ButtonGroup";
-
 export { ButtonGroup };

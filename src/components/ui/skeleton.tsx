@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/skeleton.tsx
+ * src/components/ui/skeleton.tsx
  * https://ui.shadcn.com/docs/components/skeleton
  */
 
@@ -19,7 +19,8 @@ COMPONENTS
  * `aria-label` to expose a custom status, or `aria-hidden={false}` to expose `Loading...`.
  *
  * @param props - Div attributes and optional status name or visibility setting.
- * @returns A pulsing status placeholder.
+ *
+ * @return A pulsing status placeholder.
  */
 function Skeleton({
   className,

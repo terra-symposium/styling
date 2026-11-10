@@ -1,19 +1,25 @@
+/**
+ * src/documents/spreadsheet.ts
+ */
+
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
+
+// API
 import fs from "node:fs/promises";
 import path from "node:path";
-import ExcelJS from "exceljs";
-import {
-  createDocumentBrand,
-  type TerraDocumentBrandOptions,
-} from "./theme.js";
+import { createDocumentBrand } from "./theme.js";
 
+// COMPONENTS
+import ExcelJS from "exceljs";
+
+// TYPES
+import type { TerraDocumentBrandOptions } from "./theme.js";
 export type SpreadsheetTemplateOptions = {
   title?: string;
   brand?: TerraDocumentBrandOptions;
 };
-
 export type SpreadsheetCellEdits = Record<
   string,
   Record<string, string | number | boolean | Date | null>
@@ -27,7 +33,8 @@ SPREADSHEET TEMPLATE
  * Converts a CSS hex color to the eight-digit ARGB format used by ExcelJS.
  *
  * @param value - CSS hex color with or without a leading hash.
- * @returns The uppercase ARGB color prefixed with full opacity.
+ *
+ * @return The uppercase ARGB color prefixed with full opacity.
  */
 const argb = (value: string): string =>
   `FF${value.replace(/^#/, "").toUpperCase()}`;
@@ -36,7 +43,8 @@ const argb = (value: string): string =>
  * Creates a two-sheet workbook template with editable planning inputs and linked summary formulas.
  *
  * @param options - Optional workbook title and Terra brand settings.
- * @returns A workbook containing an overview and editable input sheet.
+ *
+ * @return A workbook containing an overview and editable input sheet.
  */
 export function createSpreadsheetTemplate(
   options: SpreadsheetTemplateOptions = {},
@@ -60,7 +68,6 @@ export function createSpreadsheetTemplate(
       visibility: "visible",
     },
   ];
-
   const summary = workbook.addWorksheet("Overview", {
     properties: { tabColor: { argb: argb(c.primary) } },
     views: [{ showGridLines: false, state: "frozen", ySplit: 4 }],
@@ -163,7 +170,6 @@ export function createSpreadsheetTemplate(
     };
   }
   styleTableBorders(summary, 5, 8, 1, 3, c.line);
-
   const inputs = workbook.addWorksheet("Inputs", {
     properties: { tabColor: { argb: argb(c.secondary) } },
     views: [{ showGridLines: false, state: "frozen", ySplit: 5 }],
@@ -254,17 +260,17 @@ export function createSpreadsheetTemplate(
     const row = inputs.getRow(rowIndex);
     row.height = 34;
     row.alignment = { vertical: "middle", wrapText: true };
-    row.eachCell((cell) => {
-      cell.font = {
+    row.eachCell((v) => {
+      v.font = {
         name: brand.fonts.body,
         size: 10,
         color: { argb: argb(c.ink) },
       };
-      cell.border = {
+      v.border = {
         bottom: { style: "thin", color: { argb: argb(c.line) } },
       };
       if (rowIndex % 2 === 0)
-        cell.fill = {
+        v.fill = {
           type: "pattern",
           pattern: "solid",
           fgColor: { argb: argb(c.surface) },
@@ -281,7 +287,9 @@ export function createSpreadsheetTemplate(
  * @param sourcePath - Existing generated workbook to edit.
  * @param destinationPath - Path where the edited workbook is written.
  * @param edits - Worksheet names mapped to cell addresses and replacement values.
- * @returns Resolves after the edited workbook has been written.
+ *
+ * @return Resolves after the edited workbook has been written.
+ *
  * @throws If a named worksheet does not exist or no cell edits were provided.
  */
 export async function editSpreadsheetTemplate(
@@ -311,6 +319,7 @@ export async function editSpreadsheetTemplate(
 /*//////////////////////////////////////////////////
 STYLE HELPERS
 //////////////////////////////////////////////////*/
+
 /**
  * Applies header height, fill, font color, and vertical alignment to each row cell.
  *
@@ -318,7 +327,8 @@ STYLE HELPERS
  * @param fill - CSS hex fill color.
  * @param textColor - CSS hex font color.
  * @param font - Font family applied to the row.
- * @returns Nothing; the row styles are updated in place.
+ *
+ * @return Nothing; the row styles are updated in place.
  */
 const styleHeader = (
   row: ExcelJS.Row,
@@ -348,7 +358,8 @@ const styleHeader = (
  * @param firstCol - First column in the inclusive range.
  * @param lastCol - Last column in the inclusive range.
  * @param fill - CSS hex color used for the fill.
- * @returns Nothing; worksheet cell fills are updated in place.
+ *
+ * @return Nothing; worksheet cell fills are updated in place.
  */
 const fillRegion = (
   sheet: ExcelJS.Worksheet,
@@ -378,7 +389,8 @@ const fillRegion = (
  * @param startCol - First column in the inclusive range.
  * @param endCol - Last column in the inclusive range.
  * @param line - CSS hex color used for the border.
- * @returns Nothing; worksheet cell borders are updated in place.
+ *
+ * @return Nothing; worksheet cell borders are updated in place.
  */
 const styleTableBorders = (
   sheet: ExcelJS.Worksheet,

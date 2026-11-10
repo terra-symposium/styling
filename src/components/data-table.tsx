@@ -12,8 +12,6 @@ IMPORTS
 import { cn } from "../lib/cn.js";
 
 // COMPONENTS
-import { Fragment } from "react";
-import { MappedFormControl, MappedFormFieldError } from "./forms.js";
 import { Button } from "./ui/button.js";
 import {
   Card,
@@ -24,6 +22,8 @@ import {
   CardTitle,
 } from "./ui/card.js";
 import { Empty } from "./ui/empty.js";
+import { Fragment } from "react";
+import { MappedFormControl, MappedFormFieldError } from "./forms.js";
 import {
   Table,
   TableBody,
@@ -93,10 +93,12 @@ HELPERS
 //////////////////////////////////////////////////*/
 
 // CELL PRESENTATION CLASSES
-/** Builds the presentation classes shared by data-table cells.
+/**
+ * Builds the presentation classes shared by data-table cells.
  *
  * @param cell Cell-level alignment, height, text-size, and weight settings.
  * @param emphasize Whether this cell should be emphasized.
+ *
  * @return The combined class string, or an empty string when no setting adds a class.
  */
 function cellContentClass(
@@ -119,9 +121,11 @@ COMPONENTS
 //////////////////////////////////////////////////*/
 
 // TABLE ROWS
-/** Renders one row from cell definitions using the shared table primitives.
+/**
+ * Renders one row from cell definitions using the shared table primitives.
  *
  * @param props Cell definitions, optional table-row props, and styling; emphasis applies only to the first cell.
+ *
  * @return A shared table row containing the defined cells.
  */
 export function DataTableRow({
@@ -140,26 +144,26 @@ export function DataTableRow({
 }): JSX.Element {
   return (
     <TableRow {...rowProps} className={rowClassName}>
-      {cells.map((cell, i) => {
+      {cells.map((c, i) => {
         const className = cn(
-          ALIGN_CLASS[cell.align ?? "left"],
-          cell.width && WIDTH_CLASS[cell.width],
-          cellContentClass(cell, emphasizeFirstCol && i === 0),
+          ALIGN_CLASS[c.align ?? "left"],
+          c.width && WIDTH_CLASS[c.width],
+          cellContentClass(c, emphasizeFirstCol && i === 0),
         );
-        const content = cell.field ? (
+        const content = c.field ? (
           <>
-            <MappedFormControl field={cell.field} />
-            <MappedFormFieldError field={cell.field} />
+            <MappedFormControl field={c.field} />
+            <MappedFormFieldError field={c.field} />
           </>
         ) : (
-          cell.content
+          c.content
         );
-        return cell.rowHeader ? (
-          <TableHead key={cell.key} scope="row" className={className}>
+        return c.rowHeader ? (
+          <TableHead key={c.key} scope="row" className={className}>
             {content}
           </TableHead>
         ) : (
-          <TableCell key={cell.key} className={className}>
+          <TableCell key={c.key} className={className}>
             {content}
           </TableCell>
         );
@@ -169,9 +173,11 @@ export function DataTableRow({
 }
 
 // TABLE CONTENT
-/** Renders rows and column definitions through the shared table primitives.
+/**
+ * Renders rows and column definitions through the shared table primitives.
  *
  * @param props Rows and columns, with optional renderers, row details, and empty-state or layout settings.
+ *
  * @return Table content or the configured editor empty state, with overflow framing in editor mode.
  */
 export function DataTableContent<Row extends object>({
@@ -224,55 +230,55 @@ export function DataTableContent<Row extends object>({
       >
         <TableHeader>
           <TableRow>
-            {cols.map((column, i) => (
+            {cols.map((c, i) => (
               <TableHead
-                key={column.key || i}
+                key={c.key || i}
                 className={cn(
-                  ALIGN_CLASS[column.align ?? "left"],
-                  column.width && WIDTH_CLASS[column.width],
+                  ALIGN_CLASS[c.align ?? "left"],
+                  c.width && WIDTH_CLASS[c.width],
                 )}
               >
-                {column.label}
+                {c.label}
               </TableHead>
             ))}
           </TableRow>
         </TableHeader>
         <TableBody>
-          {rows.map((row, i) => {
+          {rows.map((r, i) => {
             const id =
               typeof rowKey === "function"
-                ? rowKey(row, i)
+                ? rowKey(r, i)
                 : rowKey
-                  ? row[rowKey as keyof Row]
+                  ? r[rowKey as keyof Row]
                   : i;
             const key =
               typeof id === "string" || typeof id === "number" ? id : i;
-            const rowDetail = detail?.(row, i);
+            const rowDetail = detail?.(r, i);
             return (
               <Fragment key={key}>
                 {renderRow ? (
-                  renderRow(row, i)
+                  renderRow(r, i)
                 ) : (
                   <DataTableRow
-                    rowProps={rowProps?.(row, i)}
+                    rowProps={rowProps?.(r, i)}
                     rowClassName={cn(
                       pendingRowKey !== undefined &&
                         pendingRowKey === key &&
                         "opacity-60",
-                      rowClassName?.(row, i),
+                      rowClassName?.(r, i),
                     )}
                     emphasizeFirstColumn={emphasizeFirstCol}
-                    cells={cols.map((column) => {
-                      const value = row[column.key as keyof Row];
-                      const field = column.field?.(row, i);
+                    cells={cols.map((c) => {
+                      const value = r[c.key as keyof Row];
+                      const field = c.field?.(r, i);
                       const content = field
                         ? undefined
-                        : column.render
-                          ? column.render(row, i)
+                        : c.render
+                          ? c.render(r, i)
                           : value === null || value === undefined
                             ? "—"
                             : String(value);
-                      return { ...column, field, content };
+                      return { ...c, field, content };
                     })}
                   />
                 )}
@@ -306,9 +312,11 @@ export function DataTableContent<Row extends object>({
 }
 
 // DIRECTORY CARD
-/** Renders an entity directory from row and column data or wraps a custom interactive table.
+/**
+ * Renders an entity directory from row and column data or wraps a custom interactive table.
  *
  * @param props Card metadata and either row/column data or custom content; data rendering requires both rows and columns.
+ *
  * @return A card containing the directory header and table content.
  */
 export function DataTable<Row extends object = Record<string, unknown>>({
@@ -385,7 +393,6 @@ export function DataTable<Row extends object = Record<string, unknown>>({
     ) : (
       children
     );
-
   return (
     <Card variant="gray-outline" size="sm">
       <CardHeader topRight={action}>

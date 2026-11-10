@@ -1,20 +1,29 @@
+/**
+ * scripts/create-document-templates.mjs
+ */
+
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
+
+// API
 import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
-import JSZip from "jszip";
 import {
   createPresentationTemplate,
   createSpreadsheetTemplate,
   randomDocumentHue,
   writeWordTemplate,
 } from "../dist/documents/index.js";
+import { fileURLToPath } from "node:url";
+
+// COMPONENTS
+import JSZip from "jszip";
 
 /*//////////////////////////////////////////////////
 CONFIG
 //////////////////////////////////////////////////*/
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const packageTemplates = path.join(root, "dist/documents/templates");
 const packageOnly = process.argv[2] === "--package";
@@ -31,6 +40,7 @@ const templateHue = randomDocumentHue();
 /*//////////////////////////////////////////////////
 GENERATE TEMPLATES
 //////////////////////////////////////////////////*/
+
 for (const saturation of ["low", "medium", "high"]) {
   const pptxName = "terra-presentation-" + saturation + ".pptx";
   const potxName = "terra-presentation-" + saturation + ".potx";
@@ -54,7 +64,6 @@ for (const saturation of ["low", "medium", "high"]) {
     );
   }
 }
-
 const workbook = createSpreadsheetTemplate({
   title: "Terra project plan",
   brand: { hue: templateHue },
@@ -77,7 +86,6 @@ if (reviewOutput) {
   await fs.copyFile(docx, path.join(reviewOutput, path.basename(docx)));
   await fs.copyFile(docxDemo, path.join(reviewOutput, path.basename(docxDemo)));
 }
-
 console.log(
   JSON.stringify(
     {
@@ -93,12 +101,15 @@ console.log(
 /*//////////////////////////////////////////////////
 HELPERS
 //////////////////////////////////////////////////*/
+
 /**
  * Converts a generated PowerPoint deck into a PowerPoint template package.
  *
  * @param sourcePath - Path to the generated `.pptx` deck.
  * @param destinationPath - Path where the `.potx` package is written.
- * @returns Resolves after the converted template has been written.
+ *
+ * @return Resolves after the converted template has been written.
+ *
  * @throws If the source package has no valid PowerPoint content-type entries.
  */
 async function createPowerPointTemplate(sourcePath, destinationPath) {

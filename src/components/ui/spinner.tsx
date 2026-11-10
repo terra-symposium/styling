@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/spinner.tsx
+ * src/components/ui/spinner.tsx
  * https://ui.shadcn.com/docs/components/spinner
  */
 
@@ -21,7 +21,8 @@ COMPONENTS
  * Small SVG loading indicator with status semantics.
  *
  * @param props - SVG attributes forwarded to the loading icon.
- * @returns An SVG status icon labelled `Loading`.
+ *
+ * @return An SVG status icon labelled `Loading`.
  */
 function Spinner({
   className,
@@ -36,7 +37,5 @@ function Spinner({
     />
   );
 }
-
 Spinner.displayName = "Spinner";
-
 export { Spinner };

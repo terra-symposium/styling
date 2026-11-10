@@ -27,10 +27,6 @@ import type * as React from "react";
 import type { UiSize } from "./types.js";
 
 /*//////////////////////////////////////////////////
-TYPES
-//////////////////////////////////////////////////*/
-
-/*//////////////////////////////////////////////////
 COMPONENTS
 //////////////////////////////////////////////////*/
 
@@ -38,6 +34,7 @@ COMPONENTS
  * Root of an alert dialog that requests a user decision.
  *
  * @param props - Radix alert-dialog root props.
+ *
  * @return The Radix alert-dialog root with the shared data slot.
  */
 function AlertDialog(
@@ -50,6 +47,7 @@ function AlertDialog(
  * Portal for rendering alert-dialog content outside its parent layout.
  *
  * @param props - Radix portal props, including an optional container.
+ *
  * @return The alert-dialog portal with the shared data slot.
  */
 function AlertDialogPortal(
@@ -64,6 +62,7 @@ function AlertDialogPortal(
  * Backdrop displayed behind alert-dialog content.
  *
  * @param props - Radix overlay props and optional class name.
+ *
  * @return A fixed, animated alert-dialog backdrop.
  */
 function AlertDialogOverlay({
@@ -88,6 +87,7 @@ function AlertDialogOverlay({
  * Portaled alert-dialog surface with a size-specific maximum width.
  *
  * @param props - Radix content props, size, and optional class name.
+ *
  * @return The overlay and alert-dialog content in a portal.
  */
 function AlertDialogContent({
@@ -128,6 +128,7 @@ function AlertDialogContent({
  * Responsive heading area for an alert dialog.
  *
  * @param props - Div attributes and optional class name.
+ *
  * @return A centered or size-aligned alert-dialog header.
  */
 function AlertDialogHeader({
@@ -150,6 +151,7 @@ function AlertDialogHeader({
  * Responsive action area for an alert dialog.
  *
  * @param props - Div attributes and optional class name.
+ *
  * @return A footer that stacks actions on narrow screens and aligns them on wider screens.
  */
 function AlertDialogFooter({
@@ -172,6 +174,7 @@ function AlertDialogFooter({
  * Accessible heading for the alert dialog.
  *
  * @param props - Radix title props and optional class name.
+ *
  * @return A styled alert-dialog title.
  */
 function AlertDialogTitle({
@@ -194,6 +197,7 @@ function AlertDialogTitle({
  * Supporting description associated with the alert-dialog title.
  *
  * @param props - Radix description props and optional class name.
+ *
  * @return A styled alert-dialog description.
  */
 function AlertDialogDescription({
@@ -219,6 +223,7 @@ function AlertDialogDescription({
  * Confirms the action requested by an alert dialog.
  *
  * @param props - Radix action props, button styling, and optional loading text.
+ *
  * @return A styled action button that can display its loading label.
  */
 function AlertDialogAction({
@@ -250,6 +255,7 @@ function AlertDialogAction({
  * Cancels or dismisses an alert dialog.
  *
  * @param props - Radix cancel props and button styling.
+ *
  * @return A styled cancel button.
  */
 function AlertDialogCancel({
@@ -275,7 +281,6 @@ function AlertDialogCancel({
     </Button>
   );
 }
-
 export {
   AlertDialog,
   AlertDialogAction,

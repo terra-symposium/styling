@@ -16,9 +16,11 @@ COMPONENTS
 //////////////////////////////////////////////////*/
 
 // DOCS TOOLBAR
-/** Provides the shared sticky frame for toolbars in all Docs hosts.
+/**
+ * Provides the shared sticky frame for toolbars in all Docs hosts.
  *
  * @param props Toolbar content to place inside the frame.
+ *
  * @return A sticky, print-hidden toolbar frame.
  */
 export function DocsToolbarFrame({ children }: { children: ReactNode }) {

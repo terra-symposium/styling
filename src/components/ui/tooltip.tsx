@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/tooltip.tsx
+ * src/components/ui/tooltip.tsx
  * https://ui.shadcn.com/docs/components/tooltip
  */
 
@@ -12,8 +12,8 @@ import { cn } from "../../lib/cn.js";
 import { cva } from "class-variance-authority";
 
 // COMPONENTS
-import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import * as React from "react";
+import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 
 // DATA
 import {
@@ -24,8 +24,8 @@ import {
 } from "./variants.js";
 
 // TYPES
-import type { VariantProps } from "class-variance-authority";
 import type { UiSize } from "./types.js";
+import type { VariantProps } from "class-variance-authority";
 
 /*//////////////////////////////////////////////////
 COMPONENTS
@@ -34,10 +34,8 @@ COMPONENTS
 const TooltipProvider = TooltipPrimitive.Provider;
 const Tooltip = TooltipPrimitive.Root;
 const TooltipTrigger = TooltipPrimitive.Trigger;
-
 TooltipProvider.displayName = TooltipPrimitive.Provider.displayName;
 TooltipTrigger.displayName = TooltipPrimitive.Trigger.displayName;
-
 const tooltipVariants = cva(
   cn(
     "relative z-50 origin-[--radix-tooltip-content-transform-origin] rounded-md border",
@@ -60,7 +58,6 @@ const tooltipVariants = cva(
     defaultVariants: { size: "default" },
   },
 );
-
 const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> &
@@ -101,6 +98,7 @@ TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 /**
  * Renders the text tooltip component.
  *
+ * @param props - Tooltip text, trigger content, placement, delay, and attributes applied to the trigger.
  * @param content - Explanatory content; when empty, the trigger is returned without a tooltip.
  * @param side - Edge of the trigger where the tooltip is placed.
  * @param align - Alignment along the selected edge.
@@ -108,8 +106,8 @@ TooltipContent.displayName = TooltipPrimitive.Content.displayName;
  * @param delayDuration - Delay before the tooltip opens, passed to the Radix root.
  * @param children - Child content nested inside text tooltip's rendered output.
  * @param attrs - Additional HTML attributes passed through text tooltip.
- * @param props - Tooltip text, trigger content, placement, delay, and attributes applied to the trigger.
- * @returns The trigger content with its tooltip when explanatory text is provided.
+ *
+ * @return The trigger content with its tooltip when explanatory text is provided.
  */
 export default function TextTooltip({
   content,
@@ -157,6 +155,8 @@ export default function TextTooltip({
 /**
  * Renders the arrow component.
  *
+ * @param props
+ *
  * @return SVG Arrow element.
  */
 const Arrow = (props: React.SVGProps<SVGSVGElement>): React.JSX.Element => (
@@ -173,5 +173,4 @@ const Arrow = (props: React.SVGProps<SVGSVGElement>): React.JSX.Element => (
   </svg>
 );
 Arrow.displayName = "TooltipArrow";
-
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };

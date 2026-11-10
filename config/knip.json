@@ -2,15 +2,17 @@
   "$schema": "https://unpkg.com/knip@6/schema.json",
   "entry": [
     "src/lib/index.ts",
+    "src/lib/tailwind-preset.ts",
     "src/ui/index.ts",
     "src/components/ui/index.ts",
     "src/documents/index.ts",
     "src/styles/effects.css",
     "scripts/**/*.cjs",
+    "scripts/serve-docs-preview.mjs",
     "config/tailwind.global.config.mjs",
     "config/tailwind.postcss.config.cjs",
     "docs/styling/**/*.mdx",
-    "docs/styling/components/_ComponentTsDocs.tsx",
+    "docs/styling/1-colouring/*.tsx",
     "test/**/*.{ts,tsx}",
     "config/**/*.{js,mjs,cjs,ts}"
   ],

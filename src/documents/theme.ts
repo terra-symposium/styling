@@ -69,7 +69,7 @@ const SATURATION_CHROMA: Record<DocumentSaturation, number> = {
 const hex = (rgb: string): string =>
   `#${rgb
     .split(" ")
-    .map((channel) => Math.round(Number(channel)).toString(16).padStart(2, "0"))
+    .map((c) => Math.round(Number(c)).toString(16).padStart(2, "0"))
     .join("")}`;
 /**
  * Selects one palette entry and converts it to hexadecimal notation.

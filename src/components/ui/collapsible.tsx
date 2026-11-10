@@ -22,6 +22,7 @@ COMPONENTS
  * Root for a disclosure that can expand or collapse its content.
  *
  * @param props - Radix collapsible root props, including open state handlers.
+ *
  * @return The collapsible root with the shared data slot.
  */
 function Collapsible(
@@ -34,6 +35,7 @@ function Collapsible(
  * Control that toggles the collapsible content.
  *
  * @param props - Radix trigger props.
+ *
  * @return The collapsible trigger with the shared data slot.
  */
 function CollapsibleTrigger(
@@ -51,6 +53,7 @@ function CollapsibleTrigger(
  * Content region shown according to the collapsible's open state.
  *
  * @param props - Radix collapsible content props.
+ *
  * @return The collapsible content with the shared data slot.
  */
 function CollapsibleContent(
@@ -63,5 +66,4 @@ function CollapsibleContent(
     />
   );
 }
-
 export { Collapsible, CollapsibleTrigger, CollapsibleContent };

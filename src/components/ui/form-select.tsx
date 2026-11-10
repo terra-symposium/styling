@@ -8,9 +8,11 @@
 IMPORTS
 //////////////////////////////////////////////////*/
 
+// API
+import { useOptionalFormContext } from "./form.js";
+
 // COMPONENTS
 import * as React from "react";
-import { useOptionalFormContext } from "./form.js";
 import {
   Select,
   SelectContent,
@@ -52,6 +54,7 @@ HELPERS
  * Represents an empty selection as the absence of a value in local state.
  *
  * @param value - Selected value to normalize.
+ *
  * @return `undefined` for an empty string; otherwise the original value.
  */
 function toPrimitiveValue(value: string | undefined): string | undefined {
@@ -70,7 +73,8 @@ COMPONENTS
  * Empty-string values remain `''` in callbacks and native form submission.
  *
  * @param props - Option data or child items, form name, controlled or initial value, change callback, custom selected-value renderer, accessibility and disabled state, required state, placeholder, and trigger presentation.
- * @returns A select trigger and option panel, plus a hidden input for a named standalone field.
+ *
+ * @return A select trigger and option panel, plus a hidden input for a named standalone field.
  */
 function FormSelect({
   children,
@@ -130,7 +134,6 @@ function FormSelect({
   const [internalValue, setInternalValue] = React.useState<string | undefined>(
     () => toPrimitiveValue(defaultValue),
   );
-
   React.useEffect(() => {
     const initialValue = value ?? defaultValue;
     if (
@@ -142,7 +145,6 @@ function FormSelect({
       return;
     form.setValue(name as never, initialValue as never);
   }, [form, name, value, defaultValue]);
-
   const selectedValue = hasFormField
     ? typeof formValue === "string"
       ? formValue
@@ -214,7 +216,8 @@ function FormSelect({
  * Renders one option for `FormSelect`.
  *
  * @param props - Submitted value, optional child or label content (`children` takes precedence), and whether the option is disabled.
- * @returns A select item with the supplied content and availability state.
+ *
+ * @return A select item with the supplied content and availability state.
  */
 function FormSelectOption({
   children,
@@ -233,7 +236,8 @@ function FormSelectOption({
  * Renders a list of option data as `FormSelectOption` children.
  *
  * @param props - Option definitions to render as select items.
- * @returns A fragment containing one select item for each option.
+ *
+ * @return A fragment containing one select item for each option.
  */
 function FormSelectOpts({
   options,
@@ -254,5 +258,4 @@ function FormSelectOpts({
     </>
   );
 }
-
 export { FormSelect, FormSelectOption, FormSelectOpts };

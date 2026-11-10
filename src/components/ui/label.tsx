@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/label.tsx
+ * src/components/ui/label.tsx
  * https://ui.shadcn.com/docs/components/label
  */
 
@@ -13,6 +13,8 @@ import { cn } from "../../lib/cn.js";
 // COMPONENTS
 import * as LabelPrimitive from "@radix-ui/react-label";
 import * as React from "react";
+
+// DATA
 import { FORM_LABEL_VARIANTS } from "./variants.js";
 
 /*//////////////////////////////////////////////////
@@ -34,7 +36,5 @@ const Label = React.forwardRef<
     {...props}
   />
 ));
-
 Label.displayName = "Label";
-
 export { Label };

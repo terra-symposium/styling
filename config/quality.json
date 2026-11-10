@@ -1,8 +1,8 @@
 {
   "$schema": "../node_modules/@terra-symposium/standards-quality/quality.schema.json",
-  "root": "..",
+  "root": ".",
   "tsconfig": "config/tsconfig.json",
-  "sourceRoots": ["src", "scripts", "test"],
+  "sourceRoots": ["src", "scripts", "test", "docs"],
   "extensions": [".js", ".jsx", ".mjs", ".cjs", ".ts", ".tsx", ".mts", ".cts"],
   "singleUse": {
     "skippedDirectories": ["src", "scripts", "test"]

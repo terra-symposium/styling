@@ -36,6 +36,7 @@ export * from "./empty.js";
 export * from "./hint.js";
 export * from "./message.js";
 export * from "./message-scroller.js";
+export * from "./marquee.js";
 export * from "./progress.js";
 export * from "./skeleton.js";
 export * from "./spinner.js";

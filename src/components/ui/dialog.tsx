@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/dialog.tsx
+ * src/components/ui/dialog.tsx
  * https://ui.shadcn.com/docs/components/dialog
  */
 
@@ -13,8 +13,8 @@ import { cn } from "../../lib/cn.js";
 // COMPONENTS
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
-import { CloseLarge as CloseIcon } from "@carbon/icons-react";
 import { Button } from "./button.js";
+import { CloseLarge as CloseIcon } from "@carbon/icons-react";
 import { Hint } from "./hint.js";
 
 // DATA
@@ -186,6 +186,8 @@ DialogContent.displayName = DialogPrimitive.Content.displayName;
 /**
  * Dialog header.
  *
+ * @param props
+ *
  * @return A dialog header container, optionally hidden from visual layout.
  */
 const DialogHeader = ({
@@ -210,6 +212,8 @@ DialogHeader.displayName = "DialogHeader";
 // FOOTER
 /**
  * Dialog footer.
+ *
+ * @param props
  *
  * @return A dialog footer with optional close action and grid layout.
  */

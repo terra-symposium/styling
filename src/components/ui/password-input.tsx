@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/password-input.tsx
+ * src/components/ui/password-input.tsx
  * https://ui.shadcn.com/docs/components/input
  * Password input with an accessible visibility toggle.
  */
@@ -13,9 +13,9 @@ import { cn } from "../../lib/cn.js";
 
 // COMPONENTS
 import * as React from "react";
-import { View as ViewIcon, ViewOff as ViewOffIcon } from "@carbon/icons-react";
 import { Button } from "./button.js";
 import { Input } from "./input.js";
+import { View as ViewIcon, ViewOff as ViewOffIcon } from "@carbon/icons-react";
 
 // TYPES
 import type { InputProps } from "./types.js";

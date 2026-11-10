@@ -34,10 +34,11 @@ Reserve `className` for layout or genuine one-off geometry not owned by the comp
 The shared axes live in `astro/src/lib/types.tsx`:
 
 - `UiSize` is `xs | sm | md | lg | xl`.
-- `UiColor` is `primary | secondary | gray | destructive`.
-- `UiType` is `default | outline | ghost | tonal | saturated | link | underline`.
+- `UiColor` is `primary | secondary | gray | destructive | success | caution`.
+- `UiType` is `default | outline | ghost | tonal | saturated | underline | glass`; button links use the underline treatment.
 - A plain color key represents the default treatment. Combined matrix keys use `color-type`; do not create `primary-default` unless a real public API requires it.
-- Each family gets a narrower type: actions exclude surface-only treatments, surfaces exclude action-only links, and form controls expose only treatments that make sense for fields.
+- Each family gets a narrower type: actions exclude surface-only treatments, surfaces exclude action-only underline, and form controls expose only treatments that make sense for fields.
+- Cards accept explicit color/treatment combinations without a `default` treatment; their default variant is `primary-tonal`.
 - `UiSize` shares the scale keys, not a universal set of pixel dimensions. Preserve geometry appropriate to buttons, fields, cards, tooltips, and menus.
 
 The canonical shared families in `variants.ts` are:

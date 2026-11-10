@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/pagination.tsx
+ * src/components/ui/pagination.tsx
  * https://ui.shadcn.com/docs/components/pagination
  */
 
@@ -12,11 +12,11 @@ import { cn } from "../../lib/cn.js";
 
 // COMPONENTS
 import * as React from "react";
+import { Button, ButtonLink } from "./button.js";
 import {
   ChevronLeft as PrevIcon,
   ChevronRight as NextIcon,
 } from "@carbon/icons-react";
-import { Button, ButtonLink } from "./button.js";
 
 /*//////////////////////////////////////////////////
 COMPONENTS
@@ -25,8 +25,9 @@ COMPONENTS
 /**
  * Renders the pagination component.
  *
- * @param className - Optional class name applied to the pagination element.
  * @param props - Additional pagination props forwarded to the primitive.
+ * @param className - Optional class name applied to the pagination element.
+ *
  * @return A labeled navigation container for page controls.
  */
 const Pagination = ({
@@ -78,11 +79,12 @@ const PaginationItem = React.forwardRef<
 /**
  * Renders the pagination link component.
  *
+ * @param props - Additional link props forwarded to the primitive.
  * @param isActive - Whether the link represents the current page.
  * @param disabled - Whether the link should reject interaction.
  * @param size - Link size variant used by the pagination control.
  * @param onClick - Callback invoked when the link is selected.
- * @param props - Additional link props forwarded to the primitive.
+ *
  * @return A link styled and announced according to its page state.
  */
 const PaginationLink = ({
@@ -122,8 +124,9 @@ const PaginationLink = ({
 /**
  * Pagination previous.
  *
- * @param className - Optional class name applied to the pagination control.
  * @param props - Additional pagination props forwarded to the primitive.
+ * @param className - Optional class name applied to the pagination control.
+ *
  * @return A control that links to the previous page.
  */
 const PaginationPrevious = ({
@@ -144,8 +147,9 @@ const PaginationPrevious = ({
 /**
  * Pagination next.
  *
- * @param className - Optional class name applied to the pagination control.
  * @param props - Additional pagination props forwarded to the primitive.
+ * @param className - Optional class name applied to the pagination control.
+ *
  * @return A control that links to the next page.
  */
 const PaginationNext = ({
@@ -162,10 +166,8 @@ const PaginationNext = ({
     <NextIcon className="size-4" aria-hidden="true" />
   </PaginationLink>
 );
-
 PaginationContent.displayName = "PaginationContent";
 PaginationItem.displayName = "PaginationItem";
-
 export {
   Pagination,
   PaginationContent,

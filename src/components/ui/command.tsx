@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/command.tsx
+ * src/components/ui/command.tsx
  * https://ui.shadcn.com/docs/components/command
  */
 
@@ -46,9 +46,10 @@ const Command = React.forwardRef<
 /**
  * Command dialog.
  *
+ * @param props - Additional command props forwarded to the primitive.
  * @param children - Command content rendered inside the control.
  * @param size - Command size variant used by the control.
- * @param props - Additional command props forwarded to the primitive.
+ *
  * @return A command palette displayed inside the shared dialog primitive.
  */
 const CommandDialog = ({
@@ -278,6 +279,8 @@ export function SearchEmpty({ query }: { query: string }): React.JSX.Element {
 
 /**
  * Searchable command dialog with a shared empty-results fallback.
+ *
+ * @param props
  *
  * @return Command dialog with its header, input, toolbar, and result list.
  */

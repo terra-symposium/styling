@@ -2,7 +2,6 @@
  * src/components/forms.tsx
  * Data-driven shared form controls and layouts.
  * https://ui.shadcn.com/docs/components/base/field
- *
  * FormFieldLayout is intentionally distinct from the React Hook Form-bound
  * FormField export in ui/form.tsx. It can render native or controlled fields
  * without requiring an ActionForm or FormProvider.
@@ -19,9 +18,9 @@ import { cn } from "../lib/cn.js";
 import * as React from "react";
 import { Button } from "./ui/button.js";
 import { Checkbox } from "./ui/checkbox.js";
+import { FormSelect } from "./ui/form-select.js";
 import { Input } from "./ui/input.js";
 import { Label } from "./ui/label.js";
-import { FormSelect } from "./ui/form-select.js";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group.js";
 import { Textarea } from "./ui/textarea.js";
 import {
@@ -193,9 +192,11 @@ HELPERS
 //////////////////////////////////////////////////*/
 
 // LAYOUT CLASS RESOLUTION
-/** Resolves a named field-grid layout to its shared classes.
+/**
+ * Resolves a named field-grid layout to its shared classes.
  *
  * @param layout Named layout to resolve.
+ *
  * @return CSS classes for the requested layout.
  */
 export function formLayoutClassName(layout: FormLayout): string {
@@ -212,6 +213,7 @@ COMPONENTS
  * This layout is independent of React Hook Form's FormField controller.
  *
  * @param props Label, control, and supporting feedback; `htmlFor` associates the label and scopes feedback ids.
+ *
  * @return A labelled field layout with its description and error feedback.
  */
 export function FormFieldLayout({
@@ -278,7 +280,6 @@ export function FormFieldLayout({
       </Tooltip>
     </TooltipProvider>
   );
-
   if (orientation === "horizontal") {
     return (
       <div
@@ -314,7 +315,6 @@ export function FormFieldLayout({
       </div>
     );
   }
-
   return (
     <div className={cn("grid gap-2", className)}>
       <Label htmlFor={htmlFor} className={labelClassName}>
@@ -335,9 +335,11 @@ export function FormFieldLayout({
   );
 }
 
-/** Renders error content in the shared accessible alert style.
+/**
+ * Renders error content in the shared accessible alert style.
  *
  * @param props Error content and optional element id.
+ *
  * @return An alert paragraph containing the error content.
  */
 function FormErrText({
@@ -369,9 +371,11 @@ function FormErrText({
 }
 
 // MAPPED FIELD CONTROLS
-/** Renders shared field error feedback alongside a control outside a form layout.
+/**
+ * Renders shared field error feedback alongside a control outside a form layout.
  *
  * @param props Field definition whose error should be displayed.
+ *
  * @return Error feedback, or null when `field.error` is falsy.
  */
 export function MappedFormFieldError({
@@ -386,9 +390,11 @@ export function MappedFormFieldError({
   );
 }
 
-/** Renders a field definition's control without its labelled layout wrapper.
+/**
+ * Renders a field definition's control without its labelled layout wrapper.
  *
  * @param props Field definition describing the control to render.
+ *
  * @return The mapped control or supplied custom control.
  */
 export function MappedFormControl({
@@ -523,7 +529,7 @@ export function MappedFormControl({
         defaultChecked={f.defaultChecked}
         disabled={f.disabled}
         required={f.required}
-        onCheckedChange={(value) => f.onCheckedChange?.(value === true)}
+        onCheckedChange={(v) => f.onCheckedChange?.(v === true)}
         className={f.controlClassName}
       />
     );
@@ -538,20 +544,20 @@ export function MappedFormControl({
         disabled={f.disabled}
         onValueChange={f.onValueChange}
       >
-        {f.options.map((option) => {
-          const optionId = `${id ?? "radio"}-${option.value}`;
+        {f.options.map((o) => {
+          const optionId = `${id ?? "radio"}-${o.value}`;
           return (
             <Label
-              key={option.value}
+              key={o.value}
               htmlFor={optionId}
               className="flex items-center gap-2"
             >
               <RadioGroupItem
                 id={optionId}
-                value={option.value}
-                disabled={option.disabled}
+                value={o.value}
+                disabled={o.disabled}
               />
-              {option.label}
+              {o.label}
             </Label>
           );
         })}
@@ -571,9 +577,11 @@ export function MappedFormControl({
 }
 
 // FIELD GRID
-/** Renders field definitions as a consistent grid of labelled controls.
+/**
+ * Renders field definitions as a consistent grid of labelled controls.
  *
  * @param props Field definitions and layout or styling options; `data` takes precedence over `fields`.
+ *
  * @return A grid containing the labelled field controls.
  */
 export function MappedFormFields({
@@ -595,31 +603,29 @@ export function MappedFormFields({
   const fieldData = data ?? fields ?? [];
   return (
     <div className={cn(formLayoutClassName(layout), className)}>
-      {fieldData.map((field, i) => {
-        const suppliedId =
-          field.id ?? ("name" in field ? field.name : undefined);
-        const hasCustomControl =
-          "control" in field && field.control !== undefined;
+      {fieldData.map((f, i) => {
+        const suppliedId = f.id ?? ("name" in f ? f.name : undefined);
+        const hasCustomControl = "control" in f && f.control !== undefined;
         const id =
           suppliedId ?? (hasCustomControl ? undefined : `${genId}-${i}`);
         const orientation =
-          field.type === "checkbox"
-            ? (field as MappedCheckboxFormField).orientation
+          f.type === "checkbox"
+            ? (f as MappedCheckboxFormField).orientation
             : undefined;
         return (
           <FormFieldLayout
-            key={field.key ?? `${String(field.label)}-${i}`}
-            label={field.label}
-            required={field.required}
+            key={f.key ?? `${String(f.label)}-${i}`}
+            label={f.label}
+            required={f.required}
             htmlFor={id}
-            className={cn(fieldClassName, field.className)}
-            labelClassName={field.labelClassName ?? labelClassName}
+            className={cn(fieldClassName, f.className)}
+            labelClassName={f.labelClassName ?? labelClassName}
             orientation={orientation}
-            description={field.description}
-            helper={field.helper}
-            error={field.error}
+            description={f.description}
+            helper={f.helper}
+            error={f.error}
           >
-            <MappedFormControl field={field} id={id} />
+            <MappedFormControl field={f} id={id} />
           </FormFieldLayout>
         );
       })}
@@ -628,9 +634,11 @@ export function MappedFormFields({
 }
 
 // CONFIRMATION ACTIONS
-/** Renders the shared inline cancel and confirm buttons.
+/**
+ * Renders the shared inline cancel and confirm buttons.
  *
  * @param props Cancel and confirm handlers, labels, and disabled or busy state; busy disables cancel by default.
+ *
  * @return An inline group of cancel and confirm buttons.
  */
 export function ConfirmationActions({

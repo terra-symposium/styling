@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/tabs.tsx
+ * src/components/ui/tabs.tsx
  * https://ui.shadcn.com/docs/components/tabs
  */
 
@@ -9,19 +9,22 @@ IMPORTS
 
 // API
 import { cn } from "../../lib/cn.js";
-import { ACTION_VARIANTS, FOCUS_VISIBLE_VARIANTS } from "./variants.js";
-import type { ButtonVariant } from "./types.js";
 
 // COMPONENTS
 import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
+
+// DATA
+import { ACTION_VARIANTS, FOCUS_VISIBLE_VARIANTS } from "./variants.js";
+
+// TYPES
+import type { ButtonVariant } from "./types.js";
 
 /*//////////////////////////////////////////////////
 CONFIG
 //////////////////////////////////////////////////*/
 
 const Tabs = TabsPrimitive.Root;
-
 /**
  * Tabs list container primitive.
  *
@@ -47,7 +50,6 @@ const TabsList = React.forwardRef<
     {...props}
   />
 ));
-
 /**
  * Tabs trigger button primitive.
  *
@@ -89,7 +91,6 @@ const TabsTrigger = React.forwardRef<
     );
   },
 );
-
 /**
  * Tabs content panel primitive.
  *
@@ -109,9 +110,7 @@ const TabsContent = React.forwardRef<
     {...props}
   />
 ));
-
 TabsList.displayName = TabsPrimitive.List.displayName;
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 TabsContent.displayName = TabsPrimitive.Content.displayName;
-
 export { Tabs, TabsList, TabsTrigger, TabsContent };

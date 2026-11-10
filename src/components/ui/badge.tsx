@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/badge.tsx
+ * src/components/ui/badge.tsx
  * https://ui.shadcn.com/docs/components/badge
  */
 
@@ -20,7 +20,6 @@ import { FOCUS_VISIBLE_VARIANTS, SURFACE_VARIANTS } from "./variants.js";
 
 // TYPES
 import type { SurfaceMatrixVariant, UiColor, UiSize } from "./types.js";
-
 type BadgeVariant = SurfaceMatrixVariant | `${UiColor}-default`;
 const BADGE_COLORS: readonly UiColor[] = [
   "primary",

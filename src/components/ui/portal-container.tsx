@@ -38,6 +38,7 @@ COMPONENTS
  * Makes a portal target available to descendant components.
  *
  * @param props - The children to render and target element, or `null` while no target is mounted.
+ *
  * @return The children rendered under the portal-target context.
  */
 export function PortalContainerProvider({

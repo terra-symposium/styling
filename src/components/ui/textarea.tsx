@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/textarea.tsx
+ * src/components/ui/textarea.tsx
  * https://ui.shadcn.com/docs/components/textarea
  */
 
@@ -10,10 +10,12 @@ IMPORTS
 // API
 import { cn } from "../../lib/cn.js";
 import { useOptionalFormContext } from "./form.js";
-import { FORM_CONTROL_VARIANTS } from "./variants.js";
 
 // COMPONENTS
 import * as React from "react";
+
+// DATA
+import { FORM_CONTROL_VARIANTS } from "./variants.js";
 
 // TYPES
 import type { FieldValues } from "react-hook-form";

@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/form.tsx
+ * src/components/ui/form.tsx
  * https://ui.shadcn.com/docs/components/form
  * Prefer this component with react-hook-form and a Zod schema for every
  * user-facing form that contains a visible input.
@@ -21,11 +21,12 @@ IMPORTS
 
 // API
 import { cn } from "../../lib/cn.js";
-import { Controller, FormProvider, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
 // COMPONENTS
 import * as LabelPrimitive from "@radix-ui/react-label";
 import * as React from "react";
+import { Controller, FormProvider } from "react-hook-form";
 import { Slot } from "@radix-ui/react-slot";
 
 // DATA
@@ -38,8 +39,7 @@ import type {
   FieldValues,
   UseFormReturn,
 } from "react-hook-form";
-import type { FormFieldCtxVal } from "./types.js";
-import type { IdArgs } from "./types.js";
+import type { FormFieldCtxVal, IdArgs } from "./types.js";
 
 /*//////////////////////////////////////////////////
 INTERNAL CONTEXT
@@ -72,6 +72,7 @@ HOOKS
  * Reads the current field name, generated accessibility IDs, and validation state.
  *
  * @return Metadata and validation state for the field rendered by `FormField`.
+ *
  * @throws Error when called outside a `FormField` context.
  */
 const useFormField = () => {
@@ -93,6 +94,7 @@ const useFormField = () => {
  * Form field.
  *
  * @param props - Form control props forwarded to the rendered field.
+ *
  * @return A controller connected to the current form field context.
  */
 const FormField = <

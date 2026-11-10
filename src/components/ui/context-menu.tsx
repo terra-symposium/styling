@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/context-menu.tsx
+ * src/components/ui/context-menu.tsx
  * https://ui.shadcn.com/docs/components/context-menu
  */
 
@@ -9,14 +9,7 @@ IMPORTS
 
 // API
 import { cn } from "../../lib/cn.js";
-import {
-  MENU_ITEM,
-  MENU_ITEM_INDICATOR,
-  menuItemVariants,
-  OVERLAY_MOTION_VARIANTS,
-  OVERLAY_SURFACE_VARIANTS,
-  RADIX_SIDE_POSITION_VARIANTS,
-} from "./variants.js";
+import { menuItemVariants } from "./variants.js";
 
 // COMPONENTS
 import * as ContextMenuPrimitive from "@radix-ui/react-context-menu";
@@ -26,6 +19,15 @@ import {
   ChevronRight as SubmenuIcon,
   CircleSolid as RadioIcon,
 } from "@carbon/icons-react";
+
+// DATA
+import {
+  MENU_ITEM,
+  MENU_ITEM_INDICATOR,
+  OVERLAY_MOTION_VARIANTS,
+  OVERLAY_SURFACE_VARIANTS,
+  RADIX_SIDE_POSITION_VARIANTS,
+} from "./variants.js";
 
 // TYPES
 import type { VariantProps } from "class-variance-authority";
@@ -46,7 +48,6 @@ const ContextMenuSub = ContextMenuPrimitive.Sub;
 const ContextMenuRadioGroup = Object.assign(ContextMenuPrimitive.RadioGroup, {
   displayName: ContextMenuPrimitive.RadioGroup.displayName,
 });
-
 const classes = {
   item: cn(
     "relative flex cursor-default select-none items-center rounded-sm px-2 py-1 text-sm outline-none focus:ring-0",
@@ -251,7 +252,6 @@ const ContextMenuShortcut = Object.assign(
   },
   { displayName: "ContextMenuShortcut" },
 );
-
 ContextMenuTrigger.displayName = ContextMenuPrimitive.Trigger.displayName;
 ContextMenuSub.displayName = ContextMenuPrimitive.Sub.displayName;
 ContextMenuSubTrigger.displayName = ContextMenuPrimitive.SubTrigger.displayName;
@@ -259,7 +259,6 @@ ContextMenuSubContent.displayName = ContextMenuPrimitive.SubContent.displayName;
 ContextMenuContent.displayName = ContextMenuPrimitive.Content.displayName;
 ContextMenuItem.displayName = ContextMenuPrimitive.Item.displayName;
 ContextMenuSeparator.displayName = ContextMenuPrimitive.Separator.displayName;
-
 export {
   ContextMenu,
   ContextMenuTrigger,

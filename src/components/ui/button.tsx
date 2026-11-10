@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/button.tsx
+ * src/components/ui/button.tsx
  * https://ui.shadcn.com/docs/components/button
  */
 
@@ -9,20 +9,23 @@ IMPORTS
 
 // API
 import { cn } from "../../lib/cn.js";
+import { useFormStatus } from "react-dom";
+import { useOptionalFormContext } from "./form.js";
 
 // COMPONENTS
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { Spinner } from "./spinner.js";
-import { useFormStatus } from "react-dom";
-import { useOptionalFormContext } from "./form.js";
 
 // DATA
 import { ACTION_VARIANTS } from "./variants.js";
 
 // TYPES
-import type { UiButtonButtonProps as ButtonProps } from "./types.js";
-import type { ButtonSize, ButtonVariant } from "./types.js";
+import type {
+  ButtonSize,
+  ButtonVariant,
+  UiButtonButtonProps as ButtonProps,
+} from "./types.js";
 
 /*//////////////////////////////////////////////////
 COMPONENTS
@@ -118,7 +121,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 /**
- * Anchor element styled to match button variants.
+ * Anchor element styled to match button variants; defaults to the underline treatment.
  */
 const ButtonLink = React.forwardRef<
   HTMLAnchorElement,
@@ -132,7 +135,7 @@ const ButtonLink = React.forwardRef<
     {
       children,
       className,
-      variant = "primary-default",
+      variant = "underline",
       size = "md",
       controlEnvironment,
       ...props
@@ -167,8 +170,6 @@ const ButtonLink = React.forwardRef<
     );
   },
 );
-
 Button.displayName = "Button";
 ButtonLink.displayName = "ButtonLink";
-
 export { Button, ButtonLink };

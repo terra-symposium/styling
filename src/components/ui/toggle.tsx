@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/toggle.tsx
+ * src/components/ui/toggle.tsx
  * https://ui.shadcn.com/docs/components/toggle
  */
 
@@ -14,11 +14,11 @@ import { cn } from "../../lib/cn.js";
 import * as React from "react";
 import * as TogglePrimitive from "@radix-ui/react-toggle";
 
-// TYPES
-import type { VariantProps } from "class-variance-authority";
-
 // DATA
 import { TOGGLE_VARIANTS } from "./variants.js";
+
+// TYPES
+import type { VariantProps } from "class-variance-authority";
 
 /*//////////////////////////////////////////////////
 COMPONENTS

@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/table.tsx
+ * src/components/ui/table.tsx
  * https://ui.shadcn.com/docs/components/table
  */
 
@@ -157,14 +157,12 @@ const TableCaption = Object.assign(
   )),
   { displayName: "TableCaption" },
 );
-
 Table.displayName = "Table";
 TableHeader.displayName = "TableHeader";
 TableBody.displayName = "TableBody";
 TableRow.displayName = "TableRow";
 TableHead.displayName = "TableHead";
 TableCell.displayName = "TableCell";
-
 export {
   Table,
   TableHeader,

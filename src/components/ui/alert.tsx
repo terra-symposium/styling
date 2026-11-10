@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/alert.tsx
+ * src/components/ui/alert.tsx
  * https://ui.shadcn.com/docs/components/alert
  */
 
@@ -13,10 +13,12 @@ import { cva } from "class-variance-authority";
 
 // COMPONENTS
 import * as React from "react";
-import type { VariantProps } from "class-variance-authority";
 
 // DATA
 import { SURFACE_VARIANTS } from "./variants.js";
+
+// TYPES
+import type { VariantProps } from "class-variance-authority";
 
 /*//////////////////////////////////////////////////
 COMPONENTS
@@ -102,6 +104,7 @@ type AlertStatusProps = {
  * @param variant - Surface variant applied to the alert.
  * @param defaultTitle - Status title used when no custom title is supplied.
  * @param props - Optional alert title, description, content, ID, and class name.
+ *
  * @return An alert with a heading and supporting description.
  */
 function statusAlert(
@@ -131,6 +134,7 @@ function statusAlert(
  * Renders an alert for destructive error feedback.
  *
  * @param props - Optional title, description, body content, ID, and class name.
+ *
  * @return A destructive alert titled `Error` unless a custom title is provided.
  */
 export function AlertError(props: AlertStatusProps): React.JSX.Element {
@@ -141,6 +145,7 @@ export function AlertError(props: AlertStatusProps): React.JSX.Element {
  * Renders an alert for successful completion feedback.
  *
  * @param props - Optional title, description, body content, ID, and class name.
+ *
  * @return A success alert titled `Success` unless a custom title is provided.
  */
 export function AlertSuccess(props: AlertStatusProps): React.JSX.Element {
@@ -151,6 +156,7 @@ export function AlertSuccess(props: AlertStatusProps): React.JSX.Element {
  * Renders an alert for warnings that need attention.
  *
  * @param props - Optional title, description, body content, ID, and class name.
+ *
  * @return A caution-toned alert titled `Warning` unless a custom title is provided.
  */
 export function AlertWarning(props: AlertStatusProps): React.JSX.Element {
@@ -161,6 +167,7 @@ export function AlertWarning(props: AlertStatusProps): React.JSX.Element {
  * Renders an informational alert.
  *
  * @param props - Optional title, description, body content, ID, and class name.
+ *
  * @return A secondary-toned alert titled `Information` unless a custom title is provided.
  */
 export function AlertInfo(props: AlertStatusProps): React.JSX.Element {

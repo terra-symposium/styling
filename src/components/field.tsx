@@ -55,9 +55,11 @@ COMPONENTS
 //////////////////////////////////////////////////*/
 
 // FIELD GROUP
-/** Groups a form control with its label and supporting content.
+/**
+ * Groups a form control with its label and supporting content.
  *
  * @param props Orientation selects vertical, horizontal, or container-responsive layout; remaining div props go to the group.
+ *
  * @return A field group with the requested orientation.
  */
 export function Field({
@@ -82,9 +84,11 @@ export function Field({
 }
 
 // LABEL AND DESCRIPTION
-/** Labels a field and exposes focus and checked state to the containing layout.
+/**
+ * Labels a field and exposes focus and checked state to the containing layout.
  *
  * @param props Label content, associated control id, and other label properties.
+ *
  * @return A label styled for the shared field layout.
  */
 export function FieldLabel({
@@ -104,9 +108,11 @@ export function FieldLabel({
   );
 }
 
-/** Displays optional supporting instructions under a field.
+/**
+ * Displays optional supporting instructions under a field.
  *
  * @param props Description content and paragraph properties.
+ *
  * @return A muted field-description paragraph.
  */
 export function FieldDescription({
@@ -128,9 +134,11 @@ export function FieldDescription({
 }
 
 // VALIDATION FEEDBACK
-/** Displays explicit content or unique validation messages in an alert.
+/**
+ * Displays explicit content or unique validation messages in an alert.
  *
  * @param props Explicit content, fallback error messages, and div properties.
+ *
  * @return An alert containing explicit or error messages, or null when children and errors are absent.
  */
 export function FieldError({
@@ -143,17 +151,13 @@ export function FieldError({
 }): React.JSX.Element | null {
   let content = children;
   if (!content && errs?.length) {
-    const uniqueErrs = [
-      ...new Map(errs.map((error) => [error?.message, error])).values(),
-    ];
+    const uniqueErrs = [...new Map(errs.map((e) => [e?.message, e])).values()];
     content =
       uniqueErrs.length === 1 ? (
         uniqueErrs[0]?.message
       ) : (
         <ul className="ml-4 flex list-disc flex-col gap-1">
-          {uniqueErrs.map(
-            (error, i) => error?.message && <li key={i}>{error.message}</li>,
-          )}
+          {uniqueErrs.map((e, i) => e?.message && <li key={i}>{e.message}</li>)}
         </ul>
       );
   }

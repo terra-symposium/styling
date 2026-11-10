@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/separator.tsx
+ * src/components/ui/separator.tsx
  * https://ui.shadcn.com/docs/components/separator
  */
 
@@ -45,7 +45,5 @@ const Separator = React.forwardRef<
     />
   ),
 );
-
 Separator.displayName = SeparatorPrimitive.Root.displayName;
-
 export { Separator };

@@ -1,16 +1,22 @@
+/**
+ * src/documents/presentation.ts
+ */
+
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
+
+// API
 import fs from "node:fs/promises";
 import path from "node:path";
+import { createDocumentBrand } from "./theme.js";
 import { createRequire } from "node:module";
-import JSZip from "jszip";
-import {
-  createDocumentBrand,
-  type TerraDocumentBrand,
-  type TerraDocumentBrandOptions,
-} from "./theme.js";
 
+// COMPONENTS
+import JSZip from "jszip";
+
+// TYPES
+import type { TerraDocumentBrand, TerraDocumentBrandOptions } from "./theme.js";
 type TerraSlide = {
   background: { color: string };
   addText: (value: string, options: Record<string, unknown>) => void;
@@ -33,7 +39,6 @@ type TerraPresentation = {
 };
 const require = createRequire(import.meta.url);
 const PptxGenJS = require("pptxgenjs") as new () => TerraPresentation;
-
 export type PresentationTemplateOptions = {
   title?: string;
   subtitle?: string;
@@ -45,11 +50,13 @@ export type PresentationTemplateOptions = {
 /*//////////////////////////////////////////////////
 PRESENTATION HELPERS
 //////////////////////////////////////////////////*/
+
 /**
  * Converts a CSS hex color to the uppercase format expected by Office.
  *
  * @param value - CSS hex color with or without a leading hash.
- * @returns The uppercase hexadecimal color without a leading hash.
+ *
+ * @return The uppercase hexadecimal color without a leading hash.
  */
 const officeColor = (value: string): string =>
   value.replace(/^#/, "").toUpperCase();
@@ -58,7 +65,8 @@ const officeColor = (value: string): string =>
  *
  * @param scale - Light and dark RGB channel values for one color scale.
  * @param index - Palette position to format.
- * @returns The selected light color as a hash-prefixed hex string.
+ *
+ * @return The selected light color as a hash-prefixed hex string.
  */
 const scaleToken = (
   scale: { light: readonly string[]; dark: readonly string[] },
@@ -66,7 +74,7 @@ const scaleToken = (
 ): string =>
   "#" +
   scale.light[index]!.split(" ")
-    .map((channel) => Math.round(Number(channel)).toString(16).padStart(2, "0"))
+    .map((c) => Math.round(Number(c)).toString(16).padStart(2, "0"))
     .join("");
 /**
  * Builds common text styling for a PowerPoint text object.
@@ -75,7 +83,8 @@ const scaleToken = (
  * @param fontSize - Text size in points.
  * @param colorValue - CSS hex color used for the text.
  * @param extra - Additional PptxGenJS text options that override defaults.
- * @returns The normalized text options with color, font, and zero margin.
+ *
+ * @return The normalized text options with color, font, and zero margin.
  */
 const textOptions = (
   fontFace: string,
@@ -96,7 +105,8 @@ const textOptions = (
  * @param value - Text content to add.
  * @param style - Text styling options.
  * @param position - Position and dimensions in slide units.
- * @returns Nothing; the slide is updated in place.
+ *
+ * @return Nothing; the slide is updated in place.
  */
 const addText = (
   slide: TerraSlide,
@@ -112,7 +122,8 @@ const addText = (
  *
  * @param brand - Resolved brand configuration for the deck.
  * @param dark - Whether the master uses a dark background.
- * @returns The logo object list, empty when the selected logo is disabled.
+ *
+ * @return The logo object list, empty when the selected logo is disabled.
  */
 function logoMasterObjects(
   brand: TerraDocumentBrand,
@@ -157,11 +168,13 @@ function logoMasterObjects(
 /*//////////////////////////////////////////////////
 PRESENTATION TEMPLATE
 //////////////////////////////////////////////////*/
+
 /**
  * Creates a five-slide, native PowerPoint starter deck with editable layouts and a UI-matched table.
  *
  * @param options - Optional deck title, subtitle, and Terra brand settings.
- * @returns A PptxGenJS presentation whose write operation applies the brand palette.
+ *
+ * @return A PptxGenJS presentation whose write operation applies the brand palette.
  */
 export function createPresentationTemplate(
   options: PresentationTemplateOptions = {},
@@ -196,7 +209,8 @@ export function createPresentationTemplate(
    * @param title - Unique master name.
    * @param background - CSS hex color used for the background.
    * @param layout - Named layout variant used to choose foreground treatment.
-   * @returns Nothing; the master is registered on the presentation.
+   *
+   * @return Nothing; the master is registered on the presentation.
    */
   const registerMaster = (
     title: string,
@@ -239,7 +253,8 @@ export function createPresentationTemplate(
    *
    * @param title - Unique master name.
    * @param layout - Named layout variant used to position its placeholders.
-   * @returns Nothing; the master is registered on the presentation.
+   *
+   * @return Nothing; the master is registered on the presentation.
    */
   const registerEditableMaster = (
     title: string,
@@ -404,17 +419,17 @@ export function createPresentationTemplate(
       ["Type", "Use Authentic Sans for reading."],
       ["Space", "Give each idea room to land."],
     ];
-    principles.forEach(([label, detail], i) => {
+    principles.forEach(([l, d], i) => {
       const x = 0.62 + i * 3.95;
+      addText(slide, l!, textOptions(brand.fonts.body, 15, c.primaryStrong), {
+        x,
+        y: 5.0,
+        w: 3.3,
+        h: 0.3,
+      });
       addText(
         slide,
-        label!,
-        textOptions(brand.fonts.body, 15, c.primaryStrong),
-        { x, y: 5.0, w: 3.3, h: 0.3 },
-      );
-      addText(
-        slide,
-        detail!,
+        d!,
         textOptions(brand.fonts.body, 11, c.muted, { fit: "shrink" }),
         { x, y: 5.42, w: 3.45, h: 0.48 },
       );
@@ -493,7 +508,8 @@ export function createPresentationTemplate(
      *
      * @param text - Cell text content.
      * @param options - Optional cell styling overrides.
-     * @returns A PptxGenJS table cell value and options pair.
+     *
+     * @return A PptxGenJS table cell value and options pair.
      */
     const cell = (text: string, options: Record<string, unknown> = {}) => ({
       text,
@@ -601,7 +617,8 @@ export function createPresentationTemplate(
  *
  * @param presentationPath - Path to the `.pptx` file whose theme will be updated.
  * @param brandOrOptions - Existing brand or options used to generate one.
- * @returns Resolves after the theme palette and package content types are finalized.
+ *
+ * @return Resolves after the theme palette and package content types are finalized.
  */
 export async function applyPresentationBrand(
   presentationPath: string,
@@ -620,7 +637,9 @@ export async function applyPresentationBrand(
  * @param sourcePath - Existing generated presentation to edit.
  * @param destinationPath - Path where the edited presentation is written.
  * @param replacements - Map of exact source text to replacement text.
- * @returns Resolves after matching slide text has been replaced.
+ *
+ * @return Resolves after matching slide text has been replaced.
+ *
  * @throws If none of the requested source text occurs in slide parts.
  */
 export async function editPresentationTemplate(
@@ -628,8 +647,8 @@ export async function editPresentationTemplate(
   destinationPath: string,
   replacements: Record<string, string>,
 ): Promise<void> {
-  await replaceOfficeText(sourcePath, destinationPath, replacements, (name) =>
-    /^ppt\/slides\/slide\d+\.xml$/.test(name),
+  await replaceOfficeText(sourcePath, destinationPath, replacements, (n) =>
+    /^ppt\/slides\/slide\d+\.xml$/.test(n),
   );
 }
 
@@ -640,7 +659,9 @@ export async function editPresentationTemplate(
  * @param destinationPath - Path where the updated package is written.
  * @param replacements - Map of exact source text to replacement text.
  * @param include - Predicate selecting package entry names eligible for replacement.
- * @returns Resolves after the updated package has been written.
+ *
+ * @return Resolves after the updated package has been written.
+ *
  * @throws If none of the requested text occurs in selected entries.
  */
 export async function replaceOfficeText(
@@ -684,7 +705,9 @@ export async function replaceOfficeText(
  *
  * @param presentationPath - Path to the generated PPTX file to update.
  * @param brand - Resolved palette and color roles applied to the deck.
- * @returns Resolves after the presentation package has been rewritten.
+ *
+ * @return Resolves after the presentation package has been rewritten.
+ *
  * @throws If required presentation package parts are missing.
  */
 async function finalizePresentation(
@@ -700,8 +723,8 @@ async function finalizePresentation(
   let xml = await contentTypes.async("string");
   xml = xml.replace(
     /<Override\b[^>]*\bPartName="([^"]+)"[^>]*\/>/g,
-    (entry, partName: string) => {
-      return zip.file(partName.replace(/^\//, "")) ? entry : "";
+    (e, p: string) => {
+      return zip.file(p.replace(/^\//, "")) ? e : "";
     },
   );
   zip.file("[Content_Types].xml", xml);
@@ -759,7 +782,8 @@ async function finalizePresentation(
  * Escapes XML-sensitive characters in text content.
  *
  * @param value - Text to escape.
- * @returns The value with XML entities substituted for reserved characters.
+ *
+ * @return The value with XML entities substituted for reserved characters.
  */
 const escapeXml = (value: string): string =>
   value

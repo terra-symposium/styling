@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/progress.tsx
+ * src/components/ui/progress.tsx
  * https://ui.shadcn.com/docs/components/progress
  */
 
@@ -26,7 +26,8 @@ COMPONENTS
  * accessible label when neither `aria-label` nor `aria-labelledby` is provided.
  *
  * @param props - Radix progress settings, numeric value, and accessible naming attributes.
- * @returns A progressbar root and its visual indicator.
+ *
+ * @return A progressbar root and its visual indicator.
  */
 export function Progress({
   className,

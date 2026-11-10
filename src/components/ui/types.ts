@@ -8,25 +8,23 @@ IMPORTS
 //////////////////////////////////////////////////*/
 
 // TYPES
-import type * as DialogPrimitive from "@radix-ui/react-dialog";
-import type { VariantProps } from "class-variance-authority";
 import type * as CommandPrimitive from "cmdk";
+import type * as DialogPrimitive from "@radix-ui/react-dialog";
 import type * as EmblaCarouselReact from "embla-carousel-react";
 import type * as React from "react";
-import type { FieldPath, FieldValues } from "react-hook-form";
 import type { ACTION_VARIANTS } from "./variants.js";
+import type { FieldPath, FieldValues } from "react-hook-form";
+import type { VariantProps } from "class-variance-authority";
 
 /*//////////////////////////////////////////////////
 COMPONENT CONTRACTS
 //////////////////////////////////////////////////*/
 
 // BUTTONS
-
 /** Action styles, including color treatments and named navigation or specialized-control variants. */
 export type ButtonVariant =
   | UiColor
-  | `${UiColor}-${Exclude<UiType, "saturated" | "link">}`
-  | `${UiColor}-link`
+  | `${UiColor}-${Exclude<UiType, "saturated">}`
   | "default"
   | "secondary"
   | "destructive"
@@ -35,7 +33,6 @@ export type ButtonVariant =
   | "tonal"
   | "underline"
   | "ghost-destructive"
-  | "inline"
   | "dashboard-nav"
   | "plain"
   | "authority"
@@ -57,10 +54,9 @@ export type UiButtonButtonProps =
 // CALENDAR
 
 // CARDS
-
 /** Props for a card rendered as a link; `href` is required. */
 export type AnchorCardProps = {
-  variant?: SurfaceVariant;
+  variant?: CardVariant;
   size?: Size;
   inverse?: boolean;
   interactive?: boolean;
@@ -68,7 +64,6 @@ export type AnchorCardProps = {
   disabled?: boolean;
 } & CardBehaviorProps &
   React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
-
 type CardBehaviorProps = {
   asChild?: boolean;
   collapsible?: boolean;
@@ -80,7 +75,7 @@ type CardBehaviorProps = {
 /** Props for cards that render as a div or, when `href` is present, as an anchor. */
 export type CardProps =
   | (({
-      variant?: SurfaceVariant;
+      variant?: CardVariant;
       size?: Size;
       inverse?: boolean;
       interactive?: boolean;
@@ -107,7 +102,6 @@ export type CardSummaryProps = Omit<React.ComponentProps<"button">, "size"> & {
 };
 
 // CAROUSEL
-
 /** Embla API exposed by the carousel hook. */
 export type CarouselApi = EmblaCarouselReact.UseEmblaCarouselType[1];
 /** State and navigation helpers shared with carousel descendants. */
@@ -129,7 +123,6 @@ export type CarouselProps = {
 type UseCarouselParams = Parameters<typeof EmblaCarouselReact.default>;
 
 // COMBOBOX
-
 /** Search option with a string key, displayable label, and optional caller data. */
 export type UiComboboxOption = {
   value: string;
@@ -138,7 +131,6 @@ export type UiComboboxOption = {
 };
 
 // COMMAND
-
 /** Dialog state and attributes accepted by the command dialog, plus its size and content class. */
 export type CommandDialogProps = DialogPrimitive.DialogProps & {
   size?: Size;
@@ -154,7 +146,6 @@ export type CommandInputProps = React.ComponentPropsWithoutRef<
 };
 
 // FORMS
-
 /** Field name stored in the React Hook Form context for a rendered control. */
 export type FormFieldCtxVal<
   TFieldValues extends FieldValues = FieldValues,
@@ -177,7 +168,6 @@ export type InputProps = Omit<
 };
 
 // SIDEBAR
-
 /** Desktop sidebar state and controls, including the separate mobile-open state. */
 export type SidebarCtxProps = {
   state: "expanded" | "collapsed";
@@ -194,19 +184,27 @@ STYLE CONTRACTS
 //////////////////////////////////////////////////*/
 
 // COLOR AND TREATMENT VARIANTS
-
 /** Color/treatment variant alias used by feedback surfaces. */
 export type FeedbackTone = SurfaceMatrixVariant;
 /** Bare colors and color variants supported by form controls. */
 export type FormControlVariant =
   UiColor | `${UiColor}-${Extract<UiType, "outline" | "ghost" | "tonal">}`;
-/** Surface color/treatment combinations, excluding link and underline treatments. */
-export type SurfaceMatrixVariant =
-  `${UiColor}-${Exclude<UiType, "link" | "underline">}`;
+/** Surface color/treatment combinations, excluding underline treatments. */
+export type SurfaceMatrixVariant = `${UiColor}-${Exclude<UiType, "underline">}`;
 /** Surface choices including matrix variants and named semantic treatments. */
 export type SurfaceVariant =
   | UiColor
   | SurfaceMatrixVariant
+  | "transparent"
+  | "dark"
+  | "error"
+  | "correct"
+  | "info"
+  | "success"
+  | "warning";
+/** Card color/treatment combinations exclude a default treatment; cards default to primary-tonal. */
+export type CardVariant =
+  | `${UiColor}-${Exclude<UiType, "default" | "underline">}`
   | "transparent"
   | "dark"
   | "error"
@@ -225,12 +223,10 @@ export type UiType =
   | "ghost"
   | "tonal"
   | "saturated"
-  | "link"
   | "underline"
   | "glass";
 
 // SIZES
-
 /** Button dimensions, including icon-only sizes beyond the shared scale. */
 export type ButtonSize =
   UiSize | "default" | "icon" | "icon-xs" | "icon-sm" | "icon-lg";
@@ -244,6 +240,5 @@ export type Size = UiSize;
 export type UiSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 // VARIANTS
-
 /** Accordion density presets shared by its root, item, trigger, and content. */
 export type Variant = "default" | "sm" | "xs";

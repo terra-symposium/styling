@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/carousel.tsx
+ * src/components/ui/carousel.tsx
  * https://ui.shadcn.com/docs/components/carousel
  */
 

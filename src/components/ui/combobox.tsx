@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/combobox.tsx
+ * src/components/ui/combobox.tsx
  * https://ui.shadcn.com/docs/components/combobox
  */
 

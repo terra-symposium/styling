@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/switch.tsx
+ * src/components/ui/switch.tsx
  * https://ui.shadcn.com/docs/components/switch
  */
 
@@ -9,12 +9,13 @@ IMPORTS
 
 // API
 import { cn } from "../../lib/cn.js";
-import { INTERACTIVE_CONTROL_VARIANTS } from "./variants.js";
 
 // COMPONENTS
 import * as React from "react";
 import * as SwitchPrimitives from "@radix-ui/react-switch";
 
+// DATA
+import { INTERACTIVE_CONTROL_VARIANTS } from "./variants.js";
 const SWITCH_THUMB_CLASSES =
   "pointer-events-none block size-4 rounded-full bg-primary-1 shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0";
 
@@ -76,7 +77,5 @@ const SwitchThumb = Object.assign(
   )),
   { displayName: SwitchPrimitives.Thumb.displayName },
 );
-
 Switch.displayName = SwitchPrimitives.Root.displayName;
-
 export { Switch, SwitchThumb };

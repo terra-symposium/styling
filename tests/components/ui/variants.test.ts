@@ -39,22 +39,29 @@ CONFIG
 //////////////////////////////////////////////////*/
 
 const repo = process.cwd();
-const colors = ["primary", "secondary", "gray", "destructive"] as const;
+const colors = [
+  "primary",
+  "secondary",
+  "gray",
+  "destructive",
+  "success",
+  "caution",
+] as const;
 const uiSizes = ["xs", "sm", "md", "lg", "xl"] as const;
 const actionTypes = [
   "default",
   "outline",
   "ghost",
   "tonal",
-  "link",
+  "glass",
   "underline",
 ] as const;
 const surfaceTypes = [
-  "default",
   "outline",
   "ghost",
   "tonal",
   "saturated",
+  "glass",
 ] as const;
 const formTypes = ["default", "outline", "ghost", "tonal"] as const;
 const toggleTypes = ["default", "outline", "ghost", "tonal"] as const;
@@ -128,7 +135,6 @@ test.describe("shared UI variant contracts", () => {
       "ghost",
       "tonal",
       "ghost-destructive",
-      "inline",
       "underline",
     ] as const) {
       hasClasses(ACTION_VARIANTS({ variant }), `action alias ${variant}`);

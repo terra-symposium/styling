@@ -26,6 +26,7 @@ COMPONENTS
  * Adds an informational tooltip to a single child element.
  *
  * @param props - Trigger element, tooltip content, wrapper behavior for disabled triggers, and whether to prepend an information icon.
+ *
  * @return The trigger element wrapped in the shared tooltip primitives.
  */
 function Hint({
@@ -68,5 +69,4 @@ function Hint({
     </TooltipProvider>
   );
 }
-
 export { Hint };

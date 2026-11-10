@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/input-otp.tsx
+ * src/components/ui/input-otp.tsx
  * https://ui.shadcn.com/docs/components/input-otp
  */
 

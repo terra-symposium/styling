@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/popover.tsx
+ * src/components/ui/popover.tsx
  * https://ui.shadcn.com/docs/components/popover
  */
 
@@ -9,15 +9,17 @@ IMPORTS
 
 // API
 import { cn } from "../../lib/cn.js";
+
+// COMPONENTS
+import * as PopoverPrimitive from "@radix-ui/react-popover";
+import * as React from "react";
+
+// DATA
 import {
   OVERLAY_MOTION_VARIANTS,
   OVERLAY_SURFACE_VARIANTS,
   RADIX_SIDE_POSITION_VARIANTS,
 } from "./variants.js";
-
-// COMPONENTS
-import * as PopoverPrimitive from "@radix-ui/react-popover";
-import * as React from "react";
 
 /*//////////////////////////////////////////////////
 CONFIG
@@ -25,9 +27,6 @@ CONFIG
 
 const Popover = PopoverPrimitive.Root;
 const PopoverTrigger = PopoverPrimitive.Trigger;
-
-PopoverTrigger.displayName = PopoverPrimitive.Trigger.displayName;
-
 /**
  * Floating popover content panel.
  */
@@ -69,5 +68,6 @@ const PopoverContent = React.forwardRef<
     </PopoverPrimitive.Portal>
   ),
 );
+PopoverTrigger.displayName = PopoverPrimitive.Trigger.displayName;
 PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 export { Popover, PopoverContent, PopoverTrigger };

@@ -42,14 +42,14 @@ export function transformChildrenToString(
   if (!Array.isArray(children) && !isValidElement(children))
     return childToString(children);
   return Children.toArray(children).reduce(
-    (text: string, child: ReactNode) =>
-      text.concat(
-        isValidElement<{ children?: ReactNode | ReactNode[] }>(child) &&
-          Boolean(child.props.children)
-          ? transformChildrenToString(child.props.children)
-          : isValidElement(child)
+    (t: string, c: ReactNode) =>
+      t.concat(
+        isValidElement<{ children?: ReactNode | ReactNode[] }>(c) &&
+          Boolean(c.props.children)
+          ? transformChildrenToString(c.props.children)
+          : isValidElement(c)
             ? ""
-            : childToString(child),
+            : childToString(c),
       ),
     "",
   );

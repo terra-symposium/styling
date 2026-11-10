@@ -19,7 +19,7 @@ import plugin from "tailwindcss/plugin.js";
 import type { Config } from "tailwindcss";
 
 /*//////////////////////////////////////////////////
-HELPERS
+CONFIG
 //////////////////////////////////////////////////*/
 
 /**
@@ -34,7 +34,6 @@ const applyOpacityValue = (variable: string) => {
     return `rgb(var(${variable}) / ${opacityValue || "100"})`;
   };
 };
-
 const transform =
   "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) ";
 
@@ -246,5 +245,4 @@ const preset: Omit<Config, "content"> = {
     }),
   ],
 };
-
 export default preset;

@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/dialog.tsx
+ * src/components/ui/dialog.tsx
  * https://ui.shadcn.com/docs/components/dialog
  */
 

@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/command.tsx
+ * src/components/ui/command.tsx
  * https://ui.shadcn.com/docs/components/command
  */
 

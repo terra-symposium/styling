@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/resizable.tsx
+ * src/components/ui/resizable.tsx
  * https://ui.shadcn.com/docs/components/resizable
  */
 
@@ -21,6 +21,7 @@ COMPONENTS
 /**
  * Resizable grip.
  *
+ * @param props - Additional handle props forwarded to the primitive.
  * @param withHandle - Whether the resize handle should be visible.
  * @return A vertical separator with an optional visible grip.
  */

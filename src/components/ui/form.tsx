@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/form.tsx
+ * src/components/ui/form.tsx
  * https://ui.shadcn.com/docs/components/form
  * Prefer this component with react-hook-form and a Zod schema for every
  * user-facing form that contains a visible input.

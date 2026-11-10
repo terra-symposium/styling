@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/pagination.tsx
+ * src/components/ui/pagination.tsx
  * https://ui.shadcn.com/docs/components/pagination
  */
 
@@ -25,7 +25,6 @@ COMPONENTS
 /**
  * Renders the pagination component.
  *
- * @param className - Optional class name applied to the pagination element.
  * @param props - Additional pagination props forwarded to the primitive.
  * @return A labeled navigation container for page controls.
  */
@@ -122,7 +121,6 @@ const PaginationLink = ({
 /**
  * Pagination previous.
  *
- * @param className - Optional class name applied to the pagination control.
  * @param props - Additional pagination props forwarded to the primitive.
  * @return A control that links to the previous page.
  */
@@ -144,7 +142,6 @@ const PaginationPrevious = ({
 /**
  * Pagination next.
  *
- * @param className - Optional class name applied to the pagination control.
  * @param props - Additional pagination props forwarded to the primitive.
  * @return A control that links to the next page.
  */

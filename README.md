@@ -1,6 +1,6 @@
 # Terra Styling
 
-Public Apache 2.0 package for Terra hue palettes and reusable UI. The hue implementation and UI primitives are extracted from the Terra Symposium website.
+A shared React UI and design system for Terra projects, with reusable components, design tokens, hue theming, and a Tailwind preset. Package exports also provide separate original Terra UI components and CSS entry points.
 
 ## What it does
 

@@ -1,0 +1,26 @@
+---
+title: Variants
+description: Implementations of colour treatment, shown with buttons and cards.
+---
+
+import { ButtonTreatmentMatrix, CardTreatmentMatrix } from "./_matrix.tsx";
+
+The matrix is a visual index of the combinations a component family supports. Each row selects a palette color; each column selects a treatment. The cell label gives the canonical `variant` value to use in React.
+
+The matrix is intentionally family-specific. Buttons use an underline treatment for links, while cards include saturated surfaces. A cell exists only when that component family supports the combination.
+
+## Button actions
+
+Button variants combine six colors with six action treatments. The gallery uses the real exported `Button` and `ButtonLink` components, so the labels and visuals follow the package contracts.
+
+For example, use `variant='primary-glass'` for a glass primary action or `variant='secondary-outline'` for an outlined secondary action. Button links use the same matrix while rendering an anchor.
+
+<ButtonTreatmentMatrix />
+
+## Card surfaces
+
+Cards share the six-color palette and support outline, ghost, tonal, saturated, and glass. The default card treatment is `primary-tonal`.
+
+<CardTreatmentMatrix />
+
+Browse the [component catalog](/styling/1-colouring/2-components/) for the rest of the exported Styling controls and surfaces.

@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/message.tsx
+ * src/components/ui/message.tsx
  * https://ui.shadcn.com/docs/components/base/message
  */
 
@@ -8,61 +8,109 @@ IMPORTS
 //////////////////////////////////////////////////*/
 
 // API
-import { cn } from '../../lib/cn.js';
+import { cn } from "../../lib/cn.js";
 
 // COMPONENTS
-import * as React from 'react';
+import * as React from "react";
 
 /*//////////////////////////////////////////////////
 COMPONENTS
 //////////////////////////////////////////////////*/
 
 /**
- * Renders the message group component.
+ * Vertical container for a related sequence of messages.
  *
- * @param props - Props object containing the inputs required by message group.
+ * @param props - Div attributes for the message group.
  *
- * @return Group container for related messages.
+ * @return A vertical container for related messages.
  */
-function MessageGroup({ className, ...props }: React.ComponentProps<'div'>): React.JSX.Element {
-	return <div data-slot='message-group' className={cn('flex min-w-0 flex-col gap-2', className)} {...props} />;
+function MessageGroup({
+  className,
+  ...props
+}: React.ComponentProps<"div">): React.JSX.Element {
+  return (
+    <div
+      data-slot="message-group"
+      className={cn("flex min-w-0 flex-col gap-2", className)}
+      {...props}
+    />
+  );
 }
 
 /**
- * Renders the message component.
+ * Message row; `align="end"` reverses its flex direction.
  *
- * @param props - Props object containing the inputs required by message.
+ * @param props - Div attributes and message alignment.
  *
- * @return Message container aligned according to the supplied mode.
+ * @return A message row with the requested alignment metadata.
  */
-function Message({ className, align = 'start', ...props }: React.ComponentProps<'div'> & { align?: 'start' | 'end' }): React.JSX.Element {
-	return <div data-slot='message' data-align={align} className={cn('group/message relative flex w-full min-w-0 gap-2 data-[align=end]:flex-row-reverse', className)} {...props} />;
+function Message({
+  className,
+  align = "start",
+  ...props
+}: React.ComponentProps<"div"> & {
+  align?: "start" | "end";
+}): React.JSX.Element {
+  return (
+    <div
+      data-slot="message"
+      data-align={align}
+      className={cn(
+        "group/message relative flex w-full min-w-0 gap-2 data-[align=end]:flex-row-reverse",
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
 /**
- * Renders the message content component.
+ * Flexible body container for message text and other content.
  *
- * @param props - Props object containing the inputs required by message content.
+ * @param props - Div attributes for the message body.
  *
- * @return Message content container.
+ * @return A flexible body container for message content.
  */
-function MessageContent({ className, ...props }: React.ComponentProps<'div'>): React.JSX.Element {
-	return <div data-slot='message-content' className={cn('flex w-full min-w-0 flex-col gap-1.5 break-words', className)} {...props} />;
+function MessageContent({
+  className,
+  ...props
+}: React.ComponentProps<"div">): React.JSX.Element {
+  return (
+    <div
+      data-slot="message-content"
+      className={cn(
+        "flex w-full min-w-0 flex-col gap-1.5 break-words",
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
 /**
- * Renders the message header component.
+ * Compact, muted header line for message metadata.
  *
- * @param props - Props object containing the inputs required by message header.
+ * @param props - Div attributes for the message metadata line.
  *
- * @return Message header container.
+ * @return A compact, muted metadata line.
  */
-function MessageHeader({ className, ...props }: React.ComponentProps<'div'>): React.JSX.Element {
-	return <div data-slot='message-header' className={cn('flex min-w-0 max-w-full items-center px-3 text-xs text-primary-11', className)} {...props} />;
+function MessageHeader({
+  className,
+  ...props
+}: React.ComponentProps<"div">): React.JSX.Element {
+  return (
+    <div
+      data-slot="message-header"
+      className={cn(
+        "flex min-w-0 max-w-full items-center px-3 text-xs text-primary-11",
+        className,
+      )}
+      {...props}
+    />
+  );
 }
-MessageGroup.displayName = 'MessageGroup';
-Message.displayName = 'Message';
-MessageContent.displayName = 'MessageContent';
-MessageHeader.displayName = 'MessageHeader';
-
+MessageGroup.displayName = "MessageGroup";
+Message.displayName = "Message";
+MessageContent.displayName = "MessageContent";
+MessageHeader.displayName = "MessageHeader";
 export { MessageGroup, Message, MessageContent, MessageHeader };

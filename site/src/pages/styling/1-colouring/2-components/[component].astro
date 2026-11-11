@@ -1,0 +1,36 @@
+---
+import DocsSiteLayout from "@terra-symposium/docs/site-layout.astro";
+import { pageHref, siteNavigation } from "@terra-symposium/docs-site-catalog";
+import { componentTsDocs } from "../../../../../../dist/cache/component-tsdocs.js";
+import { ComponentReference } from "../../../../../../docs/styling/1-colouring/_components.tsx";
+
+const { component = "" } = Astro.params;
+const docs = componentTsDocs[component as keyof typeof componentTsDocs];
+
+export function getStaticPaths() {
+	return Object.keys(componentTsDocs).map((component) => ({ params: { component } }));
+}
+
+const base = import.meta.env.BASE_URL;
+const title = import.meta.env.PUBLIC_DOCS_TITLE ?? "Documentation";
+const description = import.meta.env.PUBLIC_DOCS_DESCRIPTION ?? "";
+const currentPath = pageHref(`styling/1-colouring/2-components/${component}`, base);
+---
+
+{docs ? (
+	<DocsSiteLayout
+		title={title}
+		homeHref={pageHref("", base)}
+		description={description}
+		pageTitle={docs.title}
+		pageDescription={docs.description}
+		nodes={siteNavigation}
+		currentPath={currentPath}
+		rootPath={pageHref("", base)}
+		searchBase={base}
+	>
+		<main class="docs-page-content">
+			<ComponentReference component={component as keyof typeof componentTsDocs} />
+		</main>
+	</DocsSiteLayout>
+) : null}

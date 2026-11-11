@@ -1,0 +1,188 @@
+---
+import "@terra-symposium/docs-site-style";
+import "@terra-symposium/styling/global.css";
+import { Card, Marquee } from "@terra-symposium/styling/ui";
+import { firstAvailableLeafHref, pageHref } from "@terra-symposium/docs-site-catalog";
+
+const title = import.meta.env.PUBLIC_DOCS_TITLE ?? "Styling";
+const base = import.meta.env.BASE_URL;
+const homeHref = firstAvailableLeafHref() ?? pageHref("", base);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Uh Oh, 404! · {title}</title>
+  </head>
+  <body>
+    <div class="terra-styling">
+      <main class="styling-404">
+        <div class="styling-404__marquee">
+          <Marquee
+            client:load
+            terms={["404"]}
+            duration={3500}
+            alternate
+            measureBeforeShow
+            pauseOnHover
+            pauseOnClick
+            randomizeDelay
+            rowClassName="styling-404__row"
+          />
+        </div>
+
+        <Card
+          variant="primary-tonal"
+          size="lg"
+          className="styling-404__card"
+          aria-labelledby="not-found-title"
+        >
+          <h1 id="not-found-title">Uh Oh, 404!</h1>
+          <div class="styling-404__messages">
+          <p class="styling-404__message styling-404__message--first">We couldn't find that page.</p>
+          <p class="styling-404__message styling-404__message--second">It may have moved or been removed.</p>
+          <p class="styling-404__message styling-404__message--third">Let's get you back where you want to go.</p>
+          </div>
+        <a class="styling-404__action" href={homeHref}>Go to the homepage</a>
+        </Card>
+      </main>
+    </div>
+    <script>
+      import { applyHue } from "@terra-symposium/styling";
+
+      const stylingRoot = document.querySelector<HTMLElement>(".terra-styling");
+      if (stylingRoot) applyHue(0, stylingRoot);
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  body {
+    margin: 0;
+  }
+
+  .styling-404 {
+    position: relative;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 2rem;
+    color: rgb(var(--gray-12));
+    background: rgb(var(--gray-3));
+  }
+
+  .styling-404__marquee {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    overflow: hidden;
+    color: rgb(var(--gray-7));
+    pointer-events: auto;
+    cursor: pointer;
+    filter: grayscale(1);
+  }
+
+  .styling-404__row {
+    margin: 0;
+    font-size: clamp(1.25rem, 2.8vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .styling-404__card {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 40rem);
+    padding: clamp(2rem, 6vw, 3rem);
+    border-color: rgb(var(--primary-6));
+    border-radius: 0.75rem;
+    color: rgb(var(--gray-12));
+    background: rgb(var(--primary-2));
+    box-shadow: 0 1rem 3rem rgb(var(--primary-12) / 0.08);
+  }
+
+  .styling-404__card h1 {
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 650;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    filter: grayscale(1);
+  }
+
+  .styling-404__messages {
+    display: flex;
+    width: 100%;
+    max-width: 24rem;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1.5rem auto 0;
+    font-weight: 600;
+  }
+
+  .styling-404__message {
+    margin: 0;
+    color: rgb(var(--gray-12));
+    filter: grayscale(1);
+  }
+
+  .styling-404__message--first {
+    align-self: flex-start;
+    opacity: 0.45;
+  }
+
+  .styling-404__message--second {
+    align-self: flex-end;
+    opacity: 0.65;
+  }
+
+  .styling-404__message--third {
+    align-self: center;
+    margin-top: 0.5rem;
+    opacity: 0.85;
+  }
+
+  .styling-404__action {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid rgb(var(--secondary-6));
+    border-radius: 0.5rem;
+    color: rgb(var(--gray-11));
+    background: rgb(var(--secondary-2));
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 120ms ease, border-color 120ms ease;
+  }
+
+  .styling-404__action:hover {
+    border-color: rgb(var(--secondary-7));
+    background: rgb(var(--secondary-3));
+  }
+
+  .styling-404__action:focus-visible {
+    outline: 2px solid rgb(var(--primary-8));
+    outline-offset: 3px;
+  }
+
+  .styling-404__action span {
+    filter: grayscale(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .styling-404__row span {
+      animation-play-state: paused !important;
+    }
+  }
+</style>

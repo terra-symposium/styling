@@ -1,0 +1,8 @@
+---
+import DocsCatchall, { getStaticPaths } from "@terra-symposium/docs-site-catchall";
+
+export { getStaticPaths };
+const { slug = "" } = Astro.props;
+---
+
+<DocsCatchall slug={slug} />

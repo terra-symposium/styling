@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/scroll-area.tsx
+ * src/components/ui/scroll-area.tsx
  * https://ui.shadcn.com/docs/components/scroll-area
  */
 
@@ -8,13 +8,11 @@ IMPORTS
 //////////////////////////////////////////////////*/
 
 // API
-import { cn } from '../../lib/cn.js';
+import { cn } from "../../lib/cn.js";
 
 // COMPONENTS
-import * as React from 'react';
-import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
-
-// TYPES
+import * as React from "react";
+import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 
 /*//////////////////////////////////////////////////
 COMPONENTS
@@ -23,77 +21,91 @@ COMPONENTS
 /**
  * ScrollArea primitive component that partitions root and viewport layout classes.
  *
- * @param className - Class name string applied to the scroll area.
  * @param children - ScrollArea content elements.
  * @param viewportClassName - Additional class name applied specifically to the viewport.
- * @param props - Additional props forwarded to ScrollAreaPrimitive.Root.
  */
 const ScrollArea = React.forwardRef<
-	React.ElementRef<typeof ScrollAreaPrimitive.Root>,
-	import('react').ComponentPropsWithoutRef<typeof import('@radix-ui/react-scroll-area').Root> & {
-		viewportClassName?: string;
-	}
->(({ className, children, viewportClassName, ...props }, ref): React.JSX.Element => {
-	const rootClasses: string[] = [];
-	const viewportClasses: string[] = [];
-	const seenViewport = new Set<string>();
-	for (const token of className?.split(/\s+/).filter(Boolean) ?? []) {
-		if (
-			/^(?:flex|inline-flex|grid|inline-grid|contents|grow|shrink|flex-|grid-|gap-|space-[xy]-|items-|justify-|content-|self-|place-|basis-|grow-|shrink-|order-|auto-cols-|auto-rows-|col-|row-)/.test(
-				token.split(':').pop() ?? token,
-			)
-		) {
-			if (!seenViewport.has(token)) {
-				seenViewport.add(token);
-				viewportClasses.push(token);
-			}
-		} else {
-			rootClasses.push(token);
-		}
-	}
-	return (
-		<ScrollAreaPrimitive.Root ref={ref} className={cn('relative w-full min-w-0 overflow-hidden', rootClasses.length ? rootClasses.join(' ') : undefined)} {...props}>
-			<ScrollAreaPrimitive.Viewport
-				className={cn(
-					'size-full min-w-0 overflow-x-hidden rounded-[inherit] [&>div]:!block [&>div]:w-full [&>div]:min-w-0',
-					viewportClasses.length ? viewportClasses.join(' ') : undefined,
-					viewportClassName,
-				)}
-			>
-				{children}
-			</ScrollAreaPrimitive.Viewport>
-			<ScrollBar />
-			<ScrollAreaPrimitive.Corner />
-		</ScrollAreaPrimitive.Root>
-	);
-});
+  React.ElementRef<typeof ScrollAreaPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root> & {
+    viewportClassName?: string;
+  }
+>(
+  (
+    { className, children, viewportClassName, ...props },
+    ref,
+  ): React.JSX.Element => {
+    const rootClasses: string[] = [];
+    const viewportClasses: string[] = [];
+    const seenViewport = new Set<string>();
+    for (const token of className?.split(/\s+/).filter(Boolean) ?? []) {
+      if (
+        /^(?:flex|inline-flex|grid|inline-grid|contents|grow|shrink|flex-|grid-|gap-|space-[xy]-|items-|justify-|content-|self-|place-|basis-|grow-|shrink-|order-|auto-cols-|auto-rows-|col-|row-)/.test(
+          token.split(":").pop() ?? token,
+        )
+      ) {
+        if (!seenViewport.has(token)) {
+          seenViewport.add(token);
+          viewportClasses.push(token);
+        }
+      } else {
+        rootClasses.push(token);
+      }
+    }
+    return (
+      <ScrollAreaPrimitive.Root
+        ref={ref}
+        className={cn(
+          "relative w-full min-w-0 overflow-hidden",
+          rootClasses.length ? rootClasses.join(" ") : undefined,
+        )}
+        {...props}
+      >
+        <ScrollAreaPrimitive.Viewport
+          className={cn(
+            "size-full min-w-0 overflow-x-hidden rounded-[inherit] [&>div]:!block [&>div]:w-full [&>div]:min-w-0",
+            viewportClasses.length ? viewportClasses.join(" ") : undefined,
+            viewportClassName,
+          )}
+        >
+          {children}
+        </ScrollAreaPrimitive.Viewport>
+        <ScrollBar />
+        <ScrollAreaPrimitive.Corner />
+      </ScrollAreaPrimitive.Root>
+    );
+  },
+);
 
 /**
  * ScrollBar primitive thumb/track component for the ScrollArea.
  *
- * @param className - Class name string applied to the scrollbar.
  * @param orientation - Scrollbar orientation ('vertical' or 'horizontal').
- * @param props - Additional props forwarded to ScrollAreaScrollbar.
  */
-const ScrollBar = React.forwardRef<React.ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>, React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>>(
-	({ className, orientation = 'vertical', ...props }, ref): React.JSX.Element => (
-		<ScrollAreaPrimitive.ScrollAreaScrollbar
-			ref={ref}
-			orientation={orientation}
-			className={cn(
-				'flex touch-none select-none transition-colors',
-				orientation === 'vertical' && 'h-full w-2.5 border-l border-l-transparent p-px',
-				orientation === 'horizontal' && 'h-2.5 flex-col border-t border-t-transparent p-px',
-				className,
-			)}
-			{...props}
-		>
-			<ScrollAreaPrimitive.ScrollAreaThumb className='relative flex-1 rounded-full bg-gray-200 dark:bg-gray-800' />
-		</ScrollAreaPrimitive.ScrollAreaScrollbar>
-	),
+const ScrollBar = React.forwardRef<
+  React.ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
+  React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>
+>(
+  (
+    { className, orientation = "vertical", ...props },
+    ref,
+  ): React.JSX.Element => (
+    <ScrollAreaPrimitive.ScrollAreaScrollbar
+      ref={ref}
+      orientation={orientation}
+      className={cn(
+        "flex touch-none select-none transition-colors",
+        orientation === "vertical" &&
+          "h-full w-2.5 border-l border-l-transparent p-px",
+        orientation === "horizontal" &&
+          "h-2.5 flex-col border-t border-t-transparent p-px",
+        className,
+      )}
+      {...props}
+    >
+      <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-gray-200 dark:bg-gray-800" />
+    </ScrollAreaPrimitive.ScrollAreaScrollbar>
+  ),
 );
-
 ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName;
 ScrollBar.displayName = ScrollAreaPrimitive.ScrollAreaScrollbar.displayName;
-
 export { ScrollArea, ScrollBar };

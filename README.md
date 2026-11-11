@@ -2,40 +2,60 @@
 
 A shared React UI and design system for Terra projects, with reusable components, design tokens, hue theming, and a Tailwind preset. Package exports also provide separate original Terra UI components and CSS entry points.
 
-## Getting started
+## What it does
 
-Requires Node.js and pnpm. From the repository root, install dependencies and build the package:
+Not applicable.
 
+## Prerequisites
+
+Not applicable.
+
+## Get started
+
+### Build
 ```sh
 pnpm install
-pnpm build
+pnpm run build
+pnpm run docs:build
 ```
 
-The build generates distributable files in `dist/`. See the component and installation guides before consuming the package.
+The guide content lives in [`docs/`](docs/). `@terra-symposium/docs` supplies its Astro site, navigation, search, styling, and 404 page. Run `pnpm run docs` to preview it locally or `pnpm run docs:build` to write the static site to `dist/docs/`. The Components catalog shows live previews for every exported component family. One generated detail route serves every component slug, with API references extracted from TypeScript exports and JSDoc. Agent guidance and skills live in [`docs/agents/`](docs/agents/), with each `SKILL.md` available as the index page for its folder in the Agents section. Relative Markdown links and assets work from the content tree. The published guide is served under `/styling-docs/`.
 
-### Commands
+## Usage
 
-From the repository root, run `pnpm typecheck` and `pnpm test`.
+The package exports reusable controls and surfaces, data-driven `MappedFormFields`, `FormSelect`, and `DataTable` components, and UI primitives including `Button`, `Select`, `ContextMenu`, `DropdownMenu`, `Tooltip`, `ToggleGroup`, `Input`, `Label`, `Separator`, `Spinner`, and the original Docs toolbar frame from `@terra-symposium/styling/ui`. Import `@terra-symposium/styling/global.css` once to include the shared utility classes, fonts, and global base styles. Visual effects are available separately from `@terra-symposium/styling/effects.css`. The host supplies the palette using the hue API, as the Terra Website does during server rendering. The original Tailwind preset is available as `@terra-symposium/styling/tailwind-preset` for hosts that compile additional components.
 
-## Security and Limitations
+### Agent skills
+UI design, styling, responsive review, and variant workflows live in [`docs/agents/skills/ui/`](docs/agents/skills/ui/SKILL.md).
 
-Bundled font files have third-party licenses; review the font notices before redistributing those assets. Package source and font assets can have different terms.
+## Configuration and security
 
-## Structure
+Not applicable.
 
-`src/ui/` exports React components; `src/lib/` provides tokens, hue utilities, and the Tailwind preset. `docs/` contains component guides and `package.json` declares public exports.
+## Development and structure
+
+Not applicable.
+
+## Validation
+
+Not applicable.
+
+## Deployment and operations
+
+Not applicable.
+
+## Data, privacy, and limitations
+
+Not applicable.
 
 ## References
 
-- [Component guide](docs/content/components.md)
-- [Installation guide](docs/content/installation.md)
-- [Package exports](package.json)
-- [Apache-2.0 license](LICENSE)
+Not applicable.
 
 ## Contributing
 
-Add a changeset for package-facing changes.
+Not applicable.
 
 ## Credits and license
 
-Package source is licensed under [Apache-2.0](LICENSE). Bundled fonts retain their separate third-party license terms.
+Not applicable.

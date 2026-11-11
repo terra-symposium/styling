@@ -1,7 +1,22 @@
+# Dependencies
 node_modules/
+
+# Build and generated output
 dist/
-site-dist/
+dist/.docs/
 .astro/
-.DS_Store
+outputs/
+
+# Local environment
 .env
 .env.*
+!.env.example
+
+# Vendored dependencies
+vendor/*
+
+# Local output from the previous docs build
+site-dist/
+
+# Local error logs
+error.log

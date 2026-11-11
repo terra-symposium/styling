@@ -1,29 +1,64 @@
-# Avara Font Assets
+# Typeface credits
 
-Avara Bold and Bold Italic WOFF2 files bundled by the Terra styling package.
 
-## Getting started
+## What it does
 
-### Commands
+Not applicable.
 
-No font-specific test command applies. From `styling/main/`, run `pnpm build` to copy the WOFF2 files and OFL notice into `dist/assets/fonts/`.
+## Prerequisites
 
-## Security and Limitations
+Not applicable.
 
-- Font redistribution is governed by the included OFL license.
+## Get started
 
-## Structure
+Not applicable.
 
-`Avara-Bold.woff2` and `Avara-BoldItalic.woff2` are copied by the package build into `dist/assets/fonts/` with the OFL notice.
+## Usage
+
+**Avara Bold and Bold Italic** — designed by Raphaël Bastide, with contributions by Wei Huang, Lucas
+Le Bihan, Walid Bouchouchi, and Jérémy Landes; released by [Velvetyne Type
+Foundry](https://velvetyne.fr/fonts/avara/). Licensed under the SIL Open Font License 1.1. See
+[licenses/OFL-1.1.txt](licenses/OFL-1.1.txt).
+
+**AUTHENTIC Sans 90, 130, and 150** — distributed by [AUTHENTIC](https://authentic.website/sans)
+under the WTFPL.
+
+**Inter Variable Roman and Italic** — Copyright (c) 2016 The Inter Project Authors; licensed under
+the SIL Open Font License 1.1. The files match the Inter font files used by the original Docs host.
+See [licenses/Inter-OFL-1.1.txt](licenses/Inter-OFL-1.1.txt) and [the Inter
+project](https://github.com/rsms/inter).
+
+
+The font files are distributed unchanged from the copies already used by the Terra Symposium website, except Inter is included locally because its original Sanity CSS dependency did not travel with Docs. Their licenses are separate from the Apache-2.0 license for this package.
+
+## Configuration and security
+
+Not applicable.
+
+## Development and structure
+
+Not applicable.
+
+## Validation
+
+Not applicable.
+
+## Deployment and operations
+
+Not applicable.
+
+## Data, privacy, and limitations
+
+Not applicable.
 
 ## References
 
-The root package `build` script copies both WOFF2 files and `licenses/OFL-1.1.txt` into `dist/assets/fonts/`.
+Not applicable.
 
 ## Contributing
 
-Do not replace or repackage fonts without updating the accompanying font license and package build copy rules.
+Not applicable.
 
 ## Credits and license
 
-Avara is credited to Raphaël Bastide, Wei Huang, Lucas Le Bihan, Walid Bouchouchi, and Jérémy Landes. The font files use the [SIL OFL 1.1](licenses/OFL-1.1.txt); keep this notice with them.
+Not applicable.

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "suites": [
+    {
+      "name": "unit",
+      "command": "pnpm",
+      "args": [
+        "test"
+      ],
+      "owns": [
+        "tests/**"
+      ]
+    }
+  ]
+}

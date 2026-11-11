@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/toggle.tsx
+ * src/components/ui/toggle.tsx
  * https://ui.shadcn.com/docs/components/toggle
  */
 
@@ -8,22 +8,32 @@ IMPORTS
 //////////////////////////////////////////////////*/
 
 // API
-import { cn } from '../../lib/cn.js';
+import { cn } from "../../lib/cn.js";
 
 // COMPONENTS
-import * as React from 'react';
-import * as TogglePrimitive from '@radix-ui/react-toggle';
+import * as React from "react";
+import * as TogglePrimitive from "@radix-ui/react-toggle";
 
 // DATA
-import { TOGGLE_VARIANTS } from './variants.js';
+import { TOGGLE_VARIANTS } from "./variants.js";
+
+// TYPES
+import type { VariantProps } from "class-variance-authority";
 
 /*//////////////////////////////////////////////////
 COMPONENTS
 //////////////////////////////////////////////////*/
 
 const Toggle = React.forwardRef<
-	React.ElementRef<typeof TogglePrimitive.Root>,
-	React.ComponentPropsWithoutRef<typeof TogglePrimitive.Root> & import('class-variance-authority').VariantProps<typeof TOGGLE_VARIANTS>
->(({ className, variant, size, ...props }, ref): React.JSX.Element => <TogglePrimitive.Root ref={ref} className={cn(TOGGLE_VARIANTS({ variant, size }), className)} {...props} />);
+  React.ElementRef<typeof TogglePrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof TogglePrimitive.Root> &
+    VariantProps<typeof TOGGLE_VARIANTS>
+>(({ className, variant, size, ...props }, ref): React.JSX.Element => (
+  <TogglePrimitive.Root
+    ref={ref}
+    className={cn(TOGGLE_VARIANTS({ variant, size }), className)}
+    {...props}
+  />
+));
 Toggle.displayName = TogglePrimitive.Root.displayName;
 export { Toggle };

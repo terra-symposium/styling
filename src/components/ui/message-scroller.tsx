@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/message-scroller.tsx
+ * src/components/ui/message-scroller.tsx
  * https://ui.shadcn.com/docs/components/base/message-scroller
  */
 
@@ -8,74 +8,133 @@ IMPORTS
 //////////////////////////////////////////////////*/
 
 // API
-import { cn } from '../../lib/cn.js';
+import { cn } from "../../lib/cn.js";
 
 // COMPONENTS
-import * as React from 'react';
-import { MessageScroller as MessageScrollerPrimitive } from '@shadcn/react/message-scroller';
+import * as React from "react";
+import { MessageScroller as MessageScrollerPrimitive } from "@shadcn/react/message-scroller";
 
 /*//////////////////////////////////////////////////
 COMPONENTS
 //////////////////////////////////////////////////*/
 
 /**
- * Renders the message scroller provider component.
+ * Provides the context used by the message-scroller primitives.
  *
- * @param props - Props object containing the inputs required by message scroller provider.
+ * @param props - Provider settings and children for the message-scroller context.
  *
- * @return Provider component for message-scroller context.
+ * @return The message-scroller context provider.
  */
-function MessageScrollerProvider(props: React.ComponentProps<typeof MessageScrollerPrimitive.Provider>): React.JSX.Element {
-	return <MessageScrollerPrimitive.Provider {...props} />;
+function MessageScrollerProvider(
+  props: React.ComponentProps<typeof MessageScrollerPrimitive.Provider>,
+): React.JSX.Element {
+  return <MessageScrollerPrimitive.Provider {...props} />;
 }
 
 /**
- * Renders the message scroller component.
+ * Root container that fills its parent and clips overflow.
  *
- * @param props - Props object containing the inputs required by message scroller.
+ * @param props - Root attributes and message-scroller settings.
  *
- * @return Scrollable message-scroller root.
+ * @return A clipped root for the message-scroller viewport and content.
  */
-function MessageScroller({ className, ...props }: React.ComponentProps<typeof MessageScrollerPrimitive.Root>): React.JSX.Element {
-	return <MessageScrollerPrimitive.Root data-slot='message-scroller' className={cn('relative flex size-full min-h-0 flex-col overflow-hidden', className)} {...props} />;
+function MessageScroller({
+  className,
+  ...props
+}: React.ComponentProps<
+  typeof MessageScrollerPrimitive.Root
+>): React.JSX.Element {
+  return (
+    <MessageScrollerPrimitive.Root
+      data-slot="message-scroller"
+      className={cn(
+        "relative flex size-full min-h-0 flex-col overflow-hidden",
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
 /**
- * Renders the message scroller viewport component.
+ * Vertically scrollable viewport for message content.
  *
- * @param props - Props object containing the inputs required by message scroller viewport.
+ * @param props - Viewport attributes and scroll settings.
  *
- * @return Scrollable message viewport.
+ * @return A vertically scrollable message viewport.
  */
-function MessageScrollerViewport({ className, ...props }: React.ComponentProps<typeof MessageScrollerPrimitive.Viewport>): React.JSX.Element {
-	return <MessageScrollerPrimitive.Viewport data-slot='message-scroller-viewport' className={cn('size-full min-h-0 min-w-0 overflow-y-auto overscroll-contain', className)} {...props} />;
+function MessageScrollerViewport({
+  className,
+  ...props
+}: React.ComponentProps<
+  typeof MessageScrollerPrimitive.Viewport
+>): React.JSX.Element {
+  return (
+    <MessageScrollerPrimitive.Viewport
+      data-slot="message-scroller-viewport"
+      className={cn(
+        "size-full min-h-0 min-w-0 overflow-y-auto overscroll-contain",
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
 /**
- * Renders the message scroller content component.
+ * Column container that grows to the viewport height and expands with its items.
  *
- * @param props - Props object containing the inputs required by message scroller content.
+ * @param props - Content attributes and message items.
  *
- * @return Message content container with the supplied classes.
+ * @return A column that fills the viewport and grows with its items.
  */
-function MessageScrollerContent({ className, ...props }: React.ComponentProps<typeof MessageScrollerPrimitive.Content>): React.JSX.Element {
-	return <MessageScrollerPrimitive.Content data-slot='message-scroller-content' className={cn('flex h-max min-h-full flex-col', className)} {...props} />;
+function MessageScrollerContent({
+  className,
+  ...props
+}: React.ComponentProps<
+  typeof MessageScrollerPrimitive.Content
+>): React.JSX.Element {
+  return (
+    <MessageScrollerPrimitive.Content
+      data-slot="message-scroller-content"
+      className={cn("flex h-max min-h-full flex-col", className)}
+      {...props}
+    />
+  );
 }
 
 /**
- * Renders the message scroller item component.
+ * Message item wrapper; `scrollAnchor` is false unless explicitly enabled.
  *
- * @param props - Props object containing the inputs required by message scroller item.
+ * @param props - Item attributes and optional scroll anchoring.
  *
- * @return Message item container with optional scroll anchoring.
+ * @return A message item wrapper with the requested scroll-anchor setting.
  */
-function MessageScrollerItem({ className, scrollAnchor = false, ...props }: React.ComponentProps<typeof MessageScrollerPrimitive.Item>): React.JSX.Element {
-	return <MessageScrollerPrimitive.Item data-slot='message-scroller-item' scrollAnchor={scrollAnchor} className={cn('min-w-0 shrink-0', className)} {...props} />;
+function MessageScrollerItem({
+  className,
+  scrollAnchor = false,
+  ...props
+}: React.ComponentProps<
+  typeof MessageScrollerPrimitive.Item
+>): React.JSX.Element {
+  return (
+    <MessageScrollerPrimitive.Item
+      data-slot="message-scroller-item"
+      scrollAnchor={scrollAnchor}
+      className={cn("min-w-0 shrink-0", className)}
+      {...props}
+    />
+  );
 }
-MessageScrollerProvider.displayName = 'MessageScrollerProvider';
-MessageScroller.displayName = 'MessageScroller';
-MessageScrollerViewport.displayName = 'MessageScrollerViewport';
-MessageScrollerContent.displayName = 'MessageScrollerContent';
-MessageScrollerItem.displayName = 'MessageScrollerItem';
-
-export { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerContent, MessageScrollerItem };
+MessageScrollerProvider.displayName = "MessageScrollerProvider";
+MessageScroller.displayName = "MessageScroller";
+MessageScrollerViewport.displayName = "MessageScrollerViewport";
+MessageScrollerContent.displayName = "MessageScrollerContent";
+MessageScrollerItem.displayName = "MessageScrollerItem";
+export {
+  MessageScrollerProvider,
+  MessageScroller,
+  MessageScrollerViewport,
+  MessageScrollerContent,
+  MessageScrollerItem,
+};

@@ -18,10 +18,11 @@ jobs:
           version: 10.30.3
       - uses: actions/setup-node@v4
         with:
-          node-version: '24.12.0'
+          node-version: "24.12.0"
           cache: pnpm
+          cache-dependency-path: config/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-      - run: pnpm typecheck
+      - run: pnpm run typecheck
 
   build:
     runs-on: ubuntu-latest
@@ -32,10 +33,11 @@ jobs:
           version: 10.30.3
       - uses: actions/setup-node@v4
         with:
-          node-version: '24.12.0'
+          node-version: "24.12.0"
           cache: pnpm
+          cache-dependency-path: config/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+      - run: pnpm run build
 
   docs-build:
     runs-on: ubuntu-latest
@@ -46,10 +48,11 @@ jobs:
           version: 10.30.3
       - uses: actions/setup-node@v4
         with:
-          node-version: '24.12.0'
+          node-version: "24.12.0"
           cache: pnpm
+          cache-dependency-path: config/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-      - run: pnpm docs:build
+      - run: pnpm run build && pnpm exec docs build
 
   tests:
     if: github.event_name == 'pull_request'
@@ -63,9 +66,10 @@ jobs:
           version: 10.30.3
       - uses: actions/setup-node@v4
         with:
-          node-version: '24.12.0'
+          node-version: "24.12.0"
           cache: pnpm
+          cache-dependency-path: config/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - uses: Terra-Symposium/standards/packages/testing@3d782b9dfc4cc5b421ccbe395d65aacec9d8956d
         with:
-          manifest: .terra-tests.json
+          manifest: config/terra-tests.json

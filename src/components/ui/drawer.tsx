@@ -1,5 +1,5 @@
 /**
- * astro/src/components/ui/drawer.tsx
+ * src/components/ui/drawer.tsx
  * https://ui.shadcn.com/docs/components/drawer
  */
 
@@ -8,12 +8,14 @@ IMPORTS
 //////////////////////////////////////////////////*/
 
 // API
-import { cn } from '../../lib/cn.js';
-import { SURFACE_VARIANTS } from './variants.js';
+import { cn } from "../../lib/cn.js";
 
 // COMPONENTS
-import * as React from 'react';
-import { Drawer as DrawerPrimitive } from 'vaul';
+import * as React from "react";
+import { Drawer as DrawerPrimitive } from "vaul";
+
+// DATA
+import { SURFACE_VARIANTS } from "./variants.js";
 
 /*//////////////////////////////////////////////////
 CONFIG
@@ -26,55 +28,79 @@ const DrawerClose = DrawerPrimitive.Close;
 /**
  * Drawer backdrop overlay element.
  *
- * @param className - Optional style class name applied to the overlay backdrop.
- * @param props - Additional props forwarded to DrawerPrimitive.Overlay.
  */
-const DrawerOverlay = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Overlay>, React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>>(
-	({ className, ...props }, ref): React.JSX.Element => <DrawerPrimitive.Overlay ref={ref} className={cn('fixed inset-0 z-50 bg-black/80', className)} {...props} />,
-);
+const DrawerOverlay = React.forwardRef<
+  React.ElementRef<typeof DrawerPrimitive.Overlay>,
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
+>(({ className, ...props }, ref): React.JSX.Element => (
+  <DrawerPrimitive.Overlay
+    ref={ref}
+    className={cn("fixed inset-0 z-50 bg-black/80", className)}
+    {...props}
+  />
+));
 
 /**
  * Drawer container content element rendered inside portal with overlay.
  *
- * @param className - Optional style class name applied to the content container.
  * @param children - Drawer content elements.
- * @param props - Additional props forwarded to DrawerPrimitive.Content.
  */
-const DrawerContent = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Content>, React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>>(
-	({ className, children, ...props }, ref): React.JSX.Element => (
-		<DrawerPortal>
-			<DrawerOverlay />
-			<DrawerPrimitive.Content
-				ref={ref}
-				className={cn('fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border', SURFACE_VARIANTS({ variant: 'primary-outline' }), className)}
-				{...props}
-			>
-				<div className='mx-auto mt-4 h-2 w-[100px] rounded-full bg-primary-1' aria-hidden='true' />
-				{children}
-			</DrawerPrimitive.Content>
-		</DrawerPortal>
-	),
-);
+const DrawerContent = React.forwardRef<
+  React.ElementRef<typeof DrawerPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
+>(({ className, children, ...props }, ref): React.JSX.Element => (
+  <DrawerPortal>
+    <DrawerOverlay />
+    <DrawerPrimitive.Content
+      ref={ref}
+      className={cn(
+        "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border",
+        SURFACE_VARIANTS({ variant: "primary-outline" }),
+        className,
+      )}
+      {...props}
+    >
+      <div
+        className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-primary-1"
+        aria-hidden="true"
+      />
+      {children}
+    </DrawerPrimitive.Content>
+  </DrawerPortal>
+));
 
 /**
  * Drawer accessible title heading primitive.
  *
- * @param className - Optional class name applied to the title heading.
- * @param props - Additional props forwarded to DrawerPrimitive.Title.
  */
-const DrawerTitle = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Title>, React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>>(
-	({ className, ...props }, ref): React.JSX.Element => <DrawerPrimitive.Title ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />,
-);
+const DrawerTitle = React.forwardRef<
+  React.ElementRef<typeof DrawerPrimitive.Title>,
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
+>(({ className, ...props }, ref): React.JSX.Element => (
+  <DrawerPrimitive.Title
+    ref={ref}
+    className={cn(
+      "text-lg font-semibold leading-none tracking-tight",
+      className,
+    )}
+    {...props}
+  />
+));
 
 /**
  * Drawer accessible description text primitive.
  *
- * @param className - Optional class name applied to the description paragraph.
- * @param props - Additional props forwarded to DrawerPrimitive.Description.
  */
-const DrawerDescription = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Description>, React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>>(
-	({ className, ...props }, ref): React.JSX.Element => <DrawerPrimitive.Description ref={ref} className={cn('text-sm', className)} {...props} />,
-);
+const DrawerDescription = React.forwardRef<
+  React.ElementRef<typeof DrawerPrimitive.Description>,
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
+>(({ className, ...props }, ref): React.JSX.Element => (
+  <DrawerPrimitive.Description
+    ref={ref}
+    className={cn("text-sm", className)}
+    {...props}
+  />
+));
 
 /*//////////////////////////////////////////////////
 COMPONENTS
@@ -83,45 +109,77 @@ COMPONENTS
 /**
  * Renders the drawer component root primitive.
  *
- * @param shouldScaleBackground - Whether background scales down when open.
  * @param props - Open state, event callbacks, and supported root attributes forwarded to the drawer primitive.
+ * @param shouldScaleBackground - Whether background scales down when open.
  *
- * @returns React element for the drawer root primitive.
+ * @return React element for the drawer root primitive.
  */
-function Drawer({ shouldScaleBackground = true, ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>): React.JSX.Element {
-	return <DrawerPrimitive.Root shouldScaleBackground={shouldScaleBackground} {...props} />;
+function Drawer({
+  shouldScaleBackground = true,
+  ...props
+}: React.ComponentProps<typeof DrawerPrimitive.Root>): React.JSX.Element {
+  return (
+    <DrawerPrimitive.Root
+      shouldScaleBackground={shouldScaleBackground}
+      {...props}
+    />
+  );
 }
 
 /**
  * Drawer header container.
  *
- * @param className - Class name applied to the header container element.
  * @param props - HTML attributes for the header container.
  *
- * @returns React element for the drawer header.
+ * @return React element for the drawer header.
  */
-function DrawerHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
-	return <div className={cn('grid gap-1.5 p-4 text-center sm:text-left', className)} {...props} />;
+function DrawerHeader({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
+  return (
+    <div
+      className={cn("grid gap-1.5 p-4 text-center sm:text-left", className)}
+      {...props}
+    />
+  );
 }
 
 /**
  * Drawer footer container.
  *
- * @param className - Class name applied to the footer container element.
  * @param props - HTML attributes for the footer container.
  *
- * @returns React element for the drawer footer.
+ * @return React element for the drawer footer.
  */
-function DrawerFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
-	return <div className={cn('mt-auto flex flex-col gap-2 p-4', className)} {...props} />;
+function DrawerFooter({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
+  return (
+    <div
+      className={cn("mt-auto flex flex-col gap-2 p-4", className)}
+      {...props}
+    />
+  );
 }
-
-Drawer.displayName = 'Drawer';
+Drawer.displayName = "Drawer";
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
-DrawerContent.displayName = 'DrawerContent';
-DrawerHeader.displayName = 'DrawerHeader';
+DrawerContent.displayName = "DrawerContent";
+DrawerHeader.displayName = "DrawerHeader";
 DrawerTitle.displayName = DrawerPrimitive.Title.displayName;
 DrawerDescription.displayName = DrawerPrimitive.Description.displayName;
 
 // EXPORTS
-export { Drawer, DrawerPortal, DrawerOverlay, DrawerTrigger, DrawerClose, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerDescription };
+export {
+  Drawer,
+  DrawerPortal,
+  DrawerOverlay,
+  DrawerTrigger,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerFooter,
+  DrawerTitle,
+  DrawerDescription,
+};

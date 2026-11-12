@@ -16,11 +16,5 @@
     "test/**/*.{ts,tsx}",
     "config/**/*.{js,mjs,cjs,ts}"
   ],
-  "project": ["**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,mdx}"],
-  "ignoreDependencies": [
-    "@terra-symposium/styling",
-    "@types/bezier-easing",
-    "postcss-import",
-    "prettier"
-  ]
+  "project": ["**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,mdx}"]
 }

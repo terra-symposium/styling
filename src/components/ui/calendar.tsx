@@ -26,6 +26,112 @@ import { DayPicker } from "react-day-picker";
 import type { ButtonVariantProps, CompactSize } from "./types.js";
 import type { DayButton } from "react-day-picker";
 
+/** DayPicker's component override map with optional entries made concrete. */
+type DayPickerComponents = NonNullable<
+  React.ComponentProps<typeof DayPicker>["components"]
+>;
+/** DayPicker's formatter map with optional entries made concrete. */
+type DayPickerFormatters = NonNullable<
+  React.ComponentProps<typeof DayPicker>["formatters"]
+>;
+
+/** Formats the month caption used by DayPicker's month dropdown.
+ *
+ * @param date Month date supplied by DayPicker.
+ *
+ * @return The abbreviated localized month name.
+ */
+function formatMonthDropdown(date: Date): string {
+  return date.toLocaleString("default", { month: "short" });
+}
+
+/** Renders the DayPicker root with the shared calendar data slot.
+ *
+ * @param className DayPicker root classes.
+ * @param rootRef Root element ref supplied by DayPicker.
+ * @param rootProps Remaining properties supplied to the root element.
+ *
+ * @return The root div marked as a shared calendar surface.
+ */
+function CalendarRoot({
+  className,
+  rootRef,
+  ...rootProps
+}: React.ComponentProps<
+  NonNullable<DayPickerComponents["Root"]>
+>): React.JSX.Element {
+  return (
+    <div
+      data-slot="calendar"
+      ref={rootRef}
+      className={cn(className)}
+      {...rootProps}
+    />
+  );
+}
+
+/** Renders the orientation-specific chevron used by DayPicker.
+ *
+ * @param className Classes supplied by DayPicker for the chevron.
+ * @param orientation Direction the chevron should indicate.
+ * @param chevronProps Remaining icon properties supplied by DayPicker.
+ *
+ * @return The left, right, or down chevron icon.
+ */
+function CalendarChevron({
+  className,
+  orientation,
+  ...chevronProps
+}: React.ComponentProps<
+  NonNullable<DayPickerComponents["Chevron"]>
+>): React.JSX.Element {
+  if (orientation === "left")
+    return (
+      <ChevronLeftIcon
+        className={cn("size-4", className)}
+        aria-hidden="true"
+        {...chevronProps}
+      />
+    );
+  if (orientation === "right")
+    return (
+      <ChevronRightIcon
+        className={cn("size-4", className)}
+        aria-hidden="true"
+        {...chevronProps}
+      />
+    );
+  return (
+    <ChevronDownIcon
+      className={cn("size-4", className)}
+      aria-hidden="true"
+      {...chevronProps}
+    />
+  );
+}
+
+/** Renders a week number in the center of its table cell.
+ *
+ * @param children Week-number content supplied by DayPicker.
+ * @param weekNumberProps Remaining table-cell attributes.
+ *
+ * @return A table cell containing the centered week number.
+ */
+function CalendarWeekNumber({
+  children,
+  ...weekNumberProps
+}: React.ComponentProps<NonNullable<DayPickerComponents["WeekNumber"]>> & {
+  children?: React.ReactNode;
+}): React.JSX.Element {
+  return (
+    <td {...weekNumberProps}>
+      <div className="flex size-full items-center justify-center text-center">
+        {children}
+      </div>
+    </td>
+  );
+}
+
 /*//////////////////////////////////////////////////
 INTERNAL HELPERS
 //////////////////////////////////////////////////*/
@@ -72,7 +178,15 @@ COMPONENT
  * React DayPicker wrapper with compact, fixed-width, and responsive layouts.
  * `size` scales calendar cells and text; `buttonVariant` styles month navigation.
  *
- * @param props - DayPicker settings, size, navigation variant, and class overrides.
+ * @param className Optional classes applied to the calendar root.
+ * @param classNames Classes overriding DayPicker's named elements.
+ * @param showOutsideDays Whether adjacent-month days appear in the grid.
+ * @param captionLayout Layout style used for the month caption.
+ * @param buttonVariant Visual variant used by month navigation buttons.
+ * @param size Calendar cell sizing preset.
+ * @param formatters DayPicker formatter overrides.
+ * @param components DayPicker component overrides.
+ * @param dayPickerProps Remaining properties forwarded to DayPicker.
  *
  * @return A styled calendar with a custom day button.
  */
@@ -86,7 +200,7 @@ function Calendar({
   size = "sm",
   formatters,
   components,
-  ...props
+  ...dayPickerProps
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: ButtonVariantProps;
   size?: CompactSize | "responsive";
@@ -99,6 +213,10 @@ function Calendar({
   const isCompact = size === "xs";
   // 'responsive' is the only layout that fills its container
   const isResponsive = size === "responsive";
+  const monthFormatters: Partial<DayPickerFormatters> = {
+    formatMonthDropdown,
+    ...formatters,
+  };
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -120,11 +238,7 @@ function Calendar({
         className,
       )}
       captionLayout={captionLayout}
-      formatters={{
-        formatMonthDropdown: (date) =>
-          date.toLocaleString("default", { month: "short" }),
-        ...formatters,
-      }}
+      formatters={monthFormatters}
       classNames={{
         root: cn(isResponsive ? "w-full" : "w-fit", defaultClassNames.root),
         months: cn(
@@ -259,61 +373,16 @@ function Calendar({
       }}
       components={{
         /* Wrapper component for the DayPicker. */
-        Root: ({ className: rootClassName, rootRef, ...rootProps }) => {
-          return (
-            <div
-              data-slot="calendar"
-              ref={rootRef}
-              className={cn(rootClassName)}
-              {...rootProps}
-            />
-          );
-        },
+        Root: CalendarRoot,
         /* Component for the chevron icons. */
-        Chevron: ({
-          className: chevronClassName,
-          orientation,
-          ...chevronProps
-        }) => {
-          if (orientation === "left")
-            return (
-              <ChevronLeftIcon
-                className={cn("size-4", chevronClassName)}
-                aria-hidden="true"
-                {...chevronProps}
-              />
-            );
-          if (orientation === "right")
-            return (
-              <ChevronRightIcon
-                className={cn("size-4", chevronClassName)}
-                aria-hidden="true"
-                {...chevronProps}
-              />
-            );
-          return (
-            <ChevronDownIcon
-              className={cn("size-4", chevronClassName)}
-              aria-hidden="true"
-              {...chevronProps}
-            />
-          );
-        },
+        Chevron: CalendarChevron,
         // Use the custom styled day button defined below.
         DayButton: CalendarDayButton,
         /* Component for the week number. */
-        WeekNumber: ({ children, ...weekNumberProps }) => {
-          return (
-            <td {...weekNumberProps}>
-              <div className="flex size-full items-center justify-center text-center">
-                {children}
-              </div>
-            </td>
-          );
-        },
+        WeekNumber: CalendarWeekNumber,
         ...components,
       }}
-      {...props}
+      {...dayPickerProps}
     />
   );
 }
@@ -321,7 +390,10 @@ function Calendar({
 /**
  * Custom day button that preserves DayPicker focus and selection state styling.
  *
- * @param props - Day data, modifiers, and button attributes supplied by DayPicker.
+ * @param className Optional classes applied to the day button.
+ * @param day Calendar day metadata supplied by DayPicker.
+ * @param modifiers Selection, focus, range, and availability states.
+ * @param dayButtonProps Remaining button properties supplied by DayPicker.
  *
  * @return A day button with DayPicker's keyboard and selection state.
  */
@@ -329,14 +401,16 @@ function CalendarDayButton({
   className,
   day,
   modifiers,
-  ...props
+  ...dayButtonProps
 }: React.ComponentProps<typeof DayButton>): React.JSX.Element {
   // create a ref to manually manage focus
   const ref = React.useRef<HTMLButtonElement>(null);
   // ensures the focused day is programmatically focused
-  React.useEffect(() => {
+  /** Moves browser focus to the button when DayPicker marks the day focused. */
+  function focusDayButton(): void {
     if (modifiers.focused) ref.current?.focus();
-  }, [modifiers.focused]);
+  }
+  React.useEffect(focusDayButton, [modifiers.focused]);
   return (
     <Button
       ref={ref}
@@ -379,7 +453,7 @@ function CalendarDayButton({
         /* a variable for default class names */ getDefaultClassNames().day,
         className,
       )}
-      {...props}
+      {...dayButtonProps}
     />
   );
 }

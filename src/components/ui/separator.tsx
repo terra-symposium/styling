@@ -21,17 +21,23 @@ COMPONENTS
 /**
  * Separator primitive component.
  *
- * @param orientation - Visual orientation of the divider ('horizontal' or 'vertical').
- * @param decorative - Whether the separator is decorative or structural for screen readers.
+ * @param separatorProps - Native separator attributes and orientation settings.
+ * @param ref - Ref forwarded to the Radix separator element.
+ * @return A horizontal or vertical divider with shared surface styling.
  */
-const Separator = React.forwardRef<
-  React.ElementRef<typeof SeparatorPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>
->(
-  (
-    { className, orientation = "horizontal", decorative = true, ...props },
-    ref,
-  ): React.JSX.Element => (
+function renderSeparator(
+  separatorProps: React.ComponentPropsWithoutRef<
+    typeof SeparatorPrimitive.Root
+  >,
+  ref: React.ForwardedRef<React.ElementRef<typeof SeparatorPrimitive.Root>>,
+): React.JSX.Element {
+  const {
+    className,
+    orientation = "horizontal",
+    decorative = true,
+    ...props
+  } = separatorProps;
+  return (
     <SeparatorPrimitive.Root
       ref={ref}
       decorative={decorative}
@@ -43,7 +49,12 @@ const Separator = React.forwardRef<
       )}
       {...props}
     />
-  ),
-);
+  );
+}
+
+const Separator = React.forwardRef<
+  React.ElementRef<typeof SeparatorPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>
+>(renderSeparator);
 Separator.displayName = SeparatorPrimitive.Root.displayName;
 export { Separator };

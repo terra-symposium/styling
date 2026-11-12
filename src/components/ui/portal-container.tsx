@@ -37,7 +37,8 @@ COMPONENTS
 /**
  * Makes a portal target available to descendant components.
  *
- * @param props - The children to render and target element, or `null` while no target is mounted.
+ * @param children - Descendant components that may open portals.
+ * @param container - Portal target element, or `null` until it is mounted.
  *
  * @return The children rendered under the portal-target context.
  */

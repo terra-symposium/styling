@@ -19,7 +19,7 @@ COMPONENTS
 /**
  * Provides the shared sticky frame for toolbars in all Docs hosts.
  *
- * @param props Toolbar content to place inside the frame.
+ * @param children - Toolbar content to place inside the frame.
  *
  * @return A sticky, print-hidden toolbar frame.
  */

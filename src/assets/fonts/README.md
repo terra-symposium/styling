@@ -1,6 +1,5 @@
 # Typeface credits
 
-
 ## What it does
 
 Not applicable.
@@ -27,7 +26,6 @@ under the WTFPL.
 the SIL Open Font License 1.1. The files match the Inter font files used by the original Docs host.
 See [licenses/Inter-OFL-1.1.txt](licenses/Inter-OFL-1.1.txt) and [the Inter
 project](https://github.com/rsms/inter).
-
 
 The font files are distributed unchanged from the copies already used by the Terra Symposium website, except Inter is included locally because its original Sanity CSS dependency did not travel with Docs. Their licenses are separate from the Apache-2.0 license for this package.
 

@@ -49,14 +49,16 @@ COMPONENTS
  * - Sets appropriate ARIA roles for grouped controls.
  * - Accepts an `orientation` variant to switch between horizontal and vertical layouts.
  *
- * @param props - Child buttons and div attributes; `orientation` controls their layout and `className` extends the group styles.
+ * @param className - Additional classes applied to the group container.
+ * @param orientation - Horizontal or vertical layout for the button group.
+ * @param attributes - Remaining div attributes forwarded to the group.
  *
  * @return A grouped button container with orientation-aware styling and ARIA metadata.
  */
 function ButtonGroup({
   className,
   orientation,
-  ...props
+  ...attributes
 }: React.ComponentProps<"div"> &
   VariantProps<typeof BUTTON_GROUP_VARIANTS>): React.JSX.Element {
   return (
@@ -65,7 +67,7 @@ function ButtonGroup({
       data-slot="button-group"
       data-orientation={orientation}
       className={cn(BUTTON_GROUP_VARIANTS({ orientation, className }))}
-      {...props}
+      {...attributes}
     />
   );
 }

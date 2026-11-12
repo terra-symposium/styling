@@ -28,112 +28,133 @@ LOCAL TYPES
 
 const CarouselCtx = React.createContext<CarouselCtxProps | null>(null);
 CarouselCtx.displayName = "CarouselContext";
-/**
- * Accessible carousel region with Embla navigation state and left/right arrow-key controls.
- *
- * @param orientation - Scroll axis, either horizontal or vertical.
- * @param opts - Embla carousel options.
- * @param setApi - Optional callback to expose the Embla API to callers.
- * @param plugins - Optional list of Embla plugins.
- * @param className - Optional style overrides for the root element.
- *
- * @returns A carousel region that provides navigation state to its children.
+/** Renders an accessible Embla carousel and publishes its navigation state.
+ * @param carouselProps - Root attributes, orientation, plugins, and API callback.
+ * @param ref - Ref forwarded to the outer carousel region.
+ * @return A carousel region with context for its child controls.
  */
+function CarouselRender(
+  carouselProps: React.HTMLAttributes<HTMLDivElement> & CarouselProps,
+  ref: React.ForwardedRef<HTMLDivElement>,
+): React.JSX.Element {
+  const {
+    orientation = "horizontal",
+    opts,
+    setApi,
+    plugins,
+    className,
+    children,
+    ...props
+  } = carouselProps;
+  const [carouselRef, api] = useEmblaCarousel(
+    { ...opts, axis: orientation === "horizontal" ? "x" : "y" },
+    plugins,
+  );
+  const [canScrollPrev, setCanScrollPrev] = React.useState(false);
+  const [canScrollNext, setCanScrollNext] = React.useState(false);
+  /** Updates previous and next availability after Embla selection changes.
+   * @param api - Active Embla API.
+   * @return Nothing; both control availability states are refreshed.
+   */
+  function updateCarouselSelection(api: CarouselApi): void {
+    if (!api) return;
+    setCanScrollPrev(api.canScrollPrev());
+    setCanScrollNext(api.canScrollNext());
+  }
+  const onSelect = React.useCallback(updateCarouselSelection, []);
+  /** Moves to the previous slide when Embla is available. */
+  function moveToPreviousSlide(): void {
+    api?.scrollPrev();
+  }
+  const scrollPrev = React.useCallback(moveToPreviousSlide, [api]);
+  /** Moves to the next slide when Embla is available. */
+  function moveToNextSlide(): void {
+    api?.scrollNext();
+  }
+  const scrollNext = React.useCallback(moveToNextSlide, [api]);
+  /** Publishes the mounted API to the optional caller callback. */
+  function publishCarouselApi(): void {
+    if (!api || !setApi) return;
+    setApi(api);
+  }
+  React.useEffect(publishCarouselApi, [api, setApi]);
+  /** Subscribes to Embla selection updates and returns listener cleanup.
+   * @return A cleanup callback when Embla is available.
+   */
+  function subscribeToCarouselSelection(): (() => void) | undefined {
+    if (!api) return;
+    onSelect(api);
+    api.on("reInit", onSelect);
+    api.on("select", onSelect);
+    return removeCarouselSelectionListener;
+  }
+  /** Removes the Embla selection listener when the carousel unmounts. */
+  function removeCarouselSelectionListener(): void {
+    api?.off("select", onSelect);
+  }
+  React.useEffect(subscribeToCarouselSelection, [api, onSelect]);
+  /** Handles arrow-key navigation within the carousel region.
+   * @param event - Captured keyboard event.
+   * @return Nothing; horizontal arrows move the carousel and prevent default.
+   */
+  function handleCarouselKeyDown(
+    event: React.KeyboardEvent<HTMLDivElement>,
+  ): void {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      scrollPrev();
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      scrollNext();
+    }
+  }
+  const onCarouselKeyDown = React.useCallback(handleCarouselKeyDown, [
+    scrollPrev,
+    scrollNext,
+  ]);
+  return (
+    <CarouselCtx.Provider
+      value={{
+        carouselRef,
+        api,
+        opts,
+        orientation:
+          orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
+        scrollPrev,
+        scrollNext,
+        canScrollPrev,
+        canScrollNext,
+      }}
+    >
+      <div
+        ref={ref}
+        onKeyDownCapture={onCarouselKeyDown}
+        className={cn("relative", className)}
+        role="region"
+        aria-roledescription="carousel"
+        aria-label={props["aria-label"] ?? "Carousel"}
+        {...props}
+      >
+        {children}
+      </div>
+    </CarouselCtx.Provider>
+  );
+}
+/** Accessible carousel region with Embla navigation state and arrow-key controls. */
 const Carousel = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & CarouselProps
->(
-  (
-    {
-      orientation = "horizontal",
-      opts,
-      setApi,
-      plugins,
-      className,
-      children,
-      ...props
-    },
-    ref,
-  ): React.JSX.Element => {
-    const [carouselRef, api] = useEmblaCarousel(
-      { ...opts, axis: orientation === "horizontal" ? "x" : "y" },
-      plugins,
-    );
-    const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-    const [canScrollNext, setCanScrollNext] = React.useState(false);
-    const onSelect = React.useCallback((api: CarouselApi) => {
-      if (!api) return;
-      setCanScrollPrev(api.canScrollPrev());
-      setCanScrollNext(api.canScrollNext());
-    }, []);
-    const scrollPrev = React.useCallback(() => {
-      api?.scrollPrev();
-    }, [api]);
-    const scrollNext = React.useCallback(() => {
-      api?.scrollNext();
-    }, [api]);
-    React.useEffect(() => {
-      if (!api || !setApi) return;
-      setApi(api);
-    }, [api, setApi]);
-    React.useEffect(() => {
-      if (!api) return;
-      onSelect(api);
-      api.on("reInit", onSelect);
-      api.on("select", onSelect);
-      return () => {
-        api?.off("select", onSelect);
-      };
-    }, [api, onSelect]);
-    return (
-      <CarouselCtx.Provider
-        value={{
-          carouselRef,
-          api,
-          opts,
-          orientation:
-            orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
-          scrollPrev,
-          scrollNext,
-          canScrollPrev,
-          canScrollNext,
-        }}
-      >
-        <div
-          ref={ref}
-          onKeyDownCapture={React.useCallback(
-            (e: React.KeyboardEvent<HTMLDivElement>) => {
-              if (e.key === "ArrowLeft") {
-                e.preventDefault();
-                scrollPrev();
-              } else if (e.key === "ArrowRight") {
-                e.preventDefault();
-                scrollNext();
-              }
-            },
-            [scrollPrev, scrollNext],
-          )}
-          className={cn("relative", className)}
-          role="region"
-          aria-roledescription="carousel"
-          aria-label={props["aria-label"] ?? "Carousel"}
-          {...props}
-        >
-          {children}
-        </div>
-      </CarouselCtx.Provider>
-    );
-  },
-);
-/**
- * Container for all carousel items, responsible for overflow and track layout.
- *
- * @returns A scrollable track region controlled by Embla.
+>(CarouselRender);
+/** Renders the scrollable carousel track controlled by Embla.
+ * @param contentProps - Track attributes and child slides.
+ * @param ref - Ref forwarded to the track element.
+ * @return A track inside the Embla viewport wrapper.
  */
-const CarouselContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref): React.JSX.Element => {
+function renderCarouselContent(
+  contentProps: React.HTMLAttributes<HTMLDivElement>,
+  ref: React.ForwardedRef<HTMLDivElement>,
+): React.JSX.Element {
+  const { className, ...props } = contentProps;
   const { carouselRef, orientation } = useCarousel();
   return (
     <div
@@ -155,16 +176,27 @@ const CarouselContent = React.forwardRef<
       />
     </div>
   );
-});
+}
+
 /**
- * Single slide within the carousel.
+ * Container for all carousel items, responsible for overflow and track layout.
  *
- * @returns A group element representing an individual slide.
+ * @returns A scrollable track region controlled by Embla.
  */
-const CarouselItem = React.forwardRef<
+const CarouselContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref): React.JSX.Element => {
+>(renderCarouselContent);
+/** Renders one slide with the current carousel orientation spacing.
+ * @param itemProps - Slide attributes and child content.
+ * @param ref - Ref forwarded to the slide element.
+ * @return A grouped carousel slide.
+ */
+function renderCarouselItem(
+  itemProps: React.HTMLAttributes<HTMLDivElement>,
+  ref: React.ForwardedRef<HTMLDivElement>,
+): React.JSX.Element {
+  const { className, ...props } = itemProps;
   const { orientation } = useCarousel();
   return (
     <div
@@ -179,7 +211,56 @@ const CarouselItem = React.forwardRef<
       {...props}
     />
   );
-});
+}
+
+/**
+ * Single slide within the carousel.
+ *
+ * @returns A group element representing an individual slide.
+ */
+const CarouselItem = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(renderCarouselItem);
+/** Renders the control that moves Embla to its previous slide.
+ * @param buttonProps - Button attributes, label, and variant options.
+ * @param ref - Ref forwarded to the navigation button.
+ * @return A previous-slide button disabled at the start of the carousel.
+ */
+function renderCarouselPrevious(
+  buttonProps: React.ComponentProps<typeof Button>,
+  ref: React.ForwardedRef<HTMLButtonElement>,
+): React.JSX.Element {
+  const {
+    className,
+    variant = "outline",
+    size = "icon",
+    "aria-label": ariaLabel = "Previous slide",
+    ...props
+  } = buttonProps;
+  const { orientation, scrollPrev, canScrollPrev } = useCarousel();
+  return (
+    <Button
+      ref={ref}
+      variant={variant}
+      size={size}
+      className={cn(
+        "absolute size-8 rounded-lg",
+        orientation === "horizontal"
+          ? "-left-12 top-1/2 -translate-y-1/2"
+          : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
+        className,
+      )}
+      disabled={!canScrollPrev}
+      onClick={scrollPrev}
+      aria-label={ariaLabel}
+      {...props}
+    >
+      <ArrowLeftIcon className="size-4" aria-hidden="true" />
+    </Button>
+  );
+}
+
 /**
  * Button control for navigating to the prev carousel slide.
  *
@@ -192,40 +273,46 @@ const CarouselItem = React.forwardRef<
 const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
->(
-  (
-    {
-      className,
-      variant = "outline",
-      size = "icon",
-      "aria-label": ariaLabel = "Previous slide",
-      ...props
-    },
-    ref,
-  ): React.JSX.Element => {
-    const { orientation, scrollPrev, canScrollPrev } = useCarousel();
-    return (
-      <Button
-        ref={ref}
-        variant={variant}
-        size={size}
-        className={cn(
-          "absolute size-8 rounded-lg",
-          orientation === "horizontal"
-            ? "-left-12 top-1/2 -translate-y-1/2"
-            : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-          className,
-        )}
-        disabled={!canScrollPrev}
-        onClick={scrollPrev}
-        aria-label={ariaLabel}
-        {...props}
-      >
-        <ArrowLeftIcon className="size-4" aria-hidden="true" />
-      </Button>
-    );
-  },
-);
+>(renderCarouselPrevious);
+/** Renders the control that moves Embla to its next slide.
+ * @param buttonProps - Button attributes, label, and variant options.
+ * @param ref - Ref forwarded to the navigation button.
+ * @return A next-slide button disabled at the end of the carousel.
+ */
+function renderCarouselNext(
+  buttonProps: React.ComponentProps<typeof Button>,
+  ref: React.ForwardedRef<HTMLButtonElement>,
+): React.JSX.Element {
+  const {
+    className,
+    variant = "outline",
+    size = "icon",
+    "aria-label": ariaLabel = "Next slide",
+    ...props
+  } = buttonProps;
+  const { orientation, scrollNext, canScrollNext } = useCarousel();
+  return (
+    <Button
+      ref={ref}
+      variant={variant}
+      size={size}
+      className={cn(
+        "absolute size-8 rounded-lg",
+        orientation === "horizontal"
+          ? "-right-12 top-1/2 -translate-y-1/2"
+          : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
+        className,
+      )}
+      disabled={!canScrollNext}
+      onClick={scrollNext}
+      aria-label={ariaLabel}
+      {...props}
+    >
+      <ArrowRightIcon className="size-4" aria-hidden="true" />
+    </Button>
+  );
+}
+
 /**
  * Button control for navigating to the next carousel slide.
  *
@@ -238,40 +325,7 @@ const CarouselPrevious = React.forwardRef<
 const CarouselNext = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
->(
-  (
-    {
-      className,
-      variant = "outline",
-      size = "icon",
-      "aria-label": ariaLabel = "Next slide",
-      ...props
-    },
-    ref,
-  ): React.JSX.Element => {
-    const { orientation, scrollNext, canScrollNext } = useCarousel();
-    return (
-      <Button
-        ref={ref}
-        variant={variant}
-        size={size}
-        className={cn(
-          "absolute size-8 rounded-lg",
-          orientation === "horizontal"
-            ? "-right-12 top-1/2 -translate-y-1/2"
-            : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-          className,
-        )}
-        disabled={!canScrollNext}
-        onClick={scrollNext}
-        aria-label={ariaLabel}
-        {...props}
-      >
-        <ArrowRightIcon className="size-4" aria-hidden="true" />
-      </Button>
-    );
-  },
-);
+>(renderCarouselNext);
 
 /*//////////////////////////////////////////////////
 COMPONENTS

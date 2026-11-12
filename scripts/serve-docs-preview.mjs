@@ -43,54 +43,65 @@ const mimeTypes = {
   ".woff2": "font/woff2",
 };
 const notFound = resolve(output, "404.html");
-const server = createServer(async (r, v) => {
+/** Resolves a built-site route and streams its file or fallback page.
+ *
+ * @param request Incoming HTTP request.
+ * @param response HTTP response used to send the result.
+ */
+async function handleRequest(request, response) {
   let pathname;
   try {
     pathname = decodeURIComponent(
-      new URL(r.url ?? "/", "http://localhost").pathname,
+      new URL(request.url ?? "/", "http://localhost").pathname,
     );
   } catch {
-    v.writeHead(400).end("Bad request");
+    response.writeHead(400).end("Bad request");
     return;
   }
   if (pathname === "/" || pathname === base.slice(0, -1)) {
-    v.writeHead(308, { location: base }).end();
+    response.writeHead(308, { location: base }).end();
     return;
   }
   const file = pathname.startsWith(base) ? await resolveFile(pathname) : null;
-  const result =
-    file ??
-    (await (async () => {
-      try {
-        const details = await stat(notFound);
-        return { file: notFound, details };
-      } catch {
-        return null;
-      }
-    })());
+  let result = file;
   if (!result) {
-    v.writeHead(404).end("Not found");
+    try {
+      const details = await stat(notFound);
+      result = { file: notFound, details };
+    } catch {
+      result = null;
+    }
+  }
+  if (!result) {
+    response.writeHead(404).end("Not found");
     return;
   }
-  v.writeHead(file ? 200 : 404, {
+  response.writeHead(file ? 200 : 404, {
     "content-length": result.details.size,
     "content-type":
       mimeTypes[extname(result.file).toLowerCase()] ??
       "application/octet-stream",
   });
-  if (r.method === "HEAD") v.end();
-  else createReadStream(result.file).pipe(v);
-});
+  if (request.method === "HEAD") response.end();
+  else createReadStream(result.file).pipe(response);
+}
+/** Logs the local address after the preview server begins listening. */
+function logServerStarted() {
+  console.log(
+    `Styling Docs preview running at http://localhost:${port}${base}`,
+  );
+}
+const server = createServer(handleRequest);
 
 /*//////////////////////////////////////////////////
 HELPERS
 //////////////////////////////////////////////////*/
 
-/**
+/** Resolves a request pathname within the built docs output directory.
  *
- * @param pathname
+ * @param pathname Decoded pathname beginning with the configured docs base.
  *
- * @return
+ * @return The requested file and its metadata, or null when no safe file exists.
  */
 async function resolveFile(pathname) {
   const relative = pathname.slice(base.length);
@@ -109,8 +120,4 @@ async function resolveFile(pathname) {
   return null;
 }
 await access(output);
-server.listen(port, () => {
-  console.log(
-    `Styling Docs preview running at http://localhost:${port}${base}`,
-  );
-});
+server.listen(port, logServerStarted);

@@ -20,20 +20,21 @@ COMPONENTS
 /**
  * Small SVG loading indicator with status semantics.
  *
- * @param props - SVG attributes forwarded to the loading icon.
+ * @param className - Additional classes applied to the loading icon.
+ * @param svgAttributes - Remaining SVG attributes forwarded to the icon.
  *
  * @return An SVG status icon labelled `Loading`.
  */
 function Spinner({
   className,
-  ...props
+  ...svgAttributes
 }: React.ComponentProps<"svg">): React.JSX.Element {
   return (
     <LoadIcon
       role="status"
       aria-label="Loading"
       className={cn("size-4 animate-spin", className)}
-      {...props}
+      {...svgAttributes}
     />
   );
 }

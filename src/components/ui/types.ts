@@ -64,6 +64,7 @@ export type AnchorCardProps = {
   disabled?: boolean;
 } & CardBehaviorProps &
   React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
+/** Shared disclosure and composition options for card surfaces. */
 type CardBehaviorProps = {
   asChild?: boolean;
   collapsible?: boolean;
@@ -120,6 +121,7 @@ export type CarouselProps = {
   orientation?: "horizontal" | "vertical";
   setApi?: (api: CarouselApi) => void;
 };
+/** Parameter tuple accepted by Embla's React hook. */
 type UseCarouselParams = Parameters<typeof EmblaCarouselReact.default>;
 
 // COMBOBOX

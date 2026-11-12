@@ -1,7 +1,29 @@
+/*//////////////////////////////////////////////////
+IMPORTS
+//////////////////////////////////////////////////*/
+
+// API
 import assert from "node:assert/strict";
+
+// TEST RUNNER
 import test from "node:test";
 
-test("the public UI entry keeps the shared hue API available to existing hosts", async () => {
+/*//////////////////////////////////////////////////
+TESTS
+//////////////////////////////////////////////////*/
+
+test.describe("public UI entry contract", publicUiEntryContract);
+
+/** Registers the published UI entry checks for existing package hosts. */
+function publicUiEntryContract(): void {
+  test(
+    "the public UI entry keeps the shared hue API available to existing hosts",
+    publicUiEntryKeepsHueAndComponentExports,
+  );
+}
+
+/** Checks the generated package entry exports its hue utilities and core UI. */
+async function publicUiEntryKeepsHueAndComponentExports(): Promise<void> {
   const ui = await import("../../../dist/ui/index.js");
   for (const name of [
     "colors",
@@ -18,4 +40,4 @@ test("the public UI entry keeps the shared hue API available to existing hosts",
     );
   assert.equal(typeof ui.cn, "function");
   assert.ok(ui.Button);
-});
+}

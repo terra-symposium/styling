@@ -124,7 +124,10 @@ COMPONENTS
 /**
  * Renders one row from cell definitions using the shared table primitives.
  *
- * @param props Cell definitions, optional table-row props, and styling; emphasis applies only to the first cell.
+ * @param cells - Cell definitions rendered from left to right.
+ * @param rowClassName - Optional classes applied to the table row.
+ * @param rowProps - Optional native table-row properties excluding content and styling.
+ * @param emphasizeFirstCol - Whether the first cell receives the stronger text weight.
  *
  * @return A shared table row containing the defined cells.
  */
@@ -142,32 +145,34 @@ export function DataTableRow({
   >;
   emphasizeFirstColumn?: boolean;
 }): JSX.Element {
+  /** Renders one cell using its alignment, width, mapped field, and emphasis settings. */
+  function renderCell(cell: DataTableCell, i: number): JSX.Element {
+    const className = cn(
+      ALIGN_CLASS[cell.align ?? "left"],
+      cell.width && WIDTH_CLASS[cell.width],
+      cellContentClass(cell, emphasizeFirstCol && i === 0),
+    );
+    const content = cell.field ? (
+      <>
+        <MappedFormControl field={cell.field} />
+        <MappedFormFieldError field={cell.field} />
+      </>
+    ) : (
+      cell.content
+    );
+    return cell.rowHeader ? (
+      <TableHead key={cell.key} scope="row" className={className}>
+        {content}
+      </TableHead>
+    ) : (
+      <TableCell key={cell.key} className={className}>
+        {content}
+      </TableCell>
+    );
+  }
   return (
     <TableRow {...rowProps} className={rowClassName}>
-      {cells.map((c, i) => {
-        const className = cn(
-          ALIGN_CLASS[c.align ?? "left"],
-          c.width && WIDTH_CLASS[c.width],
-          cellContentClass(c, emphasizeFirstCol && i === 0),
-        );
-        const content = c.field ? (
-          <>
-            <MappedFormControl field={c.field} />
-            <MappedFormFieldError field={c.field} />
-          </>
-        ) : (
-          c.content
-        );
-        return c.rowHeader ? (
-          <TableHead key={c.key} scope="row" className={className}>
-            {content}
-          </TableHead>
-        ) : (
-          <TableCell key={c.key} className={className}>
-            {content}
-          </TableCell>
-        );
-      })}
+      {cells.map(renderCell)}
     </TableRow>
   );
 }
@@ -176,7 +181,19 @@ export function DataTableRow({
 /**
  * Renders rows and column definitions through the shared table primitives.
  *
- * @param props Rows and columns, with optional renderers, row details, and empty-state or layout settings.
+ * @param rows - Ordered row records rendered beneath the column headers.
+ * @param cols - Column labels, optional field accessors, and cell presentation settings.
+ * @param rowKey - Stable row-key property or callback; defaults to the row index.
+ * @param rowClassName - Optional callback that adds styling to each data row.
+ * @param rowProps - Optional callback that supplies native table-row properties.
+ * @param renderRow - Optional renderer that replaces the default cell-based row.
+ * @param detail - Optional content rendered in a second row beneath each record.
+ * @param variant - Selects standard table behavior or the editor empty-state layout.
+ * @param tableLayout - Chooses automatic or fixed table column sizing.
+ * @param tableWidth - Optional minimum width preset for horizontally scrollable tables.
+ * @param emptyState - Empty-state title and optional description shown when there are no rows.
+ * @param emphasizeFirstCol - Gives the first table cell stronger text weight.
+ * @param pendingRowKey - Row key whose presentation should indicate pending work.
  *
  * @return Table content or the configured editor empty state, with overflow framing in editor mode.
  */
@@ -212,6 +229,69 @@ export function DataTableContent<Row extends object>({
   emphasizeFirstColumn?: boolean;
   pendingRowKey?: Key | null;
 }): JSX.Element {
+  /** Renders one heading cell using its label, alignment, and width configuration. */
+  function renderColHeader(col: DataTableColumn<Row>, i: number): JSX.Element {
+    return (
+      <TableHead
+        key={col.key || i}
+        className={cn(
+          ALIGN_CLASS[col.align ?? "left"],
+          col.width && WIDTH_CLASS[col.width],
+        )}
+      >
+        {col.label}
+      </TableHead>
+    );
+  }
+
+  /** Builds the row, optional detail row, and default mapped cells for one record. */
+  function renderTableRow(row: Row, i: number): JSX.Element {
+    const id =
+      typeof rowKey === "function"
+        ? rowKey(row, i)
+        : rowKey
+          ? row[rowKey as keyof Row]
+          : i;
+    const key = typeof id === "string" || typeof id === "number" ? id : i;
+    const rowDetail = detail?.(row, i);
+    const rowCells: DataTableCell[] = [];
+    for (const col of cols) {
+      const value = row[col.key as keyof Row];
+      const field = col.field?.(row, i);
+      const content = field
+        ? undefined
+        : col.render
+          ? col.render(row, i)
+          : value === null || value === undefined
+            ? "—"
+            : String(value);
+      rowCells.push({ ...col, field, content });
+    }
+    const rowContent = renderRow ? (
+      renderRow(row, i)
+    ) : (
+      <DataTableRow
+        rowProps={rowProps?.(row, i)}
+        rowClassName={cn(
+          pendingRowKey !== undefined && pendingRowKey === key && "opacity-60",
+          rowClassName?.(row, i),
+        )}
+        emphasizeFirstColumn={emphasizeFirstCol}
+        cells={rowCells}
+      />
+    );
+    return (
+      <Fragment key={key}>
+        {rowContent}
+        {rowDetail != null && (
+          <TableRow>
+            <TableCell colSpan={cols.length}>{rowDetail}</TableCell>
+          </TableRow>
+        )}
+      </Fragment>
+    );
+  }
+
   const tableContent =
     variant === "editor" && rows.length === 0 && emptyState ? (
       <Empty
@@ -229,67 +309,10 @@ export function DataTableContent<Row extends object>({
         )}
       >
         <TableHeader>
-          <TableRow>
-            {cols.map((c, i) => (
-              <TableHead
-                key={c.key || i}
-                className={cn(
-                  ALIGN_CLASS[c.align ?? "left"],
-                  c.width && WIDTH_CLASS[c.width],
-                )}
-              >
-                {c.label}
-              </TableHead>
-            ))}
-          </TableRow>
+          <TableRow>{cols.map(renderColHeader)}</TableRow>
         </TableHeader>
         <TableBody>
-          {rows.map((r, i) => {
-            const id =
-              typeof rowKey === "function"
-                ? rowKey(r, i)
-                : rowKey
-                  ? r[rowKey as keyof Row]
-                  : i;
-            const key =
-              typeof id === "string" || typeof id === "number" ? id : i;
-            const rowDetail = detail?.(r, i);
-            return (
-              <Fragment key={key}>
-                {renderRow ? (
-                  renderRow(r, i)
-                ) : (
-                  <DataTableRow
-                    rowProps={rowProps?.(r, i)}
-                    rowClassName={cn(
-                      pendingRowKey !== undefined &&
-                        pendingRowKey === key &&
-                        "opacity-60",
-                      rowClassName?.(r, i),
-                    )}
-                    emphasizeFirstColumn={emphasizeFirstCol}
-                    cells={cols.map((c) => {
-                      const value = r[c.key as keyof Row];
-                      const field = c.field?.(r, i);
-                      const content = field
-                        ? undefined
-                        : c.render
-                          ? c.render(r, i)
-                          : value === null || value === undefined
-                            ? "—"
-                            : String(value);
-                      return { ...c, field, content };
-                    })}
-                  />
-                )}
-                {rowDetail != null && (
-                  <TableRow>
-                    <TableCell colSpan={cols.length}>{rowDetail}</TableCell>
-                  </TableRow>
-                )}
-              </Fragment>
-            );
-          })}
+          {rows.map(renderTableRow)}
           {variant !== "editor" && rows.length === 0 && emptyState && (
             <TableRow>
               <TableCell colSpan={cols.length} className="p-0">
@@ -315,7 +338,30 @@ export function DataTableContent<Row extends object>({
 /**
  * Renders an entity directory from row and column data or wraps a custom interactive table.
  *
- * @param props Card metadata and either row/column data or custom content; data rendering requires both rows and columns.
+ * @param title - Title displayed in the directory card heading.
+ * @param description - Supporting description displayed beneath the title.
+ * @param header - Optional consumer-owned content above the table.
+ * @param action - Optional action aligned with the card heading.
+ * @param toolbar - Optional controls placed above the table content.
+ * @param pagination - Optional pagination controls shown in the card footer.
+ * @param add - Optional add action shown with pagination and save controls.
+ * @param save - Optional save action; its presence enables the save button.
+ * @param saving - Whether the save button should show its loading state.
+ * @param footer - Optional consumer content placed in the card footer.
+ * @param rows - Optional records used by the data-driven table renderer.
+ * @param cols - Optional column definitions paired with `rows`.
+ * @param rowKey - Stable row-key property or callback; defaults to the row index.
+ * @param rowClassName - Optional callback that adds styling to each data row.
+ * @param rowProps - Optional callback that supplies native table-row properties.
+ * @param renderRow - Optional renderer that replaces the default cell-based row.
+ * @param detail - Optional content rendered in a second row beneath each record.
+ * @param variant - Selects standard table behavior or the editor empty-state layout.
+ * @param tableLayout - Chooses automatic or fixed table column sizing.
+ * @param tableWidth - Optional minimum width preset for horizontally scrollable tables.
+ * @param emptyState - Empty-state title and optional description shown when there are no rows.
+ * @param emphasizeFirstCol - Gives the first table cell stronger text weight.
+ * @param pendingRowKey - Row key whose presentation should indicate pending work.
+ * @param children - Optional custom interactive table content used when row data is absent.
  *
  * @return A card containing the directory header and table content.
  */

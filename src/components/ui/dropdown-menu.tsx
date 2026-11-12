@@ -60,59 +60,105 @@ const classes = {
   ),
 };
 
-/**
- * Trigger element for nested sub-dropdown menus.
+/** Renders the trigger for a nested dropdown menu.
+ * @param className - Additional classes for the submenu trigger.
+ * @param inset - Whether the trigger aligns with inset menu items.
+ * @param children - Trigger label shown before the chevron.
+ * @param attributes - Remaining Radix attributes forwarded to the primitive.
+ * @param ref - Forwarded reference to the Radix trigger element.
+ * @return A submenu trigger with a trailing chevron.
  */
+function DropdownMenuSubTriggerRender(
+  attributes: React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.SubTrigger
+  > & {
+    inset?: boolean;
+  },
+  ref: React.ForwardedRef<
+    React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>
+  >,
+): React.JSX.Element {
+  const { className, inset, children, ...otherProps } = attributes;
+  return (
+    <DropdownMenuPrimitive.SubTrigger
+      ref={ref}
+      className={cn(
+        classes.item,
+        "gap-2 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+        inset && "pl-8",
+        className,
+      )}
+      {...otherProps}
+    >
+      {children}
+      <SubmenuIcon className="ml-auto" aria-hidden="true" />
+    </DropdownMenuPrimitive.SubTrigger>
+  );
+}
+
 const DropdownMenuSubTrigger = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> & {
     inset?: boolean;
   }
->(({ className, inset, children, ...props }, ref): React.JSX.Element => (
-  <DropdownMenuPrimitive.SubTrigger
-    ref={ref}
-    className={cn(
-      classes.item,
-      "gap-2 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-      inset && "pl-8",
-      className,
-    )}
-    {...props}
-  >
-    {children}
-    <SubmenuIcon className="ml-auto" aria-hidden="true" />
-  </DropdownMenuPrimitive.SubTrigger>
-));
+>(DropdownMenuSubTriggerRender);
 
-/**
- * Container popover for nested sub-dropdown menu items.
+/** Renders the floating panel for a nested dropdown menu.
+ * @param className - Additional classes for the submenu panel.
+ * @param attributes - Remaining Radix attributes forwarded to the primitive.
+ * @param ref - Forwarded reference to the Radix panel.
+ * @return The styled nested dropdown panel.
  */
+function DropdownMenuSubContentRender(
+  attributes: React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.SubContent
+  >,
+  ref: React.ForwardedRef<
+    React.ElementRef<typeof DropdownMenuPrimitive.SubContent>
+  >,
+): React.JSX.Element {
+  const { className, ...otherProps } = attributes;
+  return (
+    <DropdownMenuPrimitive.SubContent
+      ref={ref}
+      className={cn(
+        classes.palette,
+        "z-50 ml-1 min-w-32 origin-[--radix-dropdown-menu-content-transform-origin] overflow-hidden",
+        className,
+      )}
+      {...otherProps}
+    />
+  );
+}
+
 const DropdownMenuSubContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <DropdownMenuPrimitive.SubContent
-    ref={ref}
-    className={cn(
-      classes.palette,
-      "z-50 ml-1 min-w-32 origin-[--radix-dropdown-menu-content-transform-origin] overflow-hidden",
-      className,
-    )}
-    {...props}
-  />
-));
+>(DropdownMenuSubContentRender);
 
-/**
- * Main dropdown menu content container popup.
+/** Renders the portaled main dropdown panel.
+ * @param className - Additional classes for the panel surface.
+ * @param collisionPadding - Minimum distance from viewport edges.
+ * @param sideOffset - Distance between the trigger and menu panel.
+ * @param attributes - Remaining Radix attributes forwarded to the primitive.
+ * @param ref - Forwarded reference to the Radix content panel.
+ * @return A portaled dropdown panel.
  */
-const DropdownMenuContent = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
->(
-  (
-    { className, collisionPadding = 8, sideOffset = 4, ...props },
-    ref,
-  ): React.JSX.Element => (
+function DropdownMenuContentRender(
+  attributes: React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.Content
+  >,
+  ref: React.ForwardedRef<
+    React.ElementRef<typeof DropdownMenuPrimitive.Content>
+  >,
+): React.JSX.Element {
+  const {
+    className,
+    collisionPadding = 8,
+    sideOffset = 4,
+    ...otherProps
+  } = attributes;
+  return (
     <DropdownMenuPrimitive.Portal>
       <DropdownMenuPrimitive.Content
         ref={ref}
@@ -123,15 +169,54 @@ const DropdownMenuContent = React.forwardRef<
           "z-50 max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-32 origin-[--radix-dropdown-menu-content-transform-origin] overflow-y-auto overflow-x-hidden text-sm",
           className,
         )}
-        {...props}
+        {...otherProps}
       />
     </DropdownMenuPrimitive.Portal>
-  ),
-);
+  );
+}
 
-/**
- * Individual action item within a dropdown menu.
+const DropdownMenuContent = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
+>(DropdownMenuContentRender);
+
+/** Renders an actionable menu item with shared intent variants.
+ * @param className - Additional classes for the menu item.
+ * @param inset - Whether the item aligns with an inset menu group.
+ * @param intent - Shared visual intent for the item.
+ * @param variant - Optional destructive appearance shortcut.
+ * @param attributes - Remaining Radix attributes forwarded to the primitive.
+ * @param ref - Forwarded reference to the Radix menu item.
+ * @return The styled dropdown menu item.
  */
+function DropdownMenuItemRender(
+  attributes: React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.Item
+  > &
+    VariantProps<typeof menuItemVariants> & {
+      inset?: boolean;
+      variant?: "destructive";
+    },
+  ref: React.ForwardedRef<React.ElementRef<typeof DropdownMenuPrimitive.Item>>,
+): React.JSX.Element {
+  const { className, inset, intent, variant, ...otherProps } = attributes;
+  return (
+    <DropdownMenuPrimitive.Item
+      ref={ref}
+      className={cn(
+        classes.item,
+        menuItemVariants({
+          intent: variant === "destructive" ? "destructive" : intent,
+        }),
+        "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+        inset && "pl-8",
+        className,
+      )}
+      {...otherProps}
+    />
+  );
+}
+
 const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> &
@@ -139,35 +224,31 @@ const DropdownMenuItem = React.forwardRef<
       inset?: boolean;
       variant?: "destructive";
     }
->(({ className, inset, intent, variant, ...props }, ref): React.JSX.Element => (
-  <DropdownMenuPrimitive.Item
-    ref={ref}
-    className={cn(
-      classes.item,
-      menuItemVariants({
-        intent: variant === "destructive" ? "destructive" : intent,
-      }),
-      "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-      inset && "pl-8",
-      className,
-    )}
-    {...props}
-  />
-));
+>(DropdownMenuItemRender);
 
-/**
- * Toggleable checkbox item within a dropdown menu.
+/** Renders a toggleable checkbox and its selected indicator.
+ * @param className - Additional classes for the checkbox item.
+ * @param children - Checkbox label content.
+ * @param checked - Checkbox state controlled by Radix.
+ * @param attributes - Remaining Radix attributes forwarded to the primitive.
+ * @param ref - Forwarded reference to the menu item.
+ * @return The checkbox menu item with a checkmark indicator.
  */
-const DropdownMenuCheckboxItem = Object.assign(
-  React.forwardRef<
-    React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
-    React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>
-  >(({ className, children, checked, ...props }, ref): React.JSX.Element => (
+function DropdownMenuCheckboxItemRender(
+  attributes: React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.CheckboxItem
+  >,
+  ref: React.ForwardedRef<
+    React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>
+  >,
+): React.JSX.Element {
+  const { className, children, checked, ...otherProps } = attributes;
+  return (
     <DropdownMenuPrimitive.CheckboxItem
       ref={ref}
       className={cn(classes.item, "pl-8 pr-2", className)}
       checked={checked}
-      {...props}
+      {...otherProps}
     >
       <span className={MENU_ITEM_INDICATOR}>
         <DropdownMenuPrimitive.ItemIndicator>
@@ -176,22 +257,38 @@ const DropdownMenuCheckboxItem = Object.assign(
       </span>
       {children}
     </DropdownMenuPrimitive.CheckboxItem>
-  )),
+  );
+}
+
+const DropdownMenuCheckboxItem = Object.assign(
+  React.forwardRef<
+    React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
+    React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>
+  >(DropdownMenuCheckboxItemRender),
   { displayName: DropdownMenuPrimitive.CheckboxItem.displayName },
 );
 
-/**
- * Single-select radio option within a dropdown menu radio group.
+/** Renders a radio option with its selected-state bullet.
+ * @param className - Additional classes for the radio item.
+ * @param children - Radio option label content.
+ * @param attributes - Remaining Radix attributes forwarded to the primitive.
+ * @param ref - Forwarded reference to the menu item.
+ * @return The radio menu item with its selection indicator.
  */
-const DropdownMenuRadioItem = Object.assign(
-  React.forwardRef<
-    React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
-    React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItem>
-  >(({ className, children, ...props }, ref): React.JSX.Element => (
+function DropdownMenuRadioItemRender(
+  attributes: React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.RadioItem
+  >,
+  ref: React.ForwardedRef<
+    React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>
+  >,
+): React.JSX.Element {
+  const { className, children, ...otherProps } = attributes;
+  return (
     <DropdownMenuPrimitive.RadioItem
       ref={ref}
       className={cn(classes.item, "pl-8 pr-2", className)}
-      {...props}
+      {...otherProps}
     >
       <span className={MENU_ITEM_INDICATOR}>
         <DropdownMenuPrimitive.ItemIndicator>
@@ -200,65 +297,103 @@ const DropdownMenuRadioItem = Object.assign(
       </span>
       {children}
     </DropdownMenuPrimitive.RadioItem>
-  )),
+  );
+}
+
+const DropdownMenuRadioItem = Object.assign(
+  React.forwardRef<
+    React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
+    React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItem>
+  >(DropdownMenuRadioItemRender),
   { displayName: DropdownMenuPrimitive.RadioItem.displayName },
 );
 
-/**
- * Category header or section label within a dropdown menu.
+/** Renders a category heading, optionally aligned with inset entries.
+ * @param className - Additional classes for the label.
+ * @param inset - Whether the label aligns with inset menu items.
+ * @param attributes - Remaining Radix attributes forwarded to the primitive.
+ * @param ref - Forwarded reference to the Radix label.
+ * @return The dropdown menu section label.
  */
+function DropdownMenuLabelRender(
+  attributes: React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.Label
+  > & {
+    inset?: boolean;
+  },
+  ref: React.ForwardedRef<React.ElementRef<typeof DropdownMenuPrimitive.Label>>,
+): React.JSX.Element {
+  const { className, inset, ...otherProps } = attributes;
+  return (
+    <DropdownMenuPrimitive.Label
+      ref={ref}
+      className={cn(
+        "px-2 py-1 text-sm font-semibold",
+        inset && "pl-8",
+        className,
+      )}
+      {...otherProps}
+    />
+  );
+}
+
 const DropdownMenuLabel = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Label>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> & {
     inset?: boolean;
   }
->(({ className, inset, ...props }, ref): React.JSX.Element => (
-  <DropdownMenuPrimitive.Label
-    ref={ref}
-    className={cn(
-      "px-2 py-1 text-sm font-semibold",
-      inset && "pl-8",
-      className,
-    )}
-    {...props}
-  />
-));
+>(DropdownMenuLabelRender);
 
-/**
- * Horizontal separator line dividing sections in a dropdown menu.
+/** Renders the horizontal divider between dropdown sections.
+ * @param className - Additional classes for the separator.
+ * @param attributes - Remaining Radix attributes forwarded to the primitive.
+ * @param ref - Forwarded reference to the Radix separator.
+ * @return The dropdown menu separator line.
  */
+function DropdownMenuSeparatorRender(
+  attributes: React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.Separator
+  >,
+  ref: React.ForwardedRef<
+    React.ElementRef<typeof DropdownMenuPrimitive.Separator>
+  >,
+): React.JSX.Element {
+  const { className, ...otherProps } = attributes;
+  return (
+    <DropdownMenuPrimitive.Separator
+      ref={ref}
+      data-slot="dropdown-menu-separator"
+      className={cn("mx-1.5 my-1 h-px bg-primary-6", className)}
+      {...otherProps}
+    />
+  );
+}
+
 const DropdownMenuSeparator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <DropdownMenuPrimitive.Separator
-    ref={ref}
-    data-slot="dropdown-menu-separator"
-    className={cn("mx-1.5 my-1 h-px bg-primary-6", className)}
-    {...props}
-  />
-));
+>(DropdownMenuSeparatorRender);
 
-/**
- * Keyboard shortcut indicator label aligned to the trailing side of a menu item.
- *
+/** Renders keyboard shortcut text after a dropdown menu label.
  * @param className - Optional style overrides for the shortcut label.
- * @param props - Additional span attributes forwarded to the label.
+ * @param attributes - Remaining span attributes forwarded to the label.
+ * @return The styled dropdown keyboard shortcut.
  */
-const DropdownMenuShortcut = Object.assign(
-  ({
-    className,
-    ...props
-  }: React.HTMLAttributes<HTMLSpanElement>): React.JSX.Element => {
-    return (
-      <span
-        className={cn("ml-auto text-xs tracking-widest opacity-60", className)}
-        {...props}
-      />
-    );
-  },
-  { displayName: "DropdownMenuShortcut" },
-);
+function DropdownMenuShortcutRender(
+  attributes: React.HTMLAttributes<HTMLSpanElement>,
+): React.JSX.Element {
+  const { className, ...otherProps } = attributes;
+  return (
+    <span
+      className={cn("ml-auto text-xs tracking-widest opacity-60", className)}
+      {...otherProps}
+    />
+  );
+}
+
+const DropdownMenuShortcut = Object.assign(DropdownMenuShortcutRender, {
+  displayName: "DropdownMenuShortcut",
+});
 DropdownMenuTrigger.displayName = DropdownMenuPrimitive.Trigger.displayName;
 DropdownMenuGroup.displayName = DropdownMenuPrimitive.Group.displayName;
 DropdownMenuSub.displayName = DropdownMenuPrimitive.Sub.displayName;

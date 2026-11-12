@@ -16,6 +16,24 @@ import { twMerge } from "tailwind-merge";
 import type { ClassValue } from "clsx";
 import type { ReactNode } from "react";
 
+/**
+ * Appends one React child contribution to the accumulated text.
+ *
+ * @param text - Text collected from earlier children.
+ * @param child - Child whose primitive value may contribute text.
+ * @return Updated text after processing the child.
+ */
+function appendChildText(text: string, child: ReactNode): string {
+  return text.concat(
+    isValidElement<{ children?: ReactNode | ReactNode[] }>(child) &&
+      Boolean(child.props.children)
+      ? transformChildrenToString(child.props.children)
+      : isValidElement(child)
+        ? ""
+        : childToString(child),
+  );
+}
+
 /*//////////////////////////////////////////////////
 HELPERS
 //////////////////////////////////////////////////*/
@@ -41,18 +59,7 @@ export function transformChildrenToString(
 ): string {
   if (!Array.isArray(children) && !isValidElement(children))
     return childToString(children);
-  return Children.toArray(children).reduce(
-    (t: string, c: ReactNode) =>
-      t.concat(
-        isValidElement<{ children?: ReactNode | ReactNode[] }>(c) &&
-          Boolean(c.props.children)
-          ? transformChildrenToString(c.props.children)
-          : isValidElement(c)
-            ? ""
-            : childToString(c),
-      ),
-    "",
-  );
+  return Children.toArray(children).reduce(appendChildText, "");
 }
 
 /**

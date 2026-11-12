@@ -29,37 +29,49 @@ COMPONENTS
 /**
  * Root command palette container.
  */
-const Command = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <CommandPrimitive
-    ref={ref}
-    className={cn(
-      "flex size-full flex-col overflow-hidden rounded-md bg-white text-primary-12 dark:bg-black",
-      className,
-    )}
-    {...props}
-  />
-));
+/** Renders the command primitive with the shared base surface classes.
+ *
+ * @param commandProps Properties forwarded to the command primitive.
+ * @param ref Forwarded command element ref.
+ *
+ * @return The command primitive with shared classes applied.
+ */
+function renderCommandRoot(
+  commandProps: React.ComponentPropsWithoutRef<typeof CommandPrimitive>,
+  ref: React.ForwardedRef<React.ElementRef<typeof CommandPrimitive>>,
+): React.JSX.Element {
+  const { className, ...rest } = commandProps;
+  return (
+    <CommandPrimitive
+      ref={ref}
+      className={cn(
+        "flex size-full flex-col overflow-hidden rounded-md bg-white text-primary-12 dark:bg-black",
+        className,
+      )}
+      {...rest}
+    />
+  );
+}
+const Command = React.forwardRef(renderCommandRoot);
 
 /**
  * Command dialog.
  *
- * @param props - Additional command props forwarded to the primitive.
+ * @param className Optional classes applied to the dialog content.
  * @param children - Command content rendered inside the control.
  * @param size - Command size variant used by the control.
+ * @param dialogProps Remaining Radix dialog properties forwarded to the root.
  *
  * @return A command palette displayed inside the shared dialog primitive.
  */
-const CommandDialog = ({
+function CommandDialog({
   className,
   children,
   size,
-  ...props
-}: CommandDialogProps): React.JSX.Element => {
+  ...dialogProps
+}: CommandDialogProps): React.JSX.Element {
   return (
-    <Dialog {...props}>
+    <Dialog {...dialogProps}>
       <DialogContent
         closeClassName="top-4"
         className={cn(
@@ -85,16 +97,24 @@ const CommandDialog = ({
       </DialogContent>
     </Dialog>
   );
-};
+}
 
 /**
  * Command input control with optional clear button.
  */
-const CommandInput = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Input>,
-  CommandInputProps
->(({ className, onClear, ...props }, ref): React.JSX.Element => {
-  const canClear = Boolean(props.value && onClear);
+/** Renders a command search input and its optional clear control.
+ *
+ * @param inputProps Command input attributes and optional clear handler.
+ * @param ref Forwarded input element ref.
+ *
+ * @return A search input with its leading icon and conditional clear button.
+ */
+function renderCommandInput(
+  inputProps: CommandInputProps,
+  ref: React.ForwardedRef<React.ElementRef<typeof CommandPrimitive.Input>>,
+): React.JSX.Element {
+  const { className, onClear, ...primitiveProps } = inputProps;
+  const canClear = Boolean(primitiveProps.value && onClear);
   return (
     <div
       className={cn("relative flex items-center px-3", className)}
@@ -111,7 +131,7 @@ const CommandInput = React.forwardRef<
           "ring-0 focus:ring-0 focus-visible:ring-0",
           canClear && "pr-8",
         )}
-        {...props}
+        {...primitiveProps}
       />
       {canClear && (
         <button
@@ -125,115 +145,177 @@ const CommandInput = React.forwardRef<
       )}
     </div>
   );
-});
+}
+const CommandInput = React.forwardRef(renderCommandInput);
 
 /**
  * Scrollable list container for command items.
  */
-const CommandList = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <CommandPrimitive.List
-    ref={ref}
-    className={cn(
-      "max-h-[300px] scroll-py-1 overflow-y-auto overflow-x-hidden",
-      className,
-    )}
-    {...props}
-  />
-));
+/** Renders the scrollable list area inside a command palette.
+ *
+ * @param listProps Properties forwarded to the command list primitive.
+ * @param ref Forwarded list element ref.
+ *
+ * @return The command list primitive with constrained scrolling.
+ */
+function renderCommandList(
+  listProps: React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>,
+  ref: React.ForwardedRef<React.ElementRef<typeof CommandPrimitive.List>>,
+): React.JSX.Element {
+  const { className, ...rest } = listProps;
+  return (
+    <CommandPrimitive.List
+      ref={ref}
+      className={cn(
+        "max-h-[300px] scroll-py-1 overflow-y-auto overflow-x-hidden",
+        className,
+      )}
+      {...rest}
+    />
+  );
+}
+const CommandList = React.forwardRef(renderCommandList);
 
 /**
  * Empty state indicator for command list when no results match.
  */
-const CommandEmpty = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Empty>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
->((props, ref): React.JSX.Element => (
-  <CommandPrimitive.Empty
-    ref={ref}
-    className="w-full py-6 text-center text-sm"
-    {...props}
-  />
-));
+/** Renders the empty-results indicator inside a command list.
+ *
+ * @param emptyProps Properties forwarded to the empty-results primitive.
+ * @param ref Forwarded empty-state element ref.
+ *
+ * @return The empty-results primitive with shared spacing.
+ */
+function renderCommandEmpty(
+  emptyProps: React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>,
+  ref: React.ForwardedRef<React.ElementRef<typeof CommandPrimitive.Empty>>,
+): React.JSX.Element {
+  return (
+    <CommandPrimitive.Empty
+      ref={ref}
+      className="w-full py-6 text-center text-sm"
+      {...emptyProps}
+    />
+  );
+}
+const CommandEmpty = React.forwardRef(renderCommandEmpty);
 
 /**
  * Group container for related command items with an optional header.
  */
-const CommandGroup = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Group>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Group>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <CommandPrimitive.Group
-    ref={ref}
-    className={cn(
-      "overflow-hidden p-1 text-primary-12",
-      "[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-primary-11",
-      className,
-    )}
-    {...props}
-  />
-));
+/** Renders a grouped set of command options with shared heading styles.
+ *
+ * @param groupProps Properties forwarded to the command group primitive.
+ * @param ref Forwarded group element ref.
+ *
+ * @return The command group primitive with shared heading styles.
+ */
+function renderCommandGroup(
+  groupProps: React.ComponentPropsWithoutRef<typeof CommandPrimitive.Group>,
+  ref: React.ForwardedRef<React.ElementRef<typeof CommandPrimitive.Group>>,
+): React.JSX.Element {
+  const { className, ...rest } = groupProps;
+  return (
+    <CommandPrimitive.Group
+      ref={ref}
+      className={cn(
+        "overflow-hidden p-1 text-primary-12",
+        "[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-primary-11",
+        className,
+      )}
+      {...rest}
+    />
+  );
+}
+const CommandGroup = React.forwardRef(renderCommandGroup);
 
 /**
  * Visual separator line between command groups or items.
  */
-const CommandSeparator = Object.assign(
-  React.forwardRef<
-    React.ElementRef<typeof CommandPrimitive.Separator>,
-    React.ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>
-  >(({ className, ...props }, ref): React.JSX.Element => (
+/** Renders a styled separator between command groups or items.
+ *
+ * @param separatorProps Properties forwarded to the separator primitive.
+ * @param ref Forwarded separator element ref.
+ *
+ * @return The separator primitive with shared divider styling.
+ */
+function renderCommandSeparator(
+  separatorProps: React.ComponentPropsWithoutRef<
+    typeof CommandPrimitive.Separator
+  >,
+  ref: React.ForwardedRef<React.ElementRef<typeof CommandPrimitive.Separator>>,
+): React.JSX.Element {
+  const { className, ...rest } = separatorProps;
+  return (
     <CommandPrimitive.Separator
       ref={ref}
       className={cn("-mx-1 h-px bg-primary-6", className)}
-      {...props}
+      {...rest}
     />
-  )),
+  );
+}
+const CommandSeparator = Object.assign(
+  React.forwardRef(renderCommandSeparator),
   { displayName: CommandPrimitive.Separator.displayName },
 );
 
 /**
  * Individual selectable item within a command list.
  */
-const CommandItem = React.forwardRef<
-  React.ElementRef<typeof CommandPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <CommandPrimitive.Item
-    ref={ref}
-    className={cn(
-      "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none",
-      "data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50",
-      "data-[selected='true']:bg-primary-3",
-      "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-      className,
-    )}
-    {...props}
-  />
-));
+/** Renders one selectable command option with shared selection styling.
+ *
+ * @param itemProps Properties forwarded to the item primitive.
+ * @param ref Forwarded item element ref.
+ *
+ * @return The command item primitive with shared selection styling.
+ */
+function renderCommandItem(
+  itemProps: React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>,
+  ref: React.ForwardedRef<React.ElementRef<typeof CommandPrimitive.Item>>,
+): React.JSX.Element {
+  const { className, ...rest } = itemProps;
+  return (
+    <CommandPrimitive.Item
+      ref={ref}
+      className={cn(
+        "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none",
+        "data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50",
+        "data-[selected='true']:bg-primary-3",
+        "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+        className,
+      )}
+      {...rest}
+    />
+  );
+}
+const CommandItem = React.forwardRef(renderCommandItem);
 
 /**
  * Command shortcut indicator text.
  *
  */
-const CommandShortcut = Object.assign(
-  ({
-    className,
-    ...props
-  }: React.HTMLAttributes<HTMLSpanElement>): React.JSX.Element => {
-    return (
-      <span
-        className={cn(
-          "ml-auto text-xs tracking-widest text-primary-10",
-          className,
-        )}
-        {...props}
-      />
-    );
-  },
-  { displayName: "CommandShortcut" },
-);
+/** Renders secondary shortcut text at the end of a command item.
+ *
+ * @param className Optional classes applied to the shortcut text.
+ * @param spanProps Remaining span attributes.
+ *
+ * @return The styled shortcut text span.
+ */
+function CommandShortcut({
+  className,
+  ...spanProps
+}: React.HTMLAttributes<HTMLSpanElement>): React.JSX.Element {
+  return (
+    <span
+      className={cn(
+        "ml-auto text-xs tracking-widest text-primary-10",
+        className,
+      )}
+      {...spanProps}
+    />
+  );
+}
+CommandShortcut.displayName = "CommandShortcut";
 
 /*//////////////////////////////////////////////////
 HELPERS
@@ -242,7 +324,7 @@ HELPERS
 /**
  * Renders the generic empty state for search surfaces.
  *
- * @param props - Search term shown in the no-results message.
+ * @param query Search term shown in the no-results message.
  *
  * @return Accessible empty-results message with guidance for the user.
  */
@@ -280,7 +362,14 @@ export function SearchEmpty({ query }: { query: string }): React.JSX.Element {
 /**
  * Searchable command dialog with a shared empty-results fallback.
  *
- * @param props
+ * @param header Optional content above the command input.
+ * @param input Search-input properties and controlled value.
+ * @param toolbar Optional content between the input and result list.
+ * @param listClassName Optional classes applied to the results list.
+ * @param fallback Custom empty-state content, defaulting to SearchEmpty.
+ * @param loading Hides the empty-state message while results are loading.
+ * @param children Result groups and command options.
+ * @param dialogProps Remaining dialog properties forwarded to CommandDialog.
  *
  * @return Command dialog with its header, input, toolbar, and result list.
  */
@@ -292,7 +381,7 @@ function SearchDialog({
   fallback,
   loading,
   children,
-  ...props
+  ...dialogProps
 }: /* Props accepted by a search dialog props. */
 Omit<CommandDialogProps, "children"> & {
   header?: React.ReactNode;
@@ -304,7 +393,7 @@ Omit<CommandDialogProps, "children"> & {
   children: React.ReactNode;
 }): React.JSX.Element {
   return (
-    <CommandDialog {...props}>
+    <CommandDialog {...dialogProps}>
       {header}
       <CommandInput {...input} />
       {toolbar}

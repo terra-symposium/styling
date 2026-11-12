@@ -25,7 +25,10 @@ COMPONENTS
 /**
  * Adds an informational tooltip to a single child element.
  *
- * @param props - Trigger element, tooltip content, wrapper behavior for disabled triggers, and whether to prepend an information icon.
+ * @param children - Trigger element that receives the tooltip.
+ * @param content - Explanatory text or content shown in the tooltip.
+ * @param disabledTrigger - Whether to wrap a disabled trigger in a focusable element.
+ * @param showIcon - Whether to prepend the information icon to the trigger.
  *
  * @return The trigger element wrapped in the shared tooltip primitives.
  */

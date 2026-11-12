@@ -31,14 +31,13 @@ MATRIX HELPERS
 function flattenColorTypeGrid<T extends Record<string, Record<string, string>>>(
   grid: T,
 ): Record<string, string> {
-  return Object.fromEntries(
-    Object.entries(grid).flatMap(([color, types]) =>
-      Object.entries(types).map(([type, className]) => [
-        type === "default" ? color : `${color}-${type}`,
-        className,
-      ]),
-    ),
-  );
+  const flattened: Record<string, string> = {};
+  for (const [color, types] of Object.entries(grid)) {
+    for (const [type, className] of Object.entries(types)) {
+      flattened[type === "default" ? color : `${color}-${type}`] = className;
+    }
+  }
+  return flattened;
 }
 
 /*//////////////////////////////////////////////////
@@ -276,29 +275,22 @@ const TOGGLE_SELECTED_COLORS: Record<UiColor, string> = {
   caution:
     "data-[state=on]:bg-amber-100 data-[state=on]:text-amber-900 dark:data-[state=on]:bg-amber-950 dark:data-[state=on]:text-amber-100",
 };
-const TOGGLE_MATRIX_VALUES = Object.fromEntries(
-  Object.entries(ACTION_MATRIX_VALUES)
-    .filter(([variant]) => !variant.endsWith("-underline"))
-    .map(([variant, className]) => [
-      variant,
-      cn(
-        className,
-        TOGGLE_SELECTED_COLORS[
-          variant === "ghost-destructive" || variant.startsWith("destructive")
-            ? "destructive"
-            : variant === "secondary" || variant.startsWith("secondary")
-              ? "secondary"
-              : variant === "gray" || variant.startsWith("gray")
-                ? "gray"
-                : variant === "success" || variant.startsWith("success")
-                  ? "success"
-                  : variant === "caution" || variant.startsWith("caution")
-                    ? "caution"
-                    : "primary"
-        ],
-      ),
-    ]),
-) as Record<
+const toggleMatrixValues: Record<string, string> = {};
+for (const [variant, className] of Object.entries(ACTION_MATRIX_VALUES)) {
+  if (variant.endsWith("-underline")) continue;
+  let color: UiColor = "primary";
+  if (variant === "ghost-destructive" || variant.startsWith("destructive"))
+    color = "destructive";
+  else if (variant === "secondary" || variant.startsWith("secondary"))
+    color = "secondary";
+  else if (variant === "gray" || variant.startsWith("gray")) color = "gray";
+  else if (variant === "success" || variant.startsWith("success"))
+    color = "success";
+  else if (variant === "caution" || variant.startsWith("caution"))
+    color = "caution";
+  toggleMatrixValues[variant] = cn(className, TOGGLE_SELECTED_COLORS[color]);
+}
+const TOGGLE_MATRIX_VALUES = toggleMatrixValues as Record<
   | /* Toggle color/treatment keys, excluding underline treatments. */ UiColor
   | `${UiColor}-${Extract<UiType, "outline" | "ghost" | "tonal">}`,
   string

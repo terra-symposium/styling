@@ -58,22 +58,30 @@ const tooltipVariants = cva(
     defaultVariants: { size: "default" },
   },
 );
-const TooltipContent = React.forwardRef<
-  React.ElementRef<typeof TooltipPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> &
-    VariantProps<typeof tooltipVariants>
->(
-  (
-    {
-      size,
-      className,
-      sideOffset = -8,
-      collisionPadding = 8,
-      children,
-      ...props
-    },
-    ref,
-  ): React.JSX.Element => (
+/** Radix tooltip content props with the shared visual size variant. */
+type TooltipContentProps = React.ComponentPropsWithoutRef<
+  typeof TooltipPrimitive.Content
+> &
+  VariantProps<typeof tooltipVariants>;
+
+/** Renders tooltip content, its trigger-relative placement, and the arrow.
+ * @param tooltipProps - Content props and visual size variant.
+ * @param ref - Ref forwarded to the Radix tooltip content element.
+ * @return A portal containing the styled tooltip content and arrow.
+ */
+function renderTooltipContent(
+  tooltipProps: TooltipContentProps,
+  ref: React.ForwardedRef<React.ElementRef<typeof TooltipPrimitive.Content>>,
+): React.JSX.Element {
+  const {
+    size,
+    className,
+    sideOffset = -8,
+    collisionPadding = 8,
+    children,
+    ...props
+  } = tooltipProps;
+  return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Content
         ref={ref}
@@ -91,21 +99,26 @@ const TooltipContent = React.forwardRef<
         </TooltipPrimitive.Arrow>
       </TooltipPrimitive.Content>
     </TooltipPrimitive.Portal>
-  ),
-);
+  );
+}
+
+const TooltipContent = React.forwardRef<
+  React.ElementRef<typeof TooltipPrimitive.Content>,
+  TooltipContentProps
+>(renderTooltipContent);
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
 /**
  * Renders the text tooltip component.
  *
- * @param props - Tooltip text, trigger content, placement, delay, and attributes applied to the trigger.
  * @param content - Explanatory content; when empty, the trigger is returned without a tooltip.
  * @param side - Edge of the trigger where the tooltip is placed.
  * @param align - Alignment along the selected edge.
  * @param size - Size variant controlling text tooltip's dimensions.
  * @param delayDuration - Delay before the tooltip opens, passed to the Radix root.
+ * @param className - Additional classes merged onto the trigger.
  * @param children - Child content nested inside text tooltip's rendered output.
- * @param attrs - Additional HTML attributes passed through text tooltip.
+ * @param attrs - Remaining HTML attributes passed through to the trigger.
  *
  * @return The trigger content with its tooltip when explanatory text is provided.
  */
@@ -151,26 +164,33 @@ export default function TextTooltip({
   );
 }
 
-// Stolen from Sanity UI
 /**
  * Renders the arrow component.
  *
- * @param props
+ * @param arrowProps - SVG attributes forwarded to the arrow element.
  *
- * @return SVG Arrow element.
+ * @return An SVG arrow with the tooltip's outline path.
  */
-const Arrow = (props: React.SVGProps<SVGSVGElement>): React.JSX.Element => (
-  <svg {...props} width="15" height="15" viewBox="0 0 15 15" aria-hidden="true">
-    <mask id="stroke-mask">
-      <rect x="0" y="0.5" width="15" height="15"></rect>
-    </mask>
-    <path
-      d="M 0 0 L 0 0 C 1 0 2.739940073395944 0.6726727939963124 3.4798801467918876 1.3453455879926248 L 6.020119853208112 3.654654412007375 C 6.760059926604056 4.327327206003687 8.239940073395942 4.327327206003687 8.979880146791887 3.654654412007375 L 11.520119853208113 1.3453455879926248 C 12.260059926604058 0.6726727939963124 14 0 15 0 L 15 0"
-      mask="url(#stroke-mask)"
-      strokeWidth="1"
-    ></path>
-    <path d="M 0 0 L 0 0 C 1 0 2.739940073395944 0.6726727939963124 3.4798801467918876 1.3453455879926248 L 6.020119853208112 3.654654412007375 C 6.760059926604056 4.327327206003687 8.239940073395942 4.327327206003687 8.979880146791887 3.654654412007375 L 11.520119853208113 1.3453455879926248 C 12.260059926604058 0.6726727939963124 14 0 15 0 L 15 0 M 15 -1 M 0 -1 Z"></path>
-  </svg>
-);
+function Arrow(arrowProps: React.SVGProps<SVGSVGElement>): React.JSX.Element {
+  return (
+    <svg
+      {...arrowProps}
+      width="15"
+      height="15"
+      viewBox="0 0 15 15"
+      aria-hidden="true"
+    >
+      <mask id="stroke-mask">
+        <rect x="0" y="0.5" width="15" height="15"></rect>
+      </mask>
+      <path
+        d="M 0 0 L 0 0 C 1 0 2.739940073395944 0.6726727939963124 3.4798801467918876 1.3453455879926248 L 6.020119853208112 3.654654412007375 C 6.760059926604056 4.327327206003687 8.239940073395942 4.327327206003687 8.979880146791887 3.654654412007375 L 11.520119853208113 1.3453455879926248 C 12.260059926604058 0.6726727939963124 14 0 15 0 L 15 0"
+        mask="url(#stroke-mask)"
+        strokeWidth="1"
+      ></path>
+      <path d="M 0 0 L 0 0 C 1 0 2.739940073395944 0.6726727939963124 3.4798801467918876 1.3453455879926248 L 6.020119853208112 3.654654412007375 C 6.760059926604056 4.327327206003687 8.239940073395942 4.327327206003687 8.979880146791887 3.654654412007375 L 11.520119853208113 1.3453455879926248 C 12.260059926604058 0.6726727939963124 14 0 15 0 L 15 0 M 15 -1 M 0 -1 Z"></path>
+    </svg>
+  );
+}
 Arrow.displayName = "TooltipArrow";
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };

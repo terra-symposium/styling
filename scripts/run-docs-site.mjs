@@ -18,24 +18,29 @@ CONFIG
 //////////////////////////////////////////////////*/
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const manifest = JSON.parse(
-  await readFile(resolve(root, "package.json"), "utf8"),
-);
-const docs = manifest.docs ?? {};
+const docs =
+  JSON.parse(await readFile(resolve(root, "package.json"), "utf8")).docs ?? {};
 const docsPnpmDir = resolve(root, "config/node_modules/.pnpm");
-const docsFolder = (await readdir(docsPnpmDir)).find((n) =>
-  n.startsWith("@terra-symposium+docs@"),
-);
+/** Selects the installed scoped Docs package from pnpm's virtual store.
+ *
+ * @param folder pnpm virtual-store folder name.
+ *
+ * @return Whether the folder contains the Terra Docs package.
+ */
+function isDocsFolder(folder) {
+  return folder.startsWith("@terra-symposium+docs@");
+}
+const docsFolder = (await readdir(docsPnpmDir)).find(isDocsFolder);
 const docsRoot = resolve(
   docsPnpmDir,
   docsFolder,
   "node_modules/@terra-symposium/docs",
 );
 const docsBin = resolve(docsRoot, "bin/docs.mjs");
-const docsRequire = createRequire(resolve(docsRoot, "package.json"));
-const astroPackage = docsRequire.resolve("astro/package.json");
+const astroPackage = createRequire(resolve(docsRoot, "package.json")).resolve(
+  "astro/package.json",
+);
 const astroCli = resolve(dirname(astroPackage), "bin/astro.mjs");
-const config = "config/styling-docs-astro.mjs";
 const mode = process.argv[2] ?? "dev";
 const port = process.argv[3] ?? "2030";
 const env = {
@@ -50,17 +55,24 @@ const env = {
     docs.includeAgents ?? docs.includeSkills ?? true,
   ),
 };
-const astroArgs = [astroCli, mode, "--root", root, "--config", config];
+const astroArgs = [
+  astroCli,
+  mode,
+  "--root",
+  root,
+  "--config",
+  "config/styling-docs-astro.mjs",
+];
 
 /*//////////////////////////////////////////////////
 HELPERS
 //////////////////////////////////////////////////*/
 
-/**
+/** Runs a child process in the repository with the docs site's environment.
  *
- * @param cmd
- * @param args
- * @param options
+ * @param cmd Executable path or command name.
+ * @param args Arguments passed to the executable.
+ * @param options Optional spawn settings that override the defaults.
  */
 function run(cmd, args, options = {}) {
   const result = spawnSync(cmd, args, {
@@ -85,16 +97,38 @@ const cmd =
     ? [process.execPath, resolve(root, "scripts/serve-docs-preview.mjs"), port]
     : [process.execPath, ...astroArgs];
 const child = spawn(cmd[0], cmd.slice(1), { cwd: root, env, stdio: "inherit" });
-child.on("error", (e) => {
+/** Reports a failure to start the selected docs server process.
+ *
+ * @param err Process launch error.
+ */
+function handleSpawnErr(err) {
   console.error(
-    `Could not start the Styling Docs ${mode} server: ${e.message}`,
+    `Could not start the Styling Docs ${mode} server: ${err.message}`,
   );
   process.exitCode = 1;
-});
-child.on("exit", (c, s) => {
-  if (s) process.kill(process.pid, s);
-  else process.exitCode = c ?? 1;
-});
+}
+/** Propagates the docs server process result to this runner.
+ *
+ * @param code Child process exit code, when it exited normally.
+ * @param signal Signal that terminated the child process, when applicable.
+ */
+function handleChildExit(code, signal) {
+  if (signal) process.kill(process.pid, signal);
+  else process.exitCode = code ?? 1;
+}
+/** Registers a listener that forwards the selected signal to the docs server.
+ *
+ * @param signal Termination signal handled by this listener.
+ */
+function registerSignalForwarder(signal) {
+  /** Stops the docs server when its parent receives the captured signal. */
+  function forwardSignal() {
+    child.kill(signal);
+  }
+  process.on(signal, forwardSignal);
+}
+child.on("error", handleSpawnErr);
+child.on("exit", handleChildExit);
 for (const signal of ["SIGINT", "SIGTERM"]) {
-  process.on(signal, () => child.kill(signal));
+  registerSignalForwarder(signal);
 }

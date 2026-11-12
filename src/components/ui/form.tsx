@@ -75,7 +75,7 @@ HOOKS
  *
  * @throws Error when called outside a `FormField` context.
  */
-const useFormField = () => {
+function useFormField() {
   const fieldCtx = React.useContext(FormFieldCtx);
   const { getFieldState, formState } = useFormContext();
   if (!fieldCtx)
@@ -89,38 +89,60 @@ const useFormField = () => {
     formMessageId: `${id}-form-item-message`,
     ...getFieldState(fieldCtx.name, formState),
   };
-};
+}
 /**
  * Form field.
  *
- * @param props - Form control props forwarded to the rendered field.
+ * @param fieldProps - Form control props forwarded to the rendered field.
  *
  * @return A controller connected to the current form field context.
  */
-const FormField = <
+function FormField<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->(
-  props: ControllerProps<TFieldValues, TName>,
-): React.JSX.Element => (
-  <FormFieldCtx.Provider value={{ name: props.name }}>
-    <Controller {...props} />
-  </FormFieldCtx.Provider>
-);
+>(fieldProps: ControllerProps<TFieldValues, TName>): React.JSX.Element {
+  return (
+    <FormFieldCtx.Provider value={{ name: fieldProps.name }}>
+      <Controller {...fieldProps} />
+    </FormFieldCtx.Provider>
+  );
+}
+
+/** Renders the provider boundary that gives each form item a stable ID.
+ * @param attributes - Container attributes and optional class name.
+ * @param ref - Forwarded reference to the form item element.
+ * @return A provider-wrapped form item container.
+ */
+function FormItemRender(
+  attributes: React.HTMLAttributes<HTMLDivElement>,
+  ref: React.ForwardedRef<HTMLDivElement>,
+): React.JSX.Element {
+  const { className, ...otherAttributes } = attributes;
+  return (
+    <FormItemCtx.Provider value={{ id: React.useId() }}>
+      <div
+        ref={ref}
+        className={cn("space-y-2", className)}
+        {...otherAttributes}
+      />
+    </FormItemCtx.Provider>
+  );
+}
 const FormItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref): React.JSX.Element => {
-  return (
-    <FormItemCtx.Provider value={{ id: React.useId() }}>
-      <div ref={ref} className={cn("space-y-2", className)} {...props} />
-    </FormItemCtx.Provider>
-  );
-});
-const FormLabel = React.forwardRef<
-  React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ className, ...props }, ref): React.JSX.Element => {
+>(FormItemRender);
+
+/** Renders a form label connected to the current field and its error state.
+ * @param attributes - Radix label attributes and optional class name.
+ * @param ref - Forwarded reference to the label element.
+ * @return The associated, error-aware form label.
+ */
+function FormLabelRender(
+  attributes: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>,
+  ref: React.ForwardedRef<React.ElementRef<typeof LabelPrimitive.Root>>,
+): React.JSX.Element {
+  const { className, ...otherAttributes } = attributes;
   const { error, formItemId } = useFormField();
   return (
     <LabelPrimitive.Root
@@ -132,14 +154,24 @@ const FormLabel = React.forwardRef<
         className,
       )}
       htmlFor={formItemId}
-      {...props}
+      {...otherAttributes}
     />
   );
-});
-const FormControl = React.forwardRef<
-  React.ElementRef<typeof Slot>,
-  React.ComponentPropsWithoutRef<typeof Slot>
->((props, ref): React.JSX.Element => {
+}
+const FormLabel = React.forwardRef<
+  React.ElementRef<typeof LabelPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
+>(FormLabelRender);
+
+/** Renders a slotted control with form IDs and validation accessibility state.
+ * @param attributes - Control attributes passed to the slotted child.
+ * @param ref - Forwarded reference to the control element.
+ * @return The slot with associated description and validation attributes.
+ */
+function FormControlRender(
+  attributes: React.ComponentPropsWithoutRef<typeof Slot>,
+  ref: React.ForwardedRef<React.ElementRef<typeof Slot>>,
+): React.JSX.Element {
   const { error, formItemId, formDescriptionId, formMessageId } =
     useFormField();
   return (
@@ -150,34 +182,60 @@ const FormControl = React.forwardRef<
         !error ? formDescriptionId : `${formDescriptionId} ${formMessageId}`
       }
       aria-invalid={!!error}
-      {...props}
+      {...attributes}
     />
   );
-});
-const FormDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref): React.JSX.Element => {
+}
+const FormControl = React.forwardRef<
+  React.ElementRef<typeof Slot>,
+  React.ComponentPropsWithoutRef<typeof Slot>
+>(FormControlRender);
+
+/** Renders explanatory text linked to its current form field.
+ * @param attributes - Paragraph attributes and optional class name.
+ * @param ref - Forwarded reference to the description paragraph.
+ * @return The field's associated description text.
+ */
+function FormDescriptionRender(
+  attributes: React.HTMLAttributes<HTMLParagraphElement>,
+  ref: React.ForwardedRef<HTMLParagraphElement>,
+): React.JSX.Element {
+  const { className, ...otherAttributes } = attributes;
   const { formDescriptionId } = useFormField();
   return (
     <p
       ref={ref}
       id={formDescriptionId}
       className={cn("text-sm text-primary-9", className)}
-      {...props}
+      {...otherAttributes}
     />
   );
-});
-const FormMessage = React.forwardRef<
+}
+const FormDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
->(({ className, children, ...props }, ref): React.JSX.Element | null => {
+>(FormDescriptionRender);
+
+/** Renders validation feedback, returning nothing when no message exists.
+ * @param attributes - Paragraph attributes, fallback children, and class name.
+ * @param ref - Forwarded reference to the message paragraph.
+ * @return The validation message or `null` when no message is available.
+ */
+function FormMessageRender(
+  attributes: React.HTMLAttributes<HTMLParagraphElement>,
+  ref: React.ForwardedRef<HTMLParagraphElement>,
+): React.JSX.Element | null {
+  const { className, children, ...otherAttributes } = attributes;
   const { error, formMessageId } = useFormField();
   const body = error ? String(error?.message ?? "") : children;
   if (!body) return null;
   // prettier-ignore
-  return (<p ref={ref} id={formMessageId} role='alert' aria-live='polite' className={cn('text-sm font-medium text-rose-600', className)} {...props}>{body}</p>);
-});
+  return (<p ref={ref} id={formMessageId} role='alert' aria-live='polite' className={cn('text-sm font-medium text-rose-600', className)} {...otherAttributes}>{body}</p>);
+}
+const FormMessage = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(FormMessageRender);
 FormItem.displayName = "FormItem";
 FormLabel.displayName = "FormLabel";
 FormControl.displayName = "FormControl";

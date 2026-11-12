@@ -16,10 +16,12 @@ import ExcelJS from "exceljs";
 
 // TYPES
 import type { TerraDocumentBrandOptions } from "./theme.js";
+/** Workbook title and Terra brand settings for a generated spreadsheet. */
 export type SpreadsheetTemplateOptions = {
   title?: string;
   brand?: TerraDocumentBrandOptions;
 };
+/** Cell values keyed by worksheet name and address for template customization. */
 export type SpreadsheetCellEdits = Record<
   string,
   Record<string, string | number | boolean | Date | null>
@@ -36,8 +38,9 @@ SPREADSHEET TEMPLATE
  *
  * @return The uppercase ARGB color prefixed with full opacity.
  */
-const argb = (value: string): string =>
-  `FF${value.replace(/^#/, "").toUpperCase()}`;
+function argb(value: string): string {
+  return `FF${value.replace(/^#/, "").toUpperCase()}`;
+}
 
 /**
  * Creates a two-sheet workbook template with editable planning inputs and linked summary formulas.
@@ -260,22 +263,24 @@ export function createSpreadsheetTemplate(
     const row = inputs.getRow(rowIndex);
     row.height = 34;
     row.alignment = { vertical: "middle", wrapText: true };
-    row.eachCell((v) => {
-      v.font = {
+    for (let colIndex = 1; colIndex <= row.cellCount; colIndex += 1) {
+      const cell = row.getCell(colIndex);
+      if (cell.value === null || cell.value === undefined) continue;
+      cell.font = {
         name: brand.fonts.body,
         size: 10,
         color: { argb: argb(c.ink) },
       };
-      v.border = {
+      cell.border = {
         bottom: { style: "thin", color: { argb: argb(c.line) } },
       };
       if (rowIndex % 2 === 0)
-        v.fill = {
+        cell.fill = {
           type: "pattern",
           pattern: "solid",
           fgColor: { argb: argb(c.surface) },
         };
-    });
+    }
   }
   inputs.autoFilter = { from: "A5", to: "E25" };
   return workbook;
@@ -330,12 +335,12 @@ STYLE HELPERS
  *
  * @return Nothing; the row styles are updated in place.
  */
-const styleHeader = (
+function styleHeader(
   row: ExcelJS.Row,
   fill: string,
   textColor: string,
   font: string,
-): void => {
+): void {
   row.height = 30;
   for (let col = 1; col <= row.cellCount; col += 1) {
     const cell = row.getCell(col);
@@ -347,7 +352,7 @@ const styleHeader = (
     };
     cell.alignment = { vertical: "middle", wrapText: true };
   }
-};
+}
 
 /**
  * Applies a solid fill to every cell in a rectangular worksheet region.
@@ -361,14 +366,14 @@ const styleHeader = (
  *
  * @return Nothing; worksheet cell fills are updated in place.
  */
-const fillRegion = (
+function fillRegion(
   sheet: ExcelJS.Worksheet,
   firstRow: number,
   lastRow: number,
   firstCol: number,
   lastCol: number,
   fill: string,
-): void => {
+): void {
   for (let row = firstRow; row <= lastRow; row += 1) {
     for (let col = firstCol; col <= lastCol; col += 1) {
       sheet.getCell(row, col).fill = {
@@ -378,7 +383,7 @@ const fillRegion = (
       };
     }
   }
-};
+}
 
 /**
  * Applies a bottom border to every cell in a rectangular worksheet region.
@@ -392,14 +397,14 @@ const fillRegion = (
  *
  * @return Nothing; worksheet cell borders are updated in place.
  */
-const styleTableBorders = (
+function styleTableBorders(
   sheet: ExcelJS.Worksheet,
   startRow: number,
   endRow: number,
   startCol: number,
   endCol: number,
   line: string,
-): void => {
+): void {
   for (let row = startRow; row <= endRow; row += 1) {
     for (let col = startCol; col <= endCol; col += 1) {
       sheet.getCell(row, col).border = {
@@ -407,4 +412,4 @@ const styleTableBorders = (
       };
     }
   }
-};
+}

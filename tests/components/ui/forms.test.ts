@@ -1,9 +1,56 @@
+/*//////////////////////////////////////////////////
+IMPORTS
+//////////////////////////////////////////////////*/
+
+// API
 import assert from "node:assert/strict";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+
+// TEST RUNNER
 import test from "node:test";
+
+// SOURCE UNDER TEST
 import { MappedFormFields } from "../../../src/components/forms.tsx";
 
+/*//////////////////////////////////////////////////
+TESTS
+//////////////////////////////////////////////////*/
+
+test.describe(
+  "mapped checkbox field accessibility",
+  mappedCheckboxAccessibility,
+);
+
+/** Registers checkbox orientation and generated-label association contracts. */
+function mappedCheckboxAccessibility(): void {
+  // ORIENTATION AND FEEDBACK
+  test(
+    "mapped checkbox fields remain stacked by default",
+    defaultCheckboxKeepsLabelBeforeControl,
+  );
+  test(
+    "horizontal mapped checkbox fields lead with the control and retain feedback associations",
+    horizontalCheckboxKeepsFeedbackAssociations,
+  );
+
+  // GENERATED AND CUSTOM CONTROL IDS
+  test(
+    "mapped checkbox fields generate an associated id when id and name are omitted",
+    genCheckboxIdConnectsLabelAndFeedback,
+  );
+  test(
+    "custom mapped controls without id or name do not get a dangling label association",
+    customControlWithoutIdentityHasNoDanglingLabel,
+  );
+}
+
+/** Renders a checkbox with both supporting text states for association checks.
+ *
+ * @param orientation Optional control and label arrangement.
+ *
+ * @returns Rendered markup for association assertions.
+ */
 function renderCheckbox(orientation?: "vertical" | "horizontal"): string {
   return renderToStaticMarkup(
     React.createElement(MappedFormFields, {
@@ -22,7 +69,11 @@ function renderCheckbox(orientation?: "vertical" | "horizontal"): string {
   );
 }
 
-test("mapped checkbox fields remain stacked by default", () => {
+/**
+ * An omitted orientation uses the vertical layout; its label and Radix control
+ * still share description and error ids.
+ */
+function defaultCheckboxKeepsLabelBeforeControl(): void {
   const markup = renderCheckbox();
   const labelIndex = markup.indexOf("<label");
   const checkboxIndex = markup.indexOf('role="checkbox"');
@@ -36,9 +87,13 @@ test("mapped checkbox fields remain stacked by default", () => {
   assert.match(markup, /aria-describedby="terms-description terms-error"/);
   assert.match(markup, /id="terms-description"/);
   assert.match(markup, /id="terms-error" role="alert"/);
-});
+}
 
-test("horizontal mapped checkbox fields lead with the control and retain feedback associations", () => {
+/**
+ * Horizontal placement moves the control before its label without changing the
+ * control's feedback associations.
+ */
+function horizontalCheckboxKeepsFeedbackAssociations(): void {
   const markup = renderCheckbox("horizontal");
   const labelIndex = markup.indexOf("<label");
   const checkboxIndex = markup.indexOf('role="checkbox"');
@@ -52,9 +107,13 @@ test("horizontal mapped checkbox fields lead with the control and retain feedbac
   assert.match(markup, /aria-describedby="terms-description terms-error"/);
   assert.match(markup, /id="terms-description"/);
   assert.match(markup, /id="terms-error" role="alert"/);
-});
+}
 
-test("mapped checkbox fields generate an associated id when id and name are omitted", () => {
+/**
+ * When id and name are absent, one generated id connects the label, checkbox,
+ * description, and error.
+ */
+function genCheckboxIdConnectsLabelAndFeedback(): void {
   const markup = renderToStaticMarkup(
     React.createElement(MappedFormFields, {
       data: [
@@ -84,9 +143,13 @@ test("mapped checkbox fields generate an associated id when id and name are omit
   );
   assert.ok(markup.includes(`id="${checkboxId}-description"`));
   assert.ok(markup.includes(`id="${checkboxId}-error" role="alert"`));
-});
+}
 
-test("custom mapped controls without id or name do not get a dangling label association", () => {
+/**
+ * A custom ReactNode control has no discoverable id, so its label must not point
+ * to an element that does not exist.
+ */
+function customControlWithoutIdentityHasNoDanglingLabel(): void {
   const markup = renderToStaticMarkup(
     React.createElement(MappedFormFields, {
       data: [
@@ -108,4 +171,4 @@ test("custom mapped controls without id or name do not get a dangling label asso
   assert.ok(button);
   assert.doesNotMatch(label, /\sfor="[^"]+"/);
   assert.doesNotMatch(button, /\sid="[^"]+"/);
-});
+}

@@ -17,7 +17,14 @@ import { useState } from "react";
 import { Spinner } from "./spinner.js";
 
 // TYPES
-import type { AriaAttributes, ComponentType, JSX, ReactNode } from "react";
+import type {
+  AriaAttributes,
+  ChangeEvent,
+  ComponentType,
+  DragEvent,
+  JSX,
+  ReactNode,
+} from "react";
 
 /*//////////////////////////////////////////////////
 COMPONENTS
@@ -28,7 +35,17 @@ COMPONENTS
  * Without `onUpload`, `variant` selects a static layout. With `onUpload`, the
  * first selected or dropped file is passed to the callback.
  *
- * @param props - Content, layout, upload callback and file-type filter, disabled state, accessible input label, loading message, and class name.
+ * @param children Optional content rendered after the empty-state message.
+ * @param variant Layout preset used when upload behavior is disabled.
+ * @param Icon Optional icon component shown before the message.
+ * @param title Optional primary empty-state message.
+ * @param description Optional supporting message beneath the title.
+ * @param loading Optional loading message shown while upload is disabled.
+ * @param onUpload Receives the first selected or dropped file.
+ * @param accept File types accepted by the native file picker.
+ * @param uploadDisabled Disables file selection and indicates an active upload.
+ * @param uploadLabel Accessible name for the file input.
+ * @param className Optional classes applied to the empty-state container.
  *
  * @return A static empty-state container or an upload label with a hidden file input.
  */
@@ -96,6 +113,29 @@ export function Empty({
     isDragging && !uploadDisabled && "border-primary-9 bg-primary-3",
     className,
   );
+  /** Keeps the drop target active while a file is dragged over the label. */
+  function handleDragOver(event: DragEvent<HTMLLabelElement>): void {
+    event.preventDefault();
+    if (!uploadDisabled) setIsDragging(true);
+  }
+  /** Clears drag state when the pointer leaves the target and its descendants. */
+  function handleDragLeave(event: DragEvent<HTMLLabelElement>): void {
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null))
+      setIsDragging(false);
+  }
+  /** Sends the first dropped file to the upload handler when enabled. */
+  function handleDrop(event: DragEvent<HTMLLabelElement>): void {
+    event.preventDefault();
+    setIsDragging(false);
+    const file = event.dataTransfer.files[0];
+    if (file && !uploadDisabled) onUpload?.(file);
+  }
+  /** Sends the first picked file to the upload handler and clears the input. */
+  function handleFileChange(event: ChangeEvent<HTMLInputElement>): void {
+    const file = event.currentTarget.files?.[0];
+    if (file) onUpload?.(file);
+    event.currentTarget.value = "";
+  }
   const content = (
     <>
       {Icon && <Icon className="size-8 shrink-0 text-primary-9" aria-hidden />}
@@ -124,20 +164,9 @@ export function Empty({
     <label
       className={classes}
       aria-disabled={uploadDisabled || undefined}
-      onDragOver={(event) => {
-        event.preventDefault();
-        if (!uploadDisabled) setIsDragging(true);
-      }}
-      onDragLeave={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null))
-          setIsDragging(false);
-      }}
-      onDrop={(event) => {
-        event.preventDefault();
-        setIsDragging(false);
-        const file = event.dataTransfer.files[0];
-        if (file && !uploadDisabled) onUpload(file);
-      }}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
     >
       <input
         aria-label={uploadLabel}
@@ -145,11 +174,7 @@ export function Empty({
         type="file"
         accept={accept}
         disabled={uploadDisabled}
-        onChange={(event) => {
-          const file = event.currentTarget.files?.[0];
-          if (file) onUpload(file);
-          event.currentTarget.value = "";
-        }}
+        onChange={handleFileChange}
       />
       {content}
     </label>
@@ -159,7 +184,10 @@ export function Empty({
 /**
  * Panel-style empty state for tables, directories, and other data surfaces.
  *
- * @param props - Panel title, supporting text, optional action, and class name.
+ * @param title Primary empty-state message.
+ * @param description Supporting text beneath the title.
+ * @param action Optional action rendered beneath the empty-state copy.
+ * @param className Optional classes applied to the panel.
  *
  * @return A bordered empty-state panel with the supplied content.
  */

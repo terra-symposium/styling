@@ -39,12 +39,27 @@ const Dialog = DialogPrimitive.Root;
 /**
  * Trigger element that opens the dialog modal.
  */
-const DialogTrigger = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <DialogPrimitive.Trigger ref={ref} className={className} {...props} />
-));
+/** Renders the trigger primitive while forwarding its element ref.
+ *
+ * @param triggerProps Trigger attributes and optional class name.
+ * @param ref Ref forwarded to the trigger element.
+ *
+ * @return The Radix dialog trigger.
+ */
+function renderDialogTrigger(
+  triggerProps: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>,
+  ref: React.ForwardedRef<React.ElementRef<typeof DialogPrimitive.Trigger>>,
+): React.JSX.Element {
+  const { className, ...primitiveProps } = triggerProps;
+  return (
+    <DialogPrimitive.Trigger
+      ref={ref}
+      className={className}
+      {...primitiveProps}
+    />
+  );
+}
+const DialogTrigger = React.forwardRef(renderDialogTrigger);
 DialogTrigger.displayName = DialogPrimitive.Trigger.displayName;
 
 // PORTAL
@@ -59,54 +74,75 @@ DialogClose.displayName = DialogPrimitive.Close.displayName;
 /**
  * Dark translucent backdrop rendered behind dialog content.
  */
-const DialogOverlay = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <DialogPrimitive.Overlay
-    ref={ref}
-    className={cn(
-      "fixed inset-0 z-[100] bg-black/25 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 dark:bg-black/50",
-      className,
-    )}
-    {...props}
-  />
-));
+/** Renders the backdrop primitive with shared overlay animation styles.
+ *
+ * @param overlayProps Overlay attributes and optional class name.
+ * @param ref Ref forwarded to the backdrop element.
+ *
+ * @return The styled dialog backdrop.
+ */
+function renderDialogOverlay(
+  overlayProps: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>,
+  ref: React.ForwardedRef<React.ElementRef<typeof DialogPrimitive.Overlay>>,
+): React.JSX.Element {
+  const { className, ...primitiveProps } = overlayProps;
+  return (
+    <DialogPrimitive.Overlay
+      ref={ref}
+      className={cn(
+        "fixed inset-0 z-[100] bg-black/25 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 dark:bg-black/50",
+        className,
+      )}
+      {...primitiveProps}
+    />
+  );
+}
+const DialogOverlay = React.forwardRef(renderDialogOverlay);
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 // CONTENT
 /**
  * Main modal content overlay container.
  */
-const DialogContent = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
-    size?: Size;
-    variant?: SurfaceVariant;
-    closeClassName?: string;
-    overlayClassName?: string;
-    bodyClassName?: string;
-    scrollable?: boolean;
-    showClose?: boolean;
-    showCloseButton?: boolean;
-  }
->(
-  (
-    {
-      className,
-      children,
-      size = "lg",
-      variant = "gray-default",
-      closeClassName,
-      overlayClassName,
-      bodyClassName,
-      scrollable = true,
-      showClose = true,
-      showCloseButton,
-      ...props
-    },
-    ref,
-  ): React.JSX.Element => (
+/** Primitive and presentation options used by the shared dialog content surface. */
+type DialogContentProps = React.ComponentPropsWithoutRef<
+  typeof DialogPrimitive.Content
+> & {
+  size?: Size;
+  variant?: SurfaceVariant;
+  closeClassName?: string;
+  overlayClassName?: string;
+  bodyClassName?: string;
+  scrollable?: boolean;
+  showClose?: boolean;
+  showCloseButton?: boolean;
+};
+
+/** Renders modal content with a backdrop, responsive bounds, and optional close action.
+ *
+ * @param dialogProps Content, size, surface, scrolling, close-control, and Radix props.
+ * @param ref Ref forwarded to the dialog content element.
+ *
+ * @return The portaled dialog overlay and content surface.
+ */
+function renderDialogContent(
+  dialogProps: DialogContentProps,
+  ref: React.ForwardedRef<React.ElementRef<typeof DialogPrimitive.Content>>,
+): React.JSX.Element {
+  const {
+    className,
+    children,
+    size = "lg",
+    variant = "gray-default",
+    closeClassName,
+    overlayClassName,
+    bodyClassName,
+    scrollable = true,
+    showClose = true,
+    showCloseButton,
+    ...primitiveProps
+  } = dialogProps;
+  return (
     <DialogPortal>
       <DialogOverlay className={cn("print:hidden", overlayClassName)} />
       <DialogPrimitive.Content
@@ -148,7 +184,7 @@ const DialogContent = React.forwardRef<
           }[size],
           className,
         )}
-        {...props}
+        {...primitiveProps}
       >
         <div className="relative flex size-full min-h-0 flex-col">
           {(showCloseButton ?? showClose) && (
@@ -178,133 +214,155 @@ const DialogContent = React.forwardRef<
         </div>
       </DialogPrimitive.Content>
     </DialogPortal>
-  ),
-);
+  );
+}
+const DialogContent = React.forwardRef(renderDialogContent);
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 // HEADER
 /**
  * Dialog header.
  *
- * @param props
+ * @param className Optional classes applied to the header.
+ * @param visuallyHidden Hides the header visually while preserving it for assistive technology.
+ * @param headerProps Remaining div attributes.
  *
  * @return A dialog header container, optionally hidden from visual layout.
  */
-const DialogHeader = ({
+function DialogHeader({
   className,
   visuallyHidden = false,
-  ...props
+  ...headerProps
 }: React.HTMLAttributes<HTMLDivElement> & {
   visuallyHidden?: boolean;
-}): React.JSX.Element => (
-  <div
-    data-slot="dialog-header"
-    className={cn(
-      "mb-4 flex flex-col text-center sm:text-left",
-      visuallyHidden && "sr-only",
-      className,
-    )}
-    {...props}
-  />
-);
+}): React.JSX.Element {
+  return (
+    <div
+      data-slot="dialog-header"
+      className={cn(
+        "mb-4 flex flex-col text-center sm:text-left",
+        visuallyHidden && "sr-only",
+        className,
+      )}
+      {...headerProps}
+    />
+  );
+}
 DialogHeader.displayName = "DialogHeader";
 
 // FOOTER
 /**
  * Dialog footer.
  *
- * @param props
+ * @param className Optional classes applied to the footer.
+ * @param layout Selects the standard flex layout or a four-column grid.
+ * @param showCloseButton Adds the standard close action when true.
+ * @param children Footer actions and supporting content.
+ * @param footerProps Remaining div attributes.
  *
  * @return A dialog footer with optional close action and grid layout.
  */
-const DialogFooter = ({
+function DialogFooter({
   className,
   layout = "default",
   showCloseButton = false,
   children,
-  ...props
+  ...footerProps
 }: React.HTMLAttributes<HTMLDivElement> & {
   layout?: "default" | "grid";
   showCloseButton?: boolean;
-}): React.JSX.Element => (
-  <div
-    data-slot="dialog-footer"
-    className={cn(
-      "mt-2 flex flex-col-reverse gap-2 rounded-lg border bg-primary-3/50 p-4 sm:flex-row sm:justify-end",
-      layout === "grid" && "grid sm:grid-cols-4",
-      className,
-    )}
-    {...props}
-  >
-    {children}
-    {showCloseButton && (
-      <DialogPrimitive.Close asChild>
-        <Button variant="gray-outline">Close</Button>
-      </DialogPrimitive.Close>
-    )}
-  </div>
-);
+}): React.JSX.Element {
+  return (
+    <div
+      data-slot="dialog-footer"
+      className={cn(
+        "mt-2 flex flex-col-reverse gap-2 rounded-lg border bg-primary-3/50 p-4 sm:flex-row sm:justify-end",
+        layout === "grid" && "grid sm:grid-cols-4",
+        className,
+      )}
+      {...footerProps}
+    >
+      {children}
+      {showCloseButton && (
+        <DialogPrimitive.Close asChild>
+          <Button variant="gray-outline">Close</Button>
+        </DialogPrimitive.Close>
+      )}
+    </div>
+  );
+}
 DialogFooter.displayName = "DialogFooter";
 
 // TITLE
 /**
  * Accessible dialog title heading.
  */
-const DialogTitle = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <DialogPrimitive.Title
-    ref={ref}
-    className={cn(
-      "text-lg font-semibold leading-none tracking-tight",
-      className,
-    )}
-    {...props}
-  />
-));
+/** Renders the dialog title with shared heading typography.
+ *
+ * @param titleProps Title attributes and optional class name.
+ * @param ref Ref forwarded to the title element.
+ *
+ * @return The styled Radix dialog title.
+ */
+function renderDialogTitle(
+  titleProps: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>,
+  ref: React.ForwardedRef<React.ElementRef<typeof DialogPrimitive.Title>>,
+): React.JSX.Element {
+  const { className, ...primitiveProps } = titleProps;
+  return (
+    <DialogPrimitive.Title
+      ref={ref}
+      className={cn(
+        "text-lg font-semibold leading-none tracking-tight",
+        className,
+      )}
+      {...primitiveProps}
+    />
+  );
+}
+const DialogTitle = React.forwardRef(renderDialogTitle);
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
 
 // DESCRIPTION
 /**
  * Accessible dialog description body text.
  */
-const DialogDescription = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description> & {
-    tooltip?: React.ReactNode;
-  }
->(
-  (
-    {
-      className,
-      tooltip,
-      children,
-      ...props
-    }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description> & {
-      tooltip?: React.ReactNode;
-    },
-    ref,
-  ): React.JSX.Element => {
-    const description = (
-      <DialogPrimitive.Description
-        data-slot="dialog-description"
-        ref={ref}
-        className={cn("text-sm text-primary-10", className)}
-        {...props}
-      >
-        {children}
-      </DialogPrimitive.Description>
-    );
-    return tooltip ? (
-      <Hint content={tooltip} disabledTrigger>
-        {description}
-      </Hint>
-    ) : (
-      description
-    );
-  },
-);
+/** Description primitive attributes plus optional hint content. */
+type DialogDescriptionProps = React.ComponentPropsWithoutRef<
+  typeof DialogPrimitive.Description
+> & { tooltip?: React.ReactNode };
+
+/** Renders dialog description text and optionally wraps it in a hint.
+ *
+ * @param descriptionProps Description content, tooltip, and primitive attributes.
+ * @param ref Ref forwarded to the description element.
+ *
+ * @return Description text, optionally wrapped in the shared Hint component.
+ */
+function renderDialogDescription(
+  descriptionProps: DialogDescriptionProps,
+  ref: React.ForwardedRef<React.ElementRef<typeof DialogPrimitive.Description>>,
+): React.JSX.Element {
+  const { className, tooltip, children, ...primitiveProps } = descriptionProps;
+  const description = (
+    <DialogPrimitive.Description
+      data-slot="dialog-description"
+      ref={ref}
+      className={cn("text-sm text-primary-10", className)}
+      {...primitiveProps}
+    >
+      {children}
+    </DialogPrimitive.Description>
+  );
+  return tooltip ? (
+    <Hint content={tooltip} disabledTrigger>
+      {description}
+    </Hint>
+  ) : (
+    description
+  );
+}
+const DialogDescription = React.forwardRef(renderDialogDescription);
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
 // EXPORTS

@@ -9,6 +9,29 @@ permissions:
   contents: read
 
 jobs:
+  quality:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+      security-events: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24.12.0"
+          cache: pnpm
+          cache-dependency-path: config/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - name: Run full-scope Quality
+        run: pnpm quality:check
+        env:
+          GH_TOKEN: ${{ github.token }}
+
   typecheck:
     runs-on: ubuntu-latest
     steps:

@@ -49,9 +49,11 @@ const CARD_TREATMENTS = [
   "saturated",
   "glass",
 ] as const;
+/** Identifies the palette color used by each treatment-matrix row. */
 type ColorRow = { color: (typeof COLORS)[number] };
 /** A row per palette color lets the shared DataTable provide consistent row labels. */
-const COLOR_ROWS: ColorRow[] = COLORS.map((c) => ({ color: c }));
+const COLOR_ROWS: ColorRow[] = [];
+for (const color of COLORS) COLOR_ROWS.push({ color });
 const BUTTON_COLS = createButtonCols();
 const CARD_COLS = createCardCols();
 
@@ -62,7 +64,8 @@ HELPERS
 /**
  * Render the canonical variant name below the component example.
  *
- * @param props - Variant name and rendered component example to display together.
+ * @param variant - Canonical variant name shown beneath the example.
+ * @param children - Rendered component example.
  *
  * @return A component example with its canonical variant name.
  */
@@ -87,30 +90,43 @@ function VariantExample({
  * @return A color column followed by one example column per button treatment.
  */
 function createButtonCols(): DataTableColumn<ColorRow>[] {
-  return [
+  const cols: DataTableColumn<ColorRow>[] = [
     { key: "color", label: "Color", rowHeader: true },
-    ...BUTTON_TREATMENTS.map((t) => ({
-      key: t,
-      label: t,
-      width: "wide-wrapped" as const,
-      render: ({ color: c }: ColorRow) => {
-        const variant = `${c}-${t}` as ButtonVariant;
-
-        // Underline treatments are links; other treatments remain real buttons.
-        const example =
-          t === "underline" ? (
-            <UI.ButtonLink href="#card-surfaces" size="sm" variant={variant}>
-              Sample
-            </UI.ButtonLink>
-          ) : (
-            <UI.Button size="sm" variant={variant}>
-              Sample
-            </UI.Button>
-          );
-        return <VariantExample variant={variant}>{example}</VariantExample>;
-      },
-    })),
   ];
+  for (const treatment of BUTTON_TREATMENTS) {
+    cols.push(createButtonCol(treatment));
+  }
+  return cols;
+}
+
+/** Builds a button treatment column with the correct link or button example.
+ * @param treatment - Supported button treatment shown in this column.
+ * @return A data-table column rendering the selected button treatment.
+ */
+function createButtonCol(
+  treatment: (typeof BUTTON_TREATMENTS)[number],
+): DataTableColumn<ColorRow> {
+  /** Renders one color using the selected button treatment. */
+  function renderButtonExample({ color }: ColorRow): React.JSX.Element {
+    const variant = `${color}-${treatment}` as ButtonVariant;
+    const example =
+      treatment === "underline" ? (
+        <UI.ButtonLink href="#card-surfaces" size="sm" variant={variant}>
+          Sample
+        </UI.ButtonLink>
+      ) : (
+        <UI.Button size="sm" variant={variant}>
+          Sample
+        </UI.Button>
+      );
+    return <VariantExample variant={variant}>{example}</VariantExample>;
+  }
+  return {
+    key: treatment,
+    label: treatment,
+    width: "wide-wrapped",
+    render: renderButtonExample,
+  };
 }
 
 /**
@@ -119,24 +135,39 @@ function createButtonCols(): DataTableColumn<ColorRow>[] {
  * @return A color column followed by one example column per card treatment.
  */
 function createCardCols(): DataTableColumn<ColorRow>[] {
-  return [
+  const cols: DataTableColumn<ColorRow>[] = [
     { key: "color", label: "Color", rowHeader: true },
-    ...CARD_TREATMENTS.map((t) => ({
-      key: t,
-      label: t,
-      width: "wide-wrapped" as const,
-      render: ({ color: c }: ColorRow) => {
-        const variant = `${c}-${t}` as CardVariant;
-        return (
-          <VariantExample variant={variant}>
-            <UI.Card variant={variant} size="sm">
-              <UI.CardContent>Sample</UI.CardContent>
-            </UI.Card>
-          </VariantExample>
-        );
-      },
-    })),
   ];
+  for (const treatment of CARD_TREATMENTS) {
+    cols.push(createCardCol(treatment));
+  }
+  return cols;
+}
+
+/** Builds a card treatment column with its corresponding surface example.
+ * @param treatment - Supported card treatment shown in this column.
+ * @return A data-table column rendering the selected card surface.
+ */
+function createCardCol(
+  treatment: (typeof CARD_TREATMENTS)[number],
+): DataTableColumn<ColorRow> {
+  /** Renders one color using the selected card surface treatment. */
+  function renderCardExample({ color }: ColorRow): React.JSX.Element {
+    const variant = `${color}-${treatment}` as CardVariant;
+    return (
+      <VariantExample variant={variant}>
+        <UI.Card variant={variant} size="sm">
+          <UI.CardContent>Sample</UI.CardContent>
+        </UI.Card>
+      </VariantExample>
+    );
+  }
+  return {
+    key: treatment,
+    label: treatment,
+    width: "wide-wrapped",
+    render: renderCardExample,
+  };
 }
 
 /**

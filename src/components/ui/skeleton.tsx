@@ -18,7 +18,10 @@ COMPONENTS
  * Pulsing placeholder hidden from assistive technology by default. Set
  * `aria-label` to expose a custom status, or `aria-hidden={false}` to expose `Loading...`.
  *
- * @param props - Div attributes and optional status name or visibility setting.
+ * @param className - Additional classes applied to the placeholder.
+ * @param ariaLabel - Optional status name announced by assistive technology.
+ * @param ariaHidden - Optional visibility override for assistive technology.
+ * @param attributes - Remaining div attributes forwarded to the placeholder.
  *
  * @return A pulsing status placeholder.
  */
@@ -26,7 +29,7 @@ function Skeleton({
   className,
   "aria-label": ariaLabel,
   "aria-hidden": ariaHidden,
-  ...props
+  ...attributes
 }: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
   return (
     <div
@@ -37,7 +40,7 @@ function Skeleton({
         "animate-pulse rounded-md bg-gray-100 dark:bg-gray-800",
         className,
       )}
-      {...props}
+      {...attributes}
     />
   );
 }

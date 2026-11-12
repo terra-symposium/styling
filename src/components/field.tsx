@@ -58,14 +58,16 @@ COMPONENTS
 /**
  * Groups a form control with its label and supporting content.
  *
- * @param props Orientation selects vertical, horizontal, or container-responsive layout; remaining div props go to the group.
+ * @param className Optional classes applied to the field group.
+ * @param orientation Layout orientation for the label and control.
+ * @param fieldProps Remaining div properties forwarded to the group.
  *
  * @return A field group with the requested orientation.
  */
 export function Field({
   className,
   orientation = "vertical",
-  ...props
+  ...fieldProps
 }: React.ComponentProps<"div"> &
   VariantProps<typeof fieldVariants>): React.JSX.Element {
   return (
@@ -78,7 +80,7 @@ export function Field({
         fieldVariants({ orientation }),
         className,
       )}
-      {...props}
+      {...fieldProps}
     />
   );
 }
@@ -87,13 +89,14 @@ export function Field({
 /**
  * Labels a field and exposes focus and checked state to the containing layout.
  *
- * @param props Label content, associated control id, and other label properties.
+ * @param className Optional classes applied to the label.
+ * @param labelProps Label content, associated control id, and remaining label properties.
  *
  * @return A label styled for the shared field layout.
  */
 export function FieldLabel({
   className,
-  ...props
+  ...labelProps
 }: React.ComponentProps<typeof Label>): React.JSX.Element {
   return (
     <Label
@@ -103,7 +106,7 @@ export function FieldLabel({
         "has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col",
         className,
       )}
-      {...props}
+      {...labelProps}
     />
   );
 }
@@ -111,13 +114,14 @@ export function FieldLabel({
 /**
  * Displays optional supporting instructions under a field.
  *
- * @param props Description content and paragraph properties.
+ * @param className Optional classes applied to the description.
+ * @param descriptionProps Description content and remaining paragraph properties.
  *
  * @return A muted field-description paragraph.
  */
 export function FieldDescription({
   className,
-  ...props
+  ...descriptionProps
 }: React.ComponentProps<"p">): React.JSX.Element {
   return (
     <p
@@ -128,7 +132,7 @@ export function FieldDescription({
         "last:mt-0 nth-last-2:-mt-1 [&>a:hover]:text-primary-9 [&>a]:underline [&>a]:underline-offset-4",
         className,
       )}
-      {...props}
+      {...descriptionProps}
     />
   );
 }
@@ -137,7 +141,10 @@ export function FieldDescription({
 /**
  * Displays explicit content or unique validation messages in an alert.
  *
- * @param props Explicit content, fallback error messages, and div properties.
+ * @param className Optional classes applied to the error container.
+ * @param children Explicit content shown instead of error messages.
+ * @param errs Validation messages used when explicit content is absent.
+ * @param errProps Remaining div properties forwarded to the alert.
  *
  * @return An alert containing explicit or error messages, or null when children and errors are absent.
  */
@@ -145,20 +152,27 @@ export function FieldError({
   className,
   children,
   errors: errs,
-  ...props
+  ...errProps
 }: React.ComponentProps<"div"> & {
   errors?: Array<{ message?: string } | undefined>;
 }): React.JSX.Element | null {
   let content = children;
   if (!content && errs?.length) {
-    const uniqueErrs = [...new Map(errs.map((e) => [e?.message, e])).values()];
+    const errsByMessage = new Map<
+      string | undefined,
+      { message?: string } | undefined
+    >();
+    for (const error of errs) errsByMessage.set(error?.message, error);
+    const uniqueErrs = [...errsByMessage.values()];
+    const messages: React.ReactNode[] = [];
+    for (const [index, error] of uniqueErrs.entries()) {
+      if (error?.message) messages.push(<li key={index}>{error.message}</li>);
+    }
     content =
       uniqueErrs.length === 1 ? (
         uniqueErrs[0]?.message
       ) : (
-        <ul className="ml-4 flex list-disc flex-col gap-1">
-          {uniqueErrs.map((e, i) => e?.message && <li key={i}>{e.message}</li>)}
-        </ul>
+        <ul className="ml-4 flex list-disc flex-col gap-1">{messages}</ul>
       );
   }
   if (!content) return null;
@@ -167,7 +181,7 @@ export function FieldError({
       role="alert"
       data-slot="field-error"
       className={cn("text-sm font-normal text-red-700", className)}
-      {...props}
+      {...errProps}
     >
       {content}
     </div>

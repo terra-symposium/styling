@@ -50,15 +50,17 @@ COMPONENTS
 /**
  * Message bubble whose `variant` selects its surface and whose `align` is exposed as data.
  *
- * @param props - Div attributes, variant, and alignment for the bubble.
- *
+ * @param variant - Surface style for the message bubble.
+ * @param align - Whether the bubble aligns with the start or end of the message.
+ * @param className - Additional classes applied to the bubble surface.
+ * @param attributes - Remaining div attributes forwarded to the bubble.
  * @return A message bubble with variant and alignment metadata.
  */
 function Bubble({
   variant = "default",
   align = "start",
   className,
-  ...props
+  ...attributes
 }: React.ComponentProps<"div"> &
   VariantProps<typeof BUBBLE_VARIANTS> & {
     align?: "start" | "end";
@@ -69,7 +71,7 @@ function Bubble({
       data-variant={variant}
       data-align={align}
       className={cn(BUBBLE_VARIANTS({ variant, className }))}
-      {...props}
+      {...attributes}
     />
   );
 }
@@ -77,13 +79,14 @@ function Bubble({
 /**
  * Rounded, wrapping container for the bubble's body content.
  *
- * @param props - Div attributes for the bubble body.
+ * @param className - Additional classes applied to the bubble body.
  *
+ * @param attributes - Remaining div attributes forwarded to the body container.
  * @return A rounded, wrapping div for message content.
  */
 function BubbleContent({
   className,
-  ...props
+  ...attributes
 }: React.ComponentProps<"div">): React.JSX.Element {
   return (
     <div
@@ -92,7 +95,7 @@ function BubbleContent({
         "w-fit min-w-0 max-w-full overflow-hidden break-words rounded-2xl border border-transparent px-3 py-1.5 text-sm leading-relaxed",
         className,
       )}
-      {...props}
+      {...attributes}
     />
   );
 }

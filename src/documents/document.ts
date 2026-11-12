@@ -45,6 +45,7 @@ const SHARED_REGEX = /^#/;
 WORD TEMPLATE
 //////////////////////////////////////////////////*/
 
+/** Branding and title options for the editable Word invoice template. */
 export type WordTemplateOptions = {
   title?: string;
   subtitle?: string;
@@ -66,13 +67,10 @@ export function createWordTemplate(
   const brand = createDocumentBrand(options.brand);
   const c = brand.colors;
   const font = brand.fonts.body;
-  const bodyInk =
-    "#" +
-    brand.scales.gray.light[11]!.split(" ")
-      .map((c) => Math.round(Number(c)).toString(16).padStart(2, "0"))
-      .join("");
+  let bodyInk = "#";
+  for (const channel of brand.scales.gray.light[11]!.split(" "))
+    bodyInk += Math.round(Number(channel)).toString(16).padStart(2, "0");
   const bodyLine = 276;
-  const tableWidth = 9706;
   const noBorder = { style: BorderStyle.NIL, size: 0 };
   const thinRule = {
     style: BorderStyle.SINGLE,
@@ -93,18 +91,40 @@ export function createWordTemplate(
     insideVertical: noBorder,
   };
   const cellMargins = { top: 100, bottom: 100, left: 140, right: 140 };
-  const colorFill = (color: string) => ({
-    type: ShadingType.CLEAR,
-    fill: color.replace(SHARED_REGEX, ""),
-  });
-  const runText = (value: string, run: Record<string, unknown> = {}) =>
-    new TextRun({ text: value, font, ...run });
-  const paragraph = (
+  /** Removes a leading hash before assigning a Word cell fill.
+   * @param color - CSS-style hexadecimal fill color.
+   * @return Word shading options for the fill.
+   */
+  function colorFill(color: string) {
+    return { type: ShadingType.CLEAR, fill: color.replace(SHARED_REGEX, "") };
+  }
+  /** Creates a text run using the selected Terra body font.
+   * @param value - Text shown in the run.
+   * @param run - Additional Word text-run options.
+   * @return A styled Word text run.
+   */
+  function runText(value: string, run: Record<string, unknown> = {}) {
+    return new TextRun({ text: value, font, ...run });
+  }
+  /** Creates a Word paragraph with the template's default inline text run.
+   * @param value - Paragraph content.
+   * @param style - Word paragraph style name.
+   * @param alignment - Optional horizontal paragraph alignment.
+   * @return A Word paragraph containing the requested text.
+   */
+  function paragraph(
     value: string,
     style = "Normal",
     alignment?: (typeof AlignmentType)[keyof typeof AlignmentType],
-  ) => new Paragraph({ style, alignment, children: [runText(value)] });
-  const heading = (headingText: string, level: 1 | 2 | 3) => {
+  ) {
+    return new Paragraph({ style, alignment, children: [runText(value)] });
+  }
+  /** Builds a numbered Word heading and keeps its following paragraph attached.
+   * @param headingText - Heading content.
+   * @param level - Heading depth from one through three.
+   * @return A Word heading paragraph.
+   */
+  function heading(headingText: string, level: 1 | 2 | 3) {
     const levelMap = {
       1: { heading: HeadingLevel.HEADING_1, style: "Heading1" },
       2: { heading: HeadingLevel.HEADING_2, style: "Heading2" },
@@ -116,8 +136,14 @@ export function createWordTemplate(
       style: levelMap[level].style,
       children: [runText(headingText)],
     });
-  };
-  const cell = (
+  }
+  /** Creates a table cell using the invoice template's spacing and vertical alignment.
+   * @param paragraphs - Cell content paragraphs.
+   * @param width - Cell width in DXA units.
+   * @param opts - Optional fill, border, span, and alignment settings.
+   * @return A Word table cell with template margins.
+   */
+  function cell(
     paragraphs: Paragraph[],
     width: number,
     opts: {
@@ -126,8 +152,8 @@ export function createWordTemplate(
       columnSpan?: number;
       alignment?: (typeof AlignmentType)[keyof typeof AlignmentType];
     } = {},
-  ) =>
-    new TableCell({
+  ) {
+    return new TableCell({
       width: { size: width, type: WidthType.DXA },
       columnSpan: opts.columnSpan,
       verticalAlign: VerticalAlignTable.CENTER,
@@ -136,20 +162,33 @@ export function createWordTemplate(
       borders: opts.borders as never,
       children: paragraphs,
     });
-  const makeTable = (rows: TableRow[], widths: number[]) =>
-    new Table({
+  }
+  /** Creates a fixed-layout table with shared invoice borders.
+   * @param rows - Table rows in display order.
+   * @param widths - Column widths in DXA units.
+   * @return A fixed-layout Word table.
+   */
+  function makeTable(rows: TableRow[], widths: number[]) {
+    return new Table({
       rows,
       width: { size: 100, type: WidthType.PERCENTAGE },
       columnWidths: widths,
       layout: "fixed",
       borders: emptyTableBorders,
     });
-  const tableText = (
+  }
+  /** Creates a body or header paragraph for a table cell.
+   * @param value - Cell text.
+   * @param align - Optional right or center alignment.
+   * @param style - Word paragraph style name.
+   * @return A paragraph formatted for a table cell.
+   */
+  function tableText(
     value: string,
     align?: "right" | "center",
     style = "TableBody",
-  ) =>
-    new Paragraph({
+  ) {
+    return new Paragraph({
       style,
       alignment:
         align === "right"
@@ -159,12 +198,60 @@ export function createWordTemplate(
             : AlignmentType.LEFT,
       children: [runText(value)],
     });
-  const tableTotal = (value: string, align?: "right") =>
-    new Paragraph({
+  }
+  /** Creates a bold total row label or amount.
+   * @param value - Total label or amount.
+   * @param align - Optional right alignment for the amount.
+   * @return A bold total paragraph.
+   */
+  function tableTotal(value: string, align?: "right") {
+    return new Paragraph({
       style: "TableTotal",
       alignment: align === "right" ? AlignmentType.RIGHT : AlignmentType.LEFT,
       children: [runText(value, { bold: true })],
     });
+  }
+  const serviceRows: TableRow[] = [];
+  const serviceItems = [
+    { group: "Professional services", item: "[Workshop delivery]", qty: "[1]" },
+    { group: "Preparation", item: "[Planning and materials]", qty: "[1]" },
+    {
+      group: "Additional costs",
+      item: "[Travel or approved expenses]",
+      qty: "[1]",
+    },
+  ];
+  for (const entry of serviceItems) {
+    serviceRows.push(
+      new TableRow({
+        cantSplit: true,
+        children: [
+          cell([paragraph(entry.group, "TableGroup")], 9706, {
+            fill: c.primarySoft,
+            columnSpan: 4,
+            borders: { top: sectionRule, bottom: sectionRule },
+          }),
+        ],
+      }),
+      new TableRow({
+        cantSplit: true,
+        children: [
+          cell([tableText(entry.item)], 5100, {
+            borders: { bottom: { ...thinRule, size: 2 } },
+          }),
+          cell([tableText("[Rate]", "right")], 1800, {
+            borders: { bottom: { ...thinRule, size: 2 } },
+          }),
+          cell([tableText(entry.qty, "right")], 900, {
+            borders: { bottom: { ...thinRule, size: 2 } },
+          }),
+          cell([tableText("[Subtotal]", "right")], 1906, {
+            borders: { bottom: { ...thinRule, size: 2 } },
+          }),
+        ],
+      }),
+    );
+  }
   const children: (Paragraph | Table)[] = [];
   if (brand.logo === "terra-wordmark")
     children.push(
@@ -282,51 +369,7 @@ export function createWordTemplate(
             }),
           ],
         }),
-        ...[
-          {
-            group: "Professional services",
-            item: "[Workshop delivery]",
-            qty: "[1]",
-          },
-          {
-            group: "Preparation",
-            item: "[Planning and materials]",
-            qty: "[1]",
-          },
-          {
-            group: "Additional costs",
-            item: "[Travel or approved expenses]",
-            qty: "[1]",
-          },
-        ].flatMap((e) => [
-          new TableRow({
-            cantSplit: true,
-            children: [
-              cell([paragraph(e.group, "TableGroup")], tableWidth, {
-                fill: c.primarySoft,
-                columnSpan: 4,
-                borders: { top: sectionRule, bottom: sectionRule },
-              }),
-            ],
-          }),
-          new TableRow({
-            cantSplit: true,
-            children: [
-              cell([tableText(e.item)], 5100, {
-                borders: { bottom: { ...thinRule, size: 2 } },
-              }),
-              cell([tableText("[Rate]", "right")], 1800, {
-                borders: { bottom: { ...thinRule, size: 2 } },
-              }),
-              cell([tableText(e.qty, "right")], 900, {
-                borders: { bottom: { ...thinRule, size: 2 } },
-              }),
-              cell([tableText("[Subtotal]", "right")], 1906, {
-                borders: { bottom: { ...thinRule, size: 2 } },
-              }),
-            ],
-          }),
-        ]),
+        ...serviceRows,
       ],
       [5100, 1800, 900, 1906],
     ),
@@ -353,7 +396,35 @@ export function createWordTemplate(
     ),
     paragraph("Please include the invoice number with your payment.", "Small"),
   );
-  if (options.showcase)
+  if (options.showcase) {
+    const comparisonRows: TableRow[] = [];
+    const comparisonValues = [
+      ["Prepare materials", "Project lead", "Ready", "[Date]"],
+      ["Confirm attendees", "Coordinator", "Open", "[Date]"],
+      ["Share follow-up", "Facilitator", "Planned", "[Date]"],
+    ];
+    const comparisonWidths = [4100, 2400, 1400, 1906];
+    for (const rowValues of comparisonValues) {
+      const rowCells: TableCell[] = [];
+      for (let index = 0; index < rowValues.length; index++) {
+        const value = rowValues[index]!;
+        rowCells.push(
+          cell(
+            [
+              tableText(
+                value,
+                index === 2 ? "center" : index === 3 ? "right" : undefined,
+              ),
+            ],
+            comparisonWidths[index]!,
+            { borders: { bottom: { ...thinRule, size: 2 } } },
+          ),
+        );
+      }
+      comparisonRows.push(
+        new TableRow({ cantSplit: true, children: rowCells }),
+      );
+    }
     children.push(
       new Paragraph({
         pageBreakBefore: true,
@@ -432,28 +503,7 @@ export function createWordTemplate(
               }),
             ],
           }),
-          ...[
-            ["Prepare materials", "Project lead", "Ready", "[Date]"],
-            ["Confirm attendees", "Coordinator", "Open", "[Date]"],
-            ["Share follow-up", "Facilitator", "Planned", "[Date]"],
-          ].map(
-            (r) =>
-              new TableRow({
-                cantSplit: true,
-                children: r.map((v, i) =>
-                  cell(
-                    [
-                      tableText(
-                        v,
-                        i === 2 ? "center" : i === 3 ? "right" : undefined,
-                      ),
-                    ],
-                    [4100, 2400, 1400, 1906][i]!,
-                    { borders: { bottom: { ...thinRule, size: 2 } } },
-                  ),
-                ),
-              }),
-          ),
+          ...comparisonRows,
         ],
         [4100, 2400, 1400, 1906],
       ),
@@ -488,6 +538,7 @@ export function createWordTemplate(
         "Small",
       ),
     );
+  }
   return new Document({
     creator: "Terra Symposium",
     description: "Editable Terra invoice and document style template",
@@ -803,10 +854,11 @@ async function replaceWordText(
  *
  * @return The value with XML entities substituted for reserved characters.
  */
-const escapeXml = (value: string): string =>
-  value
+function escapeXml(value: string): string {
+  return value
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&apos;");
+}

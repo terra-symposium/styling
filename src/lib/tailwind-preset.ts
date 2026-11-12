@@ -28,12 +28,145 @@ CONFIG
  * @param variable - CSS custom property name that resolves to a space-delimited RGB triplet.
  * @return A color callback that uses `opacityValue`, falling back to `100` when it is falsy.
  */
-const applyOpacityValue = (variable: string) => {
-  return (prop: Partial<{ opacityVariable: string; opacityValue: number }>) => {
+function applyOpacityValue(variable: string) {
+  /**
+   * Builds an RGB declaration with Tailwind's optional opacity modifier.
+   *
+   * @param prop - Opacity values supplied by the Tailwind color resolver.
+   * @return CSS RGB color using the selected channel variable and opacity.
+   */
+  function applyOpacity(
+    prop: Partial<{ opacityVariable: string; opacityValue: number }>,
+  ): string {
     const opacityValue = prop?.opacityValue;
     return `rgb(var(${variable}) / ${opacityValue || "100"})`;
+  }
+  return applyOpacity;
+}
+
+/**
+ * Creates numbered Tailwind color entries for legacy and current scale names.
+ *
+ * @param prefix - CSS custom property prefix used for each scale entry.
+ * @param legacy - Legacy color steps retained for existing consumers.
+ * @param current - Current one-through-twelve scale step numbers.
+ * @return Color callbacks keyed by the legacy and current step numbers.
+ */
+function makeOpacityColors(
+  prefix: string,
+  legacy: readonly number[],
+  current: readonly number[],
+): Record<number, ReturnType<typeof applyOpacityValue>> {
+  const colors: Record<number, ReturnType<typeof applyOpacityValue>> = {};
+  for (const step of legacy)
+    colors[step] = applyOpacityValue(`${prefix}${step}`);
+  for (const step of current)
+    colors[step] = applyOpacityValue(`${prefix}-${step}`);
+  return colors;
+}
+
+/** Tailwind callback that resolves one dotted theme path. */
+type ThemeLookup = (path: string) => unknown;
+/** Theme resolver passed to computed min-width and typography extensions. */
+type ThemeExtOptions = { theme: ThemeLookup };
+
+/**
+ * Returns the shared maximum-width scale for Tailwind's min-width extension.
+ *
+ * @param theme - Tailwind resolver used to read the configured max-width scale.
+ * @return A shallow copy of the configured max-width entries.
+ */
+function minWidthFromTheme({ theme }: ThemeExtOptions): Record<string, string> {
+  return { ...(theme("maxWidth") as Record<string, string>) };
+}
+
+/**
+ * Builds the shared prose colors and typography rules from Tailwind's theme resolver.
+ *
+ * @param theme - Tailwind resolver used to read the shared color and font tokens.
+ * @return Typography plugin defaults for prose content.
+ */
+function typographyFromTheme({ theme }: ThemeExtOptions) {
+  return {
+    DEFAULT: {
+      css: {
+        "--tw-prose-body": theme("colors.gray[11]"),
+        "--tw-prose-headings": theme("colors.gray[12]"),
+        "--tw-prose-lead": theme("colors.gray[10]"),
+        "--tw-prose-links": theme("colors.gray[12]"),
+        "--tw-prose-bold": theme("colors.gray[12]"),
+        "--tw-prose-counters": theme("colors.primary[600]"),
+        "--tw-prose-bullets": theme("colors.primary[400]"),
+        "--tw-prose-hr": theme("colors.gray[7]"),
+        "--tw-prose-quotes": theme("colors.gray[12]"),
+        "--tw-prose-quote-borders": theme("colors.gray[7]"),
+        "--tw-prose-captions": theme("colors.gray[10]"),
+        "--tw-prose-code": theme("colors.gray[12]"),
+        "--tw-prose-pre-code": theme("colors.gray[3]"),
+        "--tw-prose-pre-bg": theme("colors.gray[12]"),
+        "--tw-prose-th-borders": theme("colors.gray[7]"),
+        "--tw-prose-td-borders": theme("colors.gray[6]"),
+        "code::before": false,
+        "code::after": false,
+        strong: { color: "inherit" },
+        a: {
+          position: "relative",
+          fontWeight: theme("fontWeight.semibold"),
+          textDecoration: "underline",
+          textUnderlineOffset: "3px",
+        },
+        h1: { color: "inherit" },
+        h2: { color: "inherit" },
+        h3: { color: "inherit" },
+        h4: { color: "inherit" },
+        h5: { color: "inherit" },
+        h6: { color: "inherit" },
+        "a:hover": { textUnderlineOffset: "3px" },
+        blockquote: {
+          color: "var(--primary-7)",
+          borderLeftColor: "rgba(var(--primary-7), 0.5)",
+        },
+        "li::marker": { color: "var(--primary-7)" },
+      },
+    },
   };
+}
+
+/** Tailwind plugin subset used to register shared selectors and child variants. */
+type TailwindVariantApi = {
+  addVariant: (name: string, selector: string | string[]) => void;
+  matchVariant: (
+    name: string,
+    selector: (value: string) => string,
+    options: { values: Record<string, string> },
+  ) => void;
 };
+
+/**
+ * Registers the shared focus, enabled, and direct-child variants.
+ *
+ * @param addVariant - Registers a named static selector variant.
+ * @param matchVariant - Registers the parameterized direct-child selector variant.
+ */
+function registerTailwindVariants({
+  addVariant,
+  matchVariant,
+}: TailwindVariantApi): void {
+  addVariant("hocus", ["&:hover", "&:focus"]);
+  addVariant("hocus-visible", ["&:hover", "&:focus-visible"]);
+  addVariant("enabled", "&:not(:disabled)");
+  matchVariant("*", childSelector, { values: { DEFAULT: "*" } });
+}
+
+/**
+ * Converts underscores in a matched child selector to spaces.
+ *
+ * @param value - Child selector value supplied by Tailwind.
+ * @return Selector with spaces restored for CSS syntax.
+ */
+function childSelector(value: string): string {
+  return `:where(& > ${value.replace(/_/g, " ")})`;
+}
 const transform =
   "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) ";
 
@@ -69,10 +202,7 @@ const preset: Omit<Config, "content"> = {
           "0%, 100%": { transform: transform + "rotate(-2deg)" },
           "50%": { transform: transform + "rotate(2deg)" },
         },
-        blink: {
-          "0%,70%,100%": { opacity: "1" },
-          "20%,50%": { opacity: "0" },
-        },
+        blink: { "0%,70%,100%": { opacity: "1" }, "20%,50%": { opacity: "0" } },
         scaleIn: {
           "0%": { transform: transform + "scale(0.95)", opacity: "0" },
           "100%": { transform: transform + "scale(1)", opacity: "1" },
@@ -97,43 +227,24 @@ const preset: Omit<Config, "content"> = {
       // prettier-ignore
       transitionTimingFunction: {'quad-in-out': 'cubic-bezier(0.46,0.03,0.52,0.96);'},
       // prettier-ignore
-      fontFamily: {
-				sans: [ 'Authentic Sans', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', 'sans-serif', ],
-				serif: [ 'Avara', 'Authentic Sans', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', 'sans-serif', ],
-				docs: [ 'Inter', '-apple-system', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Liberation Sans', 'sans-serif', ],
-			},
+      fontFamily: { sans: [ 'Authentic Sans', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', 'sans-serif', ], serif: [ 'Avara', 'Authentic Sans', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', 'sans-serif', ], docs: [ 'Inter', '-apple-system', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Liberation Sans', 'sans-serif', ], },
       borderRadius: { 100: "100%" },
       colors: {
-        primary: (() => {
-          const legacy = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
-          const scale = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-          return Object.fromEntries([
-            ...legacy.map((n) => [n, applyOpacityValue(`--primary${n}`)]),
-            ...scale.map((n) => [n, applyOpacityValue(`--primary-${n}`)]),
-          ] as (number | ReturnType<typeof applyOpacityValue>)[][]) as Record<
-            number,
-            ReturnType<typeof applyOpacityValue>
-          >;
-        })(),
-        gray: Object.fromEntries([
-          ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => [
-            n,
-            applyOpacityValue(`--gray-${n}`),
-          ]),
-        ]) as Record<number, ReturnType<typeof applyOpacityValue>>,
-        secondary: (() => {
-          const legacy = [
-            50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950,
-          ] as const;
-          const scale = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const;
-          return Object.fromEntries([
-            ...legacy.map((n) => [n, applyOpacityValue(`--secondary${n}`)]),
-            ...scale.map((n) => [n, applyOpacityValue(`--secondary-${n}`)]),
-          ] as (number | ReturnType<typeof applyOpacityValue>)[][]) as Record<
-            number,
-            ReturnType<typeof applyOpacityValue>
-          >;
-        })(),
+        primary: makeOpacityColors(
+          "--primary",
+          [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        ),
+        gray: makeOpacityColors(
+          "--gray",
+          [],
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        ),
+        secondary: makeOpacityColors(
+          "--secondary",
+          [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        ),
         accent: applyOpacityValue("--accent"),
         "accent-foreground": applyOpacityValue("--accent-foreground"),
         ring: applyOpacityValue("--ring"),
@@ -142,9 +253,7 @@ const preset: Omit<Config, "content"> = {
       ringColor: { ring: applyOpacityValue("--ring") },
       ringOffsetColor: { background: applyOpacityValue("--background") },
       scale: { 175: "1.75", 200: "2" },
-      minWidth: ({ theme: t }: { theme: (path: string) => unknown }) => ({
-        ...(t("maxWidth") as Record<string, string>),
-      }),
+      minWidth: minWidthFromTheme,
       // Simple 20 column grid
       gridTemplateColumns: { 20: "repeat(20, minmax(0, 1fr))" },
       // Simple 20 row grid
@@ -183,50 +292,7 @@ const preset: Omit<Config, "content"> = {
       gridColumnEnd: {13:'13',14:'14',15:'15',16:'16',17:'17',18:'18',19:'19',20:'20',21:'21',},
       // prettier-ignore
       gridRowEnd: { 8: '8', 9: '9', 10: '10', 11: '11', 12: '12', 13: '13', 14: '14', 15: '15', 16: '16', 17: '17', 18: '18', 19: '19', 20: '20', 21: '21' },
-      typography: ({ theme: t }: { theme: (path: string) => unknown }) => ({
-        DEFAULT: {
-          css: {
-            "--tw-prose-body": t("colors.gray[11]"),
-            "--tw-prose-headings": t("colors.gray[12]"),
-            "--tw-prose-lead": t("colors.gray[10]"),
-            "--tw-prose-links": t("colors.gray[12]"),
-            "--tw-prose-bold": t("colors.gray[12]"),
-            "--tw-prose-counters": t("colors.primary[600]"),
-            "--tw-prose-bullets": t("colors.primary[400]"),
-            "--tw-prose-hr": t("colors.gray[7]"),
-            "--tw-prose-quotes": t("colors.gray[12]"),
-            "--tw-prose-quote-borders": t("colors.gray[7]"),
-            "--tw-prose-captions": t("colors.gray[10]"),
-            "--tw-prose-code": t("colors.gray[12]"),
-            "--tw-prose-pre-code": t("colors.gray[3]"),
-            "--tw-prose-pre-bg": t("colors.gray[12]"),
-            "--tw-prose-th-borders": t("colors.gray[7]"),
-            "--tw-prose-td-borders": t("colors.gray[6]"),
-            "code::before": false,
-            "code::after": false,
-            strong: { color: "inherit" },
-            a: {
-              position: "relative",
-              fontWeight: t("fontWeight.semibold"),
-              textDecoration: "underline",
-              textUnderlineOffset: "3px",
-            },
-            h1: { color: "inherit" },
-            h2: { color: "inherit" },
-            h3: { color: "inherit" },
-            h4: { color: "inherit" },
-            h5: { color: "inherit" },
-            h6: { color: "inherit" },
-            "a:hover": { textUnderlineOffset: "3px" },
-            // set color with opacity
-            blockquote: {
-              color: "var(--primary-7)",
-              borderLeftColor: "rgba(var(--primary-7), 0.5)",
-            },
-            "li::marker": { color: "var(--primary-7)" },
-          },
-        },
-      }),
+      typography: typographyFromTheme,
     },
   },
   plugins: [
@@ -234,15 +300,7 @@ const preset: Omit<Config, "content"> = {
     headlessui,
     scrimGradients,
     animate,
-    plugin(function ({ addVariant: a, matchVariant: m }) {
-      a("hocus", ["&:hover", "&:focus"]);
-      a("hocus-visible", ["&:hover", "&:focus-visible"]);
-      a("enabled", "&:not(:disabled)");
-      // Default value for `child:`
-      m("*", (v) => `:where(& > ${v.replace(/_/g, " ")})`, {
-        values: { DEFAULT: "*" },
-      });
-    }),
+    plugin(registerTailwindVariants),
   ],
 };
 export default preset;

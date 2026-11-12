@@ -20,6 +20,7 @@ import { FOCUS_VISIBLE_VARIANTS, SURFACE_VARIANTS } from "./variants.js";
 
 // TYPES
 import type { SurfaceMatrixVariant, UiColor, UiSize } from "./types.js";
+/** Surface and solid-color variants accepted by the shared Badge component. */
 type BadgeVariant = SurfaceMatrixVariant | `${UiColor}-default`;
 const BADGE_COLORS: readonly UiColor[] = [
   "primary",
@@ -37,22 +38,22 @@ const BADGE_TREATMENTS = [
   "saturated",
   "glass",
 ] as const;
-export const BADGE_VARIANT_VALUES = Object.fromEntries(
-  BADGE_COLORS.flatMap((color) => {
-    const matrix = BADGE_TREATMENTS.map((treatment) => {
-      const variant = `${color}-${treatment}` as BadgeVariant;
-      const surfaceVariant =
-        treatment === "default"
-          ? (`${color}-default` as BadgeVariant)
-          : variant;
-      return [
-        surfaceVariant,
-        SURFACE_VARIANTS({ variant: surfaceVariant }),
-      ] as const;
+const badgeVariantValues: Record<BadgeVariant | UiColor, string> = {} as Record<
+  BadgeVariant | UiColor,
+  string
+>;
+for (const color of BADGE_COLORS) {
+  for (const treatment of BADGE_TREATMENTS) {
+    const variant = `${color}-${treatment}` as BadgeVariant;
+    const surfaceVariant =
+      treatment === "default" ? (`${color}-default` as BadgeVariant) : variant;
+    badgeVariantValues[surfaceVariant] = SURFACE_VARIANTS({
+      variant: surfaceVariant,
     });
-    return [...matrix, [color, SURFACE_VARIANTS({ variant: color })] as const];
-  }),
-) as Record<BadgeVariant | UiColor, string>;
+  }
+  badgeVariantValues[color] = SURFACE_VARIANTS({ variant: color });
+}
+export const BADGE_VARIANT_VALUES = badgeVariantValues;
 
 /*//////////////////////////////////////////////////
 COMPONENT
@@ -61,7 +62,12 @@ COMPONENT
 /**
  * Renders a badge using the selected palette, size, and shape.
  *
- * @param props - Badge styles and element attributes.
+ * @param className - Additional classes applied to the badge.
+ * @param variant - Palette and surface treatment for the badge.
+ * @param size - Text and padding size preset.
+ * @param rounded - Corner radius variant.
+ * @param asChild - Whether to render the child element through Radix Slot.
+ * @param attributes - Remaining HTML attributes forwarded to the rendered element.
  *
  * @return The styled badge element.
  */
@@ -71,7 +77,7 @@ function Badge({
   size,
   rounded,
   asChild = false,
-  ...props
+  ...attributes
 }: React.HTMLAttributes<HTMLDivElement> & {
   variant?: BadgeVariant;
   asChild?: boolean;
@@ -114,7 +120,7 @@ function Badge({
         )({ variant, size, rounded, className }),
         FOCUS_VISIBLE_VARIANTS(),
       )}
-      {...props}
+      {...attributes}
     />
   );
 }

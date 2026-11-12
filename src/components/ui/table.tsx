@@ -17,6 +17,171 @@ import * as React from "react";
 COMPONENTS
 //////////////////////////////////////////////////*/
 
+/** Renders the scrollable table wrapper and its native table element.
+ * @param tableProps - Native table attributes and child content.
+ * @param ref - Ref forwarded to the table element.
+ * @return A horizontally scrollable wrapper around the styled table.
+ */
+function renderTable(
+  tableProps: React.HTMLAttributes<HTMLTableElement>,
+  ref: React.ForwardedRef<HTMLTableElement>,
+): React.JSX.Element {
+  const { className, ...props } = tableProps;
+  return (
+    <div className="relative w-full overflow-auto">
+      <table
+        ref={ref}
+        className={cn(
+          "w-full caption-bottom rounded border-primary-6 text-sm",
+          className,
+        )}
+        {...props}
+      />
+    </div>
+  );
+}
+
+/** Renders the table header section and its row separators.
+ * @param headerProps - Native table-section attributes and children.
+ * @param ref - Ref forwarded to the table header element.
+ * @return A styled table header section.
+ */
+function renderTableHeader(
+  headerProps: React.HTMLAttributes<HTMLTableSectionElement>,
+  ref: React.ForwardedRef<HTMLTableSectionElement>,
+): React.JSX.Element {
+  const { className, ...props } = headerProps;
+  return (
+    <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
+  );
+}
+
+/** Renders table body rows and removes the final row border.
+ * @param bodyProps - Native table-section attributes and children.
+ * @param ref - Ref forwarded to the table body element.
+ * @return A styled table body section.
+ */
+function renderTableBody(
+  bodyProps: React.HTMLAttributes<HTMLTableSectionElement>,
+  ref: React.ForwardedRef<HTMLTableSectionElement>,
+): React.JSX.Element {
+  const { className, ...props } = bodyProps;
+  return (
+    <tbody
+      ref={ref}
+      className={cn("[&_tr:last-child]:border-0", className)}
+      {...props}
+    />
+  );
+}
+
+/** Renders the table footer with shared border and background styles.
+ * @param footerProps - Native table-section attributes and children.
+ * @param ref - Ref forwarded to the table footer element.
+ * @return A styled table footer section.
+ */
+function renderTableFooter(
+  footerProps: React.HTMLAttributes<HTMLTableSectionElement>,
+  ref: React.ForwardedRef<HTMLTableSectionElement>,
+): React.JSX.Element {
+  const { className, ...props } = footerProps;
+  return (
+    <tfoot
+      ref={ref}
+      className={cn(
+        "border-t bg-gray-100/50 font-medium dark:bg-gray-800/50 [&>tr]:last:border-b-0",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+/** Renders a table row with shared border and hover treatment.
+ * @param rowProps - Native table-row attributes and children.
+ * @param ref - Ref forwarded to the table row element.
+ * @return A styled table row.
+ */
+function renderTableRow(
+  rowProps: React.HTMLAttributes<HTMLTableRowElement>,
+  ref: React.ForwardedRef<HTMLTableRowElement>,
+): React.JSX.Element {
+  const { className, ...props } = rowProps;
+  return (
+    <tr
+      ref={ref}
+      className={cn(
+        "border-b border-primary-6 transition-colors hover:bg-primary-2 data-[state=selected]:bg-primary-2",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+/** Renders a table header cell with shared alignment and spacing.
+ * @param headProps - Native table-cell header attributes and children.
+ * @param ref - Ref forwarded to the header cell element.
+ * @return A styled table header cell.
+ */
+function renderTableHead(
+  headProps: React.ThHTMLAttributes<HTMLTableCellElement>,
+  ref: React.ForwardedRef<HTMLTableCellElement>,
+): React.JSX.Element {
+  const { className, ...props } = headProps;
+  return (
+    <th
+      ref={ref}
+      className={cn(
+        "h-12 px-4 text-left align-middle font-medium text-primary-11 [&:has([role=checkbox])]:pr-0",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+/** Renders a table data cell with shared spacing and print styles.
+ * @param cellProps - Native table-cell attributes and children.
+ * @param ref - Ref forwarded to the data cell element.
+ * @return A styled table data cell.
+ */
+function renderTableCell(
+  cellProps: React.TdHTMLAttributes<HTMLTableCellElement>,
+  ref: React.ForwardedRef<HTMLTableCellElement>,
+): React.JSX.Element {
+  const { className, ...props } = cellProps;
+  return (
+    <td
+      ref={ref}
+      className={cn(
+        "p-4 align-middle print:p-2 [&:has([role=checkbox])]:pr-0",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+/** Renders a table caption with shared muted typography.
+ * @param captionProps - Native caption attributes and text.
+ * @param ref - Ref forwarded to the caption element.
+ * @return A styled table caption.
+ */
+function renderTableCaption(
+  captionProps: React.HTMLAttributes<HTMLTableCaptionElement>,
+  ref: React.ForwardedRef<HTMLTableCaptionElement>,
+): React.JSX.Element {
+  const { className, ...props } = captionProps;
+  return (
+    <caption
+      ref={ref}
+      className={cn("mt-4 text-sm text-gray-500 dark:text-gray-400", className)}
+      {...props}
+    />
+  );
+}
+
 /**
  * Table container primitive.
  *
@@ -24,18 +189,7 @@ COMPONENTS
 const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <div className="relative w-full overflow-auto">
-    <table
-      ref={ref}
-      className={cn(
-        "w-full caption-bottom rounded border-primary-6 text-sm",
-        className,
-      )}
-      {...props}
-    />
-  </div>
-));
+>(renderTable);
 
 /**
  * Table header primitive (`<thead>`).
@@ -44,9 +198,7 @@ const Table = React.forwardRef<
 const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
-));
+>(renderTableHeader);
 
 /**
  * Table body primitive (`<tbody>`).
@@ -55,13 +207,7 @@ const TableHeader = React.forwardRef<
 const TableBody = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <tbody
-    ref={ref}
-    className={cn("[&_tr:last-child]:border-0", className)}
-    {...props}
-  />
-));
+>(renderTableBody);
 
 /**
  * Table footer primitive (`<tfoot>`).
@@ -71,16 +217,7 @@ const TableFooter = Object.assign(
   React.forwardRef<
     HTMLTableSectionElement,
     React.HTMLAttributes<HTMLTableSectionElement>
-  >(({ className, ...props }, ref): React.JSX.Element => (
-    <tfoot
-      ref={ref}
-      className={cn(
-        "border-t bg-gray-100/50 font-medium dark:bg-gray-800/50 [&>tr]:last:border-b-0",
-        className,
-      )}
-      {...props}
-    />
-  )),
+  >(renderTableFooter),
   { displayName: "TableFooter" },
 );
 
@@ -91,18 +228,7 @@ const TableFooter = Object.assign(
 const TableRow = React.forwardRef<
   HTMLTableRowElement,
   React.HTMLAttributes<HTMLTableRowElement>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <tr
-    ref={ref}
-    className={cn(
-      "border-b border-primary-6",
-      // interactivity
-      "transition-colors hover:bg-primary-2 data-[state=selected]:bg-primary-2",
-      className,
-    )}
-    {...props}
-  />
-));
+>(renderTableRow);
 
 /**
  * Table header cell primitive (`<th>`).
@@ -111,16 +237,7 @@ const TableRow = React.forwardRef<
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
   React.ThHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <th
-    ref={ref}
-    className={cn(
-      "h-12 px-4 text-left align-middle font-medium text-primary-11 [&:has([role=checkbox])]:pr-0",
-      className,
-    )}
-    {...props}
-  />
-));
+>(renderTableHead);
 
 /**
  * Table cell primitive (`<td>`).
@@ -129,16 +246,7 @@ const TableHead = React.forwardRef<
 const TableCell = React.forwardRef<
   HTMLTableCellElement,
   React.TdHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <td
-    ref={ref}
-    className={cn(
-      "p-4 align-middle print:p-2 [&:has([role=checkbox])]:pr-0",
-      className,
-    )}
-    {...props}
-  />
-));
+>(renderTableCell);
 
 /**
  * Table caption primitive (`<caption>`).
@@ -148,13 +256,7 @@ const TableCaption = Object.assign(
   React.forwardRef<
     HTMLTableCaptionElement,
     React.HTMLAttributes<HTMLTableCaptionElement>
-  >(({ className, ...props }, ref): React.JSX.Element => (
-    <caption
-      ref={ref}
-      className={cn("mt-4 text-sm text-gray-500 dark:text-gray-400", className)}
-      {...props}
-    />
-  )),
+  >(renderTableCaption),
   { displayName: "TableCaption" },
 );
 Table.displayName = "Table";

@@ -87,6 +87,187 @@ const CARD_SUMMARY_VARIANTS: Record<
 COMPONENTS
 //////////////////////////////////////////////////*/
 
+/** Renders a card as a div, anchor, slotted child, or collapsible summary.
+ * @param cardProps - Card surface, size, interaction, disclosure, and element props.
+ * @param ref - Ref forwarded to the rendered card element.
+ * @return A card container with inherited size context.
+ */
+function CardRender(
+  cardProps: CardProps,
+  ref: React.ForwardedRef<HTMLDivElement | HTMLAnchorElement>,
+): React.JSX.Element {
+  const props = cardProps;
+  const {
+    children,
+    className,
+    variant = "primary-tonal",
+    size = "md",
+    inverse,
+    disabled,
+    printed = true,
+    interactive: interactiveProp,
+    asChild = false,
+    collapsible = false,
+    disclosureVariant = "card",
+    defaultOpen,
+    open,
+    onOpenChange,
+    ...rest
+  } = props;
+  const cardSize = size ?? "md";
+  const isAnchor = "href" in props;
+  const content = React.Children.toArray(children);
+  const summaryElement = collapsible ? content.shift() : undefined;
+  const summary = React.isValidElement<CardSummaryProps>(summaryElement)
+    ? summaryElement
+    : null;
+  if (collapsible && (!summary || summary.type !== CardSummary))
+    throw new Error(
+      "A collapsible Card requires CardSummary as its first child",
+    );
+  const childProps = React.isValidElement(content[0])
+    ? (content[0].props as {
+        href?: string;
+        onClick?: unknown;
+        role?: string;
+        tabIndex?: number;
+      })
+    : undefined;
+  const interactive =
+    interactiveProp ??
+    (typeof props.onClick === "function" ||
+      props.role === "button" ||
+      props.role === "link" ||
+      props.tabIndex !== undefined ||
+      Boolean(
+        asChild &&
+        childProps &&
+        (childProps.href !== undefined ||
+          typeof childProps.onClick === "function" ||
+          childProps.role === "button" ||
+          childProps.role === "link" ||
+          childProps.tabIndex !== undefined),
+      ));
+  const {
+    variant: summaryVariant = "default",
+    buttonVariant: summaryButtonVariant,
+    size: summarySize = "md",
+    className: summaryClassName,
+    children: summaryChildren,
+    ...triggerProps
+  } = summary?.props ?? {};
+  const summaryIconOnly =
+    summarySize.startsWith("icon-") || summarySize === "icon";
+  const Comp: React.ElementType = asChild ? Slot : isAnchor ? "a" : "div";
+  const classes = cn(
+    cva(
+      // Base styles for the card container
+      "block w-full overflow-auto rounded-lg border shadow-sm transition duration-100",
+      {
+        variants: {
+          // Defines the card scale.
+          size: {
+            xs: "rounded-md",
+            sm: "rounded-lg",
+            md: "rounded-xl",
+            lg: "rounded-2xl",
+            xl: "rounded-3xl",
+          },
+          // Toggles an inner shadow
+          inverse: { true: "shadow-inner" },
+          // Adds hover effects when the card is a link
+          interactive: {
+            true: "duration-75 hover:-translate-y-0.5 hover:shadow-md",
+          },
+          // Applies the standard document-print treatment.
+          printed: {
+            true: "print:rounded-xl print:border-2 print:bg-primary-1 print:text-primary-11 print:shadow-none",
+          },
+          // Applies disabled styles
+          disabled: {
+            true: "border-gray-6 bg-gray-1 text-gray-12/50 opacity-50",
+          },
+        },
+        defaultVariants: { size: "md", printed: true },
+      },
+    )({
+      size: cardSize,
+      inverse,
+      disabled,
+      interactive: isAnchor ? !disabled : interactive,
+      printed,
+    }),
+    SURFACE_VARIANTS({ variant }),
+    className,
+  );
+  const card = (
+    <Comp
+      data-slot="card"
+      data-variant={variant}
+      data-interactive={interactive || undefined}
+      data-size={cardSize}
+      ref={ref as React.Ref<HTMLDivElement & HTMLAnchorElement>}
+      className={classes}
+      {...(isAnchor && !asChild
+        ? { href: (props as AnchorCardProps).href }
+        : {})}
+      {...(rest as React.HTMLAttributes<HTMLDivElement>)}
+    >
+      {collapsible && summary ? (
+        <>
+          <CollapsibleTrigger asChild>
+            <Button
+              {...triggerProps}
+              type="button"
+              variant={
+                summaryButtonVariant ??
+                CARD_SUMMARY_VARIANTS[summaryVariant].buttonVariant
+              }
+              size={summarySize}
+              className={cn(
+                !summaryIconOnly &&
+                  "group/collapsible-trigger h-auto w-full justify-between rounded-none border-0 px-(--card-spacing) py-(--card-spacing) text-left whitespace-normal",
+                CARD_SUMMARY_VARIANTS[summaryVariant].className,
+                summaryClassName,
+              )}
+            >
+              <span className="min-w-0 flex-1">{summaryChildren}</span>
+              {!summaryIconOnly && (
+                <ChevronDown
+                  aria-hidden="true"
+                  className="text-primary-10 size-4 shrink-0 transition-transform group-aria-expanded/collapsible-trigger:rotate-180"
+                />
+              )}
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent data-slot="card-content-collapse">
+            {content}
+          </CollapsibleContent>
+        </>
+      ) : (
+        children
+      )}
+    </Comp>
+  );
+  return (
+    <CARD_SIZE_CTX.Provider value={cardSize}>
+      {collapsible ? (
+        <Collapsible
+          open={open}
+          defaultOpen={defaultOpen}
+          onOpenChange={onOpenChange}
+          data-slot="card-collapsible"
+          data-disclosure-variant={disclosureVariant}
+        >
+          {card}
+        </Collapsible>
+      ) : (
+        card
+      )}
+    </CARD_SIZE_CTX.Provider>
+  );
+}
+
 /**
  * Card container component, defaulting to the primary-tonal surface.
  *
@@ -94,177 +275,7 @@ COMPONENTS
  * `href` is supplied.
  */
 const Card = React.forwardRef<HTMLDivElement | HTMLAnchorElement, CardProps>(
-  (props, ref): React.JSX.Element => {
-    const {
-      children,
-      className,
-      variant = "primary-tonal",
-      size = "md",
-      inverse,
-      disabled,
-      printed = true,
-      interactive: interactiveProp,
-      asChild = false,
-      collapsible = false,
-      disclosureVariant = "card",
-      defaultOpen,
-      open,
-      onOpenChange,
-      ...rest
-    } = props;
-    const cardSize = size ?? "md";
-    const isAnchor = "href" in props;
-    const content = React.Children.toArray(children);
-    const summaryElement = collapsible ? content.shift() : undefined;
-    const summary = React.isValidElement<CardSummaryProps>(summaryElement)
-      ? summaryElement
-      : null;
-    if (collapsible && (!summary || summary.type !== CardSummary))
-      throw new Error(
-        "A collapsible Card requires CardSummary as its first child",
-      );
-    const childProps = React.isValidElement(content[0])
-      ? (content[0].props as {
-          href?: string;
-          onClick?: unknown;
-          role?: string;
-          tabIndex?: number;
-        })
-      : undefined;
-    const interactive =
-      interactiveProp ??
-      (typeof props.onClick === "function" ||
-        props.role === "button" ||
-        props.role === "link" ||
-        props.tabIndex !== undefined ||
-        Boolean(
-          asChild &&
-          childProps &&
-          (childProps.href !== undefined ||
-            typeof childProps.onClick === "function" ||
-            childProps.role === "button" ||
-            childProps.role === "link" ||
-            childProps.tabIndex !== undefined),
-        ));
-    const {
-      variant: summaryVariant = "default",
-      buttonVariant: summaryButtonVariant,
-      size: summarySize = "md",
-      className: summaryClassName,
-      children: summaryChildren,
-      ...triggerProps
-    } = summary?.props ?? {};
-    const summaryIconOnly =
-      summarySize.startsWith("icon-") || summarySize === "icon";
-    const Comp: React.ElementType = asChild ? Slot : isAnchor ? "a" : "div";
-    const classes = cn(
-      cva(
-        // Base styles for the card container
-        "block w-full overflow-auto rounded-lg border shadow-sm transition duration-100",
-        {
-          variants: {
-            // Defines the card scale.
-            size: {
-              xs: "rounded-md",
-              sm: "rounded-lg",
-              md: "rounded-xl",
-              lg: "rounded-2xl",
-              xl: "rounded-3xl",
-            },
-            // Toggles an inner shadow
-            inverse: { true: "shadow-inner" },
-            // Adds hover effects when the card is a link
-            interactive: {
-              true: "duration-75 hover:-translate-y-0.5 hover:shadow-md",
-            },
-            // Applies the standard document-print treatment.
-            printed: {
-              true: "print:rounded-xl print:border-2 print:bg-primary-1 print:text-primary-11 print:shadow-none",
-            },
-            // Applies disabled styles
-            disabled: {
-              true: "border-gray-6 bg-gray-1 text-gray-12/50 opacity-50",
-            },
-          },
-          defaultVariants: { size: "md", printed: true },
-        },
-      )({
-        size: cardSize,
-        inverse,
-        disabled,
-        interactive: isAnchor ? !disabled : interactive,
-        printed,
-      }),
-      SURFACE_VARIANTS({ variant }),
-      className,
-    );
-    const card = (
-      <Comp
-        data-slot="card"
-        data-variant={variant}
-        data-interactive={interactive || undefined}
-        data-size={cardSize}
-        ref={ref as React.Ref<HTMLDivElement & HTMLAnchorElement>}
-        className={classes}
-        {...(isAnchor && !asChild
-          ? { href: (props as AnchorCardProps).href }
-          : {})}
-        {...(rest as React.HTMLAttributes<HTMLDivElement>)}
-      >
-        {collapsible && summary ? (
-          <>
-            <CollapsibleTrigger asChild>
-              <Button
-                {...triggerProps}
-                type="button"
-                variant={
-                  summaryButtonVariant ??
-                  CARD_SUMMARY_VARIANTS[summaryVariant].buttonVariant
-                }
-                size={summarySize}
-                className={cn(
-                  !summaryIconOnly &&
-                    "group/collapsible-trigger h-auto w-full justify-between rounded-none border-0 px-(--card-spacing) py-(--card-spacing) text-left whitespace-normal",
-                  CARD_SUMMARY_VARIANTS[summaryVariant].className,
-                  summaryClassName,
-                )}
-              >
-                <span className="min-w-0 flex-1">{summaryChildren}</span>
-                {!summaryIconOnly && (
-                  <ChevronDown
-                    aria-hidden="true"
-                    className="text-primary-10 size-4 shrink-0 transition-transform group-aria-expanded/collapsible-trigger:rotate-180"
-                  />
-                )}
-              </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent data-slot="card-content-collapse">
-              {content}
-            </CollapsibleContent>
-          </>
-        ) : (
-          children
-        )}
-      </Comp>
-    );
-    return (
-      <CARD_SIZE_CTX.Provider value={cardSize}>
-        {collapsible ? (
-          <Collapsible
-            open={open}
-            defaultOpen={defaultOpen}
-            onOpenChange={onOpenChange}
-            data-slot="card-collapsible"
-            data-disclosure-variant={disclosureVariant}
-          >
-            {card}
-          </Collapsible>
-        ) : (
-          card
-        )}
-      </CARD_SIZE_CTX.Provider>
-    );
-  },
+  CardRender,
 );
 
 /**
@@ -279,50 +290,67 @@ function CardSummary(_props: CardSummaryProps): null {
 }
 
 // HEADER
-/**
- * Card header section component.
+/** Renders the card header and optional action aligned at its trailing edge.
+ * @param headerProps - Header content, action, layout variant, and div attributes.
+ * @param ref - Ref forwarded to the header element.
+ * @return A card header using the current card size context.
  */
+function CardHeaderRender(
+  headerProps: React.HTMLAttributes<HTMLDivElement> & {
+    topRight?: React.ReactNode;
+    variant?: "default" | "section";
+  },
+  ref: React.ForwardedRef<HTMLDivElement>,
+): React.JSX.Element {
+  const {
+    className,
+    topRight,
+    variant = "default",
+    children,
+    ...props
+  } = headerProps;
+  return (
+    <div
+      data-slot="card-header"
+      ref={ref}
+      className={cn(
+        "group/card-header @container/card-header grid auto-rows-min grid-cols-1 items-start gap-1 rounded-t-xl px-(--card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]",
+        "flex flex-col space-y-1.5",
+        topRight && "flex-row flex-wrap items-center justify-between gap-2",
+        variant === "section" &&
+          "border-primary-4 border-b py-(--card-spacing)",
+        cardPadding[React.useContext(CARD_SIZE_CTX)],
+        className,
+      )}
+      {...props}
+    >
+      {topRight ? <div>{children}</div> : children}
+      {topRight}
+    </div>
+  );
+}
+/** Card header section component. */
 const CardHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & {
     topRight?: React.ReactNode;
     variant?: "default" | "section";
   }
->(
-  (
-    { className, topRight, variant = "default", children, ...props },
-    ref,
-  ): React.JSX.Element => {
-    return (
-      <div
-        data-slot="card-header"
-        ref={ref}
-        className={cn(
-          "group/card-header @container/card-header grid auto-rows-min grid-cols-1 items-start gap-1 rounded-t-xl px-(--card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]",
-          "flex flex-col space-y-1.5",
-          topRight && "flex-row flex-wrap items-center justify-between gap-2",
-          variant === "section" &&
-            "border-primary-4 border-b py-(--card-spacing)",
-          cardPadding[React.useContext(CARD_SIZE_CTX)],
-          className,
-        )}
-        {...props}
-      >
-        {topRight ? <div>{children}</div> : children}
-        {topRight}
-      </div>
-    );
-  },
-);
+>(CardHeaderRender);
 
 // TITLE
-/**
- * Primary title heading within a card header.
+/** Renders the card title and optional explanatory tooltip.
+ * @param titleProps - Heading content, tooltip, and native heading attributes.
+ * @param ref - Ref forwarded to the heading element.
+ * @return The card title heading, optionally wrapped in a tooltip.
  */
-const CardTitle = React.forwardRef<
-  HTMLHeadingElement,
-  React.HTMLAttributes<HTMLHeadingElement> & { tooltip?: React.ReactNode }
->(({ className, tooltip, children, ...props }, ref): React.JSX.Element => {
+function CardTitleRender(
+  titleProps: React.HTMLAttributes<HTMLHeadingElement> & {
+    tooltip?: React.ReactNode;
+  },
+  ref: React.ForwardedRef<HTMLHeadingElement>,
+): React.JSX.Element {
+  const { className, tooltip, children, ...props } = titleProps;
   const title = (
     <h3
       data-slot="card-title"
@@ -344,17 +372,25 @@ const CardTitle = React.forwardRef<
   ) : (
     title
   );
-});
-
-/**
- * Flexible heading element for cards supporting dynamic heading tags (`as` prop).
- */
-const CardHeading = React.forwardRef<
+}
+/** Primary title heading within a card header. */
+const CardTitle = React.forwardRef<
   HTMLHeadingElement,
-  React.HTMLAttributes<HTMLHeadingElement> & {
+  React.HTMLAttributes<HTMLHeadingElement> & { tooltip?: React.ReactNode }
+>(CardTitleRender);
+
+/** Renders a card heading using a caller-selected heading tag and inherited size.
+ * @param headingProps - Heading attributes and the desired HTML tag.
+ * @param ref - Ref forwarded to the selected heading element.
+ * @return A heading element styled for the current card size.
+ */
+function CardHeadingRender(
+  headingProps: React.HTMLAttributes<HTMLHeadingElement> & {
     as?: "h1" | "h2" | "h3" | "h4" | "p" | "div";
-  }
->(({ as: Comp = "h3", className, ...props }, ref): React.JSX.Element => {
+  },
+  ref: React.ForwardedRef<HTMLHeadingElement>,
+): React.JSX.Element {
+  const { as: Comp = "h3", className, ...props } = headingProps;
   return (
     <Comp
       ref={ref}
@@ -374,16 +410,28 @@ const CardHeading = React.forwardRef<
       {...props}
     />
   );
-});
+}
+/** Flexible heading element for cards supporting dynamic heading tags (`as` prop). */
+const CardHeading = React.forwardRef<
+  HTMLHeadingElement,
+  React.HTMLAttributes<HTMLHeadingElement> & {
+    as?: "h1" | "h2" | "h3" | "h4" | "p" | "div";
+  }
+>(CardHeadingRender);
 
 // DESCRIPTION
-/**
- * Subordinate description text within a card.
+/** Renders card description text and an optional explanatory tooltip.
+ * @param descriptionProps - Paragraph content, tooltip, and native attributes.
+ * @param ref - Ref forwarded to the paragraph element.
+ * @return Card description text, optionally wrapped in a tooltip.
  */
-const CardDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement> & { tooltip?: React.ReactNode }
->(({ className, tooltip, children, ...props }, ref): React.JSX.Element => {
+function CardDescriptionRender(
+  descriptionProps: React.HTMLAttributes<HTMLParagraphElement> & {
+    tooltip?: React.ReactNode;
+  },
+  ref: React.ForwardedRef<HTMLParagraphElement>,
+): React.JSX.Element {
+  const { className, tooltip, children, ...props } = descriptionProps;
   const description = (
     <p
       data-slot="card-description"
@@ -413,29 +461,50 @@ const CardDescription = React.forwardRef<
   ) : (
     description
   );
-});
+}
+/** Subordinate description text within a card. */
+const CardDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement> & { tooltip?: React.ReactNode }
+>(CardDescriptionRender);
+
+/** Renders the action slot at the trailing edge of a card header.
+ * @param actionProps - Div attributes for the card action.
+ * @param ref - Ref forwarded to the action element.
+ * @return The positioned card action container.
+ */
+function CardActionRender(
+  actionProps: React.HTMLAttributes<HTMLDivElement>,
+  ref: React.ForwardedRef<HTMLDivElement>,
+): React.JSX.Element {
+  const { className, ...props } = actionProps;
+  return (
+    <div
+      data-slot="card-action"
+      ref={ref}
+      className={cn(
+        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 const CardAction = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <div
-    data-slot="card-action"
-    ref={ref}
-    className={cn(
-      "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
-      className,
-    )}
-    {...props}
-  />
-));
+>(CardActionRender);
 
-/**
- * Flexible body text element within a card supporting dynamic tags (`as` prop).
+/** Renders card body text using a selected paragraph or div tag.
+ * @param textProps - Text attributes and the desired HTML tag.
+ * @param ref - Ref forwarded to the selected text element.
+ * @return Body text styled for the current card size.
  */
-const CardText = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement> & { as?: "p" | "div" }
->(({ as: Comp = "p", className, ...props }, ref): React.JSX.Element => {
+function CardTextRender(
+  textProps: React.HTMLAttributes<HTMLParagraphElement> & { as?: "p" | "div" },
+  ref: React.ForwardedRef<HTMLParagraphElement>,
+): React.JSX.Element {
+  const { as: Comp = "p", className, ...props } = textProps;
   return (
     <Comp
       ref={ref}
@@ -454,15 +523,23 @@ const CardText = React.forwardRef<
       {...props}
     />
   );
-});
+}
+/** Flexible body text element within a card supporting dynamic tags (`as` prop). */
+const CardText = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement> & { as?: "p" | "div" }
+>(CardTextRender);
 
-/**
- * Blockquote component formatted for cards.
+/** Renders a blockquote with typography from the current card size.
+ * @param quoteProps - Blockquote content and native attributes.
+ * @param ref - Ref forwarded to the blockquote element.
+ * @return A card-styled blockquote.
  */
-const CardQuote = React.forwardRef<
-  HTMLElement,
-  React.HTMLAttributes<HTMLElement>
->(({ className, ...props }, ref): React.JSX.Element => {
+function CardQuoteRender(
+  quoteProps: React.HTMLAttributes<HTMLElement>,
+  ref: React.ForwardedRef<HTMLElement>,
+): React.JSX.Element {
+  const { className, ...props } = quoteProps;
   return (
     <blockquote
       ref={ref as React.Ref<HTMLQuoteElement>}
@@ -482,15 +559,25 @@ const CardQuote = React.forwardRef<
       {...props}
     />
   );
-});
-
-/**
- * Meta text component for card attributions and timestamps.
- */
-const CardMeta = React.forwardRef<
+}
+/** Blockquote component formatted for cards. */
+const CardQuote = React.forwardRef<
   HTMLElement,
-  React.HTMLAttributes<HTMLElement> & { as?: "span" | "cite" | "p" | "div" }
->(({ as: Comp = "span", className, ...props }, ref): React.JSX.Element => {
+  React.HTMLAttributes<HTMLElement>
+>(CardQuoteRender);
+
+/** Renders attribution or timestamp text using a selected inline tag.
+ * @param metaProps - Text attributes and the desired HTML tag.
+ * @param ref - Ref forwarded to the selected meta element.
+ * @return Card metadata styled for the current card size.
+ */
+function CardMetaRender(
+  metaProps: React.HTMLAttributes<HTMLElement> & {
+    as?: "span" | "cite" | "p" | "div";
+  },
+  ref: React.ForwardedRef<HTMLElement>,
+): React.JSX.Element {
+  const { as: Comp = "span", className, ...props } = metaProps;
   return (
     <Comp
       ref={ref as React.Ref<HTMLSpanElement> & React.Ref<HTMLParagraphElement>}
@@ -510,16 +597,24 @@ const CardMeta = React.forwardRef<
       {...props}
     />
   );
-});
+}
+/** Meta text component for card attributions and timestamps. */
+const CardMeta = React.forwardRef<
+  HTMLElement,
+  React.HTMLAttributes<HTMLElement> & { as?: "span" | "cite" | "p" | "div" }
+>(CardMetaRender);
 
 // CONTENT
-/**
- * Main content body container for cards.
+/** Renders the card content body with inherited size spacing and typography.
+ * @param contentProps - Content attributes and child elements.
+ * @param ref - Ref forwarded to the content container.
+ * @return A card content body using its inherited size.
  */
-const CardContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref): React.JSX.Element => {
+function CardContentRender(
+  contentProps: React.HTMLAttributes<HTMLDivElement>,
+  ref: React.ForwardedRef<HTMLDivElement>,
+): React.JSX.Element {
+  const { className, ...props } = contentProps;
   const size = React.useContext(CARD_SIZE_CTX);
   return (
     <div
@@ -534,16 +629,24 @@ const CardContent = React.forwardRef<
       {...props}
     />
   );
-});
-
-// FOOTER
-/**
- * Footer container for action buttons or supplementary information.
- */
-const CardFooter = React.forwardRef<
+}
+/** Main content body container for cards. */
+const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref): React.JSX.Element => {
+>(CardContentRender);
+
+// FOOTER
+/** Renders the card footer with inherited size padding.
+ * @param footerProps - Footer attributes and child content.
+ * @param ref - Ref forwarded to the footer element.
+ * @return A card footer container.
+ */
+function CardFooterRender(
+  footerProps: React.HTMLAttributes<HTMLDivElement>,
+  ref: React.ForwardedRef<HTMLDivElement>,
+): React.JSX.Element {
+  const { className, ...props } = footerProps;
   return (
     <div
       data-slot="card-footer"
@@ -556,7 +659,12 @@ const CardFooter = React.forwardRef<
       {...props}
     />
   );
-});
+}
+/** Footer container for action buttons or supplementary information. */
+const CardFooter = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(CardFooterRender);
 Card.displayName = "Card";
 CardHeader.displayName = "CardHeader";
 CardTitle.displayName = "CardTitle";

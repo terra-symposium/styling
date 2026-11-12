@@ -21,6 +21,8 @@ import type { DataTableColumn } from "../../../src/components/data-table.js";
 /*//////////////////////////////////////////////////
 CONFIG
 //////////////////////////////////////////////////*/
+const TEXT_SM_TEXT_PRIMARY_11_CLASS = "text-sm text-primary-11";
+const GRID_W_FULL_MAX_W_SM_GAP_2_CLASS = "grid w-full max-w-sm gap-2";
 
 /** Component names are generated from the public Styling TypeScript exports. */
 type ComponentSlug = keyof typeof componentTsDocs;
@@ -39,7 +41,6 @@ const GROUP_ORDER = [
  * composition use a dedicated renderer below instead of these root props.
  */
 const DEMO_PROPS: Partial<Record<ComponentSlug, Record<string, unknown>>> = {
-  accordion: { type: "single", collapsible: true, defaultValue: "example" },
   alert: { title: "Saved", variant: "success" },
   avatar: { "aria-label": "Kai" },
   badge: { variant: "success-tonal" },
@@ -65,43 +66,152 @@ const DEMO_PROPS: Partial<Record<ComponentSlug, Record<string, unknown>>> = {
   sidebar: { defaultOpen: true },
   slider: { defaultValue: [55], max: 100, name: "volume", step: 1 },
   switch: { checked: true, "aria-label": "Enable notifications" },
-  tabs: { defaultValue: "overview" },
   textarea: { name: "note", placeholder: "Write a short note…", rows: 2 },
   toggle: { pressed: true },
   "toggle-group": { type: "single", defaultValue: "center" },
 };
 /** Each custom renderer composes exported UI parts into a small complete example. */
 const COMPONENT_DEMOS: Partial<Record<ComponentSlug, () => React.ReactNode>> = {
-  // prettier-ignore
-  button: () => (
+  button: ButtonDemo,
+  input: EmailInputDemo,
+  "password-input": PasswordInputDemo,
+  label: LabelInputDemo,
+  badge: BadgeDemo,
+  card: CardDemo,
+  checkbox: CheckboxDemo,
+  switch: SwitchDemo,
+  spinner: SpinnerDemo,
+  skeleton: SkeletonDemo,
+  separator: SeparatorDemo,
+  progress: ProgressDemo,
+  hint: HintDemo,
+  accordion: AccordionDemo,
+  tabs: TabsDemo,
+  "input-otp": OtpDemo,
+  "message-scroller": MessageScrollerDemo,
+  form: FormDemo,
+  select: SelectDemo,
+  "data-table": DataTableDemo,
+};
+
+/** Shows the shared accordion with two independently expandable sections.
+ *
+ * @return The two-section accordion example used by the component catalog.
+ */
+function AccordionDemo(): React.JSX.Element {
+  return (
+    <UI.Accordion
+      type="single"
+      collapsible
+      defaultValue="overview"
+      className="w-full"
+    >
+      <UI.AccordionItem value="overview">
+        <UI.AccordionTrigger>Project overview</UI.AccordionTrigger>
+        <UI.AccordionContent>
+          Review the project status, owner, and next milestone.
+        </UI.AccordionContent>
+      </UI.AccordionItem>
+      <UI.AccordionItem value="activity">
+        <UI.AccordionTrigger>Recent activity</UI.AccordionTrigger>
+        <UI.AccordionContent>
+          The team updated the project plan this morning.
+        </UI.AccordionContent>
+      </UI.AccordionItem>
+    </UI.Accordion>
+  );
+}
+
+/** Shows the shared tabs with an overview and activity panel.
+ *
+ * @return The two-panel tab example used by the component catalog.
+ */
+function TabsDemo(): React.JSX.Element {
+  return (
+    <UI.Tabs defaultValue="overview" className="w-full">
+      <UI.TabsList aria-label="Project details">
+        <UI.TabsTrigger value="overview">Overview</UI.TabsTrigger>
+        <UI.TabsTrigger value="activity">Activity</UI.TabsTrigger>
+      </UI.TabsList>
+      <UI.TabsContent value="overview">
+        <p>Review the project status, owner, and next milestone.</p>
+      </UI.TabsContent>
+      <UI.TabsContent value="activity">
+        <p>The team updated the project plan this morning.</p>
+      </UI.TabsContent>
+    </UI.Tabs>
+  );
+}
+
+/** Shows the primary and secondary button variants together.
+ * @return The two-button example used by the component catalog.
+ */
+function ButtonDemo(): React.JSX.Element {
+  return (
     <div className="flex flex-wrap items-center gap-2">
-      <UI.Button variant="primary-default" size="sm">Continue</UI.Button>
-      <UI.Button variant="secondary-outline" size="sm">Cancel</UI.Button>
+      <UI.Button variant="primary-default" size="sm">
+        Continue
+      </UI.Button>
+      <UI.Button variant="secondary-outline" size="sm">
+        Cancel
+      </UI.Button>
     </div>
-  ),
-  input: () => <InputDemo kind="email" />,
-  "password-input": () => <InputDemo kind="password" />,
-  label: () => <InputDemo kind="label" />,
-  badge: () => (
+  );
+}
+
+/** Shows the shared input configured for email entry.
+ * @return An email field preview.
+ */
+function EmailInputDemo(): React.JSX.Element {
+  return <InputDemo kind="email" />;
+}
+
+/** Shows the shared input configured for password entry.
+ * @return A password field preview.
+ */
+function PasswordInputDemo(): React.JSX.Element {
+  return <InputDemo kind="password" />;
+}
+
+/** Shows the shared label connected to a text input.
+ * @return A labelled project-name field preview.
+ */
+function LabelInputDemo(): React.JSX.Element {
+  return <InputDemo kind="label" />;
+}
+
+/** Shows primary and success badge treatments side by side.
+ * @return Two badge variants in a wrapping row.
+ */
+function BadgeDemo(): React.JSX.Element {
+  return (
     <div className="flex flex-wrap items-center gap-2">
       <UI.Badge variant="primary-tonal">In progress</UI.Badge>
       <UI.Badge variant="success-tonal">Complete</UI.Badge>
     </div>
-  ),
-  card: () => <CardDemo />,
-  checkbox: () => <CheckControlDemo kind="checkbox" />,
-  switch: () => <CheckControlDemo kind="switch" />,
-  spinner: () => <UI.Spinner aria-label="Loading" />,
-  skeleton: () => <SkeletonDemo />,
-  separator: () => <SeparatorDemo />,
-  progress: () => <ProgressDemo />,
-  hint: () => <HintDemo />,
-  "input-otp": () => <OtpDemo />,
-  "message-scroller": () => <MessageScrollerDemo />,
-  form: () => <FormDemo />,
-  select: () => <SelectDemo />,
-  "data-table": () => <DataTableDemo />,
-};
+  );
+}
+
+/** Shows the checkbox control used by the notification setting example.
+ * @return A notification checkbox preview.
+ */
+function CheckboxDemo(): React.JSX.Element {
+  return <CheckControlDemo kind="checkbox" />;
+}
+
+/** Shows the switch control used by the notification setting example.
+ * @return A notification switch preview.
+ */
+function SwitchDemo(): React.JSX.Element {
+  return <CheckControlDemo kind="switch" />;
+}
+
+/** Shows a labelled spinner in its loading state.
+ * @return The loading spinner preview.
+ */
+function SpinnerDemo(): React.JSX.Element {
+  return <UI.Spinner aria-label="Loading" />;
+}
 
 /*//////////////////////////////////////////////////
 HELPERS
@@ -121,29 +231,47 @@ function createCatalogCols(base: string): DataTableColumn<{
   description: string;
   group: string;
 }>[] {
+  /** Renders a linked component name and its short description. */
+  function renderComponentCell(c: {
+    slug: ComponentSlug;
+    title: string;
+    description: string;
+    group: string;
+  }): React.JSX.Element {
+    return (
+      <div className="grid gap-2">
+        <UI.ButtonLink
+          href={`${base}styling/1-colouring/2-components/${c.slug}/`}
+          size="sm"
+          variant="underline"
+        >
+          {c.title}
+        </UI.ButtonLink>
+        <p className={TEXT_SM_TEXT_PRIMARY_11_CLASS}>{c.description}</p>
+      </div>
+    );
+  }
+  /** Renders the live component example in the catalog's example column. */
+  function renderExampleCell(c: {
+    slug: ComponentSlug;
+    title: string;
+    description: string;
+    group: string;
+  }): React.JSX.Element {
+    return <ComponentDemo component={c.slug} />;
+  }
   return [
     {
       key: "component",
       label: "Component",
       width: "wide-wrapped",
-      render: (c) => (
-        <div className="grid gap-2">
-          <UI.ButtonLink
-            href={`${base}styling/1-colouring/2-components/${c.slug}/`}
-            size="sm"
-            variant="underline"
-          >
-            {c.title}
-          </UI.ButtonLink>
-          <p className="text-sm text-primary-11">{c.description}</p>
-        </div>
-      ),
+      render: renderComponentCell,
     },
     {
       key: "example",
       label: "Example",
       width: "wider-wrapped",
-      render: (c) => <ComponentDemo component={c.slug} />,
+      render: renderExampleCell,
     },
   ];
 }
@@ -154,37 +282,57 @@ function createCatalogCols(base: string): DataTableColumn<{
  * @return A grouped catalog of exported components and their live previews.
  */
 export function ComponentCatalog(): React.JSX.Element {
-  const components = Object.entries(componentTsDocs).map(([s, d]) => ({
-    slug: s as ComponentSlug,
-    title: d.title,
-    description: d.description.split("\n")[0],
-    group: d.group,
-  }));
+  const components: {
+    slug: ComponentSlug;
+    title: string;
+    description: string;
+    group: string;
+  }[] = [];
+  for (const [slug, docs] of Object.entries(componentTsDocs)) {
+    components.push({
+      slug: slug as ComponentSlug,
+      title: docs.title,
+      description: docs.description.split("\n")[0],
+      group: docs.group,
+    });
+  }
   const cols = createCatalogCols(import.meta.env.BASE_URL);
-  return (
-    <div className="grid gap-6">
-      {GROUP_ORDER.map((g) => {
-        const rows = components.filter((c) => c.group === g);
-        if (rows.length === 0) return null;
-        return (
-          <UI.DataTable
-            key={g}
-            title={g}
-            description={`${rows.length} exported components`}
-            rows={rows}
-            columns={cols}
-            rowKey="slug"
-          />
-        );
-      })}
-    </div>
-  );
+  const groups: React.ReactNode[] = [];
+  for (const group of GROUP_ORDER) {
+    const rows = components.filter(isInGroup(group));
+    if (rows.length === 0) continue;
+    groups.push(
+      <UI.DataTable
+        key={group}
+        title={group}
+        description={`${rows.length} exported components`}
+        rows={rows}
+        columns={cols}
+        rowKey="slug"
+      />,
+    );
+  }
+  return <div className="grid gap-6">{groups}</div>;
+}
+
+/** Creates a predicate selecting catalog components in one documentation group.
+ *
+ * @param group - Documentation group to match.
+ *
+ * @return A predicate that matches component records in the selected group.
+ */
+function isInGroup(group: string): (component: { group: string }) => boolean {
+  /** Checks whether a component belongs to the captured group. */
+  function matchesGroup(component: { group: string }): boolean {
+    return component.group === group;
+  }
+  return matchesGroup;
 }
 
 /**
  * Renders a live preview, falling back to the generated component export.
  *
- * @param props - Component slug used to choose a custom preview or generated fallback.
+ * @param component - Component slug used to choose a custom preview or generated fallback.
  *
  * @return The selected component preview, or a neutral label when no demo exists.
  */
@@ -214,7 +362,7 @@ export function ComponentDemo({
 /**
  * Shared labelled control preview for text, email, and password examples.
  *
- * @param props - Control kind to render as an email, password, or label example.
+ * @param kind - Control kind to render as an email, password, or label example.
  *
  * @return A labelled control preview matching the selected kind.
  */
@@ -230,7 +378,7 @@ function InputDemo({
     label: "Project name",
   } as const;
   return (
-    <div className="grid w-full max-w-sm gap-2">
+    <div className={GRID_W_FULL_MAX_W_SM_GAP_2_CLASS}>
       <UI.Label htmlFor={id}>{LABELS[kind]}</UI.Label>
       <UI.Input
         autoComplete={kind === "email" ? "email" : undefined}
@@ -268,7 +416,7 @@ function CardDemo(): React.JSX.Element {
 /**
  * Shared checkbox and switch preview for the same setting.
  *
- * @param props - Control kind to render as a checkbox or switch.
+ * @param kind - Control kind to render as a checkbox or switch.
  *
  * @return A labelled checkbox or switch example with a short description.
  */
@@ -310,7 +458,7 @@ function SkeletonDemo(): React.JSX.Element {
  */
 function SeparatorDemo(): React.JSX.Element {
   return (
-    <div className="grid w-full max-w-sm gap-2">
+    <div className={GRID_W_FULL_MAX_W_SM_GAP_2_CLASS}>
       <span>Account</span>
       <UI.Separator />
       <span>Preferences</span>
@@ -325,7 +473,7 @@ function SeparatorDemo(): React.JSX.Element {
  */
 function ProgressDemo(): React.JSX.Element {
   return (
-    <div className="grid w-full max-w-sm gap-2">
+    <div className={GRID_W_FULL_MAX_W_SM_GAP_2_CLASS}>
       <span>Upload progress</span>
       <UI.Progress value={64} />
     </div>
@@ -392,14 +540,14 @@ function MessageScrollerDemo(): React.JSX.Element {
  */
 function FormDemo(): React.JSX.Element {
   return (
-    <div className="grid w-full max-w-sm gap-2">
+    <div className={GRID_W_FULL_MAX_W_SM_GAP_2_CLASS}>
       <UI.Label htmlFor="component-preview-name">Name</UI.Label>
       <UI.Input
         id="component-preview-name"
         name="display-name"
         defaultValue="Kai"
       />
-      <p className="text-sm text-primary-11">Enter your display name.</p>
+      <p className={TEXT_SM_TEXT_PRIMARY_11_CLASS}>Enter your display name.</p>
     </div>
   );
 }
@@ -449,30 +597,44 @@ function DataTableDemo(): React.JSX.Element {
 function createApiCols(): DataTableColumn<
   (typeof componentTsDocs)[ComponentSlug]["members"][number]
 >[] {
+  /** Describes one generated API member in the component-reference table. */
+  type ApiMember = (typeof componentTsDocs)[ComponentSlug]["members"][number];
+  /** Renders the member name, summary, and documented TSDoc tags. */
+  function renderMemberName(member: ApiMember): React.JSX.Element {
+    const tags: string[] = [];
+    for (const tag of member.tags) tags.push(`@${tag.name} ${tag.text}`);
+    return (
+      <div className="grid gap-1">
+        <strong>{member.name}</strong>
+        {member.summary ? <span>{member.summary}</span> : null}
+        {tags.length > 0 ? (
+          <span className={TEXT_SM_TEXT_PRIMARY_11_CLASS}>
+            {tags.join(" · ")}
+          </span>
+        ) : null}
+      </div>
+    );
+  }
+  /** Renders the member's TypeScript declaration as formatted code. */
+  function renderMemberSignature(member: ApiMember): React.JSX.Element {
+    return (
+      <code className="whitespace-pre-wrap break-words">
+        {member.signature}
+      </code>
+    );
+  }
   return [
     {
       key: "name",
       label: "API member",
       width: "wide-wrapped",
-      render: (m) => (
-        <div className="grid gap-1">
-          <strong>{m.name}</strong>
-          {m.summary ? <span>{m.summary}</span> : null}
-          {m.tags.length > 0 ? (
-            <span className="text-sm text-primary-11">
-              {m.tags.map((t) => `@${t.name} ${t.text}`).join(" · ")}
-            </span>
-          ) : null}
-        </div>
-      ),
+      render: renderMemberName,
     },
     {
       key: "signature",
       label: "TypeScript signature",
       width: "wider-wrapped",
-      render: (m) => (
-        <code className="whitespace-pre-wrap break-words">{m.signature}</code>
-      ),
+      render: renderMemberSignature,
     },
   ];
 }
@@ -480,7 +642,7 @@ function createApiCols(): DataTableColumn<
 /**
  * Renders the source metadata, live example, and generated TypeScript API table.
  *
- * @param props - Component slug whose source, example, and generated API are displayed.
+ * @param component - Component slug whose source, example, and generated API are displayed.
  *
  * @return The full component reference content for the selected component.
  */

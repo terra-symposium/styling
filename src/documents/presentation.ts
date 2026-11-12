@@ -17,6 +17,7 @@ import JSZip from "jszip";
 
 // TYPES
 import type { TerraDocumentBrand, TerraDocumentBrandOptions } from "./theme.js";
+/** Minimal slide surface consumed by the Terra presentation builder. */
 type TerraSlide = {
   background: { color: string };
   addText: (value: string, options: Record<string, unknown>) => void;
@@ -24,6 +25,7 @@ type TerraSlide = {
   addImage: (options: Record<string, unknown>) => void;
   addTable: (rows: unknown[][], options: Record<string, unknown>) => void;
 };
+/** Minimal PptxGenJS API surface used by the presentation builder. */
 type TerraPresentation = {
   layout: string;
   author: string;
@@ -37,8 +39,10 @@ type TerraPresentation = {
   defineSlideMaster: (props: Record<string, unknown>) => void;
   writeFile: (options: { fileName: string }) => Promise<string>;
 };
-const require = createRequire(import.meta.url);
-const PptxGenJS = require("pptxgenjs") as new () => TerraPresentation;
+const PptxGenJS = createRequire(import.meta.url)(
+  "pptxgenjs",
+) as new () => TerraPresentation;
+/** Title, subtitle, and brand settings for the editable slide-deck template. */
 export type PresentationTemplateOptions = {
   title?: string;
   subtitle?: string;
@@ -58,8 +62,9 @@ PRESENTATION HELPERS
  *
  * @return The uppercase hexadecimal color without a leading hash.
  */
-const officeColor = (value: string): string =>
-  value.replace(/^#/, "").toUpperCase();
+function officeColor(value: string): string {
+  return value.replace(/^#/, "").toUpperCase();
+}
 /**
  * Formats a light-appearance palette entry as a CSS hex color.
  *
@@ -68,14 +73,25 @@ const officeColor = (value: string): string =>
  *
  * @return The selected light color as a hash-prefixed hex string.
  */
-const scaleToken = (
+function scaleToken(
   scale: { light: readonly string[]; dark: readonly string[] },
   index: number,
-): string =>
-  "#" +
-  scale.light[index]!.split(" ")
-    .map((c) => Math.round(Number(c)).toString(16).padStart(2, "0"))
-    .join("");
+): string {
+  const channels: string[] = [];
+  for (const channel of scale.light[index]!.split(" ")) {
+    channels.push(colorChannelToHex(channel));
+  }
+  return `#${channels.join("")}`;
+}
+/** Converts one 0–255 RGB channel into two uppercase hexadecimal digits.
+ *
+ * @param channel Numeric channel value encoded as a string.
+ *
+ * @return Two-digit lowercase hexadecimal channel text.
+ */
+function colorChannelToHex(channel: string): string {
+  return Math.round(Number(channel)).toString(16).padStart(2, "0");
+}
 /**
  * Builds common text styling for a PowerPoint text object.
  *
@@ -86,18 +102,20 @@ const scaleToken = (
  *
  * @return The normalized text options with color, font, and zero margin.
  */
-const textOptions = (
+function textOptions(
   fontFace: string,
   fontSize: number,
   colorValue: string,
   extra: Record<string, unknown> = {},
-) => ({
-  color: officeColor(colorValue),
-  fontFace,
-  fontSize,
-  margin: 0,
-  ...extra,
-});
+): Record<string, unknown> {
+  return {
+    color: officeColor(colorValue),
+    fontFace,
+    fontSize,
+    margin: 0,
+    ...extra,
+  };
+}
 /**
  * Adds styled text to a slide at the supplied position.
  *
@@ -108,14 +126,14 @@ const textOptions = (
  *
  * @return Nothing; the slide is updated in place.
  */
-const addText = (
+function addText(
   slide: TerraSlide,
   value: string,
   style: Record<string, unknown>,
   position: { x: number; y: number; w: number; h: number },
-): void => {
+): void {
   slide.addText(value, { ...style, ...position } as never);
-};
+}
 
 /**
  * Builds the logo object for a slide master, respecting dark-background settings.
@@ -197,11 +215,20 @@ export function createPresentationTemplate(
     lang: "en-AU",
   };
   const writeFile = pptx.writeFile.bind(pptx);
-  pptx.writeFile = async (writeOptions) => {
+  /** Writes the deck and applies the resolved brand palette to its theme.
+   *
+   * @param writeOptions Output filename passed to PptxGenJS.
+   *
+   * @return The result returned by PptxGenJS after the theme is updated.
+   */
+  async function writeBrandedPresentation(writeOptions: {
+    fileName: string;
+  }): Promise<string> {
     const result = await writeFile(writeOptions);
     await applyPresentationBrand(writeOptions.fileName, brand);
     return result;
-  };
+  }
+  pptx.writeFile = writeBrandedPresentation;
 
   /**
    * Registers a decorative master without editable title and body placeholders.
@@ -212,11 +239,11 @@ export function createPresentationTemplate(
    *
    * @return Nothing; the master is registered on the presentation.
    */
-  const registerMaster = (
+  function registerMaster(
     title: string,
     background: string,
     layout: "cover" | "section" | "content" | "table" | "closing",
-  ): void => {
+  ): void {
     const dark = layout === "closing";
     pptx.defineSlideMaster({
       title,
@@ -237,7 +264,7 @@ export function createPresentationTemplate(
         },
       ],
     });
-  };
+  }
 
   // Named native layouts keep content editable in PowerPoint and Keynote.
   registerMaster("TERRA_COVER", c.paper, "cover");
@@ -256,10 +283,10 @@ export function createPresentationTemplate(
    *
    * @return Nothing; the master is registered on the presentation.
    */
-  const registerEditableMaster = (
+  function registerEditableMaster(
     title: string,
     layout: "cover" | "section" | "content" | "table" | "closing",
-  ): void => {
+  ): void {
     const dark = layout === "closing";
     const foreground = dark ? c.paper : c.ink;
     const titlePosition =
@@ -335,7 +362,7 @@ export function createPresentationTemplate(
         },
       ],
     });
-  };
+  }
   registerEditableMaster("TERRA_EDITABLE_COVER", "cover");
   registerEditableMaster("TERRA_EDITABLE_SECTION", "section");
   registerEditableMaster("TERRA_EDITABLE_CONTENT", "content");
@@ -419,21 +446,21 @@ export function createPresentationTemplate(
       ["Type", "Use Authentic Sans for reading."],
       ["Space", "Give each idea room to land."],
     ];
-    principles.forEach(([l, d], i) => {
-      const x = 0.62 + i * 3.95;
-      addText(slide, l!, textOptions(brand.fonts.body, 15, c.primaryStrong), {
-        x,
-        y: 5.0,
-        w: 3.3,
-        h: 0.3,
-      });
+    for (const [index, [label, description]] of principles.entries()) {
+      const x = 0.62 + index * 3.95;
       addText(
         slide,
-        d!,
+        label!,
+        textOptions(brand.fonts.body, 15, c.primaryStrong),
+        { x, y: 5.0, w: 3.3, h: 0.3 },
+      );
+      addText(
+        slide,
+        description!,
         textOptions(brand.fonts.body, 11, c.muted, { fit: "shrink" }),
         { x, y: 5.42, w: 3.45, h: 0.48 },
       );
-    });
+    }
   }
   // Palette slide shows roles and contrast without exposing serialized hex or RGB values.
   {
@@ -511,18 +538,23 @@ export function createPresentationTemplate(
      *
      * @return A PptxGenJS table cell value and options pair.
      */
-    const cell = (text: string, options: Record<string, unknown> = {}) => ({
-      text,
-      options: {
-        fontFace: brand.fonts.body,
-        fontSize: 12,
-        color: officeColor(c.ink),
-        margin: [0.1, 0.16, 0.1, 0.16],
-        valign: "middle",
-        border: [none, none, bottom, none],
-        ...options,
-      },
-    });
+    function cell(
+      text: string,
+      options: Record<string, unknown> = {},
+    ): { text: string; options: Record<string, unknown> } {
+      return {
+        text,
+        options: {
+          fontFace: brand.fonts.body,
+          fontSize: 12,
+          color: officeColor(c.ink),
+          margin: [0.1, 0.16, 0.1, 0.16],
+          valign: "middle",
+          border: [none, none, bottom, none],
+          ...options,
+        },
+      };
+    }
     const rows = [
       [
         cell("Element", {
@@ -647,8 +679,20 @@ export async function editPresentationTemplate(
   destinationPath: string,
   replacements: Record<string, string>,
 ): Promise<void> {
-  await replaceOfficeText(sourcePath, destinationPath, replacements, (n) =>
-    /^ppt\/slides\/slide\d+\.xml$/.test(n),
+  /** Selects only numbered slide XML parts for exact-text edits.
+   *
+   * @param name Package entry name.
+   *
+   * @return Whether the entry is a numbered presentation slide.
+   */
+  function isSlidePart(name: string): boolean {
+    return /^ppt\/slides\/slide\d+\.xml$/.test(name);
+  }
+  await replaceOfficeText(
+    sourcePath,
+    destinationPath,
+    replacements,
+    isSlidePart,
   );
 }
 
@@ -721,11 +765,19 @@ async function finalizePresentation(
       "The generated presentation is missing [Content_Types].xml.",
     );
   let xml = await contentTypes.async("string");
+  /** Keeps content-type overrides only when the package part still exists.
+   *
+   * @param match Full content-type override element.
+   * @param partName Package part path declared by the override.
+   *
+   * @return The original override or an empty string when its part is absent.
+   */
+  function removeMissingOverride(match: string, partName: string): string {
+    return zip.file(partName.replace(/^\//, "")) ? match : "";
+  }
   xml = xml.replace(
     /<Override\b[^>]*\bPartName="([^"]+)"[^>]*\/>/g,
-    (e, p: string) => {
-      return zip.file(p.replace(/^\//, "")) ? e : "";
-    },
+    removeMissingOverride,
   );
   zip.file("[Content_Types].xml", xml);
   const theme = zip.file("ppt/theme/theme1.xml");
@@ -785,10 +837,11 @@ async function finalizePresentation(
  *
  * @return The value with XML entities substituted for reserved characters.
  */
-const escapeXml = (value: string): string =>
-  value
+function escapeXml(value: string): string {
+  return value
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&apos;");
+}

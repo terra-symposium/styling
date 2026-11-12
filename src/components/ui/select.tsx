@@ -43,20 +43,20 @@ COMPONENTS
 /**
  * Root select component that manages open state and value.
  *
- * @param props - Select component props including size variant.
+ * @param attributes - Remaining Radix root attributes forwarded to the primitive.
  * @param size - Visual size variant applied to the select trigger and its option list.
  *
  * @return A Radix Select root used to compose trigger and content.
  */
 function Select({
   size = "default",
-  ...props
+  ...attributes
 }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root> & {
   size?: SelectSize;
 }): React.JSX.Element {
   return (
     <SelectSizeCtx.Provider value={size}>
-      <SelectPrimitive.Root {...props} />
+      <SelectPrimitive.Root {...attributes} />
     </SelectSizeCtx.Provider>
   );
 }
@@ -82,6 +82,64 @@ const SelectValue = SelectPrimitive.Value;
  *
  * @returns A control that toggles the select menu.
  */
+/** Renders the select trigger using the inherited size and chosen variant.
+ * @param attributes - Trigger props, size, width, and variant options.
+ * @param ref - Forwarded reference to the trigger button.
+ * @return The trigger and its optional dropdown chevron.
+ */
+function SelectTriggerRender(
+  attributes: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & {
+    hideChevron?: boolean;
+    size?: SelectSize;
+    width?: "fit" | "full";
+    variant?: FormControlVariant | "default" | "ghost";
+  },
+  ref: React.ForwardedRef<React.ElementRef<typeof SelectPrimitive.Trigger>>,
+): React.JSX.Element {
+  const {
+    className,
+    children,
+    hideChevron = false,
+    size = "default",
+    variant = "default",
+    width = "full",
+    ...otherAttributes
+  } = attributes;
+  const resolvedSize = [size, React.useContext(SelectSizeCtx)][
+    Number(size === "default")
+  ];
+  const formVariant =
+    variant === "default"
+      ? "primary"
+      : variant === "ghost"
+        ? "primary-ghost"
+        : variant;
+  const ghostVariant = variant === "ghost" || variant.endsWith("-ghost");
+  return (
+    <SelectPrimitive.Trigger
+      ref={ref}
+      className={cn(
+        "items-center justify-between text-nowrap ring-offset-transparent data-[placeholder]:text-primary-11 [&>span]:line-clamp-1",
+        FORM_CONTROL_VARIANTS({
+          variant: formVariant,
+          size: resolvedSize === "default" ? "md" : resolvedSize,
+        }),
+        width === "fit" ? "w-fit" : "w-full",
+        ghostVariant && "enabled:hover:bg-primary-3",
+        className,
+      )}
+      {...otherAttributes}
+    >
+      {children}
+      {!hideChevron && (
+        <SelectPrimitive.Icon asChild>
+          <ChevronDownIcon className="size-4 opacity-50" aria-hidden="true" />
+        </SelectPrimitive.Icon>
+      )}
+    </SelectPrimitive.Trigger>
+  );
+}
+
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & {
@@ -90,54 +148,7 @@ const SelectTrigger = React.forwardRef<
     width?: "fit" | "full";
     variant?: FormControlVariant | "default" | "ghost";
   }
->(
-  (
-    {
-      className,
-      children,
-      hideChevron = false,
-      size = "default",
-      variant = "default",
-      width = "full",
-      ...props
-    },
-    ref,
-  ): React.JSX.Element => {
-    const resolvedSize = [size, React.useContext(SelectSizeCtx)][
-      Number(size === "default")
-    ];
-    const formVariant =
-      variant === "default"
-        ? "primary"
-        : variant === "ghost"
-          ? "primary-ghost"
-          : variant;
-    const ghostVariant = variant === "ghost" || variant.endsWith("-ghost");
-    return (
-      <SelectPrimitive.Trigger
-        ref={ref}
-        className={cn(
-          "items-center justify-between text-nowrap ring-offset-transparent data-[placeholder]:text-primary-11 [&>span]:line-clamp-1",
-          FORM_CONTROL_VARIANTS({
-            variant: formVariant,
-            size: resolvedSize === "default" ? "md" : resolvedSize,
-          }),
-          width === "fit" ? "w-fit" : "w-full",
-          ghostVariant && "enabled:hover:bg-primary-3",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-        {!hideChevron && (
-          <SelectPrimitive.Icon asChild>
-            <ChevronDownIcon className="size-4 opacity-50" aria-hidden="true" />
-          </SelectPrimitive.Icon>
-        )}
-      </SelectPrimitive.Trigger>
-    );
-  },
-);
+>(SelectTriggerRender);
 
 /**
  * Scroll control displayed at the top of the select content.
@@ -146,22 +157,39 @@ const SelectTrigger = React.forwardRef<
  *
  * @returns A control that scrolls the option list upwards.
  */
+/** Renders the control that scrolls the option list toward its start.
+ * @param attributes - Radix button attributes and optional class name.
+ * @param ref - Forwarded reference to the scroll-up button.
+ * @return The labeled scroll-up control.
+ */
+function SelectScrollUpButtonRender(
+  attributes: React.ComponentPropsWithoutRef<
+    typeof SelectPrimitive.ScrollUpButton
+  >,
+  ref: React.ForwardedRef<
+    React.ElementRef<typeof SelectPrimitive.ScrollUpButton>
+  >,
+): React.JSX.Element {
+  const { className, ...otherAttributes } = attributes;
+  return (
+    <SelectPrimitive.ScrollUpButton
+      ref={ref}
+      aria-label="Scroll up"
+      className={cn(
+        "flex cursor-default items-center justify-center py-1",
+        className,
+      )}
+      {...otherAttributes}
+    >
+      <ChevronUpIcon className="size-4" aria-hidden="true" />
+    </SelectPrimitive.ScrollUpButton>
+  );
+}
+
 const SelectScrollUpButton = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <SelectPrimitive.ScrollUpButton
-    ref={ref}
-    aria-label="Scroll up"
-    className={cn(
-      "flex cursor-default items-center justify-center py-1",
-      className,
-    )}
-    {...props}
-  >
-    <ChevronUpIcon className="size-4" aria-hidden="true" />
-  </SelectPrimitive.ScrollUpButton>
-));
+>(SelectScrollUpButtonRender);
 
 /**
  * Scroll control displayed at the bottom of the select content.
@@ -170,22 +198,39 @@ const SelectScrollUpButton = React.forwardRef<
  *
  * @returns A control that scrolls the option list downwards.
  */
+/** Renders the control that scrolls the option list toward its end.
+ * @param attributes - Radix button attributes and optional class name.
+ * @param ref - Forwarded reference to the scroll-down button.
+ * @return The labeled scroll-down control.
+ */
+function SelectScrollDownButtonRender(
+  attributes: React.ComponentPropsWithoutRef<
+    typeof SelectPrimitive.ScrollDownButton
+  >,
+  ref: React.ForwardedRef<
+    React.ElementRef<typeof SelectPrimitive.ScrollDownButton>
+  >,
+): React.JSX.Element {
+  const { className, ...otherAttributes } = attributes;
+  return (
+    <SelectPrimitive.ScrollDownButton
+      ref={ref}
+      aria-label="Scroll down"
+      className={cn(
+        "flex cursor-default items-center justify-center py-1",
+        className,
+      )}
+      {...otherAttributes}
+    >
+      <ChevronDownIcon className="size-4" aria-hidden="true" />
+    </SelectPrimitive.ScrollDownButton>
+  );
+}
+
 const SelectScrollDownButton = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.ScrollDownButton>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <SelectPrimitive.ScrollDownButton
-    ref={ref}
-    aria-label="Scroll down"
-    className={cn(
-      "flex cursor-default items-center justify-center py-1",
-      className,
-    )}
-    {...props}
-  >
-    <ChevronDownIcon className="size-4" aria-hidden="true" />
-  </SelectPrimitive.ScrollDownButton>
-));
+>(SelectScrollDownButtonRender);
 
 /**
  * Overlay panel that renders the select options.
@@ -195,52 +240,66 @@ const SelectScrollDownButton = React.forwardRef<
  *
  * @returns A panel containing the option list, optionally rendered in a portal.
  */
+/** Renders option groups with optional portal placement and scroll controls.
+ * @param attributes - Radix panel props, children, placement, and portal choice.
+ * @param ref - Forwarded reference to the option panel.
+ * @return The scrollable option panel, optionally rendered in a portal.
+ */
+function SelectContentRender(
+  attributes: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & {
+    portalled?: boolean;
+  },
+  ref: React.ForwardedRef<React.ElementRef<typeof SelectPrimitive.Content>>,
+): React.JSX.Element {
+  const {
+    className,
+    children,
+    portalled = true,
+    position = "popper",
+    ...otherAttributes
+  } = attributes;
+  const content = (
+    <SelectPrimitive.Content
+      ref={ref}
+      className={cn(
+        "relative z-[110] max-h-[--radix-select-content-available-height] min-w-32 origin-[--radix-select-content-transform-origin]",
+        "overflow-y-auto overflow-x-hidden rounded-md border bg-primary-2 text-primary-12",
+        OVERLAY_SURFACE_VARIANTS(),
+        OVERLAY_MOTION_VARIANTS(),
+        RADIX_SIDE_POSITION_VARIANTS(),
+        position === "popper" &&
+          "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+        className,
+      )}
+      position={position}
+      {...otherAttributes}
+    >
+      <SelectScrollUpButton />
+      <SelectPrimitive.Viewport
+        className={cn(
+          "p-1",
+          position === "popper" &&
+            "min-h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]",
+        )}
+      >
+        {children}
+      </SelectPrimitive.Viewport>
+      <SelectScrollDownButton />
+    </SelectPrimitive.Content>
+  );
+  return portalled ? (
+    <SelectPrimitive.Portal>{content}</SelectPrimitive.Portal>
+  ) : (
+    content
+  );
+}
+
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & {
     portalled?: boolean;
   }
->(
-  (
-    { className, children, portalled = true, position = "popper", ...props },
-    ref,
-  ): React.JSX.Element => {
-    const content = (
-      <SelectPrimitive.Content
-        ref={ref}
-        className={cn(
-          "relative z-[110] max-h-[--radix-select-content-available-height] min-w-32 origin-[--radix-select-content-transform-origin]",
-          "overflow-y-auto overflow-x-hidden rounded-md border bg-primary-2 text-primary-12",
-          OVERLAY_SURFACE_VARIANTS(),
-          OVERLAY_MOTION_VARIANTS(),
-          RADIX_SIDE_POSITION_VARIANTS(),
-          position === "popper" &&
-            "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
-          className,
-        )}
-        position={position}
-        {...props}
-      >
-        <SelectScrollUpButton />
-        <SelectPrimitive.Viewport
-          className={cn(
-            "p-1",
-            position === "popper" &&
-              "min-h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]",
-          )}
-        >
-          {children}
-        </SelectPrimitive.Viewport>
-        <SelectScrollDownButton />
-      </SelectPrimitive.Content>
-    );
-    return portalled ? (
-      <SelectPrimitive.Portal>{content}</SelectPrimitive.Portal>
-    ) : (
-      content
-    );
-  },
-);
+>(SelectContentRender);
 
 /**
  * Text label used to describe a group of select items.
@@ -249,16 +308,29 @@ const SelectContent = React.forwardRef<
  *
  * @returns A styled label for an option group.
  */
+/** Renders a group heading above related select options.
+ * @param attributes - Radix label attributes and optional class name.
+ * @param ref - Forwarded reference to the option group label.
+ * @return The styled option group label.
+ */
+function SelectLabelRender(
+  attributes: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>,
+  ref: React.ForwardedRef<React.ElementRef<typeof SelectPrimitive.Label>>,
+): React.JSX.Element {
+  const { className, ...otherAttributes } = attributes;
+  return (
+    <SelectPrimitive.Label
+      ref={ref}
+      className={cn("py-1.5 pl-8 pr-2 text-sm font-semibold", className)}
+      {...otherAttributes}
+    />
+  );
+}
+
 const SelectLabel = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Label>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <SelectPrimitive.Label
-    ref={ref}
-    className={cn("py-1.5 pl-8 pr-2 text-sm font-semibold", className)}
-    {...props}
-  />
-));
+>(SelectLabelRender);
 
 /**
  * Single option within the select menu.
@@ -268,12 +340,18 @@ const SelectLabel = React.forwardRef<
  *
  * @returns A selectable option with highlighted and selected state styling.
  */
-const SelectItem = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> & {
+/** Renders a selectable option with size and selection styling.
+ * @param attributes - Radix option props, label children, and optional icon.
+ * @param ref - Forwarded reference to the option element.
+ * @return A selectable option row with an optional leading icon.
+ */
+function SelectItemRender(
+  attributes: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> & {
     icon?: React.ReactNode;
-  }
->(({ className, children, icon, ...props }, ref): React.JSX.Element => {
+  },
+  ref: React.ForwardedRef<React.ElementRef<typeof SelectPrimitive.Item>>,
+): React.JSX.Element {
+  const { className, children, icon, ...otherAttributes } = attributes;
   return (
     <SelectPrimitive.Item
       ref={ref}
@@ -291,7 +369,7 @@ const SelectItem = React.forwardRef<
         )[React.useContext(SelectSizeCtx)],
         className,
       )}
-      {...props}
+      {...otherAttributes}
     >
       <SelectPrimitive.ItemText>
         <span className="flex min-w-0 items-center gap-2">
@@ -305,7 +383,14 @@ const SelectItem = React.forwardRef<
       </SelectPrimitive.ItemText>
     </SelectPrimitive.Item>
   );
-});
+}
+
+const SelectItem = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> & {
+    icon?: React.ReactNode;
+  }
+>(SelectItemRender);
 
 /**
  * Visual divider used to separate logical groups of options.
@@ -314,16 +399,29 @@ const SelectItem = React.forwardRef<
  *
  * @returns A horizontal rule inside the option list.
  */
+/** Renders the divider between logical groups of select options.
+ * @param attributes - Radix separator attributes and optional class name.
+ * @param ref - Forwarded reference to the separator element.
+ * @return The option list separator line.
+ */
+function SelectSeparatorRender(
+  attributes: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>,
+  ref: React.ForwardedRef<React.ElementRef<typeof SelectPrimitive.Separator>>,
+): React.JSX.Element {
+  const { className, ...otherAttributes } = attributes;
+  return (
+    <SelectPrimitive.Separator
+      ref={ref}
+      className={cn("-mx-1 my-1 h-px border-t border-primary-6", className)}
+      {...otherAttributes}
+    />
+  );
+}
+
 const SelectSeparator = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <SelectPrimitive.Separator
-    ref={ref}
-    className={cn("-mx-1 my-1 h-px border-t border-primary-6", className)}
-    {...props}
-  />
-));
+>(SelectSeparatorRender);
 SelectGroup.displayName = SelectPrimitive.Group.displayName;
 SelectValue.displayName = SelectPrimitive.Value.displayName;
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;

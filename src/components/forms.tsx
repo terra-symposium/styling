@@ -34,7 +34,7 @@ import {
 import { TEXT_VARIANTS } from "./ui/variants.js";
 
 // TYPES
-import type { ComponentProps, ReactNode } from "react";
+import type { ChangeEvent, ComponentProps, ReactNode } from "react";
 
 /*//////////////////////////////////////////////////
 TYPES
@@ -212,7 +212,16 @@ COMPONENTS
  * Renders a label, required marker, control, and its supporting feedback.
  * This layout is independent of React Hook Form's FormField controller.
  *
- * @param props Label, control, and supporting feedback; `htmlFor` associates the label and scopes feedback ids.
+ * @param label Visible text or content associated with the control.
+ * @param children The field control rendered beside the label.
+ * @param className Optional classes for the field layout container.
+ * @param labelClassName Optional classes applied to the label.
+ * @param required Shows a required marker and screen-reader announcement.
+ * @param htmlFor Control id used by the label and feedback descriptions.
+ * @param orientation Places the control beside or beneath its label.
+ * @param helper Optional explanatory content shown in a tooltip.
+ * @param description Optional explanatory text shown below the control.
+ * @param err Optional validation feedback shown below the control.
  *
  * @return A labelled field layout with its description and error feedback.
  */
@@ -338,7 +347,9 @@ export function FormFieldLayout({
 /**
  * Renders error content in the shared accessible alert style.
  *
- * @param props Error content and optional element id.
+ * @param id Optional element id used by a linked field.
+ * @param className Optional classes applied to the alert paragraph.
+ * @param children Error message content.
  *
  * @return An alert paragraph containing the error content.
  */
@@ -374,7 +385,7 @@ function FormErrText({
 /**
  * Renders shared field error feedback alongside a control outside a form layout.
  *
- * @param props Field definition whose error should be displayed.
+ * @param field Field definition whose error should be displayed.
  *
  * @return Error feedback, or null when `field.error` is falsy.
  */
@@ -393,7 +404,8 @@ export function MappedFormFieldError({
 /**
  * Renders a field definition's control without its labelled layout wrapper.
  *
- * @param props Field definition describing the control to render.
+ * @param field Field definition describing the control to render.
+ * @param suppliedId Optional caller-provided id, which takes precedence over the field id.
  *
  * @return The mapped control or supplied custom control.
  */
@@ -421,6 +433,11 @@ export function MappedFormControl({
   };
   if ("control" in f) return <>{f.control}</>;
   if (f.type === "input") {
+    const onValueChange = f.onValueChange;
+    /** Forwards an input value to the field's value-change handler. */
+    function handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
+      onValueChange?.(event.currentTarget.value);
+    }
     const input = (
       <Input
         {...shared}
@@ -438,10 +455,7 @@ export function MappedFormControl({
         defaultValue={f.defaultValue}
         value={f.value}
         onChange={
-          f.onInputChange ??
-          (f.onValueChange
-            ? (event) => f.onValueChange?.(event.currentTarget.value)
-            : undefined)
+          f.onInputChange ?? (f.onValueChange ? handleInputChange : undefined)
         }
         disabled={f.disabled}
         required={f.required}
@@ -499,6 +513,13 @@ export function MappedFormControl({
     );
   }
   if (f.type === "textarea") {
+    const onValueChange = f.onValueChange;
+    /** Forwards a textarea value to the field's value-change handler. */
+    function handleTextareaChange(
+      event: ChangeEvent<HTMLTextAreaElement>,
+    ): void {
+      onValueChange?.(event.currentTarget.value);
+    }
     return (
       <Textarea
         {...shared}
@@ -509,11 +530,7 @@ export function MappedFormControl({
         maxLength={f.maxLength}
         defaultValue={f.defaultValue}
         value={f.value}
-        onChange={
-          f.onValueChange
-            ? (event) => f.onValueChange?.(event.currentTarget.value)
-            : undefined
-        }
+        onChange={f.onValueChange ? handleTextareaChange : undefined}
         disabled={f.disabled}
         required={f.required}
         className={f.controlClassName}
@@ -521,6 +538,11 @@ export function MappedFormControl({
     );
   }
   if (f.type === "checkbox") {
+    const onCheckedChange = f.onCheckedChange;
+    /** Converts the checkbox primitive's indeterminate state to a boolean field value. */
+    function handleCheckedChange(value: boolean | "indeterminate"): void {
+      onCheckedChange?.(value === true);
+    }
     return (
       <Checkbox
         {...shared}
@@ -529,12 +551,33 @@ export function MappedFormControl({
         defaultChecked={f.defaultChecked}
         disabled={f.disabled}
         required={f.required}
-        onCheckedChange={(v) => f.onCheckedChange?.(v === true)}
+        onCheckedChange={handleCheckedChange}
         className={f.controlClassName}
       />
     );
   }
   if (f.type === "radio") {
+    const options = f.options;
+    /** Renders one radio option with an id linked to its label. */
+    function renderRadioOption(
+      option: (typeof options)[number],
+    ): React.JSX.Element {
+      const optionId = `${id ?? "radio"}-${option.value}`;
+      return (
+        <Label
+          key={option.value}
+          htmlFor={optionId}
+          className="flex items-center gap-2"
+        >
+          <RadioGroupItem
+            id={optionId}
+            value={option.value}
+            disabled={option.disabled}
+          />
+          {option.label}
+        </Label>
+      );
+    }
     return (
       <RadioGroup
         {...shared}
@@ -544,23 +587,7 @@ export function MappedFormControl({
         disabled={f.disabled}
         onValueChange={f.onValueChange}
       >
-        {f.options.map((o) => {
-          const optionId = `${id ?? "radio"}-${o.value}`;
-          return (
-            <Label
-              key={o.value}
-              htmlFor={optionId}
-              className="flex items-center gap-2"
-            >
-              <RadioGroupItem
-                id={optionId}
-                value={o.value}
-                disabled={o.disabled}
-              />
-              {o.label}
-            </Label>
-          );
-        })}
+        {options.map(renderRadioOption)}
       </RadioGroup>
     );
   }
@@ -580,7 +607,12 @@ export function MappedFormControl({
 /**
  * Renders field definitions as a consistent grid of labelled controls.
  *
- * @param props Field definitions and layout or styling options; `data` takes precedence over `fields`.
+ * @param data Optional field definitions; takes precedence over `fields`.
+ * @param fields Alternate field definitions used when `data` is absent.
+ * @param fieldClassName Optional classes applied to each field wrapper.
+ * @param labelClassName Default label classes used when a field has no override.
+ * @param className Optional classes applied to the grid container.
+ * @param layout Named layout preset used to arrange the fields.
  *
  * @return A grid containing the labelled field controls.
  */
@@ -601,34 +633,35 @@ export function MappedFormFields({
 }): React.JSX.Element {
   const genId = React.useId();
   const fieldData = data ?? fields ?? [];
+  /** Renders one field and derives an id when the caller did not supply one. */
+  function renderField(f: MappedFormField, i: number): React.JSX.Element {
+    const suppliedId = f.id ?? ("name" in f ? f.name : undefined);
+    const hasCustomControl = "control" in f && f.control !== undefined;
+    const id = suppliedId ?? (hasCustomControl ? undefined : `${genId}-${i}`);
+    const orientation =
+      f.type === "checkbox"
+        ? (f as MappedCheckboxFormField).orientation
+        : undefined;
+    return (
+      <FormFieldLayout
+        key={f.key ?? `${String(f.label)}-${i}`}
+        label={f.label}
+        required={f.required}
+        htmlFor={id}
+        className={cn(fieldClassName, f.className)}
+        labelClassName={f.labelClassName ?? labelClassName}
+        orientation={orientation}
+        description={f.description}
+        helper={f.helper}
+        error={f.error}
+      >
+        <MappedFormControl field={f} id={id} />
+      </FormFieldLayout>
+    );
+  }
   return (
     <div className={cn(formLayoutClassName(layout), className)}>
-      {fieldData.map((f, i) => {
-        const suppliedId = f.id ?? ("name" in f ? f.name : undefined);
-        const hasCustomControl = "control" in f && f.control !== undefined;
-        const id =
-          suppliedId ?? (hasCustomControl ? undefined : `${genId}-${i}`);
-        const orientation =
-          f.type === "checkbox"
-            ? (f as MappedCheckboxFormField).orientation
-            : undefined;
-        return (
-          <FormFieldLayout
-            key={f.key ?? `${String(f.label)}-${i}`}
-            label={f.label}
-            required={f.required}
-            htmlFor={id}
-            className={cn(fieldClassName, f.className)}
-            labelClassName={f.labelClassName ?? labelClassName}
-            orientation={orientation}
-            description={f.description}
-            helper={f.helper}
-            error={f.error}
-          >
-            <MappedFormControl field={f} id={id} />
-          </FormFieldLayout>
-        );
-      })}
+      {fieldData.map(renderField)}
     </div>
   );
 }
@@ -637,7 +670,16 @@ export function MappedFormFields({
 /**
  * Renders the shared inline cancel and confirm buttons.
  *
- * @param props Cancel and confirm handlers, labels, and disabled or busy state; busy disables cancel by default.
+ * @param onCancel Called when the cancel button is activated.
+ * @param onConfirm Called when the confirm button is activated.
+ * @param busy Shows the confirm button's busy state and optionally disables cancel.
+ * @param cancelDisabled Disables the cancel button regardless of busy state.
+ * @param disableCancelWhileBusy Disables cancel while busy when true.
+ * @param confirmDisabled Disables the confirm button.
+ * @param cancelLabel Text shown on the cancel button.
+ * @param confirmLabel Text shown on the confirm button while idle.
+ * @param busyLabel Text shown on the confirm button while busy.
+ * @param className Optional classes applied to the action group.
  *
  * @return An inline group of cancel and confirm buttons.
  */

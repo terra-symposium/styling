@@ -30,7 +30,10 @@ const currentPath = pageHref(`styling/1-colouring/2-components/${component}`, ba
 		searchBase={base}
 	>
 		<main class="docs-page-content">
-			<ComponentReference component={component as keyof typeof componentTsDocs} />
+			<ComponentReference
+				client:load
+				component={component as keyof typeof componentTsDocs}
+			/>
 		</main>
 	</DocsSiteLayout>
 ) : null}

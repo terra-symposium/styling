@@ -1,13 +1,55 @@
+/*//////////////////////////////////////////////////
+IMPORTS
+//////////////////////////////////////////////////*/
+
+// API
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import test from "node:test";
 import postcss from "postcss";
 
-const repo = process.cwd();
-const source = (path: string): string => readFileSync(join(repo, path), "utf8");
+// TEST RUNNER
+import test from "node:test";
 
-test("one global stylesheet provides the shared base, components, utilities, and dynamic hue tokens", () => {
+/*//////////////////////////////////////////////////
+CONFIG
+//////////////////////////////////////////////////*/
+
+const repo = process.cwd();
+
+/*//////////////////////////////////////////////////
+TESTS
+//////////////////////////////////////////////////*/
+
+test.describe("published styling stylesheet contracts", stylesheetContracts);
+
+/** Registers source stylesheet and generated CSS distribution checks. */
+function stylesheetContracts(): void {
+  // SOURCE STYLESHEET CONTRACT
+  test(
+    "one global stylesheet provides the shared base, components, utilities, and dynamic hue tokens",
+    sourceStylesheetProvidesSharedTokensAndExports,
+  );
+
+  // GENERATED STYLESHEET CONTRACT
+  test(
+    "published stylesheets are browser-ready and contain no nested selectors",
+    publishedStylesheetsAreBrowserReady,
+  );
+}
+
+/** Reads a repository file relative to the test process root.
+ *
+ * @param path Repository-relative file path.
+ *
+ * @returns The file contents as UTF-8 text.
+ */
+function source(path: string): string {
+  return readFileSync(join(repo, path), "utf8");
+}
+
+/** Checks source ordering, shared tokens, and package stylesheet exports. */
+function sourceStylesheetProvidesSharedTokensAndExports(): void {
   const stylesheet = source("src/styles/global.css");
   const base = stylesheet.indexOf("@tailwind base;");
   const components = stylesheet.indexOf("@tailwind components;");
@@ -27,7 +69,10 @@ test("one global stylesheet provides the shared base, components, utilities, and
   assert.doesNotMatch(stylesheet, /terra-styling|--primary-\d+\s*:/);
   assert.doesNotMatch(stylesheet, /\.grain|\.animate-crt|@keyframes shake/);
   assert.match(source("src/styles/effects.css"), /\.grain/);
-  assert.match(source("config/tailwind.global.config.mjs"), /preflight:\s*true/);
+  assert.match(
+    source("config/tailwind.global.config.mjs"),
+    /preflight:\s*true/,
+  );
   assert.match(
     source("package.json"),
     /"\.\/global\.css":\s*"\.\/dist\/global\.css"/,
@@ -40,9 +85,32 @@ test("one global stylesheet provides the shared base, components, utilities, and
     source("package.json"),
     /"\.\/effects\.css":\s*"\.\/dist\/effects\.css"/,
   );
-});
+}
 
-test("published stylesheets are browser-ready and contain no nested selectors", () => {
+/** Finds nested CSS selectors at every rule and at-rule depth.
+ *
+ * @param container Parsed CSS container whose child rules are inspected.
+ *
+ * @returns Selectors that still contain nesting syntax.
+ */
+function findNestedSelectors(container: postcss.Container): string[] {
+  const nestedSelectors: string[] = [];
+  for (const node of container.nodes) {
+    if (node.type === "rule") {
+      if (/(^|[^\\])&/.test(node.selector)) nestedSelectors.push(node.selector);
+      nestedSelectors.push(...findNestedSelectors(node));
+    }
+    if (node.type === "atrule" && node.nodes)
+      nestedSelectors.push(...findNestedSelectors(node));
+  }
+  return nestedSelectors;
+}
+
+/**
+ * Checks generated entries contain neither Tailwind directives nor residual
+ * nested rules before browsers consume them.
+ */
+function publishedStylesheetsAreBrowserReady(): void {
   for (const file of ["dist/global.css", "dist/effects.css"]) {
     const css = source(file);
     assert.doesNotMatch(
@@ -50,12 +118,8 @@ test("published stylesheets are browser-ready and contain no nested selectors", 
       /@import\s|@tailwind\s/,
       `${file} must be browser-ready`,
     );
-    const nestedSelectors: string[] = [];
-    postcss.parse(css, { from: file }).walkRules((rule) => {
-      if (/(^|[^\\])&/.test(rule.selector)) nestedSelectors.push(rule.selector);
-    });
     assert.deepEqual(
-      nestedSelectors,
+      findNestedSelectors(postcss.parse(css, { from: file })),
       [],
       `${file} must not leak CSS nesting syntax`,
     );
@@ -65,4 +129,4 @@ test("published stylesheets are browser-ready and contain no nested selectors", 
     /-webkit-font-smoothing:\s*antialiased/,
   );
   assert.match(source("dist/effects.css"), /\.grain/);
-});
+}

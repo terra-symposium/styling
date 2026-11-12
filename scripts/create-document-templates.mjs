@@ -26,12 +26,12 @@ CONFIG
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const packageTemplates = path.join(root, "dist/documents/templates");
-const packageOnly = process.argv[2] === "--package";
-const reviewOutput = packageOnly
-  ? undefined
-  : process.argv[2]
-    ? path.resolve(process.argv[2])
-    : path.join(root, "outputs/terra-brand-templates");
+const reviewOutput =
+  process.argv[2] === "--package"
+    ? undefined
+    : process.argv[2]
+      ? path.resolve(process.argv[2])
+      : path.join(root, "outputs/terra-brand-templates");
 await fs.mkdir(packageTemplates, { recursive: true });
 if (reviewOutput) await fs.mkdir(reviewOutput, { recursive: true });
 // Share a fresh hue across all formats and saturation variants in this build.

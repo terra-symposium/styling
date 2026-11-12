@@ -4,6 +4,7 @@ IMPORTS
 import { colors, invert } from "../lib/hue.js";
 import type { ColorScales } from "../lib/types.js";
 
+/** Saturation presets accepted by the shared Office document palette. */
 export type DocumentSaturation = "low" | "medium" | "high";
 
 /** Public colors intentionally name the same roles used by Styling's UI palette. */
@@ -23,12 +24,14 @@ export type DocumentColors = {
   accentSoft: string;
 };
 
+/** Light/dark color scales applied to shared template roles. */
 export type DocumentColorScales = {
   primary: ColorScales;
   secondary: ColorScales;
   gray: ColorScales;
 };
 
+/** Optional consumer settings for document branding and palette generation. */
 export type TerraDocumentBrandOptions = {
   /** `false` removes the Terra wordmark; a path supplies a consumer logo. */
   logo?: false | string;
@@ -41,6 +44,7 @@ export type TerraDocumentBrandOptions = {
   fonts?: { display?: string; body?: string };
 };
 
+/** Resolved palette, fonts, and logo assets consumed by document templates. */
 export type TerraDocumentBrand = {
   logo: false | string;
   logoOnDark: false | string;
@@ -66,11 +70,13 @@ const SATURATION_CHROMA: Record<DocumentSaturation, number> = {
  * @param rgb - Space-separated red, green, and blue channel values.
  * @returns The channels combined as a hash-prefixed hexadecimal color.
  */
-const hex = (rgb: string): string =>
-  `#${rgb
-    .split(" ")
-    .map((c) => Math.round(Number(c)).toString(16).padStart(2, "0"))
-    .join("")}`;
+function hex(rgb: string): string {
+  const channels: string[] = [];
+  for (const channel of rgb.split(" ")) {
+    channels.push(Math.round(Number(channel)).toString(16).padStart(2, "0"));
+  }
+  return `#${channels.join("")}`;
+}
 /**
  * Selects one palette entry and converts it to hexadecimal notation.
  *
@@ -79,11 +85,13 @@ const hex = (rgb: string): string =>
  * @param appearance - Appearance variant to read, defaulting to light.
  * @returns The selected color as a hash-prefixed hexadecimal string.
  */
-const token = (
+function token(
   scales: ColorScales,
   i: number,
   appearance: "light" | "dark" = "light",
-): string => hex(scales[appearance][i]!);
+): string {
+  return hex(scales[appearance][i]!);
+}
 
 /*//////////////////////////////////////////////////
 BRAND PALETTE

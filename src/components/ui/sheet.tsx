@@ -29,52 +29,52 @@ CONFIG
 
 const Sheet = SheetPrimitive.Root;
 const SheetTrigger = SheetPrimitive.Trigger;
-/**
- * Dimmed background overlay element for the sheet dialog.
- *
- * @param props - Forwarded primitive properties for the sheet overlay.
- * @param ref - Forwarded reference to the underlying DOM element.
- *
- * @returns A full-screen semi-transparent backdrop element.
+/** Renders the dimmed backdrop behind a sheet dialog.
+ * @param attributes - Overlay attributes and optional class name.
+ * @param ref - Forwarded reference to the overlay element.
+ * @return A full-screen semi-transparent backdrop element.
  */
+function SheetOverlayRender(
+  attributes: React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>,
+  ref: React.ForwardedRef<React.ElementRef<typeof SheetPrimitive.Overlay>>,
+): React.JSX.Element {
+  const { className, ...otherAttributes } = attributes;
+  return (
+    <SheetPrimitive.Overlay
+      className={cn(
+        "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+        className,
+      )}
+      {...otherAttributes}
+      ref={ref}
+    />
+  );
+}
+
 const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <SheetPrimitive.Overlay
-    className={cn(
-      "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-      className,
-    )}
-    {...props}
-    ref={ref}
-  />
-));
-/**
- * Core content region of the sheet, responsible for layout and close affordance.
- *
- * @param side - Screen edge from which the sheet should appear.
- * @param children - Arbitrary content rendered inside the sheet.
- *
- * @returns A positioned dialog panel with a built-in close button.
+>(SheetOverlayRender);
+/** Renders the positioned panel and its built-in close affordance.
+ * @param attributes - Dialog attributes, edge placement, variant, and children.
+ * @param ref - Forwarded reference to the dialog panel.
+ * @return A portal dialog panel with overlay and close control.
  */
-const SheetContent = React.forwardRef<
-  React.ElementRef<typeof SheetPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content> & {
+function SheetContentRender(
+  attributes: React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content> & {
     side?: "top" | "bottom" | "left" | "right";
     variant?: SurfaceVariant;
-  }
->(
-  (
-    {
-      side = "right",
-      variant = "primary-outline",
-      className,
-      children,
-      ...props
-    },
-    ref,
-  ): React.JSX.Element => (
+  },
+  ref: React.ForwardedRef<React.ElementRef<typeof SheetPrimitive.Content>>,
+): React.JSX.Element {
+  const {
+    side = "right",
+    variant = "primary-outline",
+    className,
+    children,
+    ...otherAttributes
+  } = attributes;
+  return (
     <SheetPrimitive.Portal>
       <SheetOverlay />
       <SheetPrimitive.Content
@@ -93,7 +93,7 @@ const SheetContent = React.forwardRef<
           SURFACE_VARIANTS({ variant }),
           className,
         )}
-        {...props}
+        {...otherAttributes}
       >
         {children}
         <SheetPrimitive.Close
@@ -105,48 +105,60 @@ const SheetContent = React.forwardRef<
         </SheetPrimitive.Close>
       </SheetPrimitive.Content>
     </SheetPrimitive.Portal>
-  ),
-);
+  );
+}
+
+const SheetContent = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content> & {
+    side?: "top" | "bottom" | "left" | "right";
+    variant?: SurfaceVariant;
+  }
+>(SheetContentRender);
 /**
  * Header region for sheet content, typically containing title and description.
  *
- * @param props - Additional div attributes forwarded to the header container.
+ * @param attributes - Remaining div attributes forwarded to the header.
  * @param className - Optional style overrides for the header container.
  *
  * @return A flex column for the sheet title and description.
  */
-const SheetHeader = ({
+function SheetHeader({
   className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element => (
-  <div
-    className={cn(
-      "flex flex-col space-y-2 text-center sm:text-left",
-      className,
-    )}
-    {...props}
-  />
-);
+  ...attributes
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
+  return (
+    <div
+      className={cn(
+        "flex flex-col space-y-2 text-center sm:text-left",
+        className,
+      )}
+      {...attributes}
+    />
+  );
+}
 /**
  * Footer container for primary and secondary sheet actions.
  *
- * @param props - Additional div attributes forwarded to the footer container.
+ * @param attributes - Remaining div attributes forwarded to the footer.
  * @param className - Optional style overrides for the footer container.
  *
  * @return A responsive div that reverses actions on small screens and aligns them in a row at larger sizes.
  */
-const SheetFooter = ({
+function SheetFooter({
   className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element => (
-  <div
-    className={cn(
-      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
-      className,
-    )}
-    {...props}
-  />
-);
+  ...attributes
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
+  return (
+    <div
+      className={cn(
+        "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+        className,
+      )}
+      {...attributes}
+    />
+  );
+}
 /**
  * Title text for the sheet dialog.
  *
@@ -154,16 +166,29 @@ const SheetFooter = ({
  *
  * @returns A styled heading that names the sheet dialog.
  */
+/** Renders the accessible title for the sheet dialog.
+ * @param attributes - Title attributes and optional class name.
+ * @param ref - Forwarded reference to the title element.
+ * @return The styled sheet title heading.
+ */
+function SheetTitleRender(
+  attributes: React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>,
+  ref: React.ForwardedRef<React.ElementRef<typeof SheetPrimitive.Title>>,
+): React.JSX.Element {
+  const { className, ...otherAttributes } = attributes;
+  return (
+    <SheetPrimitive.Title
+      ref={ref}
+      className={cn("text-lg font-semibold text-primary-12", className)}
+      {...otherAttributes}
+    />
+  );
+}
+
 const SheetTitle = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
->(({ className, ...props }, ref): React.JSX.Element => (
-  <SheetPrimitive.Title
-    ref={ref}
-    className={cn("text-lg font-semibold text-primary-12", className)}
-    {...props}
-  />
-));
+>(SheetTitleRender);
 /**
  * Supporting description text for the sheet dialog.
  *
@@ -171,17 +196,25 @@ const SheetTitle = React.forwardRef<
  *
  * @returns A styled paragraph describing the sheet dialog.
  */
-const SheetDescription = React.forwardRef<
-  React.ElementRef<typeof SheetPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description> & {
+/** Renders supporting description text and its optional tooltip.
+ * @param attributes - Description props, children, and optional tooltip content.
+ * @param ref - Forwarded reference to the description element.
+ * @return The description paragraph, optionally wrapped in a hint.
+ */
+function SheetDescriptionRender(
+  attributes: React.ComponentPropsWithoutRef<
+    typeof SheetPrimitive.Description
+  > & {
     tooltip?: React.ReactNode;
-  }
->(({ className, tooltip, children, ...props }, ref): React.JSX.Element => {
+  },
+  ref: React.ForwardedRef<React.ElementRef<typeof SheetPrimitive.Description>>,
+): React.JSX.Element {
+  const { className, tooltip, children, ...otherAttributes } = attributes;
   const description = (
     <SheetPrimitive.Description
       ref={ref}
       className={cn("text-sm text-primary-11", className)}
-      {...props}
+      {...otherAttributes}
     >
       {children}
     </SheetPrimitive.Description>
@@ -193,7 +226,14 @@ const SheetDescription = React.forwardRef<
   ) : (
     description
   );
-});
+}
+
+const SheetDescription = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Description>,
+  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description> & {
+    tooltip?: React.ReactNode;
+  }
+>(SheetDescriptionRender);
 SheetTrigger.displayName = SheetPrimitive.Trigger.displayName;
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 SheetContent.displayName = SheetPrimitive.Content.displayName;

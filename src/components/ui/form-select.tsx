@@ -72,7 +72,26 @@ COMPONENTS
  * Supply `options` for data-driven options, or `children` for composed items.
  * Empty-string values remain `''` in callbacks and native form submission.
  *
- * @param props - Option data or child items, form name, controlled or initial value, change callback, custom selected-value renderer, accessibility and disabled state, required state, placeholder, and trigger presentation.
+ * @param children Optional composed option items.
+ * @param options Optional option definitions used to build select items.
+ * @param className Optional classes applied to the trigger.
+ * @param ariaLabel Accessible name for the trigger.
+ * @param ariaLabelAttribute Native `aria-label` fallback for the trigger.
+ * @param ariaInvalid Sets the control's invalid accessibility state.
+ * @param defaultValue Initial selection when no controlled or form value exists.
+ * @param disabled Disables the select and its native hidden input.
+ * @param id Id assigned to the select trigger.
+ * @param name Form field name used by a provider or hidden input.
+ * @param onValueChange Called with the normalized selection, including an empty string.
+ * @param placeholder Text shown when no option is selected.
+ * @param renderValue Custom content for the selected value.
+ * @param required Marks the selection as required.
+ * @param value Controlled selection value.
+ * @param size Trigger size variant.
+ * @param variant Trigger visual variant.
+ * @param width Trigger width preset.
+ * @param hideChevron Hides the trigger's dropdown indicator.
+ * @param selectProps Remaining properties forwarded to the underlying select.
  *
  * @return A select trigger and option panel, plus a hidden input for a named standalone field.
  */
@@ -131,10 +150,15 @@ function FormSelect({
   const formValue = form && name ? form.watch(name as never) : undefined;
   const hasFormField = Boolean(form && name);
   const isControlled = value !== undefined;
+  /** Derives the local state initializer from the uncontrolled default value. */
+  function getInitialValue(): string | undefined {
+    return toPrimitiveValue(defaultValue);
+  }
   const [internalValue, setInternalValue] = React.useState<string | undefined>(
-    () => toPrimitiveValue(defaultValue),
+    getInitialValue,
   );
-  React.useEffect(() => {
+  /** Initializes a named React Hook Form field when it has no current value. */
+  function initializeFormField(): void {
     const initialValue = value ?? defaultValue;
     if (
       !form ||
@@ -144,7 +168,8 @@ function FormSelect({
     )
       return;
     form.setValue(name as never, initialValue as never);
-  }, [form, name, value, defaultValue]);
+  }
+  React.useEffect(initializeFormField, [form, name, value, defaultValue]);
   const selectedValue = hasFormField
     ? typeof formValue === "string"
       ? formValue
@@ -152,15 +177,32 @@ function FormSelect({
     : isControlled
       ? (value ?? "")
       : (internalValue ?? "");
-  const optionItems = options?.map((option) => (
-    <FormSelectOption
-      key={option.value}
-      value={option.value}
-      disabled={option.disabled}
-    >
-      {option.label ?? option.children}
-    </FormSelectOption>
-  ));
+  /** Converts the select's sentinel value and updates the active value owner. */
+  function handleValueChange(nextValue: string): void {
+    const normalizedValue = nextValue === EMPTY_VALUE ? "" : nextValue;
+    if (hasFormField && form && name)
+      form.setValue(name as never, normalizedValue as never, {
+        shouldDirty: true,
+        shouldTouch: true,
+        shouldValidate: true,
+      });
+    if (!hasFormField && !isControlled)
+      setInternalValue(toPrimitiveValue(normalizedValue));
+    onValueChange?.(normalizedValue);
+  }
+  /** Renders one data-driven option as a select item. */
+  function renderOption(option: FormSelectOptionProps): React.JSX.Element {
+    return (
+      <FormSelectOption
+        key={option.value}
+        value={option.value}
+        disabled={option.disabled}
+      >
+        {option.label ?? option.children}
+      </FormSelectOption>
+    );
+  }
+  const optionItems = options?.map(renderOption);
   return (
     <>
       <Select
@@ -168,18 +210,7 @@ function FormSelect({
         required={required}
         disabled={disabled}
         value={selectedValue === "" ? EMPTY_VALUE : selectedValue}
-        onValueChange={(nextValue) => {
-          const normalizedValue = nextValue === EMPTY_VALUE ? "" : nextValue;
-          if (hasFormField && form && name)
-            form.setValue(name as never, normalizedValue as never, {
-              shouldDirty: true,
-              shouldTouch: true,
-              shouldValidate: true,
-            });
-          if (!hasFormField && !isControlled)
-            setInternalValue(toPrimitiveValue(normalizedValue));
-          onValueChange?.(normalizedValue);
-        }}
+        onValueChange={handleValueChange}
       >
         <SelectTrigger
           id={id}
@@ -215,7 +246,10 @@ function FormSelect({
 /**
  * Renders one option for `FormSelect`.
  *
- * @param props - Submitted value, optional child or label content (`children` takes precedence), and whether the option is disabled.
+ * @param children Option content that takes precedence over `label`.
+ * @param disabled Disables selection of the option.
+ * @param label Alternate option content when `children` is absent.
+ * @param value Value submitted when the option is selected.
  *
  * @return A select item with the supplied content and availability state.
  */
@@ -235,7 +269,7 @@ function FormSelectOption({
 /**
  * Renders a list of option data as `FormSelectOption` children.
  *
- * @param props - Option definitions to render as select items.
+ * @param options Option definitions to render as select items.
  *
  * @return A fragment containing one select item for each option.
  */
@@ -244,18 +278,18 @@ function FormSelectOpts({
 }: {
   options: readonly FormSelectOptionProps[];
 }): React.JSX.Element {
-  return (
-    <>
-      {options.map((option) => (
-        <FormSelectOption
-          key={option.value}
-          value={option.value}
-          disabled={option.disabled}
-        >
-          {option.label ?? option.children}
-        </FormSelectOption>
-      ))}
-    </>
-  );
+  /** Renders one option definition inside the option-list fragment. */
+  function renderOption(option: FormSelectOptionProps): React.JSX.Element {
+    return (
+      <FormSelectOption
+        key={option.value}
+        value={option.value}
+        disabled={option.disabled}
+      >
+        {option.label ?? option.children}
+      </FormSelectOption>
+    );
+  }
+  return <>{options.map(renderOption)}</>;
 }
 export { FormSelect, FormSelectOption, FormSelectOpts };

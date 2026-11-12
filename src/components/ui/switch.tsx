@@ -30,13 +30,22 @@ COMPONENTS
  *
  * @returns React element for the toggle switch.
  */
-const Switch = React.forwardRef<
-  React.ElementRef<typeof SwitchPrimitives.Root>,
-  Omit<
-    React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>,
-    "checked"
-  > & { checked?: boolean | null }
->(({ className, checked, ...props }, ref): React.JSX.Element => {
+/** Root attributes for the mixed-state aware switch component. */
+type SwitchProps = Omit<
+  React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>,
+  "checked"
+> & { checked?: boolean | null };
+
+/** Renders the switch root and exposes an indeterminate state accessibly.
+ * @param switchProps - Root attributes, current checked state, and classes.
+ * @param ref - Ref forwarded to the Radix switch root.
+ * @return A styled Radix switch with an explicit mixed state when needed.
+ */
+function renderSwitch(
+  switchProps: SwitchProps,
+  ref: React.ForwardedRef<React.ElementRef<typeof SwitchPrimitives.Root>>,
+): React.JSX.Element {
+  const { className, checked, ...props } = switchProps;
   const indeterminate = checked === null || checked === undefined;
   return (
     <SwitchPrimitives.Root
@@ -58,23 +67,44 @@ const Switch = React.forwardRef<
       />
     </SwitchPrimitives.Root>
   );
-});
+}
+
+const Switch = React.forwardRef<
+  React.ElementRef<typeof SwitchPrimitives.Root>,
+  Omit<
+    React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>,
+    "checked"
+  > & { checked?: boolean | null }
+>(renderSwitch);
 
 /**
  * Switch thumb component for the sliding handle indicator.
  *
  */
-const SwitchThumb = Object.assign(
-  React.forwardRef<
-    React.ElementRef<typeof SwitchPrimitives.Thumb>,
-    React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Thumb>
-  >(({ className, ...props }, ref): React.JSX.Element => (
+/** Renders the switch thumb with the shared sliding transition.
+ * @param thumbProps - Native Radix thumb attributes and optional classes.
+ * @param ref - Ref forwarded to the Radix thumb element.
+ * @return The styled sliding switch thumb.
+ */
+function renderSwitchThumb(
+  thumbProps: React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Thumb>,
+  ref: React.ForwardedRef<React.ElementRef<typeof SwitchPrimitives.Thumb>>,
+): React.JSX.Element {
+  const { className, ...props } = thumbProps;
+  return (
     <SwitchPrimitives.Thumb
       ref={ref}
       className={cn(SWITCH_THUMB_CLASSES, className)}
       {...props}
     />
-  )),
+  );
+}
+
+const SwitchThumb = Object.assign(
+  React.forwardRef<
+    React.ElementRef<typeof SwitchPrimitives.Thumb>,
+    React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Thumb>
+  >(renderSwitchThumb),
   { displayName: SwitchPrimitives.Thumb.displayName },
 );
 Switch.displayName = SwitchPrimitives.Root.displayName;

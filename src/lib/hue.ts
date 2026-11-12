@@ -102,13 +102,14 @@ export function colors(
      * @param val - Radix color string to convert.
      * @return Three sRGB channels separated by spaces, rounded to integers and clamped to 0–255.
      */
-    const toRgbTriplet = (val: string): string =>
-      new Color(val)
-        .to("srgb")
-        .toGamut({ method: "css" })
-        .coords.map((c) => Math.round(c * 255))
-        .map((c) => Math.min(255, Math.max(0, c)))
-        .join(" ");
+    function toRgbTriplet(val: string): string {
+      const channels: number[] = [];
+      for (const channel of new Color(val).to("srgb").toGamut({ method: "css" })
+        .coords) {
+        channels.push(Math.min(255, Math.max(0, Math.round(channel * 255))));
+      }
+      return channels.join(" ");
+    }
     const grayscale: ColorScales = {
       light: Object.values(RadixColors.grayP3).map(
         toRgbTriplet,
@@ -238,13 +239,12 @@ export function applyHue(hue: number | null, scope?: HTMLElement): void {
         ...(document.body ? [document.body] : []),
         ...legacyTargets,
       ];
-  new Set<HTMLElement>(targets).forEach((e) => {
-    e.style.cssText = `${e.style.cssText.replace(/--(?:hue|(?:primary|gray|secondary)-\d+|(?:primary|gray|secondary)(?:Light|Dark)\d+)\s*:[^;]*;?/g, "")}; --hue: ${hue ?? 0}; ${Object.entries(
-      colorVars,
-    )
-      .map(([k, v]) => `${k}: ${v};`)
-      .join("")}`;
-  });
+  for (const element of new Set<HTMLElement>(targets)) {
+    const declarations: string[] = [];
+    for (const [name, value] of Object.entries(colorVars))
+      declarations.push(`${name}: ${value};`);
+    element.style.cssText = `${element.style.cssText.replace(/--(?:hue|(?:primary|gray|secondary)-\d+|(?:primary|gray|secondary)(?:Light|Dark)\d+)\s*:[^;]*;?/g, "")}; --hue: ${hue ?? 0}; ${declarations.join("")}`;
+  }
   document.dispatchEvent(
     new CustomEvent("docs:hue-change", { detail: { hue } }),
   );
@@ -275,10 +275,11 @@ export function flattenColors(
    * @return Flattened CSS variables map.
    */
   function reduce(theme: ArrayOf12<string>, id: string) {
-    return theme.reduce<Record<string, string>>((a, c, i) => {
-      a[`${prefix ? "--" : ""}${scheme}${id}${i + 1}`] = c;
-      return a;
-    }, {});
+    const flattened: Record<string, string> = {};
+    for (let index = 0; index < theme.length; index++)
+      flattened[`${prefix ? "--" : ""}${scheme}${id}${index + 1}`] =
+        theme[index]!;
+    return flattened;
   }
   return { ...reduce(light, "Light"), ...reduce(dark, "Dark") };
 }
@@ -294,45 +295,44 @@ export function flattenColors(
 function getScales(theme: "light" | "dark", grayOnly = false) {
   const key = `${theme}${grayOnly ? "Gray" : ""}`;
   if (SCALES_CACHE[key]) return SCALES_CACHE[key];
-  const result = Object.fromEntries(
-    (grayOnly
-      ? gsNames
-      : ([
-          ...gsNames,
-          "tomato",
-          "red",
-          "ruby",
-          "crimson",
-          "pink",
-          "plum",
-          "purple",
-          "violet",
-          "iris",
-          "indigo",
-          "blue",
-          "cyan",
-          "teal",
-          "jade",
-          "green",
-          "grass",
-          "brown",
-          "orange",
-          "sky",
-          "mint",
-          "lime",
-          "yellow",
-          "amber",
-        ] as const)
-    ).map((n) => [
-      n,
-      Object.values(
-        RadixColors[`${n}${theme === "light" ? "P3" : "DarkP3"}`] as Record<
-          string,
-          string
-        >,
-      ).map((c) => new Color(c).to("oklch")),
-    ]),
-  ) as Record<string, ArrayOf12<Color>>;
+  const scaleNames = grayOnly
+    ? gsNames
+    : ([
+        ...gsNames,
+        "tomato",
+        "red",
+        "ruby",
+        "crimson",
+        "pink",
+        "plum",
+        "purple",
+        "violet",
+        "iris",
+        "indigo",
+        "blue",
+        "cyan",
+        "teal",
+        "jade",
+        "green",
+        "grass",
+        "brown",
+        "orange",
+        "sky",
+        "mint",
+        "lime",
+        "yellow",
+        "amber",
+      ] as const);
+  const result: Record<string, ArrayOf12<Color>> = {};
+  for (const name of scaleNames) {
+    const colors: Color[] = [];
+    const radixScale = RadixColors[
+      `${name}${theme === "light" ? "P3" : "DarkP3"}`
+    ] as Record<string, string>;
+    for (const value of Object.values(radixScale))
+      colors.push(new Color(value).to("oklch"));
+    result[name] = colors as ArrayOf12<Color>;
+  }
   SCALES_CACHE[key] = result;
   return result;
 }
@@ -375,10 +375,46 @@ MAIN FUNCTION
 //////////////////////////////////////////////////*/
 
 /**
+ * Produces alpha-blended sRGB colors for one twelve-step palette.
+ *
+ * @param colors - Hex colors to composite over the selected background.
+ * @param background - Background color used for the alpha blend.
+ * @return Twelve sRGB color strings with their resolved alpha values.
+ */
+function getAlphaSrgbColors(
+  colors: ArrayOf12<string>,
+  background: string,
+): ArrayOf12<string> {
+  const results: string[] = [];
+  for (const color of colors)
+    results.push(getAlphaColorSrgb(color, background));
+  return results as ArrayOf12<string>;
+}
+
+/**
+ * Produces alpha-blended Display-P3 colors for one twelve-step palette.
+ *
+ * @param colors - Color strings to composite over the selected background.
+ * @param background - Background color used for the alpha blend.
+ * @return Twelve Display-P3 color strings with their resolved alpha values.
+ */
+function getAlphaP3Colors(
+  colors: ArrayOf12<string>,
+  background: string,
+): ArrayOf12<string> {
+  const results: string[] = [];
+  for (const color of colors) results.push(getAlphaColorP3(color, background));
+  return results as ArrayOf12<string>;
+}
+
+/**
  * Generates a complete color system based on Radix UI color scales with custom accent and gray
  * colors. Uses lazy getters to avoid expensive calculations for unused color variants.
  *
- * @param props - Appearance, accent, gray, background, and hover settings used to build the Radix-derived scales.
+ * @param appearance - Determines the light or dark Radix scale used for generated colors.
+ * @param hoverLightnessShift - Lightness adjustment used to find the interactive hover tone.
+ * @param hoverChromaMultiplier - Chroma adjustment applied to the interactive hover tone.
+ * @param args - Accent, gray, and background colors used to build the derived scales.
  *
  * @return Complete light/dark color scales with hex and wide-gamut variants, including text and hover colors.
  */
@@ -413,8 +449,10 @@ function genRadixColors({
 
   // ENFORCE TINT from the gray scale for when base is pure white or black
   const accentBaseHex = accentBaseColor.to("srgb").toString({ format: "hex" });
-  if (accentBaseHex === "#000" || accentBaseHex === "#fff")
-    asColors = gsColors.map((c) => c.clone()) as ArrayOf12<Color>;
+  if (accentBaseHex === "#000" || accentBaseHex === "#fff") {
+    asColors = [] as unknown as ArrayOf12<Color>;
+    for (const color of gsColors) asColors.push(color.clone());
+  }
   const [accent9Color, accentContrastColor] =
     deltaEOKFast(accentBaseColor, asColors[0]) * 100 < 25
       ? [asColors[8], getTextColor(asColors[8])]
@@ -454,12 +492,12 @@ function genRadixColors({
   );
 
   // PRE-CALCULATE basic variants
-  const asHex = asColors.map((c) =>
-    c.to("srgb").toString({ format: "hex" }),
-  ) as ArrayOf12<string>;
-  const gsHex = gsColors.map((c) =>
-    c.to("srgb").toString({ format: "hex" }),
-  ) as ArrayOf12<string>;
+  const asHex: ArrayOf12<string> = [] as unknown as ArrayOf12<string>;
+  const gsHex: ArrayOf12<string> = [] as unknown as ArrayOf12<string>;
+  for (const color of asColors)
+    asHex.push(color.to("srgb").toString({ format: "hex" }));
+  for (const color of gsColors)
+    gsHex.push(color.to("srgb").toString({ format: "hex" }));
 
   /**
    * To rgb triplet.
@@ -469,12 +507,11 @@ function genRadixColors({
    * @return space-delimited RGB triplet string.
    */
   function toRgbTriplet(c: Color) {
-    return c
-      .to("srgb")
-      .toGamut({ method: "css" })
-      .coords.map((v) => Math.round(v * 255))
-      .map((v) => Math.min(255, Math.max(0, v)))
-      .join(" ");
+    const channels: number[] = [];
+    for (const value of c.to("srgb").toGamut({ method: "css" }).coords) {
+      channels.push(Math.min(255, Math.max(0, Math.round(value * 255))));
+    }
+    return channels.join(" ");
   }
   // RETURN with lazy getters for expensive variants
   return {
@@ -490,7 +527,7 @@ function genRadixColors({
      * @return Twelve sRGB hex colors with alpha, composited over the generated background.
      */
     get asAlpha() {
-      return asHex.map((c) => getAlphaColorSrgb(c, bgHex)) as ArrayOf12<string>;
+      return getAlphaSrgbColors(asHex, bgHex);
     },
     /**
      * Returns wide-gamut accent tones in OKLCH form.
@@ -506,7 +543,7 @@ function genRadixColors({
      * @return Twelve Display-P3 color strings with alpha for the accent scale.
      */
     get asAlphaWideGamut() {
-      return asHex.map((c) => getAlphaColorP3(c, bgHex)) as ArrayOf12<string>;
+      return getAlphaP3Colors(asHex, bgHex);
     },
     /**
      * Returns the accent contrast color.
@@ -543,7 +580,7 @@ function genRadixColors({
      * @return Twelve sRGB hex colors with alpha, composited over the generated background.
      */
     get gsAlpha() {
-      return gsHex.map((c) => getAlphaColorSrgb(c, bgHex)) as ArrayOf12<string>;
+      return getAlphaSrgbColors(gsHex, bgHex);
     },
     /**
      * Returns wide-gamut gray scale swatches.
@@ -559,7 +596,7 @@ function genRadixColors({
      * @return Twelve Display-P3 color strings with alpha for the gray scale.
      */
     get gsAlphaWideGamut() {
-      return gsHex.map((c) => getAlphaColorP3(c, bgHex)) as ArrayOf12<string>;
+      return getAlphaP3Colors(gsHex, bgHex);
     },
     /**
      * Returns the default gray surface color.
@@ -620,10 +657,14 @@ function getScaleFromColor(
   // Filter and find the second closest scale (min2)
   const gsNamesStr = gsNames as readonly string[];
   let min2: typeof min1 | null = null;
+  let onlyGrayScales = true;
+  for (const item of list) {
+    if (!gsNamesStr.includes(item.scale)) onlyGrayScales = false;
+  }
   for (const item of list) {
     if (item === min1) continue;
     if (
-      !list.every((i) => gsNamesStr.includes(i.scale)) &&
+      !onlyGrayScales &&
       gsNamesStr.includes(min1.scale) &&
       gsNamesStr.includes(item.scale)
     )
@@ -657,25 +698,20 @@ function getScaleFromColor(
   const scaleB = scales[colorB.scale];
   if (!scaleA || !scaleB)
     throw new Error("Unable to resolve the source color scales.");
-  const scale = ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] as const).map(
-    (i) =>
-      new Color(
-        Color.mix(
-          scaleA[i],
-          scaleB[i],
-          Math.min(
-            0.5,
-            Math.max(
-              0,
-              (cosA /
-                Math.sin(Math.acos(cosA)) /
-                (cosB / Math.sin(Math.acos(cosB)))) *
-                0.5,
-            ),
-          ),
-        ).to("oklch"),
-      ),
-  ) as ArrayOf12<Color>;
+  const scale: ArrayOf12<Color> = [] as unknown as ArrayOf12<Color>;
+  const mixRatio = Math.min(
+    0.5,
+    Math.max(
+      0,
+      (cosA / Math.sin(Math.acos(cosA)) / (cosB / Math.sin(Math.acos(cosB)))) *
+        0.5,
+    ),
+  );
+  for (let index = 0; index < 12; index++) {
+    scale.push(
+      new Color(Color.mix(scaleA[index], scaleB[index], mixRatio).to("oklch")),
+    );
+  }
 
   // Get the closest color from the pre-mixed scale we created
   let baseColor = scale[0];
@@ -695,23 +731,32 @@ function getScaleFromColor(
   // Modify hue and chroma only when the base scale has chroma. A grayscale
   // base has no hue to transfer, and dividing by its zero chroma would create NaN channels.
   if (baseColor.coords[1] > Number.EPSILON) {
-    scale.forEach((c) => {
-      c.coords[1] = Math.min(
+    for (const color of scale) {
+      color.coords[1] = Math.min(
         src.coords[1] * 1.5,
-        c.coords[1] * (src.coords[1] / baseColor.coords[1]),
+        color.coords[1] * (src.coords[1] / baseColor.coords[1]),
       );
-      c.coords[2] = src.coords[2];
-    });
+      color.coords[2] = src.coords[2];
+    }
   }
 
   // Light mode
   if (bgColor.coords[0] > 0.5) {
     // Add white as the first "step" of the light scale
     // prettier-ignore
-    transposeProgressionStart(Math.max(0, Math.min(1, bgColor.coords[0])), [1, ...scale.map(({ coords: c }) => c[0])], [0, 2, 0, 2]).slice(1).forEach((l, i) => {
-			const color = scale[i];
-			if (color) color.coords[0] = l;
-		});
+    const scaleLightness = [1];
+    for (const color of scale) scaleLightness.push(color.coords[0]);
+    const progression = transposeProgressionStart(
+      Math.max(0, Math.min(1, bgColor.coords[0])),
+      scaleLightness,
+      [0, 2, 0, 2],
+    );
+    for (let index = 0; index < scale.length; index++) {
+      const lightness = progression[index + 1];
+      const color = scale[index];
+      if (color !== undefined && lightness !== undefined)
+        color.coords[0] = lightness;
+    }
     return scale;
   }
   // Dark mode
@@ -733,14 +778,19 @@ function getScaleFromColor(
               );
     }
   }
-  transposeProgressionStart(
+  const scaleLightness = [];
+  for (const color of scale) scaleLightness.push(color.coords[0]);
+  const progression = transposeProgressionStart(
     bgColor.coords[0],
-    scale.map(({ coords: c }) => c[0]),
+    scaleLightness,
     ease,
-  ).forEach((l, i) => {
-    const color = scale[i];
-    if (color) color.coords[0] = l;
-  });
+  );
+  for (let index = 0; index < progression.length; index++) {
+    const lightness = progression[index];
+    const color = scale[index];
+    if (color !== undefined && lightness !== undefined)
+      color.coords[0] = lightness;
+  }
   return scale;
 }
 
@@ -781,8 +831,14 @@ function getAlphaColor(
   alphaPrecision: number,
   tAlpha?: number,
 ) {
-  const [tr, tg, tb] = tRgb.map((c) => Math.round(c * rgbPrecision));
-  const [br, bg, bb] = bgRgb.map((c) => Math.round(c * rgbPrecision));
+  const scaledTarget: number[] = [];
+  const scaledBackground: number[] = [];
+  for (const channel of tRgb)
+    scaledTarget.push(Math.round(channel * rgbPrecision));
+  for (const channel of bgRgb)
+    scaledBackground.push(Math.round(channel * rgbPrecision));
+  const [tr, tg, tb] = scaledTarget;
+  const [br, bg, bb] = scaledBackground;
   // prettier-ignore
   if (tr === undefined || tg === undefined || tb === undefined || br === undefined || bg === undefined || bb === undefined ) throw Error('Color is undefined');
   // Is the bg color lighter, RGB-wise, than tgt color?
@@ -799,7 +855,7 @@ function getAlphaColor(
   const alphaB = (tb - bb) / (desiredRgb - bb);
 
   // No need for precision gymnastics with pure grays, and we can get cleaner output
-  if (!tAlpha && [alphaR, alphaG, alphaB].every((a) => a === alphaR)) {
+  if (!tAlpha && alphaG === alphaR && alphaB === alphaR) {
     // Convert back to 0-1 values
     const V = desiredRgb / rgbPrecision;
     return [V, V, V, alphaR] as const;
@@ -944,10 +1000,14 @@ function transposeProgressionStart(
 ) {
   const first = arr[0];
   if (first === undefined) return [];
-  return arr.map((n, i, a) => {
-    const last = a.length - 1;
-    return n - (first - to) * BezierEasing(...curve)(last ? 1 - i / last : 0);
-  });
+  const last = arr.length - 1;
+  const easing = BezierEasing(...curve);
+  const transposed: number[] = [];
+  for (let index = 0; index < arr.length; index++) {
+    const value = arr[index]!;
+    transposed.push(value - (first - to) * easing(last ? 1 - index / last : 0));
+  }
+  return transposed;
 }
 
 // Convert to OKLCH string with percentage for the lightness channel

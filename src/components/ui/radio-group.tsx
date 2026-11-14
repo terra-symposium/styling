@@ -8,209 +8,230 @@ IMPORTS
 //////////////////////////////////////////////////*/
 
 // API
-import { cn } from "../../lib/cn.js";
-import { useOptionalFormContext } from "./form.js";
+import { cn } from '../../lib/cn.js';
+import { useOptionalFormContext } from './form.js';
 
 // COMPONENTS
-import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import * as React from "react";
+import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
+import * as React from 'react';
 
 // DATA
-import { INTERACTIVE_CONTROL_VARIANTS, SURFACE_VARIANTS } from "./variants.js";
+import { INTERACTIVE_CONTROL_VARIANTS, SURFACE_VARIANTS } from './variants.js';
 
 // TYPES
-import type { FieldValues } from "react-hook-form";
-import type { UiSize } from "./types.js";
+import type { FieldValues } from 'react-hook-form';
+import type { UiSize } from './types.js';
 
 /*//////////////////////////////////////////////////
 CONFIG
 //////////////////////////////////////////////////*/
 
 const RADIO_CARD_SIZE_CLASSES: Record<UiSize, string> = {
-  xs: "p-2 text-xs",
-  sm: "p-2.5 text-sm",
-  md: "p-3 text-sm",
-  lg: "p-4 text-base",
-  xl: "p-6 text-lg",
+	xs: 'p-2 text-xs',
+	sm: 'p-2.5 text-sm',
+	md: 'p-3 text-sm',
+	lg: 'p-4 text-base',
+	xl: 'p-6 text-lg',
 };
-const RADIO_CARD_VARIANT_CLASSES: Record<
-  "correct" | "ghost" | "incorrect" | "primary" | "secondary",
-  string
-> = {
-  primary: cn(
-    SURFACE_VARIANTS({ variant: "primary-tonal" }),
-    "ring-primary-9 focus-visible:bg-primary-7/20 data-[state=checked]:!border-primary-9 focus-visible:data-[state=unchecked]:ring-primary-7/70 enabled:hover:border-primary-6",
-  ),
-  secondary: cn(
-    SURFACE_VARIANTS({ variant: "secondary-tonal" }),
-    "ring-secondary-9 focus-visible:bg-secondary-7/20 data-[state=checked]:!border-secondary-9 focus-visible:data-[state=unchecked]:ring-secondary-7/70 enabled:hover:border-secondary-6",
-  ),
-  correct: cn(
-    SURFACE_VARIANTS({ variant: "correct" }),
-    "ring-emerald-700 enabled:hover:border-emerald-700",
-  ),
-  incorrect: cn(
-    SURFACE_VARIANTS({ variant: "destructive-tonal" }),
-    "ring-rose-700 enabled:hover:border-rose-700",
-  ),
-  ghost: cn(
-    SURFACE_VARIANTS({ variant: "primary-ghost" }),
-    "ring-primary-9 focus-visible:bg-primary-3 data-[state=checked]:bg-primary-3 enabled:hover:bg-primary-3",
-  ),
+const RADIO_CARD_VARIANT_CLASSES: Record<'correct' | 'ghost' | 'incorrect' | 'primary' | 'secondary', string> = {
+	primary: cn(
+		SURFACE_VARIANTS({ variant: 'primary-tonal' }),
+		'ring-primary-9 focus-visible:bg-primary-7/20 data-[state=checked]:!border-primary-9 focus-visible:data-[state=unchecked]:ring-primary-7/70 enabled:hover:border-primary-6',
+	),
+	secondary: cn(
+		SURFACE_VARIANTS({ variant: 'secondary-tonal' }),
+		'ring-secondary-9 focus-visible:bg-secondary-7/20 data-[state=checked]:!border-secondary-9 focus-visible:data-[state=unchecked]:ring-secondary-7/70 enabled:hover:border-secondary-6',
+	),
+	correct: cn(SURFACE_VARIANTS({ variant: 'correct' }), 'ring-emerald-700 enabled:hover:border-emerald-700'),
+	incorrect: cn(SURFACE_VARIANTS({ variant: 'destructive-tonal' }), 'ring-rose-700 enabled:hover:border-rose-700'),
+	ghost: cn(SURFACE_VARIANTS({ variant: 'primary-ghost' }), 'ring-primary-9 focus-visible:bg-primary-3 data-[state=checked]:bg-primary-3 enabled:hover:bg-primary-3'),
 };
 
 /*//////////////////////////////////////////////////
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-/**
+/*
  * RadioGroup root container primitive.
  *
  */
-const RadioGroup = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root> & {
-    name?: string;
-  }
->(
-  (
-    { className, name, value, defaultValue, onValueChange, ...props },
-    ref,
-  ): React.JSX.Element => {
-    const form = useOptionalFormContext<FieldValues>();
-    const formValue = form && name ? form.watch(name) : undefined;
-    React.useEffect(() => {
-      const initialValue = value ?? defaultValue;
-      if (
-        !form ||
-        !name ||
-        initialValue === undefined ||
-        form.getValues(name) !== undefined
-      )
-        return;
-      form.setValue(name, initialValue as never, { shouldDirty: false });
-    }, [form, name, value, defaultValue]);
-    return (
-      <RadioGroupPrimitive.Root
-        ref={ref}
-        data-slot="radio-group"
-        name={name}
-        value={
-          typeof formValue === "string" ? formValue : (value ?? defaultValue)
-        }
-        defaultValue={form && name ? undefined : defaultValue}
-        onValueChange={(next) => {
-          if (form && name)
-            form.setValue(name, next as never, {
-              shouldDirty: true,
-              shouldTouch: true,
-              shouldValidate: true,
-            });
-          onValueChange?.(next);
-        }}
-        className={cn("grid gap-2", className)}
-        {...props}
-      />
-    );
-  },
-);
+// terra-quality-ignore single-use -- Keep renderRadioGroup as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a radio group with optional form state synchronization.
+/** Renders a radio group with optional form state synchronization.
+ * @param groupProps - Radix root attributes, field name, and selection state.
+ * @param ref - Ref forwarded to the Radix radio group root.
+ * @return A radio group controlled by React Hook Form when available.
+ */
+function renderRadioGroup(
+	groupProps: React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root> & {
+		name?: string;
+	},
+	ref: React.ForwardedRef<React.ElementRef<typeof RadioGroupPrimitive.Root>>,
+): React.JSX.Element {
+	const { className, name, value, defaultValue, onValueChange, ...props } = groupProps;
+	const form = useOptionalFormContext<FieldValues>();
+	const formValue = form && name ? form.watch(name) : undefined;
+	// terra-quality-ignore single-use -- Keep initializeRadioValue as a named declaration so its authored TSDoc stays attached. TSDoc: Seeds a registered radio field from its initial value without marking it dirty.
+	/** Seeds a registered radio field from its initial value without marking it dirty. */
+	function initializeRadioValue(): void {
+		const initialValue = value ?? defaultValue;
+		if (!form || !name || initialValue === undefined || form.getValues(name) !== undefined) return;
+		form.setValue(name, initialValue as never, { shouldDirty: false });
+	}
+	React.useEffect(initializeRadioValue, [form, name, value, defaultValue]);
+	// terra-quality-ignore single-use -- Keep handleRadioValueChange as a named declaration so its authored TSDoc stays attached. TSDoc: Saves the selected radio and notifies the optional caller handler.
+	/** Saves the selected radio and notifies the optional caller handler.
+	 * @param next - Selected radio value reported by Radix.
+	 * @return Nothing; form state and caller receive the value in order.
+	 */
+	function handleRadioValueChange(next: string): void {
+		if (form && name)
+			form.setValue(name, next as never, {
+				shouldDirty: true,
+				shouldTouch: true,
+				shouldValidate: true,
+			});
+		onValueChange?.(next);
+	}
+	return (
+		<RadioGroupPrimitive.Root
+			ref={ref}
+			data-slot='radio-group'
+			name={name}
+			value={typeof formValue === 'string' ? formValue : (value ?? defaultValue)}
+			defaultValue={form && name ? undefined : defaultValue}
+			onValueChange={handleRadioValueChange}
+			className={cn('grid gap-2', className)}
+			{...props}
+		/>
+	);
+}
 
-/**
+const RadioGroup = React.forwardRef<
+	React.ElementRef<typeof RadioGroupPrimitive.Root>,
+	React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root> & {
+		name?: string;
+	}
+>(renderRadioGroup);
+
+/*
  * RadioGroup item primitive control.
  *
  * @param variant - Optional color scheme variant ('primary' or 'secondary').
  */
-const RadioGroupItem = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> & {
-    variant?: "primary" | "secondary";
-  }
->(({ className, variant, ...props }, ref): React.JSX.Element => (
-  <RadioGroupPrimitive.Item
-    ref={ref}
-    data-slot="radio-group-item"
-    className={cn(
-      // general
-      "group flex aspect-square size-4 items-center justify-center rounded-full border transition-shadow focus:outline-none",
-      INTERACTIVE_CONTROL_VARIANTS(),
-      // default coloring
-      "border-primary-7 text-primary-12 ring-offset-primary-1 focus:border-primary-9 focus:ring-primary-9 disabled:bg-primary-4",
-      // secondary colouring
-      variant === "secondary" &&
-        "border-secondary-7 text-secondary-11 ring-offset-secondary-1 focus:border-secondary-9 focus:ring-secondary-9 disabled:bg-secondary-4",
-      // override
-      className,
-    )}
-    {...props}
-  >
-    {/* Indicator */}
-    <span
-      data-slot="radio-group-indicator"
-      className='block size-2 rounded-full transition-colors group-data-[state="checked"]:bg-primary-12 group-disabled:group-data-[state="checked"]:bg-primary-8'
-    />
-  </RadioGroupPrimitive.Item>
-));
+// terra-quality-ignore single-use -- Keep renderRadioGroupItem as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a single radio option with the selected palette treatment.
+/** Renders a single radio option with the selected palette treatment.
+ * @param itemProps - Radix item attributes and optional color variant.
+ * @param ref - Ref forwarded to the Radix radio item.
+ * @return A styled radio item and its indicator.
+ */
+function renderRadioGroupItem(
+	itemProps: React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> & {
+		variant?: 'primary' | 'secondary';
+	},
+	ref: React.ForwardedRef<React.ElementRef<typeof RadioGroupPrimitive.Item>>,
+): React.JSX.Element {
+	const { className, variant, ...props } = itemProps;
+	return (
+		<RadioGroupPrimitive.Item
+			ref={ref}
+			data-slot='radio-group-item'
+			className={cn(
+				'group flex aspect-square size-4 items-center justify-center rounded-full border transition-shadow focus:outline-none',
+				INTERACTIVE_CONTROL_VARIANTS(),
+				'border-primary-7 text-primary-12 ring-offset-primary-1 focus:border-primary-9 focus:ring-primary-9 disabled:bg-primary-4',
+				variant === 'secondary' && 'border-secondary-7 text-secondary-11 ring-offset-secondary-1 focus:border-secondary-9 focus:ring-secondary-9 disabled:bg-secondary-4',
+				className,
+			)}
+			{...props}
+		>
+			<span
+				data-slot='radio-group-indicator'
+				className='block size-2 rounded-full transition-colors group-data-[state="checked"]:bg-primary-12 group-disabled:group-data-[state="checked"]:bg-primary-8'
+			/>
+		</RadioGroupPrimitive.Item>
+	);
+}
 
-/**
+const RadioGroupItem = React.forwardRef<
+	React.ElementRef<typeof RadioGroupPrimitive.Item>,
+	React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> & {
+		variant?: 'primary' | 'secondary';
+	}
+>(renderRadioGroupItem);
+
+/*
  * RadioGroup card item component for selectable card UI.
  *
  * @param variant - Card color and state variant.
  * @param size - Card padding and text size variant.
  * @param children - Card contents.
  */
-const RadioGroupCard = React.forwardRef<
-  React.ElementRef<typeof RadioGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> & {
-    variant?: "correct" | "ghost" | "incorrect" | "primary" | "secondary";
-    size?: UiSize;
-  }
->(
-  (
-    { className, variant = "primary", size = "md", children, ...props },
-    ref,
-  ): React.JSX.Element => (
-    <span className="contents">
-      <RadioGroupPrimitive.Item
-        ref={ref}
-        data-slot="radio-group-item"
-        className={cn(
-          // general
-          "flex w-full flex-col items-start space-y-1 text-balance rounded-lg border text-left ring-inset data-[state=checked]:ring-1",
-          INTERACTIVE_CONTROL_VARIANTS(),
-          RADIO_CARD_SIZE_CLASSES[size] ?? RADIO_CARD_SIZE_CLASSES.md,
-          RADIO_CARD_VARIANT_CLASSES[variant] ??
-            RADIO_CARD_VARIANT_CLASSES.primary,
-          // override
-          className,
-        )}
-        {...props}
-        asChild={false}
-      >
-        {children}
-      </RadioGroupPrimitive.Item>
-    </span>
-  ),
-);
+// terra-quality-ignore single-use -- Keep renderRadioGroupCard as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a radio option as a full-width selectable card.
+/** Renders a radio option as a full-width selectable card.
+ * @param cardProps - Radix item attributes, child content, and card variants.
+ * @param ref - Ref forwarded to the Radix item.
+ * @return A card-shaped radio option.
+ */
+function renderRadioGroupCard(
+	cardProps: React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> & {
+		variant?: 'correct' | 'ghost' | 'incorrect' | 'primary' | 'secondary';
+		size?: UiSize;
+	},
+	ref: React.ForwardedRef<React.ElementRef<typeof RadioGroupPrimitive.Item>>,
+): React.JSX.Element {
+	const { className, variant = 'primary', size = 'md', children, ...props } = cardProps;
+	return (
+		<span className='contents'>
+			<RadioGroupPrimitive.Item
+				ref={ref}
+				data-slot='radio-group-item'
+				className={cn(
+					'flex w-full flex-col items-start space-y-1 text-balance rounded-lg border text-left ring-inset data-[state=checked]:ring-1',
+					INTERACTIVE_CONTROL_VARIANTS(),
+					RADIO_CARD_SIZE_CLASSES[size] ?? RADIO_CARD_SIZE_CLASSES.md,
+					RADIO_CARD_VARIANT_CLASSES[variant] ?? RADIO_CARD_VARIANT_CLASSES.primary,
+					className,
+				)}
+				{...props}
+				asChild={false}
+			>
+				{children}
+			</RadioGroupPrimitive.Item>
+		</span>
+	);
+}
 
-/**
+const RadioGroupCard = React.forwardRef<
+	React.ElementRef<typeof RadioGroupPrimitive.Item>,
+	React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> & {
+		variant?: 'correct' | 'ghost' | 'incorrect' | 'primary' | 'secondary';
+		size?: UiSize;
+	}
+>(renderRadioGroupCard);
+
+/*
  * RadioGroup indicator component.
  *
  */
+// terra-quality-ignore single-use -- Keep renderRadioGroupIndicator as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the indicator slot inside an individual radio item.
+/** Renders the indicator slot inside an individual radio item.
+ * @param indicatorProps - Radix indicator attributes and optional classes.
+ * @param ref - Ref forwarded to the Radix indicator element.
+ * @return The centered radio selection indicator.
+ */
+function renderRadioGroupIndicator(
+	indicatorProps: React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Indicator>,
+	ref: React.ForwardedRef<React.ElementRef<typeof RadioGroupPrimitive.Indicator>>,
+): React.JSX.Element {
+	const { className, ...props } = indicatorProps;
+	return <RadioGroupPrimitive.Indicator ref={ref} data-slot='radio-group-indicator' className={cn('flex items-center justify-center', className)} {...props} />;
+}
+
 const RadioGroupIndicator = Object.assign(
-  React.forwardRef<
-    React.ElementRef<typeof RadioGroupPrimitive.Indicator>,
-    React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Indicator>
-  >(({ className, ...props }, ref): React.JSX.Element => (
-    <RadioGroupPrimitive.Indicator
-      ref={ref}
-      data-slot="radio-group-indicator"
-      className={cn("flex items-center justify-center", className)}
-      {...props}
-    />
-  )),
-  { displayName: RadioGroupPrimitive.Indicator.displayName },
+	React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Indicator>, React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Indicator>>(renderRadioGroupIndicator),
+	{ displayName: RadioGroupPrimitive.Indicator.displayName },
 );
-RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
-RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
-RadioGroupCard.displayName = "RadioGroupCard";
+RadioGroup.displayName = 'RadioGroup';
+RadioGroupItem.displayName = 'RadioGroupItem';
+RadioGroupCard.displayName = 'RadioGroupCard';
 export { RadioGroup, RadioGroupItem, RadioGroupCard, RadioGroupIndicator };

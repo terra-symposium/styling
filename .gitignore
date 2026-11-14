@@ -14,3 +14,15 @@ outputs/
 
 # Vendored dependencies
 vendor/*
+
+# Local output from the previous docs build
+site-dist/
+
+# Local error logs
+error.log
+
+# Generated test output
+**/tests/results/
+
+# Local generated caches and dependency links
+.astro

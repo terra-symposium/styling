@@ -9,10 +9,10 @@ IMPORTS
 //////////////////////////////////////////////////*/
 
 // COMPONENTS
-import * as CollapsiblePrimitive from "@radix-ui/react-collapsible";
+import * as CollapsiblePrimitive from '@radix-ui/react-collapsible';
 
 // TYPES
-import type * as React from "react";
+import type * as React from 'react';
 
 /*//////////////////////////////////////////////////
 COMPONENTS
@@ -21,49 +21,33 @@ COMPONENTS
 /**
  * Root for a disclosure that can expand or collapse its content.
  *
- * @param props - Radix collapsible root props, including open state handlers.
+ * @param rootProps - Radix collapsible root props, including open state handlers.
  *
  * @return The collapsible root with the shared data slot.
  */
-function Collapsible(
-  props: React.ComponentProps<typeof CollapsiblePrimitive.Root>,
-): React.JSX.Element {
-  return <CollapsiblePrimitive.Root data-slot="collapsible" {...props} />;
+function Collapsible(rootProps: React.ComponentProps<typeof CollapsiblePrimitive.Root>): React.JSX.Element {
+	return <CollapsiblePrimitive.Root data-slot='collapsible' {...rootProps} />;
 }
 
 /**
  * Control that toggles the collapsible content.
  *
- * @param props - Radix trigger props.
+ * @param triggerProps - Radix trigger props.
  *
  * @return The collapsible trigger with the shared data slot.
  */
-function CollapsibleTrigger(
-  props: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleTrigger>,
-): React.JSX.Element {
-  return (
-    <CollapsiblePrimitive.CollapsibleTrigger
-      data-slot="collapsible-trigger"
-      {...props}
-    />
-  );
+function CollapsibleTrigger(triggerProps: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleTrigger>): React.JSX.Element {
+	return <CollapsiblePrimitive.CollapsibleTrigger data-slot='collapsible-trigger' {...triggerProps} />;
 }
 
 /**
  * Content region shown according to the collapsible's open state.
  *
- * @param props - Radix collapsible content props.
+ * @param contentProps - Radix collapsible content props.
  *
  * @return The collapsible content with the shared data slot.
  */
-function CollapsibleContent(
-  props: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleContent>,
-): React.JSX.Element {
-  return (
-    <CollapsiblePrimitive.CollapsibleContent
-      data-slot="collapsible-content"
-      {...props}
-    />
-  );
+function CollapsibleContent(contentProps: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleContent>): React.JSX.Element {
+	return <CollapsiblePrimitive.CollapsibleContent data-slot='collapsible-content' {...contentProps} />;
 }
 export { Collapsible, CollapsibleTrigger, CollapsibleContent };

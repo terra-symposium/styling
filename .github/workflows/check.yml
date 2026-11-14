@@ -9,8 +9,13 @@ permissions:
   contents: read
 
 jobs:
-  typecheck:
+  quality:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+      security-events: read
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -18,11 +23,16 @@ jobs:
           version: 10.30.3
       - uses: actions/setup-node@v4
         with:
-          node-version: "24.12.0"
+          node-version: '24.12.0'
           cache: pnpm
-          cache-dependency-path: config/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run typecheck
+      - name: Run full-scope Quality
+        run: pnpm quality:all
+      - name: Require committed Quality fixes
+        run: git diff --exit-code
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   build:
     runs-on: ubuntu-latest
@@ -33,9 +43,9 @@ jobs:
           version: 10.30.3
       - uses: actions/setup-node@v4
         with:
-          node-version: "24.12.0"
+          node-version: '24.12.0'
           cache: pnpm
-          cache-dependency-path: config/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
 
@@ -48,11 +58,11 @@ jobs:
           version: 10.30.3
       - uses: actions/setup-node@v4
         with:
-          node-version: "24.12.0"
+          node-version: '24.12.0'
           cache: pnpm
-          cache-dependency-path: config/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run build && pnpm exec docs build
+      - run: pnpm run docs:build
 
   tests:
     if: github.event_name == 'pull_request'
@@ -66,9 +76,9 @@ jobs:
           version: 10.30.3
       - uses: actions/setup-node@v4
         with:
-          node-version: "24.12.0"
+          node-version: '24.12.0'
           cache: pnpm
-          cache-dependency-path: config/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - uses: Terra-Symposium/standards/packages/testing@3d782b9dfc4cc5b421ccbe395d65aacec9d8956d
         with:

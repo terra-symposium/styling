@@ -1,15 +1,11 @@
 {
-  "version": 1,
-  "suites": [
-    {
-      "name": "unit",
-      "command": "pnpm",
-      "args": [
-        "test"
-      ],
-      "owns": [
-        "tests/**"
-      ]
-    }
-  ]
+	"version": 1,
+	"suites": [
+		{
+			"name": "unit",
+			"command": "pnpm",
+			"args": ["test"],
+			"owns": ["tests/**"]
+		}
+	]
 }

@@ -1,6 +1,6 @@
 # Terra Styling
 
-Public Apache 2.0 package for Terra hue palettes and reusable UI. The hue implementation and UI primitives are extracted from the Terra Symposium website.
+A shared React UI and design system for Terra projects, with reusable components, design tokens, hue theming, and a Tailwind preset. Package exports also provide separate original Terra UI components and CSS entry points.
 
 ## What it does
 
@@ -13,6 +13,7 @@ Not applicable.
 ## Get started
 
 ### Build
+
 ```sh
 pnpm install
 pnpm run build
@@ -26,6 +27,7 @@ The guide content lives in [`docs/`](docs/). `@terra-symposium/docs` supplies it
 The package exports reusable controls and surfaces, data-driven `MappedFormFields`, `FormSelect`, and `DataTable` components, and UI primitives including `Button`, `Select`, `ContextMenu`, `DropdownMenu`, `Tooltip`, `ToggleGroup`, `Input`, `Label`, `Separator`, `Spinner`, and the original Docs toolbar frame from `@terra-symposium/styling/ui`. Import `@terra-symposium/styling/global.css` once to include the shared utility classes, fonts, and global base styles. Visual effects are available separately from `@terra-symposium/styling/effects.css`. The host supplies the palette using the hue API, as the Terra Website does during server rendering. The original Tailwind preset is available as `@terra-symposium/styling/tailwind-preset` for hosts that compile additional components.
 
 ### Agent skills
+
 UI design, styling, responsive review, and variant workflows live in [`docs/agents/skills/ui/`](docs/agents/skills/ui/SKILL.md).
 
 ## Configuration and security

@@ -1,16 +1,85 @@
 {
-  "$schema": "../node_modules/@terra-symposium/standards-quality/quality.schema.json",
-  "root": ".",
-  "tsconfig": "config/tsconfig.json",
-  "sourceRoots": ["src", "scripts", "test", "docs"],
-  "extensions": [".js", ".jsx", ".mjs", ".cjs", ".ts", ".tsx", ".mts", ".cts"],
-  "singleUse": {
-    "skippedDirectories": ["src", "scripts", "test"]
-  },
-  "documentation": {
-    "required": {
-      "functions": false,
-      "exportedFunctions": true
-    }
-  }
+	"$schema": "../node_modules/@terra-symposium/standards-quality/quality.schema.json",
+	"root": ".",
+	"tsconfig": "config/tsconfig.json",
+	"sourceRoots": ["."],
+	"skippedDirectories": ["node_modules", ".git", ".astro", "dist", "site-dist"],
+	"languageProfiles": ["c", "java", "python"],
+	"extensions": [
+		".astro",
+		".c",
+		".cjs",
+		".cpp",
+		".cts",
+		".css",
+		".h",
+		".html",
+		".java",
+		".js",
+		".jsx",
+		".json",
+		".jsonc",
+		".md",
+		".mdx",
+		".mjs",
+		".mts",
+		".py",
+		".pyi",
+		".rs",
+		".sh",
+		".sql",
+		".toml",
+		".ts",
+		".tsx",
+		".yaml",
+		".yml"
+	],
+	"documentation": {
+		"required": {
+			"functions": true,
+			"exportedFunctions": true,
+			"types": true
+		},
+		"commandRoots": ["."]
+	},
+	"enabledChecks": {
+		"document": true,
+		"format": true,
+		"import": true,
+		"name": true,
+		"forward": true,
+		"accessibility": true,
+		"display-name": true,
+		"performance-patterns": true,
+		"documented-commands": true,
+		"lint": true,
+		"knip": true,
+		"dead-code": true,
+		"type": true,
+		"recommend": true,
+		"command": true,
+		"diff": true,
+		"alias": true,
+		"security": true,
+		"repeated-classes": true,
+		"tailwind-canonical": true,
+		"regex-dedup": true,
+		"ui-patterns": true,
+		"ui-recommendations": true,
+		"error-boundaries": true,
+		"github": true
+	},
+	"performancePatterns": {
+		"extensions": [".cjs", ".cts", ".js", ".jsx", ".mjs", ".mts", ".ts", ".tsx"]
+	},
+	"security": {
+		"runtimeRoots": ["scripts"],
+		"clientRoots": ["site/src", "docs/styling/1-colouring"]
+	},
+	"github": {
+		"repositories": ["Terra-Symposium/styling"]
+	},
+	"autofix": {
+		"document": false
+	}
 }

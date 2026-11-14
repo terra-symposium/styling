@@ -8,10 +8,10 @@ IMPORTS
 //////////////////////////////////////////////////*/
 
 // API
-import { cn } from "../../lib/cn.js";
+import { cn } from '../../lib/cn.js';
 
 // COMPONENTS
-import { Loader2Icon as LoadIcon } from "lucide-react";
+import { Loader2Icon as LoadIcon } from 'lucide-react';
 
 /*//////////////////////////////////////////////////
 COMPONENTS
@@ -20,22 +20,13 @@ COMPONENTS
 /**
  * Small SVG loading indicator with status semantics.
  *
- * @param props - SVG attributes forwarded to the loading icon.
+ * @param className - Additional classes applied to the loading icon.
+ * @param svgAttributes - Remaining SVG attributes forwarded to the icon.
  *
  * @return An SVG status icon labelled `Loading`.
  */
-function Spinner({
-  className,
-  ...props
-}: React.ComponentProps<"svg">): React.JSX.Element {
-  return (
-    <LoadIcon
-      role="status"
-      aria-label="Loading"
-      className={cn("size-4 animate-spin", className)}
-      {...props}
-    />
-  );
+function Spinner({ className, ...svgAttributes }: React.ComponentProps<'svg'>): React.JSX.Element {
+	return <LoadIcon role='status' aria-label='Loading' className={cn('size-4 animate-spin', className)} {...svgAttributes} />;
 }
-Spinner.displayName = "Spinner";
+Spinner.displayName = 'Spinner';
 export { Spinner };

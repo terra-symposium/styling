@@ -3,160 +3,158 @@
 
 /* Docs inherits its host palette; only semantic tokens need local fallbacks. */
 :where(.docs-workspace) {
-  --background: var(--primary-1, 255 255 255);
-  --ring: var(--primary-8, 133 179 133);
+	--background: var(--primary-1, 255 255 255);
+	--ring: var(--primary-8, 133 179 133);
 }
 
 @layer base {
-  body {
-    -webkit-font-smoothing: antialiased;
-  }
+	body {
+		-webkit-font-smoothing: antialiased;
+	}
 
-  /* AVARAs; serif */
-  @font-face {
-    font-family: "Avara";
-    src:
-      url("./assets/fonts/Avara-Bold.woff2") format("woff2"),
-      url("./assets/fonts/Avara-Bold.woff") format("woff");
-    font-weight: 500;
-    font-style: normal;
-    ascent-override: 105%;
-  }
-  @font-face {
-    font-family: "Avara";
-    src:
-      url("./assets/fonts/Avara-BoldItalic.woff2") format("woff2"),
-      url("./assets/fonts/Avara-BoldItalic.woff") format("woff");
-    font-weight: 500;
-    font-style: italic;
-    ascent-override: 105%;
-  }
-  /* Inter was supplied by Sanity's global stylesheet before Docs extraction.
+	/* AVARAs; serif */
+	@font-face {
+		font-family: 'Avara';
+		src:
+			url('./assets/fonts/Avara-Bold.woff2') format('woff2'),
+			url('./assets/fonts/Avara-Bold.woff') format('woff');
+		font-weight: 500;
+		font-style: normal;
+		ascent-override: 105%;
+	}
+	@font-face {
+		font-family: 'Avara';
+		src:
+			url('./assets/fonts/Avara-BoldItalic.woff2') format('woff2'),
+			url('./assets/fonts/Avara-BoldItalic.woff') format('woff');
+		font-weight: 500;
+		font-style: italic;
+		ascent-override: 105%;
+	}
+	/* Inter was supplied by Sanity's global stylesheet before Docs extraction.
 	   Ship the same variable fonts here so Docs stays visually identical without
 	   depending on a Sanity host or a remote font request. */
-  @font-face {
-    font-family: "Inter";
-    src: url("./assets/fonts/InterVariable-latin-20260728.woff2")
-      format("woff2-variations");
-    font-weight: 400 700;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: "Inter";
-    src: url("./assets/fonts/InterVariable-Italic-latin-20260728.woff2")
-      format("woff2-variations");
-    font-weight: 400 700;
-    font-style: italic;
-    font-display: swap;
-  }
+	@font-face {
+		font-family: 'Inter';
+		src: url('./assets/fonts/InterVariable-latin-20260728.woff2') format('woff2-variations');
+		font-weight: 400 700;
+		font-style: normal;
+		font-display: swap;
+	}
+	@font-face {
+		font-family: 'Inter';
+		src: url('./assets/fonts/InterVariable-Italic-latin-20260728.woff2') format('woff2-variations');
+		font-weight: 400 700;
+		font-style: italic;
+		font-display: swap;
+	}
 
-  /* AUTHENTIC SANSes; sans */
-  @font-face {
-    font-family: "Authentic Sans";
-    src:
-      url("./assets/fonts/AUTHENTICSans-90.woff2") format("woff2"),
-      url("./assets/fonts/AUTHENTICSans-90.woff") format("woff");
-    font-weight: 400;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: "Authentic Sans";
-    src:
-      url("./assets/fonts/AUTHENTICSans-130.woff2") format("woff2"),
-      url("./assets/fonts/AUTHENTICSans-130.woff") format("woff");
-    font-weight: bold;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: "Authentic Sans";
-    src:
-      url("./assets/fonts/AUTHENTICSans-150.woff2") format("woff2"),
-      url("./assets/fonts/AUTHENTICSans-150.woff") format("woff");
-    font-weight: 800;
-    font-style: normal;
-  }
+	/* AUTHENTIC SANSes; sans */
+	@font-face {
+		font-family: 'Authentic Sans';
+		src:
+			url('./assets/fonts/AUTHENTICSans-90.woff2') format('woff2'),
+			url('./assets/fonts/AUTHENTICSans-90.woff') format('woff');
+		font-weight: 400;
+		font-style: normal;
+	}
+	@font-face {
+		font-family: 'Authentic Sans';
+		src:
+			url('./assets/fonts/AUTHENTICSans-130.woff2') format('woff2'),
+			url('./assets/fonts/AUTHENTICSans-130.woff') format('woff');
+		font-weight: bold;
+		font-style: normal;
+	}
+	@font-face {
+		font-family: 'Authentic Sans';
+		src:
+			url('./assets/fonts/AUTHENTICSans-150.woff2') format('woff2'),
+			url('./assets/fonts/AUTHENTICSans-150.woff') format('woff');
+		font-weight: 800;
+		font-style: normal;
+	}
 
-  small {
-    @apply text-xs;
-  }
+	small {
+		@apply text-xs;
+	}
 
-  ::selection {
-    @apply bg-primary-6/40;
-  }
-  :root {
-    --radius: 0.5rem;
-  }
+	::selection {
+		@apply bg-primary-6/40;
+	}
+	:root {
+		--radius: 0.5rem;
+	}
 }
 
 @layer components {
-  .h1 {
-    @apply mb-6 text-balance font-serif text-5xl italic;
-  }
-  .h2 {
-    @apply mb-4 text-pretty text-2xl font-semibold;
-  }
-  .h3 {
-    @apply text-pretty text-lg font-semibold;
-  }
+	.h1 {
+		@apply mb-6 text-balance font-serif text-5xl italic;
+	}
+	.h2 {
+		@apply mb-4 text-pretty text-2xl font-semibold;
+	}
+	.h3 {
+		@apply text-pretty text-lg font-semibold;
+	}
 
-  /* Compensate for icon baseline. */
-  svg[style*="--icon-baseline"] {
-    vertical-align: var(--icon-baseline);
-    display: inline-block;
-  }
+	/* Compensate for icon baseline. */
+	svg[style*='--icon-baseline'] {
+		vertical-align: var(--icon-baseline);
+		display: inline-block;
+	}
 
-  *,
-  ::after,
-  ::before {
-    @apply border-gray-6 ring-inherit ring-offset-inherit;
-    @apply decoration-2 underline-offset-4;
-  }
+	*,
+	::after,
+	::before {
+		@apply border-gray-6 ring-inherit ring-offset-inherit;
+		@apply decoration-2 underline-offset-4;
+	}
 
-  /* Focusable els */
-  [href],
-  input,
-  select,
-  textarea,
-  button,
-  summary,
-  iframe,
-  audio[controls],
-  video[controls],
-  [contenteditable],
-  [tabindex] {
-    &:focus-visible {
-      @apply box-decoration-clone outline-none ring-2;
-    }
-  }
+	/* Focusable els */
+	[href],
+	input,
+	select,
+	textarea,
+	button,
+	summary,
+	iframe,
+	audio[controls],
+	video[controls],
+	[contenteditable],
+	[tabindex] {
+		&:focus-visible {
+			@apply box-decoration-clone outline-none ring-2;
+		}
+	}
 
-  /* Used for marquee */
-  @keyframes styling-marquee-slide {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
+	/* Used for marquee */
+	@keyframes styling-marquee-slide {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-50%);
+		}
+	}
 
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
 
-  @keyframes docs-toolbar-sweep {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
-  }
+	@keyframes docs-toolbar-sweep {
+		0% {
+			transform: translateX(-100%);
+		}
+		100% {
+			transform: translateX(100%);
+		}
+	}
 }
 
 @tailwind utilities;

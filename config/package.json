@@ -1,0 +1,11 @@
+{
+	"scripts": {
+		"quality": "node \"$(git rev-parse --show-toplevel)/scripts/quality-runner.mjs\" quality",
+		"quality:all": "node \"$(git rev-parse --show-toplevel)/scripts/quality-runner.mjs\" quality --all"
+	},
+	"name": "styling-format-config",
+	"private": true,
+	"devDependencies": {
+		"prettier": "3.9.10"
+	}
+}

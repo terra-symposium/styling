@@ -1,26 +1,22 @@
 {
-  "$schema": "https://unpkg.com/knip@6/schema.json",
-  "entry": [
-    "src/lib/index.ts",
-    "src/lib/tailwind-preset.ts",
-    "src/ui/index.ts",
-    "src/components/ui/index.ts",
-    "src/documents/index.ts",
-    "src/styles/effects.css",
-    "scripts/**/*.cjs",
-    "scripts/serve-docs-preview.mjs",
-    "config/tailwind.global.config.mjs",
-    "config/tailwind.postcss.config.cjs",
-    "docs/styling/**/*.mdx",
-    "docs/styling/1-colouring/*.tsx",
-    "test/**/*.{ts,tsx}",
-    "config/**/*.{js,mjs,cjs,ts}"
-  ],
-  "project": ["**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,mdx}"],
-  "ignoreDependencies": [
-    "@terra-symposium/styling",
-    "@types/bezier-easing",
-    "postcss-import",
-    "prettier"
-  ]
+	"$schema": "https://unpkg.com/knip@6/schema.json",
+	"entry": [
+		"src/lib/index.ts",
+		"src/lib/tailwind-preset.ts",
+		"src/ui/index.ts",
+		"src/components/ui/index.ts",
+		"src/documents/index.ts",
+		"src/styles/effects.css",
+		"scripts/**/*.cjs",
+		"scripts/quality-runner.mjs",
+		"site/**/*.astro",
+		"scripts/serve-docs-preview.mjs",
+		"config/tailwind.global.config.mjs",
+		"config/tailwind.postcss.config.cjs",
+		"docs/styling/**/*.mdx",
+		"docs/styling/1-colouring/*.tsx",
+		"test/**/*.{ts,tsx}",
+		"config/**/*.{js,mjs,cjs,ts}"
+	],
+	"project": ["**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,mdx}"]
 }

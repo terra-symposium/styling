@@ -12,7 +12,7 @@ The package root exports `colors`, `invert`, `flattenColors`, `applyHue`, `isDar
 `colors(hue)` returns a tuple containing accent and gray scales. Each scale has twelve light values and twelve dark values. Passing `null` generates grayscale scales. Hue values are degrees.
 
 ```ts
-import { colors } from "@terra-symposium/styling";
+import { colors } from '@terra-symposium/styling';
 
 const [accent, gray] = colors(220);
 const lightAccent = accent.light;
@@ -26,19 +26,17 @@ const darkAccent = accent.dark;
 `applyHue(hue)` applies the generated palette to the document. Pass an element to scope the variables to that part of the page.
 
 ```tsx
-import { useEffect, useRef } from "react";
-import { applyHue } from "@terra-symposium/styling";
+import { useEffect, useRef } from 'react';
+import { applyHue } from '@terra-symposium/styling';
 
 function ThemePreview() {
-  const preview = useRef<HTMLDivElement>(null);
+	const preview = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (preview.current) applyHue(220, preview.current);
-  }, []);
+	useEffect(() => {
+		if (preview.current) applyHue(220, preview.current);
+	}, []);
 
-  return (
-    <div ref={preview}>The scoped primary, secondary, and gray palette</div>
-  );
+	return <div ref={preview}>The scoped primary, secondary, and gray palette</div>;
 }
 ```
 

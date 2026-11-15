@@ -1,13 +1,19 @@
 ---
 name: ui-variants
-description: Audit and consolidate Terra Symposium UI color, treatment, size, text, state, overlay, and menu variants while preserving component geometry and public behavior.
+description: Consolidate Terra UI variants without changing behavior.
+metadata:
+  related-files:
+    - src/components/ui/variants.ts
+    - src/components/ui/types.ts
+    - src/components/ui/button.tsx
+    - tests/components/ui/variants.test.ts
 ---
 
 # UI Variants
 
 ## Trigger
 
-Use this skill when adding, reviewing, consolidating, or migrating shared styles under `astro/src/components/ui/`, especially when the request mentions repeated variants, shared primitives, color/type matrices, or localizing one-off variants.
+Use this skill when adding, reviewing, consolidating, or migrating shared styles under `src/components/ui/`, especially when the request mentions repeated variants, shared primitives, color/type matrices, or localizing one-off variants.
 
 ## Purpose
 
@@ -23,7 +29,7 @@ Reserve `className` for layout or genuine one-off geometry not owned by the comp
 
 ## Boundaries
 
-- Treat `astro/src/lib/types.tsx`, `astro/src/components/ui/variants.ts`, `astro/src/components/ui/README.md`, UI source files, and tests as one contract. Update all relevant parts together.
+- Treat `src/components/ui/types.ts`, `src/components/ui/variants.ts`, UI source files, and `tests/components/ui/variants.test.ts` as one contract. Update all relevant parts together.
 - Preserve the user's working tree. Inspect branch, status, existing diffs, and recent commits before editing. Do not reset or overwrite pre-existing changes.
 - Keep work local unless the user explicitly asks for a push, deploy, or external write. Commit only when the user asks or has already authorized committing.
 - Do not install missing dependencies merely to run a check. If a tool offers an interactive package install, stop that command and choose an available repository check; report any validation that could not run.
@@ -31,12 +37,12 @@ Reserve `className` for layout or genuine one-off geometry not owned by the comp
 
 ## Contract model
 
-The shared axes live in `astro/src/lib/types.tsx`:
+The shared axes live in `src/components/ui/types.ts`:
 
 - `UiSize` is `xs | sm | md | lg | xl`.
 - `UiColor` is `primary | secondary | gray | destructive | success | caution`.
 - `UiType` is `default | outline | ghost | tonal | saturated | underline | glass`; button links use the underline treatment.
-- A plain color key represents the default treatment. Combined matrix keys use `color-type`; do not create `primary-default` unless a real public API requires it.
+- A plain color key represents the default treatment. Combined matrix keys use `color-type`; preserve the existing `primary-default` Button alias and its distinct compound styling while it remains a public default.
 - Each family gets a narrower type: actions exclude surface-only treatments, surfaces exclude action-only underline, and form controls expose only treatments that make sense for fields.
 - Cards accept explicit color/treatment combinations without a `default` treatment; their default variant is `primary-tonal`.
 - `UiSize` shares the scale keys, not a universal set of pixel dimensions. Preserve geometry appropriate to buttons, fields, cards, tooltips, and menus.
@@ -67,10 +73,10 @@ A contract belongs in `variants.ts` only when multiple UI components actually co
 Search both definitions and consumers. Start with commands like:
 
 ```sh
-rg -n "export const .*VARIANTS|export const .*_VARIANTS|cva\\(" astro/src/components/ui
-rg -n "from ['\"](@ui/variants|@components/ui/variants|\./variants)['\"]|VARIANTS\(" astro/src
-rg -n "border-(primary|secondary|gray|red)|bg-(primary|secondary|gray|red)|text-(primary|secondary|gray|red)" astro/src/components/ui
-rg -n "UiSize|Size|variant\\??:" astro/src/components/ui astro/src/lib/types.tsx
+rg -n "export const .*VARIANTS|export const .*_VARIANTS|cva\\(" src/components/ui
+rg -n "from ['\"](@ui/variants|@components/ui/variants|\./variants)['\"]|VARIANTS\(" src
+rg -n "border-(primary|secondary|gray|red)|bg-(primary|secondary|gray|red)|text-(primary|secondary|gray|red)" src/components/ui
+rg -n "UiSize|Size|variant\\??:" src/components/ui src/components/ui/types.ts
 ```
 
 For each repeated block:
@@ -85,7 +91,7 @@ Do not replace every repeated token mechanically. The same `bg-*` class can enco
 
 ### 3. Define matrix types before class grids
 
-In `types.tsx`, document the shared axes and create family-specific unions with template-literal keys. Use a type shape such as:
+In `types.ts`, document the shared axes and create family-specific unions with template-literal keys. Use a type shape such as:
 
 ```ts
 type FamilyVariant = UiColor | `${UiColor}-${AllowedUiType}`;
@@ -108,7 +114,7 @@ In `variants.ts`:
 - Keep `OVERLAY_SURFACE_VARIANTS`, `OVERLAY_MOTION_VARIANTS`, and `RADIX_SIDE_POSITION_VARIANTS` separate so an overlay can reuse only what it needs.
 - Avoid exporting implementation helpers or values consumed by just one component.
 
-Use `UiSize` for the five shared keys in every family. A family's size map may use different dimensions. Keep button-only `icon` and `icon-sm` values in the action contract; do not force them onto fields or surfaces.
+Use `UiSize` for the five shared keys in every family. A family's size map may use different dimensions. Keep button-only `icon`, `icon-sm`, `icon-xs`, and `icon-lg` values in the action contract; do not force them onto fields or surfaces.
 
 ### 5. Migrate components without changing their role
 
@@ -131,16 +137,16 @@ Update the targeted UI variant-consumer test to check:
 - every documented valid color/treatment/size combination produces non-empty classes;
 - unsupported family combinations are absent from the typed contract;
 - all five `UiSize` keys are accepted;
-- button icon sizes and necessary compatibility aliases still generate classes;
+- all four button icon sizes and necessary compatibility aliases still generate classes;
 - semantic feedback values retain their tone;
 - shared contracts have multiple UI consumers;
 - one-consumer contracts are local and are not exported from `variants.ts`.
 
-Update `astro/src/components/ui/README.md` whenever the matrix, family boundaries, aliases, or shared export consumers change. Keep the type comments and README terminology aligned. Organize the README into short, named sections, with a blank line between headings, paragraphs, code examples, and tables. Group related matrix rows and examples so valid combinations and ownership boundaries are easy to scan. Show consumers selecting the canonical variant prop instead of repeating raw presentation classes.
+Update the owning component or package documentation whenever the matrix, family boundaries, aliases, or shared export consumers change. Keep type comments and documentation terminology aligned. Organize examples so valid combinations and ownership boundaries are easy to scan. Show consumers selecting the canonical variant prop instead of repeating raw presentation classes.
 
 ### 7. Validate and report
 
-Run the narrowest useful checks first, then strict types and repository checks available without changing dependencies. At minimum, run the targeted variant test, strict Astro/TypeScript check, and `git diff --check` when those commands are available. Do not claim a check passed if it was skipped, prompted for a dependency install, or returned only partial diagnostics.
+Run the narrowest useful checks first, then strict types and repository checks available without changing dependencies. At minimum, run the targeted variant test, the repository TypeScript check (`pnpm exec tsc -p config/tsconfig.json --noEmit`), and `git diff --check` when those commands are available. Do not claim a check passed if it was skipped, prompted for a dependency install, or returned only partial diagnostics.
 
 Review the final diff for unintended geometry changes, duplicate classes, missing import updates, stale exports, inaccessible controls, and type widening. Report changed contract families, local variants moved, validation results, merge/conflict outcome if applicable, and any remaining limitation.
 

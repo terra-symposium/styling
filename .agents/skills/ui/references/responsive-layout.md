@@ -1,8 +1,3 @@
----
-name: terra-responsive
-description: Design, debug, and verify responsive Terra UI layouts with headed-browser screenshots, measured viewport criteria, and explicit preview/control geometry. Use for responsive regressions, card grids, breakpoint changes, overflow bugs, and screenshot-driven layout work.
----
-
 # Terra Responsive UI
 
 This extends the shared `ui` skill with Terra Symposium's preview, fields, and measured-breakpoint contracts. Use it for responsive layout work and screenshot-led review; source inspection alone is insufficient to verify geometry.

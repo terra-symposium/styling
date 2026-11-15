@@ -16,9 +16,9 @@ The guide content lives in [`docs/`](docs/). `@terra-symposium/docs` supplies it
 navigation, search, styling, and 404 page. Run `pnpm run docs` to preview it locally or
 `pnpm run docs:build` to write the static site to `dist/docs/`. The Components catalog shows live
 previews for every exported component family. One generated detail route serves every component
-slug, with API references extracted from TypeScript exports and JSDoc. Agent guidance and skills
-live in [`docs/agents/`](docs/agents/), with each `SKILL.md` available as the index page for its
-folder in the Agents section. Relative Markdown links and assets work from the content tree. The
+slug, with API references extracted from TypeScript exports and JSDoc. Agent workflows
+live in [`.agents/skills/`](.agents/skills/); the guide links to them where relevant. Relative
+Markdown links and assets work from the content tree. The
 published guide is served under `/styling-docs/`.
 
 ## Usage
@@ -36,7 +36,7 @@ components.
 ### Agent skills
 
 UI design, styling, responsive review, and variant workflows live in
-[`docs/agents/skills/ui/`](docs/agents/skills/ui/SKILL.md).
+[`.agents/skills/ui/`](.agents/skills/ui/SKILL.md).
 
 ## Validation
 

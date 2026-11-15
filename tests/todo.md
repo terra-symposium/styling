@@ -847,10 +847,10 @@ This checklist inventories repository-owned functions, documents, and configurat
 - [ ] [`CHANGELOG.md`](../CHANGELOG.md): Render, check links and examples, then review each factual claim and instruction against the current implementation.
 - [ ] [`README.md`](../README.md): Render, check links and examples, then review each factual claim and instruction against the current implementation.
 - [ ] [`docs/README.md`](../docs/README.md): Render, check links and examples, then review each factual claim and instruction against the current implementation.
-- [ ] [`docs/agents/skills/ui/SKILL.md`](../docs/agents/skills/ui/SKILL.md): Render, check links and examples, then review each factual claim and instruction against the current implementation.
-- [ ] [`docs/agents/skills/ui/responsiveness/SKILL.md`](../docs/agents/skills/ui/responsiveness/SKILL.md): Render, check links and examples, then review each factual claim and instruction against the current implementation.
-- [ ] [`docs/agents/skills/ui/styling/SKILL.md`](../docs/agents/skills/ui/styling/SKILL.md): Render, check links and examples, then review each factual claim and instruction against the current implementation.
-- [ ] [`docs/agents/skills/ui/ui-variants/SKILL.md`](../docs/agents/skills/ui/ui-variants/SKILL.md): Render, check links and examples, then review each factual claim and instruction against the current implementation.
+- [ ] [`.agents/skills/ui/SKILL.md`](../.agents/skills/ui/SKILL.md): Render, check links and examples, then review each factual claim and instruction against the current implementation.
+- [ ] [`.agents/skills/terra-responsive/SKILL.md`](../.agents/skills/terra-responsive/SKILL.md): Render, check links and examples, then review each factual claim and instruction against the current implementation.
+- [ ] [`.agents/skills/terra-styling-accessibility/SKILL.md`](../.agents/skills/terra-styling-accessibility/SKILL.md): Render, check links and examples, then review each factual claim and instruction against the current implementation.
+- [ ] [`.agents/skills/ui-variants/SKILL.md`](../.agents/skills/ui-variants/SKILL.md): Render, check links and examples, then review each factual claim and instruction against the current implementation.
 - [ ] [`docs/styling/0-repository-guide/installation.mdx`](../docs/styling/0-repository-guide/installation.mdx): Render, check links and examples, then review each factual claim and instruction against the current implementation.
 - [ ] [`docs/styling/0-repository-guide/repository-guide.mdx`](../docs/styling/0-repository-guide/repository-guide.mdx): Render, check links and examples, then review each factual claim and instruction against the current implementation.
 - [ ] [`docs/styling/1-colouring/0-hue.mdx`](../docs/styling/1-colouring/0-hue.mdx): Render, check links and examples, then review each factual claim and instruction against the current implementation.
@@ -876,8 +876,8 @@ This checklist inventories repository-owned functions, documents, and configurat
 - [ ] `config/quality.json`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `config/terra-tests.json`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `config/tsconfig.json`: validate syntax or schema, exercise its owning tool, and check references to this file.
-- [ ] `docs/agents/skills/ui/agents/openai.yaml`: validate syntax or schema, exercise its owning tool, and check references to this file.
-- [ ] `docs/agents/skills/ui/ui-variants/agents/openai.yaml`: validate syntax or schema, exercise its owning tool, and check references to this file.
+- [ ] `.agents/skills/ui/agents/openai.yaml`: validate syntax or schema, exercise its owning tool, and check references to this file.
+- [ ] `.agents/skills/ui-variants/agents/openai.yaml`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `docs/styling/assets/reference-content.css`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `package.json`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `patches/@terra-symposium__docs@0.4.3.patch`: validate syntax or schema, exercise its owning tool, and check references to this file.

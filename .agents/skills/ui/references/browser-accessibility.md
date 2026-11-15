@@ -1,8 +1,3 @@
----
-name: terra-styling-accessibility
-description: Style and verify Terra interfaces when visual hierarchy, legibility, interaction states, or accessibility are part of the request. Use for any UI presentation change that requires headed-browser evidence; not for source-only refactors.
----
-
 # Terra Styling and Accessibility
 
 This adds Terra Symposium's headed-browser evidence requirement to the shared `ui` skill. Follow the shared skill for general hierarchy, accessibility, and interaction guidance; use this for the repository's visual verification bar.

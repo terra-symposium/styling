@@ -881,7 +881,6 @@ This checklist inventories repository-owned functions, documents, and configurat
 - [ ] `docs/styling/assets/reference-content.css`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `package.json`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `patches/@terra-symposium__docs@0.4.3.patch`: validate syntax or schema, exercise its owning tool, and check references to this file.
-- [ ] `patches/@terra-symposium__standards-quality@2.2.0.patch`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `pnpm-lock.yaml`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `pnpm-workspace.yaml`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `src/assets/fonts/AUTHENTICSans-130.woff`: render or load this asset and inspect the visual or byte-level result.

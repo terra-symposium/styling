@@ -16,15 +16,15 @@ function toStylingAliasEntry(s) {
 
 const docsRoot = resolve(dirname(fileURLToPath(import.meta.resolve('@terra-symposium/docs'))), '../../..');
 const localDocsCatalog = resolve(projectRoot, '../docs/site/src/lib/catalog.ts');
-const localDocsStyle = resolve(projectRoot, '../docs/dist/lib/style.css');
+const docsStyle = resolve(docsRoot, 'dist/lib/style.css');
 const { default: docsConfig } = await import(/* @vite-ignore */ pathToFileURL(resolve(docsRoot, 'site/config/astro.config.mjs')).href);
 const configuredAliases = docsConfig.vite?.resolve?.alias ?? [];
 const stylingAliases = [
 	{ find: '@terra-symposium/docs-site-catalog', replacement: existsSync(localDocsCatalog) ? localDocsCatalog : resolve(docsRoot, 'site/src/lib/catalog.ts') },
 	{ find: '@terra-symposium/docs-site-catchall', replacement: resolve(docsRoot, 'site/src/pages/[...slug].astro') },
 	{ find: '@terra-symposium/docs-site-not-found', replacement: resolve(docsRoot, 'src/components/NotFound.astro') },
-	{ find: /^\.\.\/\.\.\/dist\/lib\/style\.css$/, replacement: existsSync(localDocsStyle) ? localDocsStyle : resolve(docsRoot, 'dist/lib/style.css') },
-	{ find: '@terra-symposium/docs-site-style', replacement: existsSync(localDocsStyle) ? localDocsStyle : resolve(docsRoot, 'dist/lib/style.css') },
+	{ find: /^\.\.\/\.\.\/dist\/lib\/style\.css$/, replacement: docsStyle },
+	{ find: '@terra-symposium/docs-site-style', replacement: docsStyle },
 ];
 export default {
 	...docsConfig,

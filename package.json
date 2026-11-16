@@ -1,6 +1,6 @@
 {
 	"name": "@terra-symposium/styling",
-	"version": "0.1.36",
+	"version": "0.1.37",
 	"description": "Shared Terra UI and hue theming",
 	"license": "Apache-2.0",
 	"type": "module",

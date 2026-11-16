@@ -27,9 +27,6 @@ import type { ButtonSize, ButtonVariant, UiButtonButtonProps as ButtonProps } fr
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-/*
- * Primary interactive button component.
- */
 // terra-quality-ignore single-use -- Keep ButtonRender as a named React component to preserve its identity. TSDoc: Renders the primary button with form, loading, and menu-trigger states.
 /** Renders the primary button with form, loading, and menu-trigger states.
  * @param buttonProps - Button attributes and Styling variant options.
@@ -37,7 +34,7 @@ COMPONENTS
  * @return A button or slotted child with accessible loading behavior.
  */
 function ButtonRender(buttonProps: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>): React.JSX.Element {
-	const { className, variant = 'primary-default', size = 'md', asChild = false, disabled = false, loading = false, loadingText, menuTrigger, children, type = 'button', ...props } = buttonProps;
+	const { className, variant = 'primary-saturated', size = 'md', asChild = false, disabled = false, loading = false, loadingText, menuTrigger, children, type = 'button', ...props } = buttonProps;
 	const Comp = asChild ? Slot : 'button';
 	// terra-quality-ignore single-use -- Keep the form-status hook at this unconditional position before loading-state derivation.
 	const formStatus = useFormStatus();
@@ -82,10 +79,9 @@ function ButtonRender(buttonProps: ButtonProps, ref: React.ForwardedRef<HTMLButt
 }
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(ButtonRender);
 
-/*
- * Anchor element styled to match button variants; defaults to the underline treatment.
+/** Attributes and variant choices for an anchor styled to match buttons.
+ * The anchor defaults to the underline treatment.
  */
-/** Attributes and variant choices for a button-styled anchor. */
 type ButtonLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 	variant?: ButtonVariant;
 	size?: ButtonSize;

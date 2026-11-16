@@ -209,7 +209,7 @@ function AlertDialogDescription({ className, ...primitiveProps }: React.Componen
  */
 function AlertDialogAction({
 	className,
-	variant = 'primary-default',
+	variant = 'primary-saturated',
 	size = 'md',
 	loading = false,
 	loadingText,

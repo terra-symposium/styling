@@ -64,21 +64,21 @@ HELPERS
 /**
  * Converts a generated PowerPoint deck into a PowerPoint template package.
  *
- * @param sourcePath - Path to the generated `.pptx` deck.
- * @param destinationPath - Path where the `.potx` package is written.
+ * @param srcPath - Path to the generated `.pptx` deck.
+ * @param destPath - Path where the `.potx` package is written.
  *
  * @return Resolves after the converted template has been written.
  *
  * @throws If the source package has no valid PowerPoint content-type entries.
  */
-async function createPowerPointTemplate(sourcePath, destinationPath) {
-	const zip = await JSZip.loadAsync(await fs.readFile(sourcePath));
+async function createPowerPointTemplate(srcPath, destPath) {
+	const zip = await JSZip.loadAsync(await fs.readFile(srcPath));
 	const contentTypes = zip.file('[Content_Types].xml');
-	if (!contentTypes) throw new Error('Missing package content types in ' + path.basename(sourcePath) + '.');
+	if (!contentTypes) throw new Error('Missing package content types in ' + path.basename(srcPath) + '.');
 	let xml = await contentTypes.async('string');
 	const presentationOverride = /<Override\b(?=[^>]*\bPartName="\/ppt\/presentation\.xml")(?=[^>]*\bContentType="[^"]+")[^>]*\/>/;
-	if (!presentationOverride.test(xml)) throw new Error('Missing presentation content type in ' + path.basename(sourcePath) + '.');
+	if (!presentationOverride.test(xml)) throw new Error('Missing presentation content type in ' + path.basename(srcPath) + '.');
 	xml = xml.replace(presentationOverride, '<Override PartName="/ppt/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.template.main+xml"/>');
 	zip.file('[Content_Types].xml', xml);
-	await fs.writeFile(destinationPath, await zip.generateAsync({ type: 'nodebuffer' }));
+	await fs.writeFile(destPath, await zip.generateAsync({ type: 'nodebuffer' }));
 }

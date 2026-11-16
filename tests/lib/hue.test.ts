@@ -17,7 +17,7 @@ class MockClassList {
 }
 
 /** Minimal HTMLElement stand-in exposing the style and query APIs used by applyHue. */
-class MockElement {
+class MockEl {
 	style = { cssText: '' };
 	classList = new MockClassList();
 
@@ -37,13 +37,13 @@ class MockElement {
 	 * @param _selector - Element selector requested by the DOM API.
 	 * @return An empty collection for the isolated fixture.
 	 */
-	querySelectorAll(_selector: string): MockElement[] {
+	querySelectorAll(_selector: string): MockEl[] {
 		return [];
 	}
 }
 
 /** Document stand-in that records the hue-change event emitted by applyHue. */
-class MockDocument {
+class MockDoc {
 	dispatchedEvent: { type: string; detail: unknown } | null = null;
 
 	/** Creates a fake document around its root and optional body elements.
@@ -52,8 +52,8 @@ class MockDocument {
 	 * @param body - Optional body element that receives the document palette.
 	 */
 	constructor(
-		readonly documentElement: MockElement,
-		readonly body: MockElement | null,
+		readonly documentElement: MockEl,
+		readonly body: MockEl | null,
 	) {}
 
 	/**
@@ -62,7 +62,7 @@ class MockDocument {
 	 * @param _selector - Element selector requested by the DOM API.
 	 * @return An empty collection because the fixture has no additional nodes.
 	 */
-	querySelectorAll(_selector: string): MockElement[] {
+	querySelectorAll(_selector: string): MockEl[] {
 		return [];
 	}
 
@@ -124,7 +124,7 @@ function describeColorUtilities(): void {
 /** Registers hue derivation cases for explicit and normalized labels. */
 function describeGetHue(): void {
 	it('preserves explicit section hues', preservesExplicitSectionHues);
-	it('derives a stable hue from normalized document labels', normDocumentLabelsBeforeDerivingHue);
+	it('derives a stable hue from normalized document labels', normDocLabelsBeforeDerivingHue);
 }
 
 // terra-quality-ignore single-use -- Keep preservesExplicitSectionHues as a named declaration so its authored TSDoc stays attached. TSDoc: Preserves the hue supplied for a named section.
@@ -135,7 +135,7 @@ function preservesExplicitSectionHues(): void {
 
 // terra-quality-ignore single-use -- Keep normDocumentLabelsBeforeDerivingHue as a named declaration so its authored TSDoc stays attached. TSDoc: Normalizes equivalent labels before deriving their deterministic hue.
 /** Normalizes equivalent labels before deriving their deterministic hue. */
-function normDocumentLabelsBeforeDerivingHue(): void {
+function normDocLabelsBeforeDerivingHue(): void {
 	assert.strictEqual(getHue('Course_Notes.md'), getHue('Course Notes'));
 	assert.strictEqual(getHue('__Advanced-Topics.mdx'), getHue('Advanced Topics'));
 	assert.strictEqual(getHue('Programming 1'), getHue('programming_1'));
@@ -207,12 +207,12 @@ function flattensColorScales(): void {
 // terra-quality-ignore single-use -- Keep describeIsDarkMode as a named declaration so its authored TSDoc stays attached. TSDoc: Registers the server-side fallback for system dark-mode detection.
 /** Registers the server-side fallback for system dark-mode detection. */
 function describeIsDarkMode(): void {
-	it('returns false in server / non-DOM environment', returnsLightModeWithoutDocument);
+	it('returns false in server / non-DOM environment', returnsLightModeWithoutDoc);
 }
 
 // terra-quality-ignore single-use -- Keep returnsLightModeWithoutDocument as a named declaration so its authored TSDoc stays attached. TSDoc: Reports light mode when no browser document is available.
 /** Reports light mode when no browser document is available. */
-function returnsLightModeWithoutDocument(): void {
+function returnsLightModeWithoutDoc(): void {
 	assert.strictEqual(isDarkMode(), false);
 }
 
@@ -270,77 +270,77 @@ function appliesHueAvoidanceShift(): void {
 function describeApplyHue(): void {
 	afterEach(resetApplyHueGlobals);
 	it('does nothing when document is undefined', leavesServerCallsUntouched);
-	it('applies numeric hue palette to document element and dispatches docs:hue-change event', appliesNumericHueToDocument);
+	it('applies numeric hue palette to document element and dispatches docs:hue-change event', appliesNumericHueToDoc);
 	it('applies a hue to a scoped workspace without changing the document theme', appliesHueOnlyToScopedWorkspace);
-	it('applies null hue palette with --hue: 0', appliesGrayscaleHueToDocument);
+	it('applies null hue palette with --hue: 0', appliesGrayscaleHueToDoc);
 }
 
 // terra-quality-ignore single-use -- Keep leavesServerCallsUntouched as a named declaration so its authored TSDoc stays attached. TSDoc: Leaves server-side calls untouched when no browser document exists.
 /** Leaves server-side calls untouched when no browser document exists. */
 function leavesServerCallsUntouched(): void {
-	assert.doesNotThrow(applyHueWithoutDocument);
+	assert.doesNotThrow(applyHueWithoutDoc);
 }
 
 // terra-quality-ignore single-use -- Keep appliesNumericHueToDocument as a named declaration so its authored TSDoc stays attached. TSDoc: Applies a numeric palette to the document and emits the hue-change event.
 /** Applies a numeric palette to the document and emits the hue-change event. */
-function appliesNumericHueToDocument(): void {
-	const docElement = new MockElement();
-	const mockDocument = new MockDocument(docElement, new MockElement());
-	Reflect.set(globalThis, 'HTMLElement', MockElement);
+function appliesNumericHueToDoc(): void {
+	const docEl = new MockEl();
+	const mockDoc = new MockDoc(docEl, new MockEl());
+	Reflect.set(globalThis, 'HTMLElement', MockEl);
 	Reflect.set(globalThis, 'CustomEvent', MockCustomEvent);
-	Reflect.set(globalThis, 'document', mockDocument);
+	Reflect.set(globalThis, 'document', mockDoc);
 
 	applyHue(180);
 
-	assert.ok(docElement.style.cssText.includes('--hue: 180'));
-	assert.ok(docElement.style.cssText.includes('--primary-1:'));
-	assert.ok(docElement.style.cssText.includes('--gray-1:'));
-	assert.ok(docElement.style.cssText.includes('--secondary-1:'));
-	assert.ok(mockDocument.dispatchedEvent);
-	assert.strictEqual(mockDocument.dispatchedEvent.type, 'docs:hue-change');
-	assert.deepStrictEqual(mockDocument.dispatchedEvent.detail, { hue: 180 });
+	assert.ok(docEl.style.cssText.includes('--hue: 180'));
+	assert.ok(docEl.style.cssText.includes('--primary-1:'));
+	assert.ok(docEl.style.cssText.includes('--gray-1:'));
+	assert.ok(docEl.style.cssText.includes('--secondary-1:'));
+	assert.ok(mockDoc.dispatchedEvent);
+	assert.strictEqual(mockDoc.dispatchedEvent.type, 'docs:hue-change');
+	assert.deepStrictEqual(mockDoc.dispatchedEvent.detail, { hue: 180 });
 }
 
 // terra-quality-ignore single-use -- Keep appliesHueOnlyToScopedWorkspace as a named declaration so its authored TSDoc stays attached. TSDoc: Applies a scoped palette without modifying the document element or body.
 /** Applies a scoped palette without modifying the document element or body. */
 function appliesHueOnlyToScopedWorkspace(): void {
-	const docElement = new MockElement();
-	const bodyElement = new MockElement();
-	const workspace = new MockElement();
+	const docEl = new MockEl();
+	const bodyEl = new MockEl();
+	const workspace = new MockEl();
 	// terra-quality-ignore single-use -- Construct the scoped mock document before installing browser globals for this test.
-	const mockDocument = new MockDocument(docElement, bodyElement);
-	Reflect.set(globalThis, 'HTMLElement', MockElement);
+	const mockDoc = new MockDoc(docEl, bodyEl);
+	Reflect.set(globalThis, 'HTMLElement', MockEl);
 	Reflect.set(globalThis, 'CustomEvent', MockCustomEvent);
-	Reflect.set(globalThis, 'document', mockDocument);
+	Reflect.set(globalThis, 'document', mockDoc);
 
 	applyHue(145, workspace as unknown as HTMLElement);
 
 	assert.ok(workspace.style.cssText.includes('--hue: 145'));
 	assert.ok(workspace.style.cssText.includes('--secondary-3: 241 240 248'));
-	assert.strictEqual(docElement.style.cssText, '');
-	assert.strictEqual(bodyElement.style.cssText, '');
+	assert.strictEqual(docEl.style.cssText, '');
+	assert.strictEqual(bodyEl.style.cssText, '');
 }
 
 // terra-quality-ignore single-use -- Keep appliesGrayscaleHueToDocument as a named declaration so its authored TSDoc stays attached. TSDoc: Applies the grayscale palette and emits a null hue-change event.
 /** Applies the grayscale palette and emits a null hue-change event. */
-function appliesGrayscaleHueToDocument(): void {
-	const docElement = new MockElement();
-	const mockDocument = new MockDocument(docElement, null);
-	Reflect.set(globalThis, 'HTMLElement', MockElement);
+function appliesGrayscaleHueToDoc(): void {
+	const docEl = new MockEl();
+	const mockDoc = new MockDoc(docEl, null);
+	Reflect.set(globalThis, 'HTMLElement', MockEl);
 	Reflect.set(globalThis, 'CustomEvent', MockCustomEvent);
-	Reflect.set(globalThis, 'document', mockDocument);
+	Reflect.set(globalThis, 'document', mockDoc);
 
 	applyHue(null);
 
-	assert.ok(docElement.style.cssText.includes('--hue: 0'));
-	assert.ok(mockDocument.dispatchedEvent);
-	assert.strictEqual(mockDocument.dispatchedEvent.type, 'docs:hue-change');
-	assert.deepStrictEqual(mockDocument.dispatchedEvent.detail, { hue: null });
+	assert.ok(docEl.style.cssText.includes('--hue: 0'));
+	assert.ok(mockDoc.dispatchedEvent);
+	assert.strictEqual(mockDoc.dispatchedEvent.type, 'docs:hue-change');
+	assert.deepStrictEqual(mockDoc.dispatchedEvent.detail, { hue: null });
 }
 
 // terra-quality-ignore single-use -- Keep applyHueWithoutDocument as a named declaration so its authored TSDoc stays attached. TSDoc: Calls the public hue applier in a browser-less environment.
 /** Calls the public hue applier in a browser-less environment. */
-function applyHueWithoutDocument(): void {
+function applyHueWithoutDoc(): void {
 	applyHue(180);
 }
 

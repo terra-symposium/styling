@@ -62,6 +62,7 @@ function run(cmd, args, options = {}) {
 // Let Docs refresh the search index and copy content assets before Astro starts.
 run(process.execPath, [resolve(docsRoot, 'bin/docs.mjs'), 'build']);
 if (mode === 'dev' || mode === 'preview') astroArgs.push('--port', port);
+if (mode === 'dev') astroArgs.push('--host', '127.0.0.1');
 const cmd = mode === 'preview' ? [process.execPath, resolve(root, 'scripts/serve-docs-preview.mjs'), port] : [process.execPath, ...astroArgs];
 const child = spawn(cmd[0], cmd.slice(1), { cwd: root, env, stdio: 'inherit' });
 // terra-quality-ignore single-use -- Keep handleSpawnErr as a named callback for useful error stacks. TSDoc: Reports a failure to start the selected docs server process.

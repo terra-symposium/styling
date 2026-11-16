@@ -441,45 +441,45 @@ export function createWordTemplate(options: WordTemplateOptions = {}): Document 
 /**
  * Writes a new Word template to disk, creating its parent directory when needed.
  *
- * @param destinationPath - Destination path for the generated `.docx` file.
+ * @param destPath - Destination path for the generated `.docx` file.
  * @param options - Optional title, subtitle, and Terra brand settings.
  *
  * @return Resolves after the document has been written.
  */
-export async function writeWordTemplate(destinationPath: string, options: WordTemplateOptions = {}): Promise<void> {
-	await fs.mkdir(path.dirname(destinationPath), { recursive: true });
-	await fs.writeFile(destinationPath, await Packer.toBuffer(createWordTemplate(options)));
+export async function writeWordTemplate(destPath: string, options: WordTemplateOptions = {}): Promise<void> {
+	await fs.mkdir(path.dirname(destPath), { recursive: true });
+	await fs.writeFile(destPath, await Packer.toBuffer(createWordTemplate(options)));
 }
 
 /**
  * Replaces exact text in a generated DOCX while preserving the rest of its OOXML package.
  *
- * @param sourcePath - Existing package-generated document to edit.
- * @param destinationPath - Path where the edited document is written.
+ * @param srcPath - Existing package-generated document to edit.
+ * @param destPath - Path where the edited document is written.
  * @param replacements - Map of exact source text to replacement text.
  *
  * @return Resolves after all matching text runs have been replaced.
  *
  * @throws If none of the requested source text occurs in editable document parts.
  */
-export async function editWordTemplate(sourcePath: string, destinationPath: string, replacements: Record<string, string>): Promise<void> {
-	await replaceWordText(sourcePath, destinationPath, replacements);
+export async function editWordTemplate(srcPath: string, destPath: string, replacements: Record<string, string>): Promise<void> {
+	await replaceWordText(srcPath, destPath, replacements);
 }
 
 // terra-quality-ignore single-use -- Keep replaceWordText as a named declaration so its authored TSDoc stays attached. TSDoc: Replaces exact text in editable Word XML parts while preserving other package content.
 /**
  * Replaces exact text in editable Word XML parts while preserving other package content.
  *
- * @param sourcePath - Existing DOCX package to edit.
- * @param destinationPath - Path where the updated DOCX package is written.
+ * @param srcPath - Existing DOCX package to edit.
+ * @param destPath - Path where the updated DOCX package is written.
  * @param replacements - Map of exact source text to replacement text.
  *
  * @return Resolves after the edited package has been written.
  *
  * @throws If none of the requested text occurs in editable document parts.
  */
-async function replaceWordText(sourcePath: string, destinationPath: string, replacements: Record<string, string>): Promise<void> {
-	const zip = await JSZip.loadAsync(await fs.readFile(sourcePath));
+async function replaceWordText(srcPath: string, destPath: string, replacements: Record<string, string>): Promise<void> {
+	const zip = await JSZip.loadAsync(await fs.readFile(srcPath));
 	let replacementsMade = 0;
 	for (const [name, entry] of Object.entries(zip.files)) {
 		if (entry.dir || !/^word\/(document|header\d+|footer\d+)\.xml$/.test(name)) continue;
@@ -492,9 +492,9 @@ async function replaceWordText(sourcePath: string, destinationPath: string, repl
 		}
 		zip.file(name, xml);
 	}
-	if (!replacementsMade) throw new Error('No editable text matched the requested replacements in ' + path.basename(sourcePath) + '.');
-	await fs.mkdir(path.dirname(destinationPath), { recursive: true });
-	await fs.writeFile(destinationPath, await zip.generateAsync({ type: 'nodebuffer' }));
+	if (!replacementsMade) throw new Error('No editable text matched the requested replacements in ' + path.basename(srcPath) + '.');
+	await fs.mkdir(path.dirname(destPath), { recursive: true });
+	await fs.writeFile(destPath, await zip.generateAsync({ type: 'nodebuffer' }));
 }
 
 /**

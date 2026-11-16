@@ -26,10 +26,7 @@ const Popover = PopoverPrimitive.Root;
 const PopoverTrigger = PopoverPrimitive.Trigger;
 const PopoverPortal = createTerraPortal(PopoverPrimitive.Portal);
 
-/*
- * Floating popover content panel.
- */
-/** Props accepted by the styled Radix popover content panel. */
+/** Props accepted by the styled Radix floating popover content panel. */
 type PopoverContentProps = React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>;
 
 /** Prevents content scrolling from reaching a parent scroll container.

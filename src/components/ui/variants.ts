@@ -95,9 +95,9 @@ export const INTERACTIVE_CONTROL_VARIANTS = cva(cn(FOCUS_VISIBLE_VARIANTS(), DIS
 ACTION CONTRACTS
 //////////////////////////////////////////////////*/
 
-const ACTION_MATRIX_VALUES = flattenColorTypeGrid({
+const ACTION_TREATMENT_VALUES = flattenColorTypeGrid({
 	primary: {
-		default: 'not-disabled:hover:bg-primary-10 bg-primary-9 text-white',
+		saturated: 'not-disabled:hover:bg-primary-10 bg-primary-9 text-white',
 		outline: 'not-disabled:hover:bg-primary-1 border border-primary-5 text-primary-12',
 		ghost: 'enabled:hover:bg-primary-3',
 		tonal: 'not-disabled:hover:bg-primary-9/10 border border-primary-9/30 bg-primary-9/5 text-primary-12',
@@ -105,7 +105,7 @@ const ACTION_MATRIX_VALUES = flattenColorTypeGrid({
 		glass: 'border border-white/15 bg-primary-9/40 text-white/90 shadow-lg backdrop-blur-xl hover:bg-primary-9/50',
 	},
 	secondary: {
-		default: 'not-disabled:hover:bg-secondary-4 border border-secondary-6 bg-secondary-3 text-secondary-11',
+		saturated: 'not-disabled:hover:bg-secondary-10 border border-secondary-10 bg-secondary-9 text-white',
 		outline: 'not-disabled:hover:bg-secondary-2 border border-secondary-6 text-secondary-12',
 		ghost: 'enabled:hover:bg-secondary-3 text-secondary-11',
 		tonal: 'not-disabled:hover:bg-secondary-4 border border-secondary-6 bg-secondary-3 text-secondary-11',
@@ -113,7 +113,7 @@ const ACTION_MATRIX_VALUES = flattenColorTypeGrid({
 		glass: 'border border-white/15 bg-secondary-9/40 text-white/90 shadow-lg backdrop-blur-xl hover:bg-secondary-9/50',
 	},
 	gray: {
-		default: 'not-disabled:hover:bg-gray-3 border border-gray-6 bg-gray-2 text-gray-12',
+		saturated: 'not-disabled:hover:bg-gray-10 border border-gray-10 bg-gray-9 text-white',
 		outline: 'not-disabled:hover:bg-gray-2 border border-gray-6 text-gray-12',
 		ghost: 'enabled:hover:bg-gray-2 text-gray-12',
 		tonal: 'not-disabled:hover:bg-gray-3 border border-gray-6 bg-gray-2 text-gray-12',
@@ -121,7 +121,7 @@ const ACTION_MATRIX_VALUES = flattenColorTypeGrid({
 		glass: 'border border-white/15 bg-gray-9/40 text-white/90 shadow-lg backdrop-blur-xl hover:bg-gray-9/50',
 	},
 	destructive: {
-		default: 'not-disabled:hover:bg-rose-600/90 border border-rose-700 bg-rose-600 text-white dark:border-rose-800 dark:bg-rose-900 dark:hover:bg-rose-900/90',
+		saturated: 'not-disabled:hover:bg-rose-600/90 border border-rose-700 bg-rose-600 text-white dark:border-rose-800 dark:bg-rose-900 dark:hover:bg-rose-900/90',
 		outline: 'not-disabled:hover:bg-rose-50 border border-rose-700 text-rose-700 dark:hover:bg-rose-950',
 		ghost: 'text-red-600 enabled:hover:bg-red-200 dark:enabled:hover:bg-red-800',
 		tonal: 'not-disabled:hover:bg-rose-100 border border-rose-700/30 bg-rose-50 text-rose-900 dark:bg-rose-950/60 dark:text-rose-100',
@@ -129,7 +129,7 @@ const ACTION_MATRIX_VALUES = flattenColorTypeGrid({
 		glass: 'border border-white/15 bg-rose-700/40 text-white/90 shadow-lg backdrop-blur-xl hover:bg-rose-700/50',
 	},
 	success: {
-		default: 'not-disabled:hover:bg-emerald-800 border border-emerald-700 bg-emerald-700 text-white',
+		saturated: 'not-disabled:hover:bg-emerald-800 border border-emerald-700 bg-emerald-700 text-white',
 		outline: 'not-disabled:hover:bg-emerald-50 border border-emerald-700 text-emerald-800 dark:border-emerald-500 dark:text-emerald-300 dark:hover:bg-emerald-950',
 		ghost: 'text-emerald-800 enabled:hover:bg-emerald-50 dark:text-emerald-300 dark:enabled:hover:bg-emerald-950',
 		tonal: 'not-disabled:hover:bg-emerald-100 border border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-100',
@@ -137,25 +137,23 @@ const ACTION_MATRIX_VALUES = flattenColorTypeGrid({
 		glass: 'border border-white/15 bg-emerald-700/40 text-white/90 shadow-lg backdrop-blur-xl hover:bg-emerald-700/50',
 	},
 	caution: {
-		default: 'not-disabled:hover:bg-amber-800 border border-amber-700 bg-amber-700 text-white',
+		saturated: 'not-disabled:hover:bg-amber-800 border border-amber-700 bg-amber-700 text-white',
 		outline: 'not-disabled:hover:bg-amber-50 border border-amber-700 text-amber-800 dark:border-amber-500 dark:text-amber-300 dark:hover:bg-amber-950',
 		ghost: 'text-amber-800 enabled:hover:bg-amber-50 dark:text-amber-300 dark:enabled:hover:bg-amber-950',
 		tonal: 'not-disabled:hover:bg-amber-100 border border-amber-300 bg-amber-50 text-amber-950 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100',
 		underline: 'p-0 text-amber-800 enabled:hover:underline dark:text-amber-300',
 		glass: 'border border-white/15 bg-amber-700/40 text-white/90 shadow-lg backdrop-blur-xl hover:bg-amber-700/50',
 	},
-} satisfies Record<
-	UiColor,
-	Record<
-		// Action treatments supported by the shared action matrix.
-		Exclude<UiType, 'saturated'>,
-		string
-	>
->) as Record<
-	/* Action color/treatment keys; saturated is reserved for surfaces. */
-	UiColor | `${UiColor}-${Exclude<UiType, 'default' | 'saturated'>}`,
-	string
->;
+} satisfies Record<UiColor, Record<Exclude<UiType, 'default'>, string>>) as Record<`${UiColor}-${Exclude<UiType, 'default'>}`, string>;
+const ACTION_MATRIX_VALUES = {
+	...ACTION_TREATMENT_VALUES,
+	primary: ACTION_TREATMENT_VALUES['primary-saturated'],
+	secondary: ACTION_TREATMENT_VALUES['secondary-saturated'],
+	gray: ACTION_TREATMENT_VALUES['gray-saturated'],
+	destructive: ACTION_TREATMENT_VALUES['destructive-saturated'],
+	success: ACTION_TREATMENT_VALUES['success-saturated'],
+	caution: ACTION_TREATMENT_VALUES['caution-saturated'],
+};
 /** Flattened action matrix retained for consumers that need to inspect variant classes as data. */
 export const BUTTON_VARIANT_VALUES = ACTION_MATRIX_VALUES;
 const ACTION_BASE = cn(
@@ -185,12 +183,6 @@ export const ACTION_VARIANTS = cva(ACTION_BASE, {
 			...ACTION_MATRIX_VALUES,
 			...({
 				default: ACTION_MATRIX_VALUES.primary,
-				'primary-default': ACTION_MATRIX_VALUES.primary,
-				'secondary-default': ACTION_MATRIX_VALUES.secondary,
-				'gray-default': ACTION_MATRIX_VALUES.gray,
-				'destructive-default': ACTION_MATRIX_VALUES.destructive,
-				'success-default': ACTION_MATRIX_VALUES.success,
-				'caution-default': ACTION_MATRIX_VALUES.caution,
 				secondary: ACTION_MATRIX_VALUES.secondary,
 				destructive: ACTION_MATRIX_VALUES.destructive,
 				outline: ACTION_MATRIX_VALUES['primary-outline'],
@@ -210,7 +202,7 @@ export const ACTION_VARIANTS = cva(ACTION_BASE, {
 	},
 	compoundVariants: [
 		{
-			variant: 'primary-default',
+			variant: 'primary-saturated',
 			size: 'md',
 			class: 'border-primary-10 bg-primary-9 shadow-primary-9/15 hover:bg-primary-10 min-h-12 min-w-44 px-5 text-sm font-extrabold text-white shadow-lg hover:-translate-y-px',
 		},

@@ -60,14 +60,6 @@ const ToggleGroup = React.forwardRef<React.ElementRef<typeof ToggleGroupPrimitiv
 	renderToggleGroup,
 );
 
-/*
- * An individual toggle item that derives its styling from the local TOGGLE_VARIANTS, making it a
- * self-contained component.
- *
- * @param children - Item content.
- * @param variant - Style variant override.
- * @param size - Size variant override.
- */
 // terra-quality-ignore single-use -- Keep renderToggleGroupItem as a named declaration so its authored TSDoc stays attached. TSDoc: Renders one toggle item using explicit overrides or the group's defaults.
 /** Renders one toggle item using explicit overrides or the group's defaults.
  * @param itemProps - Item content, native attributes, and optional variants.

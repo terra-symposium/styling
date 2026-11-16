@@ -23,9 +23,6 @@ import type { CommandDialogProps, CommandInputProps } from './types.js';
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-/*
- * Root command palette container.
- */
 // terra-quality-ignore single-use -- Keep renderCommandRoot as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the command primitive with the shared base surface classes.
 /** Renders the command primitive with the shared base surface classes.
  *
@@ -73,9 +70,6 @@ function CommandDialog({ className, children, size, ...dialogProps }: CommandDia
 	);
 }
 
-/*
- * Command input control with optional clear button.
- */
 // terra-quality-ignore single-use -- Keep renderCommandInput as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a command search input and its optional clear control.
 /** Renders a command search input and its optional clear control.
  *
@@ -114,9 +108,6 @@ function renderCommandInput(inputProps: CommandInputProps, ref: React.ForwardedR
 }
 const CommandInput = React.forwardRef(renderCommandInput);
 
-/*
- * Scrollable list container for command items.
- */
 // terra-quality-ignore single-use -- Keep renderCommandList as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the scrollable list area inside a command palette.
 /** Renders the scrollable list area inside a command palette.
  *
@@ -131,9 +122,6 @@ function renderCommandList(listProps: React.ComponentPropsWithoutRef<typeof Comm
 }
 const CommandList = React.forwardRef(renderCommandList);
 
-/*
- * Empty state indicator for command list when no results match.
- */
 // terra-quality-ignore single-use -- Keep renderCommandEmpty as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the empty-results indicator inside a command list.
 /** Renders the empty-results indicator inside a command list.
  *
@@ -147,9 +135,6 @@ function renderCommandEmpty(emptyProps: React.ComponentPropsWithoutRef<typeof Co
 }
 const CommandEmpty = React.forwardRef(renderCommandEmpty);
 
-/*
- * Group container for related command items with an optional header.
- */
 // terra-quality-ignore single-use -- Keep renderCommandGroup as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a grouped set of command options with shared heading styles.
 /** Renders a grouped set of command options with shared heading styles.
  *
@@ -174,9 +159,6 @@ function renderCommandGroup(groupProps: React.ComponentPropsWithoutRef<typeof Co
 }
 const CommandGroup = React.forwardRef(renderCommandGroup);
 
-/*
- * Visual separator line between command groups or items.
- */
 // terra-quality-ignore single-use -- Keep renderCommandSeparator as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a styled separator between command groups or items.
 /** Renders a styled separator between command groups or items.
  *
@@ -194,9 +176,6 @@ function renderCommandSeparator(
 }
 const CommandSeparator = Object.assign(React.forwardRef(renderCommandSeparator), { displayName: CommandPrimitive.Separator.displayName });
 
-/*
- * Individual selectable item within a command list.
- */
 // terra-quality-ignore single-use -- Keep renderCommandItem as a named declaration so its authored TSDoc stays attached. TSDoc: Renders one selectable command option with shared selection styling.
 /** Renders one selectable command option with shared selection styling.
  *
@@ -223,11 +202,7 @@ function renderCommandItem(itemProps: React.ComponentPropsWithoutRef<typeof Comm
 }
 const CommandItem = React.forwardRef(renderCommandItem);
 
-/*
- * Command shortcut indicator text.
- *
- */
-/** Renders secondary shortcut text at the end of a command item.
+/** Renders secondary shortcut indicator text at the end of a command item.
  *
  * @param className Optional classes applied to the shortcut text.
  * @param spanProps Remaining span attributes.

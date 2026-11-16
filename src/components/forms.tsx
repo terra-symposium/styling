@@ -220,7 +220,7 @@ export function FormFieldLayout({
 	htmlFor,
 	orientation = 'vertical',
 	helper,
-	description,
+	description: desc,
 	error: err,
 }: {
 	label: ReactNode;
@@ -234,7 +234,7 @@ export function FormFieldLayout({
 	description?: ReactNode;
 	error?: ReactNode;
 }): React.JSX.Element {
-	const descriptionId = htmlFor ? `${htmlFor}-description` : undefined;
+	const descId = htmlFor ? `${htmlFor}-description` : undefined;
 	const errId = htmlFor ? `${htmlFor}-error` : undefined;
 	const labelContent = (
 		<>
@@ -277,9 +277,9 @@ export function FormFieldLayout({
 					{labelContent}
 				</Label>
 				{helperContent && <div className='col-start-2'>{helperContent}</div>}
-				{description && (
-					<p id={descriptionId} className={cn(TEXT_VARIANTS({ tone: 'muted', size: 'sm' }), 'col-start-2')}>
-						{description}
+				{desc && (
+					<p id={descId} className={cn(TEXT_VARIANTS({ tone: 'muted', size: 'sm' }), 'col-start-2')}>
+						{desc}
 					</p>
 				)}
 				{err && (
@@ -297,9 +297,9 @@ export function FormFieldLayout({
 			</Label>
 			{children}
 			{helperContent}
-			{description && (
-				<p id={descriptionId} className={TEXT_VARIANTS({ tone: 'muted', size: 'sm' })}>
-					{description}
+			{desc && (
+				<p id={descId} className={TEXT_VARIANTS({ tone: 'muted', size: 'sm' })}>
+					{desc}
 				</p>
 			)}
 			{err && <FormErrText id={errId}>{err}</FormErrText>}

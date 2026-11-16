@@ -24,7 +24,7 @@ COMPONENT CONTRACTS
 /** Action styles, including color treatments and named navigation or specialized-control variants. */
 export type ButtonVariant =
 	| UiColor
-	| `${UiColor}-${Exclude<UiType, 'saturated'>}`
+	| `${UiColor}-${Exclude<UiType, 'default'>}`
 	| 'default'
 	| 'secondary'
 	| 'destructive'

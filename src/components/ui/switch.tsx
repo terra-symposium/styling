@@ -60,10 +60,6 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
 	renderSwitch,
 );
 
-/*
- * Switch thumb component for the sliding handle indicator.
- *
- */
 // terra-quality-ignore single-use -- Keep renderSwitchThumb as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the switch thumb with the shared sliding transition.
 /** Renders the switch thumb with the shared sliding transition.
  * @param thumbProps - Native Radix thumb attributes and optional classes.

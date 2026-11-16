@@ -51,10 +51,6 @@ const RADIO_CARD_VARIANT_CLASSES: Record<'correct' | 'ghost' | 'incorrect' | 'pr
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-/*
- * RadioGroup root container primitive.
- *
- */
 // terra-quality-ignore single-use -- Keep renderRadioGroup as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a radio group with optional form state synchronization.
 /** Renders a radio group with optional form state synchronization.
  * @param groupProps - Radix root attributes, field name, and selection state.
@@ -113,11 +109,6 @@ const RadioGroup = React.forwardRef<
 	}
 >(renderRadioGroup);
 
-/*
- * RadioGroup item primitive control.
- *
- * @param variant - Optional color scheme variant ('primary' or 'secondary').
- */
 // terra-quality-ignore single-use -- Keep renderRadioGroupItem as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a single radio option with the selected palette treatment.
 /** Renders a single radio option with the selected palette treatment.
  * @param itemProps - Radix item attributes and optional color variant.
@@ -159,13 +150,6 @@ const RadioGroupItem = React.forwardRef<
 	}
 >(renderRadioGroupItem);
 
-/*
- * RadioGroup card item component for selectable card UI.
- *
- * @param variant - Card color and state variant.
- * @param size - Card padding and text size variant.
- * @param children - Card contents.
- */
 // terra-quality-ignore single-use -- Keep renderRadioGroupCard as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a radio option as a full-width selectable card.
 /** Renders a radio option as a full-width selectable card.
  * @param cardProps - Radix item attributes, child content, and card variants.
@@ -209,10 +193,6 @@ const RadioGroupCard = React.forwardRef<
 	}
 >(renderRadioGroupCard);
 
-/*
- * RadioGroup indicator component.
- *
- */
 // terra-quality-ignore single-use -- Keep renderRadioGroupIndicator as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the indicator slot inside an individual radio item.
 /** Renders the indicator slot inside an individual radio item.
  * @param indicatorProps - Radix indicator attributes and optional classes.

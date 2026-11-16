@@ -1,26 +1,31 @@
 ---
 title: Variants
-description: Implementations of colour treatment, shown with buttons and cards.
+description: Color and treatment combinations for buttons and cards.
 ---
 
-import { ButtonTreatmentMatrix, CardTreatmentMatrix } from './_matrix.tsx';
+The colour `matrix` is a visual index of supported combinations. Each row is a color; each column is a treatment.
 
-The matrix is a visual index of the combinations a component family supports. Each row selects a palette color; each column selects a treatment. The cell label gives the canonical `variant` value to use in React.
-
-The matrix is intentionally family-specific. Buttons use an underline treatment for links, while cards include saturated surfaces. A cell exists only when that component family supports the combination.
+import { Button, ButtonLink, Card } from '@terra-symposium/styling/ui';
+import '@terra-symposium/styling/global.css';
 
 ## Button actions
 
-Button variants combine six colors with six action treatments. The gallery uses the real exported `Button` and `ButtonLink` components, so the labels and visuals follow the package contracts.
-
-For example, use `variant='primary-glass'` for a glass primary action or `variant='secondary-outline'` for an outlined secondary action. Button links use the same matrix while rendering an anchor.
-
-<ButtonTreatmentMatrix />
+| Color | saturated | outline | ghost | tonal | glass | underline |
+| --- | --- | --- | --- | --- | --- | --- |
+| primary | <Button size='sm' className='text-xs' variant='primary-saturated'>primary-saturated</Button> | <Button size='sm' className='text-xs' variant='primary-outline'>primary-outline</Button> | <Button size='sm' className='text-xs' variant='primary-ghost'>primary-ghost</Button> | <Button size='sm' className='text-xs' variant='primary-tonal'>primary-tonal</Button> | <Button size='sm' className='text-xs' variant='primary-glass'>primary-glass</Button> | <ButtonLink href='#card-surfaces' size='sm' className='text-xs' variant='primary-underline'>primary-underline</ButtonLink> |
+| secondary | <Button size='sm' className='text-xs' variant='secondary-saturated'>secondary-saturated</Button> | <Button size='sm' className='text-xs' variant='secondary-outline'>secondary-outline</Button> | <Button size='sm' className='text-xs' variant='secondary-ghost'>secondary-ghost</Button> | <Button size='sm' className='text-xs' variant='secondary-tonal'>secondary-tonal</Button> | <Button size='sm' className='text-xs' variant='secondary-glass'>secondary-glass</Button> | <ButtonLink href='#card-surfaces' size='sm' className='text-xs' variant='secondary-underline'>secondary-underline</ButtonLink> |
+| gray | <Button size='sm' className='text-xs' variant='gray-saturated'>gray-saturated</Button> | <Button size='sm' className='text-xs' variant='gray-outline'>gray-outline</Button> | <Button size='sm' className='text-xs' variant='gray-ghost'>gray-ghost</Button> | <Button size='sm' className='text-xs' variant='gray-tonal'>gray-tonal</Button> | <Button size='sm' className='text-xs' variant='gray-glass'>gray-glass</Button> | <ButtonLink href='#card-surfaces' size='sm' className='text-xs' variant='gray-underline'>gray-underline</ButtonLink> |
+| destructive | <Button size='sm' className='text-xs' variant='destructive-saturated'>destructive-saturated</Button> | <Button size='sm' className='text-xs' variant='destructive-outline'>destructive-outline</Button> | <Button size='sm' className='text-xs' variant='destructive-ghost'>destructive-ghost</Button> | <Button size='sm' className='text-xs' variant='destructive-tonal'>destructive-tonal</Button> | <Button size='sm' className='text-xs' variant='destructive-glass'>destructive-glass</Button> | <ButtonLink href='#card-surfaces' size='sm' className='text-xs' variant='destructive-underline'>destructive-underline</ButtonLink> |
+| success | <Button size='sm' className='text-xs' variant='success-saturated'>success-saturated</Button> | <Button size='sm' className='text-xs' variant='success-outline'>success-outline</Button> | <Button size='sm' className='text-xs' variant='success-ghost'>success-ghost</Button> | <Button size='sm' className='text-xs' variant='success-tonal'>success-tonal</Button> | <Button size='sm' className='text-xs' variant='success-glass'>success-glass</Button> | <ButtonLink href='#card-surfaces' size='sm' className='text-xs' variant='success-underline'>success-underline</ButtonLink> |
+| caution | <Button size='sm' className='text-xs' variant='caution-saturated'>caution-saturated</Button> | <Button size='sm' className='text-xs' variant='caution-outline'>caution-outline</Button> | <Button size='sm' className='text-xs' variant='caution-ghost'>caution-ghost</Button> | <Button size='sm' className='text-xs' variant='caution-tonal'>caution-tonal</Button> | <Button size='sm' className='text-xs' variant='caution-glass'>caution-glass</Button> | <ButtonLink href='#card-surfaces' size='sm' className='text-xs' variant='caution-underline'>caution-underline</ButtonLink> |
 
 ## Card surfaces
 
-Cards share the six-color palette and support outline, ghost, tonal, saturated, and glass. The default card treatment is `primary-tonal`.
-
-<CardTreatmentMatrix />
-
-Browse the [component catalog](/styling/1-colouring/2-components/) for the rest of the exported Styling controls and surfaces.
+| Color | outline | ghost | tonal | saturated | glass | underline |
+| --- | --- | --- | --- | --- | --- | --- |
+| primary | <Card size='sm' variant='primary-outline' className='p-2 text-xs'>primary-outline</Card> | <Card size='sm' variant='primary-ghost' className='p-2 text-xs'>primary-ghost</Card> | <Card size='sm' variant='primary-tonal' className='p-2 text-xs'>primary-tonal</Card> | <Card size='sm' variant='primary-saturated' className='p-2 text-xs'>primary-saturated</Card> | <Card size='sm' variant='primary-glass' className='p-2 text-xs'>primary-glass</Card> |  |
+| secondary | <Card size='sm' variant='secondary-outline' className='p-2 text-xs'>secondary-outline</Card> | <Card size='sm' variant='secondary-ghost' className='p-2 text-xs'>secondary-ghost</Card> | <Card size='sm' variant='secondary-tonal' className='p-2 text-xs'>secondary-tonal</Card> | <Card size='sm' variant='secondary-saturated' className='p-2 text-xs'>secondary-saturated</Card> | <Card size='sm' variant='secondary-glass' className='p-2 text-xs'>secondary-glass</Card> |  |
+| gray | <Card size='sm' variant='gray-outline' className='p-2 text-xs'>gray-outline</Card> | <Card size='sm' variant='gray-ghost' className='p-2 text-xs'>gray-ghost</Card> | <Card size='sm' variant='gray-tonal' className='p-2 text-xs'>gray-tonal</Card> | <Card size='sm' variant='gray-saturated' className='p-2 text-xs'>gray-saturated</Card> | <Card size='sm' variant='gray-glass' className='p-2 text-xs'>gray-glass</Card> |  |
+| destructive | <Card size='sm' variant='destructive-outline' className='p-2 text-xs'>destructive-outline</Card> | <Card size='sm' variant='destructive-ghost' className='p-2 text-xs'>destructive-ghost</Card> | <Card size='sm' variant='destructive-tonal' className='p-2 text-xs'>destructive-tonal</Card> | <Card size='sm' variant='destructive-saturated' className='p-2 text-xs'>destructive-saturated</Card> | <Card size='sm' variant='destructive-glass' className='p-2 text-xs'>destructive-glass</Card> |  |
+| success | <Card size='sm' variant='success-outline' className='p-2 text-xs'>success-outline</Card> | <Card size='sm' variant='success-ghost' className='p-2 text-xs'>success-ghost</Card> | <Card size='sm' variant='success-tonal' className='p-2 text-xs'>success-tonal</Card> | <Card size='sm' variant='success-saturated' className='p-2 text-xs'>success-saturated</Card> | <Card size='sm' variant='success-glass' className='p-2 text-xs'>success-glass</Card> |  |
+| caution | <Card size='sm' variant='caution-outline' className='p-2 text-xs'>caution-outline</Card> | <Card size='sm' variant='caution-ghost' className='p-2 text-xs'>caution-ghost</Card> | <Card size='sm' variant='caution-tonal' className='p-2 text-xs'>caution-tonal</Card> | <Card size='sm' variant='caution-saturated' className='p-2 text-xs'>caution-saturated</Card> | <Card size='sm' variant='caution-glass' className='p-2 text-xs'>caution-glass</Card> |  |

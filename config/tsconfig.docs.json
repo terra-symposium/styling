@@ -1,0 +1,8 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"noEmit": true,
+		"rootDir": ".."
+	},
+	"include": ["../docs/styling/1-colouring/**/*.tsx", "../docs/styling/1-colouring/**/*.ts", "./docs-env.d.ts"]
+}

@@ -68,18 +68,6 @@ This checklist inventories repository-owned functions, documents, and configurat
 - [ ] `renderMemberSignature` (line 564): Render each state; check interactions, accessibility, loading, and error behavior. No direct test file is linked yet.
 - [ ] `ComponentReference` (line 590): Render each state; check interactions, accessibility, loading, and error behavior. No direct test file is linked yet.
 
-### `docs/styling/1-colouring/_matrix.tsx`
-
-- [ ] `VariantExample` (line 49): Test expected input/output, empty and boundary cases, and a relevant failure path. No direct test file is linked yet.
-- [ ] `createButtonCols` (line 63): Render each state; check interactions, accessibility, loading, and error behavior. No direct test file is linked yet.
-- [ ] `createButtonCol` (line 75): Render each state; check interactions, accessibility, loading, and error behavior. No direct test file is linked yet.
-- [ ] `renderButtonExample` (line 82): Render each state; check interactions, accessibility, loading, and error behavior. No direct test file is linked yet.
-- [ ] `createCardCols` (line 109): Test successful mutation, duplicate/conflict, validation, and failed-write behavior. No direct test file is linked yet.
-- [ ] `createCardCol` (line 121): Test successful mutation, duplicate/conflict, validation, and failed-write behavior. No direct test file is linked yet.
-- [ ] `renderCardExample` (line 128): Render each state; check interactions, accessibility, loading, and error behavior. No direct test file is linked yet.
-- [ ] `ButtonTreatmentMatrix` (line 151): Render each state; check interactions, accessibility, loading, and error behavior. No direct test file is linked yet.
-- [ ] `CardTreatmentMatrix` (line 170): Test expected input/output, empty and boundary cases, and a relevant failure path. No direct test file is linked yet.
-
 ### `scripts/clean-build.mjs`
 
 - [ ] File behavior: execute or compile this source, including expected output and failure handling. No direct test file is linked yet.
@@ -852,7 +840,8 @@ This checklist inventories repository-owned functions, documents, and configurat
 - [ ] [`.agents/skills/terra-styling-accessibility/SKILL.md`](../.agents/skills/terra-styling-accessibility/SKILL.md): Render, check links and examples, then review each factual claim and instruction against the current implementation.
 - [ ] [`.agents/skills/ui-variants/SKILL.md`](../.agents/skills/ui-variants/SKILL.md): Render, check links and examples, then review each factual claim and instruction against the current implementation.
 - [ ] [`docs/styling/0-repository-guide/installation.mdx`](../docs/styling/0-repository-guide/installation.mdx): Render, check links and examples, then review each factual claim and instruction against the current implementation.
-- [ ] [`docs/styling/0-repository-guide/repository-guide.mdx`](../docs/styling/0-repository-guide/repository-guide.mdx): Render, check links and examples, then review each factual claim and instruction against the current implementation.
+- [ ] [`docs/styling/0-repository-guide/usage.mdx`](../docs/styling/0-repository-guide/usage.mdx): Render, check links and examples, then review each factual claim and instruction against the current implementation.
+- [ ] [`docs/styling/0-repository-guide/development.mdx`](../docs/styling/0-repository-guide/development.mdx): Render, check links and examples, then review each factual claim and instruction against the current implementation.
 - [ ] [`docs/styling/1-colouring/0-hue.mdx`](../docs/styling/1-colouring/0-hue.mdx): Render, check links and examples, then review each factual claim and instruction against the current implementation.
 - [ ] [`docs/styling/1-colouring/1-variants.mdx`](../docs/styling/1-colouring/1-variants.mdx): Render, check links and examples, then review each factual claim and instruction against the current implementation.
 - [ ] [`docs/styling/1-colouring/2-components.mdx`](../docs/styling/1-colouring/2-components.mdx): Render, check links and examples, then review each factual claim and instruction against the current implementation.

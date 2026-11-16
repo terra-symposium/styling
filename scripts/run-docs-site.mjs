@@ -47,7 +47,7 @@ const astroArgs = [
 HELPERS
 //////////////////////////////////////////////////*/
 
-// terra-quality-ignore single-use -- Keep run as a named callback for useful error stacks. TSDoc: Runs a child process in the repository with the docs site's environment.
+// hygiene-ignore single-use -- Keep run as a named callback for useful error stacks. TSDoc: Runs a child process in the repository with the docs site's environment.
 /** Runs a child process in the repository with the docs site's environment.
  *
  * @param cmd Executable path or command name.
@@ -65,7 +65,7 @@ if (mode === 'dev' || mode === 'preview') astroArgs.push('--port', port);
 if (mode === 'dev') astroArgs.push('--host', '127.0.0.1');
 const cmd = mode === 'preview' ? [process.execPath, resolve(root, 'scripts/serve-docs-preview.mjs'), port] : [process.execPath, ...astroArgs];
 const child = spawn(cmd[0], cmd.slice(1), { cwd: root, env, stdio: 'inherit' });
-// terra-quality-ignore single-use -- Keep handleSpawnErr as a named callback for useful error stacks. TSDoc: Reports a failure to start the selected docs server process.
+// hygiene-ignore single-use -- Keep handleSpawnErr as a named callback for useful error stacks. TSDoc: Reports a failure to start the selected docs server process.
 /** Reports a failure to start the selected docs server process.
  *
  * @param err Process launch error.
@@ -74,7 +74,7 @@ function handleSpawnErr(err) {
 	console.error(`Could not start the Styling Docs ${mode} server: ${err.message}`);
 	process.exitCode = 1;
 }
-// terra-quality-ignore single-use -- Keep handleChildExit as a named callback for useful error stacks. TSDoc: Propagates the docs server process result to this runner.
+// hygiene-ignore single-use -- Keep handleChildExit as a named callback for useful error stacks. TSDoc: Propagates the docs server process result to this runner.
 /** Propagates the docs server process result to this runner.
  *
  * @param code Child process exit code, when it exited normally.
@@ -89,7 +89,7 @@ function handleChildExit(code, signal) {
  * @param signal Termination signal handled by this listener.
  */
 function registerSignalForwarder(signal) {
-	// terra-quality-ignore single-use -- Keep forwardSignal as a named callback for useful error stacks. TSDoc: Stops the docs server when its parent receives the captured signal.
+	// hygiene-ignore single-use -- Keep forwardSignal as a named callback for useful error stacks. TSDoc: Stops the docs server when its parent receives the captured signal.
 	/** Stops the docs server when its parent receives the captured signal. */
 	function forwardSignal() {
 		child.kill(signal);

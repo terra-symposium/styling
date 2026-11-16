@@ -27,7 +27,7 @@ import type { ButtonSize, ButtonVariant, UiButtonButtonProps as ButtonProps } fr
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-// terra-quality-ignore single-use -- Keep ButtonRender as a named React component to preserve its identity. TSDoc: Renders the primary button with form, loading, and menu-trigger states.
+// hygiene-ignore single-use -- Keep ButtonRender as a named React component to preserve its identity. TSDoc: Renders the primary button with form, loading, and menu-trigger states.
 /** Renders the primary button with form, loading, and menu-trigger states.
  * @param buttonProps - Button attributes and Styling variant options.
  * @param ref - Ref forwarded to the native button element.
@@ -36,9 +36,9 @@ COMPONENTS
 function ButtonRender(buttonProps: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>): React.JSX.Element {
 	const { className, variant = 'primary-saturated', size = 'md', asChild = false, disabled = false, loading = false, loadingText, menuTrigger, children, type = 'button', ...props } = buttonProps;
 	const Comp = asChild ? Slot : 'button';
-	// terra-quality-ignore single-use -- Keep the form-status hook at this unconditional position before loading-state derivation.
+	// hygiene-ignore single-use -- Keep the form-status hook at this unconditional position before loading-state derivation.
 	const formStatus = useFormStatus();
-	// terra-quality-ignore single-use -- Keep the optional-form hook at this unconditional position after form status.
+	// hygiene-ignore single-use -- Keep the optional-form hook at this unconditional position after form status.
 	const form = useOptionalFormContext();
 	const isLoading = loading || formStatus.pending || Boolean(form?.formState.isSubmitting);
 	const iconOnly = size === 'icon' || size === 'icon-xs' || size === 'icon-sm' || size === 'icon-lg';
@@ -88,7 +88,7 @@ type ButtonLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 	controlEnvironment?: 'selected' | 'available';
 };
 
-// terra-quality-ignore single-use -- Keep ButtonLinkRender as a named React component to preserve its identity. TSDoc: Renders an anchor using button variants and optional selected-state treatment.
+// hygiene-ignore single-use -- Keep ButtonLinkRender as a named React component to preserve its identity. TSDoc: Renders an anchor using button variants and optional selected-state treatment.
 /** Renders an anchor using button variants and optional selected-state treatment.
  * @param linkProps - Anchor attributes and Styling variant options.
  * @param ref - Ref forwarded to the anchor element.

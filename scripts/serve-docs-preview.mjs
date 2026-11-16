@@ -23,7 +23,7 @@ const manifest = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'
 const output = resolve(root, manifest.docs?.out ?? 'dist/docs');
 const base = `/${(manifest.docs?.base ?? '/').replace(/^\/+|\/+$/g, '')}/`.replace('//', '/');
 const port = Number(process.argv[2] ?? '2030');
-// terra-quality-ignore single-use -- Keep MIME lookup at module scope so each preview request reuses the same immutable mapping.
+// hygiene-ignore single-use -- Keep MIME lookup at module scope so each preview request reuses the same immutable mapping.
 const mimeTypes = {
 	'.css': 'text/css; charset=utf-8',
 	'.html': 'text/html; charset=utf-8',
@@ -41,7 +41,7 @@ const mimeTypes = {
 	'.woff2': 'font/woff2',
 };
 const notFound = resolve(output, '404.html');
-// terra-quality-ignore single-use -- Keep handleRequest as a named callback for useful error stacks. TSDoc: Resolves a built-site route and streams its file or fallback page.
+// hygiene-ignore single-use -- Keep handleRequest as a named callback for useful error stacks. TSDoc: Resolves a built-site route and streams its file or fallback page.
 /** Resolves a built-site route and streams its file or fallback page.
  *
  * @param request Incoming HTTP request.
@@ -79,19 +79,19 @@ async function handleRequest(request, response) {
 	if (request.method === 'HEAD') response.end();
 	else createReadStream(result.file).pipe(response);
 }
-// terra-quality-ignore single-use -- Keep logServerStarted as a named callback for useful error stacks. TSDoc: Logs the local address after the preview server begins listening.
+// hygiene-ignore single-use -- Keep logServerStarted as a named callback for useful error stacks. TSDoc: Logs the local address after the preview server begins listening.
 /** Logs the local address after the preview server begins listening. */
 function logServerStarted() {
 	console.log(`Styling Docs preview running at http://localhost:${port}${base}`);
 }
-// terra-quality-ignore single-use -- Construct the server before validating the output path so startup resource and error order stay unchanged.
+// hygiene-ignore single-use -- Construct the server before validating the output path so startup resource and error order stay unchanged.
 const server = createServer(handleRequest);
 
 /*//////////////////////////////////////////////////
 HELPERS
 //////////////////////////////////////////////////*/
 
-// terra-quality-ignore single-use -- Keep resolveFile as a named callback for useful error stacks. TSDoc: Resolves a request pathname within the built docs output directory.
+// hygiene-ignore single-use -- Keep resolveFile as a named callback for useful error stacks. TSDoc: Resolves a request pathname within the built docs output directory.
 /** Resolves a request pathname within the built docs output directory.
  *
  * @param pathname Decoded pathname beginning with the configured docs base.

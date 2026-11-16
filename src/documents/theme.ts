@@ -58,14 +58,14 @@ export type TerraDocumentBrand = {
 /*//////////////////////////////////////////////////
 PALETTE HELPERS
 //////////////////////////////////////////////////*/
-// terra-quality-ignore single-use -- Keep the saturation lookup at module scope so brand generation reuses one stable palette table.
+// hygiene-ignore single-use -- Keep the saturation lookup at module scope so brand generation reuses one stable palette table.
 const SATURATION_CHROMA: Record<DocumentSaturation, number> = {
 	low: 0.04,
 	medium: 0.075,
 	high: 0.12,
 };
 
-// terra-quality-ignore single-use -- Keep hex as a named declaration so its authored TSDoc stays attached. TSDoc: Converts a space-separated RGB triplet to a hash-prefixed hexadecimal color.
+// hygiene-ignore single-use -- Keep hex as a named declaration so its authored TSDoc stays attached. TSDoc: Converts a space-separated RGB triplet to a hash-prefixed hexadecimal color.
 /**
  * Converts a space-separated RGB triplet to a hash-prefixed hexadecimal color.
  *
@@ -104,7 +104,7 @@ export function createDocumentBrand(options: TerraDocumentBrandOptions = {}): Te
 	const saturation = options.saturation ?? 'medium';
 	const hue = options.hue === undefined ? Math.random() * 300 : options.hue;
 	const logo = options.logo === false ? false : (options.logo ?? 'terra-wordmark');
-	// terra-quality-ignore single-use -- Read the dark-logo option before random palette generation so option getter order stays unchanged.
+	// hygiene-ignore single-use -- Read the dark-logo option before random palette generation so option getter order stays unchanged.
 	const logoOnDark = options.logoOnDark === false ? false : (options.logoOnDark ?? logo);
 	const paletteOptions = { accentChroma: SATURATION_CHROMA[saturation] };
 	const [basePrimary] = colors(hue, paletteOptions);
@@ -117,7 +117,7 @@ export function createDocumentBrand(options: TerraDocumentBrandOptions = {}): Te
 		secondary: grayscale ? baseGray : baseSecondary,
 		gray: grayscale ? baseGray : baseGray,
 	};
-	// terra-quality-ignore single-use -- Materialize generated colors before reading overrides so option getters cannot alter the base palette.
+	// hygiene-ignore single-use -- Materialize generated colors before reading overrides so option getters cannot alter the base palette.
 	const gen: DocumentColors = {
 		// Keep surfaces and text on the generated Radix primary scale. Reserve
 		// primary.11 for supporting text and primary.12 for readable body text.

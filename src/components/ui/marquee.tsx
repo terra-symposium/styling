@@ -81,7 +81,7 @@ export function Marquee({
 	const randomOffsetsRef = useRef<number[]>([]);
 	const [heldRow, setHeldRow] = useState<number | null>(null);
 
-	// terra-quality-ignore single-use -- Keep setupLayoutEffect as a named declaration so its authored TSDoc stays attached. TSDoc: Measures the marquee and keeps its row and item counts aligned with the available space.
+	// hygiene-ignore single-use -- Keep setupLayoutEffect as a named declaration so its authored TSDoc stays attached. TSDoc: Measures the marquee and keeps its row and item counts aligned with the available space.
 	/**
 	 * Measures the marquee and keeps its row and item counts aligned with the available space.
 	 *
@@ -120,12 +120,12 @@ export function Marquee({
 			}
 			setMeasured(true);
 		}
-		// terra-quality-ignore single-use -- Keep updateOnNextFrame as a named declaration so its authored TSDoc stays attached. TSDoc: Runs one post-paint measurement if this effect has not been cleaned up.
+		// hygiene-ignore single-use -- Keep updateOnNextFrame as a named declaration so its authored TSDoc stays attached. TSDoc: Runs one post-paint measurement if this effect has not been cleaned up.
 		/** Runs one post-paint measurement if this effect has not been cleaned up. */
 		function updateOnNextFrame(): void {
 			if (active) updateLayout();
 		}
-		// terra-quality-ignore single-use -- Keep cleanupLayoutEffect as a named declaration so its authored TSDoc stays attached. TSDoc: Disconnects the resize observer and listeners for this component instance.
+		// hygiene-ignore single-use -- Keep cleanupLayoutEffect as a named declaration so its authored TSDoc stays attached. TSDoc: Disconnects the resize observer and listeners for this component instance.
 		/** Disconnects the resize observer and listeners for this component instance. */
 		function cleanupLayoutEffect(): void {
 			active = false;
@@ -143,7 +143,7 @@ export function Marquee({
 	}
 	useLayoutEffect(setupLayoutEffect, [duration, fit, randomizeDelay, rows, separator, size, terms]);
 
-	// terra-quality-ignore single-use -- Keep createRowTerms as a named declaration so its authored TSDoc stays attached. TSDoc: Creates a repeatable shuffled term string for each visible marquee row.
+	// hygiene-ignore single-use -- Keep createRowTerms as a named declaration so its authored TSDoc stays attached. TSDoc: Creates a repeatable shuffled term string for each visible marquee row.
 	/**
 	 * Creates a repeatable shuffled term string for each visible marquee row.
 	 *
@@ -163,7 +163,7 @@ export function Marquee({
 		}
 		return rowValues;
 	}
-	// terra-quality-ignore single-use -- Keep row text memoized at this hook position so rerenders preserve shuffled terms.
+	// hygiene-ignore single-use -- Keep row text memoized at this hook position so rerenders preserve shuffled terms.
 	const rowTerms = useMemo(createRowTerms, [count, separator, terms]);
 
 	/** Holds the selected row while its pointer is pressed. */

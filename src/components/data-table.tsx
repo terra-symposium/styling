@@ -77,7 +77,7 @@ HELPERS
 //////////////////////////////////////////////////*/
 
 // CELL PRESENTATION CLASSES
-// terra-quality-ignore single-use -- Keep cellContentClass as a named declaration so its authored TSDoc stays attached. TSDoc: Builds the presentation classes shared by data-table cells.
+// hygiene-ignore single-use -- Keep cellContentClass as a named declaration so its authored TSDoc stays attached. TSDoc: Builds the presentation classes shared by data-table cells.
 /**
  * Builds the presentation classes shared by data-table cells.
  *

@@ -6,7 +6,7 @@ IMPORTS
 
 // API
 import { fileURLToPath } from 'node:url';
-import { runQualityFromCfg } from '@terra-symposium/quality/cli';
+import { runQualityFromCfg } from '@terra-symposium/hygiene/cli';
 
 /*//////////////////////////////////////////////////
 CONFIG

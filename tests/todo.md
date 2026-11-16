@@ -118,7 +118,7 @@ This checklist inventories repository-owned functions, documents, and configurat
 - [ ] `logServerStarted` (line 83): Test expected input/output, empty and boundary cases, and a relevant failure path. No direct test file is linked yet.
 - [ ] `resolveFile` (line 98): Test expected input/output, empty and boundary cases, and a relevant failure path. No direct test file is linked yet.
 
-### `scripts/terra-quality.mjs`
+### `scripts/hygiene.mjs`
 
 - [ ] File behavior: execute or compile this source, including expected output and failure handling. No direct test file is linked yet.
 
@@ -863,7 +863,7 @@ This checklist inventories repository-owned functions, documents, and configurat
 - [ ] `config/package.json`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `config/patches/@terra-symposium__docs@0.4.3.patch`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `config/quality.json`: validate syntax or schema, exercise its owning tool, and check references to this file.
-- [ ] `config/terra-tests.json`: validate syntax or schema, exercise its owning tool, and check references to this file.
+- [ ] `config/tests.json`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `config/tsconfig.json`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `.agents/skills/ui/agents/openai.yaml`: validate syntax or schema, exercise its owning tool, and check references to this file.
 - [ ] `.agents/skills/ui-variants/agents/openai.yaml`: validate syntax or schema, exercise its owning tool, and check references to this file.

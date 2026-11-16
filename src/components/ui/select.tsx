@@ -69,7 +69,7 @@ const SelectGroup = SelectPrimitive.Group;
  */
 const SelectValue = SelectPrimitive.Value;
 
-// terra-quality-ignore single-use -- Keep SelectTriggerRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the select trigger using the inherited size and chosen variant.
+// hygiene-ignore single-use -- Keep SelectTriggerRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the select trigger using the inherited size and chosen variant.
 /** Renders the select trigger using the inherited size and chosen variant.
  * @param attributes - Trigger props, size, width, and variant options.
  * @param ref - Forwarded reference to the trigger button.
@@ -121,7 +121,7 @@ const SelectTrigger = React.forwardRef<
 	}
 >(SelectTriggerRender);
 
-// terra-quality-ignore single-use -- Keep SelectScrollUpButtonRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the control that scrolls the option list toward its start.
+// hygiene-ignore single-use -- Keep SelectScrollUpButtonRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the control that scrolls the option list toward its start.
 /** Renders the control that scrolls the option list toward its start.
  * @param attributes - Radix button attributes and optional class name.
  * @param ref - Forwarded reference to the scroll-up button.
@@ -143,7 +143,7 @@ const SelectScrollUpButton = React.forwardRef<React.ElementRef<typeof SelectPrim
 	SelectScrollUpButtonRender,
 );
 
-// terra-quality-ignore single-use -- Keep SelectScrollDownButtonRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the control that scrolls the option list toward its end.
+// hygiene-ignore single-use -- Keep SelectScrollDownButtonRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the control that scrolls the option list toward its end.
 /** Renders the control that scrolls the option list toward its end.
  * @param attributes - Radix button attributes and optional class name.
  * @param ref - Forwarded reference to the scroll-down button.
@@ -165,7 +165,7 @@ const SelectScrollDownButton = React.forwardRef<React.ElementRef<typeof SelectPr
 	SelectScrollDownButtonRender,
 );
 
-// terra-quality-ignore single-use -- Keep SelectContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders option groups with optional portal placement and scroll controls.
+// hygiene-ignore single-use -- Keep SelectContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders option groups with optional portal placement and scroll controls.
 /** Renders option groups with optional portal placement and scroll controls.
  * @param attributes - Radix panel props, children, placement, and portal choice.
  * @param ref - Forwarded reference to the option panel.
@@ -210,7 +210,7 @@ const SelectContent = React.forwardRef<
 	}
 >(SelectContentRender);
 
-// terra-quality-ignore single-use -- Keep SelectLabelRender as a named React component to preserve its identity. TSDoc: Renders a group heading above related select options.
+// hygiene-ignore single-use -- Keep SelectLabelRender as a named React component to preserve its identity. TSDoc: Renders a group heading above related select options.
 /** Renders a group heading above related select options.
  * @param attributes - Radix label attributes and optional class name.
  * @param ref - Forwarded reference to the option group label.
@@ -223,7 +223,7 @@ function SelectLabelRender(attributes: React.ComponentPropsWithoutRef<typeof Sel
 
 const SelectLabel = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Label>, React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>>(SelectLabelRender);
 
-// terra-quality-ignore single-use -- Keep SelectItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a selectable option with size and selection styling.
+// hygiene-ignore single-use -- Keep SelectItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a selectable option with size and selection styling.
 /** Renders a selectable option with size and selection styling.
  * @param attributes - Radix option props, label children, and optional icon.
  * @param ref - Forwarded reference to the option element.
@@ -272,7 +272,7 @@ const SelectItem = React.forwardRef<
 	}
 >(SelectItemRender);
 
-// terra-quality-ignore single-use -- Keep SelectSeparatorRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the divider between logical groups of select options.
+// hygiene-ignore single-use -- Keep SelectSeparatorRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the divider between logical groups of select options.
 /** Renders the divider between logical groups of select options.
  * @param attributes - Radix separator attributes and optional class name.
  * @param ref - Forwarded reference to the separator element.

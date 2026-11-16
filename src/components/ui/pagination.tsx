@@ -31,7 +31,7 @@ function Pagination({ className, ...attributes }: React.ComponentProps<'nav'>): 
 	return <nav role='navigation' aria-label='pagination' className={cn('mx-auto flex w-full justify-center', className)} {...attributes} />;
 }
 
-// terra-quality-ignore single-use -- Keep PaginationContentRender as a named React component to preserve its identity. TSDoc: Renders a horizontally arranged list of pagination controls.
+// hygiene-ignore single-use -- Keep PaginationContentRender as a named React component to preserve its identity. TSDoc: Renders a horizontally arranged list of pagination controls.
 /** Renders a horizontally arranged list of pagination controls.
  * @param attributes - Div attributes and optional class name.
  * @param ref - Forwarded reference to the list container.
@@ -44,7 +44,7 @@ function PaginationContentRender(attributes: React.ComponentProps<'div'>, ref: R
 
 const PaginationContent = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(PaginationContentRender);
 
-// terra-quality-ignore single-use -- Keep PaginationItemRender as a named React component to preserve its identity. TSDoc: Renders one pagination action using the shared ghost button styles.
+// hygiene-ignore single-use -- Keep PaginationItemRender as a named React component to preserve its identity. TSDoc: Renders one pagination action using the shared ghost button styles.
 /** Renders one pagination action using the shared ghost button styles.
  * @param attributes - Button props and optional class name.
  * @param ref - Forwarded reference to the action button.
@@ -81,7 +81,7 @@ function PaginationLink({
 	disabled?: boolean;
 	size?: NonNullable<React.ComponentProps<typeof Button>['size']>;
 } & React.ComponentProps<'a'>): React.JSX.Element {
-	// terra-quality-ignore single-use -- Keep preventDisabledPaginationNavigation as a named declaration so its authored TSDoc stays attached. TSDoc: Prevents navigation when a page link is disabled.
+	// hygiene-ignore single-use -- Keep preventDisabledPaginationNavigation as a named declaration so its authored TSDoc stays attached. TSDoc: Prevents navigation when a page link is disabled.
 	/**
 	 * Prevents navigation when a page link is disabled.
 	 *

@@ -38,7 +38,7 @@ function AlertDialog(rootProps: React.ComponentProps<typeof AlertDialogPrimitive
 	return <AlertDialogPrimitive.Root data-slot='alert-dialog' {...rootProps} />;
 }
 
-// terra-quality-ignore single-use -- Keep the portal component identity stable across renders; creating it inside AlertDialogPortal would remount the dialog.
+// hygiene-ignore single-use -- Keep the portal component identity stable across renders; creating it inside AlertDialogPortal would remount the dialog.
 const AlertDialogPortalPrimitive = createTerraPortal(AlertDialogPrimitive.Portal);
 
 /**

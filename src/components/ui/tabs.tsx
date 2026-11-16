@@ -30,7 +30,7 @@ type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> &
 	variant?: 'default' | 'line' | 'dashboard-nav';
 };
 
-// terra-quality-ignore single-use -- Keep renderTabsList as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the shared tab list and its selected navigation layout.
+// hygiene-ignore single-use -- Keep renderTabsList as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the shared tab list and its selected navigation layout.
 /** Renders the shared tab list and its selected navigation layout.
  * @param listProps - Radix list attributes and Styling layout variant.
  * @param ref - Ref forwarded to the Radix list element.
@@ -67,7 +67,7 @@ type TabsTriggerProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trig
 	selection?: 'none' | 'surface' | 'line';
 };
 
-// terra-quality-ignore single-use -- Keep renderTabsTrigger as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a tab button with action and selection treatments.
+// hygiene-ignore single-use -- Keep renderTabsTrigger as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a tab button with action and selection treatments.
 /** Renders a tab button with action and selection treatments.
  * @param triggerProps - Radix trigger attributes and Styling variants.
  * @param ref - Ref forwarded to the Radix trigger element.
@@ -97,7 +97,7 @@ function renderTabsTrigger(triggerProps: TabsTriggerProps, ref: React.ForwardedR
 
 const TabsTrigger = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Trigger>, TabsTriggerProps>(renderTabsTrigger);
 
-// terra-quality-ignore single-use -- Keep renderTabsContent as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a tab panel with visible focus treatment and print visibility.
+// hygiene-ignore single-use -- Keep renderTabsContent as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a tab panel with visible focus treatment and print visibility.
 /** Renders a tab panel with visible focus treatment and print visibility.
  * @param contentProps - Radix panel attributes and child content.
  * @param ref - Ref forwarded to the Radix panel element.

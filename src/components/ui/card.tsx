@@ -83,7 +83,7 @@ const CARD_SUMMARY_VARIANTS: Record<
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-// terra-quality-ignore single-use -- Keep CardRender as a named React component to preserve its identity. TSDoc: Renders a card as a div, anchor, slotted child, or collapsible summary.
+// hygiene-ignore single-use -- Keep CardRender as a named React component to preserve its identity. TSDoc: Renders a card as a div, anchor, slotted child, or collapsible summary.
 /** Renders a card as a div, anchor, slotted child, or collapsible summary.
  * @param cardProps - Card surface, size, interaction, disclosure, and element props.
  * @param ref - Ref forwarded to the rendered card element.
@@ -143,7 +143,7 @@ function CardRender(cardProps: CardProps, ref: React.ForwardedRef<HTMLDivElement
 	} = summary?.props ?? {};
 	const summaryIconOnly = summarySize.startsWith('icon-') || summarySize === 'icon';
 	const Comp: React.ElementType = asChild ? Slot : isAnchor ? 'a' : 'div';
-	// terra-quality-ignore single-use -- Compute card classes before spreading caller props; inlining into JSX would move this work after prop getters.
+	// hygiene-ignore single-use -- Compute card classes before spreading caller props; inlining into JSX would move this work after prop getters.
 	const classes = cn(
 		cva(
 			// Base styles for the card container
@@ -254,7 +254,7 @@ function CardSummary(_props: CardSummaryProps): null {
 }
 
 // HEADER
-// terra-quality-ignore single-use -- Keep CardHeaderRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the card header and optional action aligned at its trailing edge.
+// hygiene-ignore single-use -- Keep CardHeaderRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the card header and optional action aligned at its trailing edge.
 /** Renders the card header and optional action aligned at its trailing edge.
  * @param headerProps - Header content, action, layout variant, and div attributes.
  * @param ref - Ref forwarded to the header element.
@@ -297,7 +297,7 @@ const CardHeader = React.forwardRef<
 >(CardHeaderRender);
 
 // TITLE
-// terra-quality-ignore single-use -- Keep CardTitleRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the card title and optional explanatory tooltip.
+// hygiene-ignore single-use -- Keep CardTitleRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the card title and optional explanatory tooltip.
 /** Renders the card title and optional explanatory tooltip.
  * @param titleProps - Heading content, tooltip, and native heading attributes.
  * @param ref - Ref forwarded to the heading element.
@@ -331,7 +331,7 @@ function CardTitleRender(
 /** Primary title heading within a card header. */
 const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement> & { tooltip?: React.ReactNode }>(CardTitleRender);
 
-// terra-quality-ignore single-use -- Keep CardHeadingRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a card heading using a caller-selected heading tag and inherited size.
+// hygiene-ignore single-use -- Keep CardHeadingRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a card heading using a caller-selected heading tag and inherited size.
 /** Renders a card heading using a caller-selected heading tag and inherited size.
  * @param headingProps - Heading attributes and the desired HTML tag.
  * @param ref - Ref forwarded to the selected heading element.
@@ -373,7 +373,7 @@ const CardHeading = React.forwardRef<
 >(CardHeadingRender);
 
 // DESCRIPTION
-// terra-quality-ignore single-use -- Keep CardDescriptionRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders card description text and an optional explanatory tooltip.
+// hygiene-ignore single-use -- Keep CardDescriptionRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders card description text and an optional explanatory tooltip.
 /** Renders card description text and an optional explanatory tooltip.
  * @param descriptionProps - Paragraph content, tooltip, and native attributes.
  * @param ref - Ref forwarded to the paragraph element.
@@ -419,7 +419,7 @@ function CardDescriptionRender(
 /** Subordinate description text within a card. */
 const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement> & { tooltip?: React.ReactNode }>(CardDescriptionRender);
 
-// terra-quality-ignore single-use -- Keep CardActionRender as a named React component to preserve its identity. TSDoc: Renders the action slot at the trailing edge of a card header.
+// hygiene-ignore single-use -- Keep CardActionRender as a named React component to preserve its identity. TSDoc: Renders the action slot at the trailing edge of a card header.
 /** Renders the action slot at the trailing edge of a card header.
  * @param actionProps - Div attributes for the card action.
  * @param ref - Ref forwarded to the action element.
@@ -431,7 +431,7 @@ function CardActionRender(actionProps: React.HTMLAttributes<HTMLDivElement>, ref
 }
 const CardAction = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(CardActionRender);
 
-// terra-quality-ignore single-use -- Keep CardTextRender as a named React component to preserve its identity. TSDoc: Renders card body text using a selected paragraph or div tag.
+// hygiene-ignore single-use -- Keep CardTextRender as a named React component to preserve its identity. TSDoc: Renders card body text using a selected paragraph or div tag.
 /** Renders card body text using a selected paragraph or div tag.
  * @param textProps - Text attributes and the desired HTML tag.
  * @param ref - Ref forwarded to the selected text element.
@@ -461,7 +461,7 @@ function CardTextRender(textProps: React.HTMLAttributes<HTMLParagraphElement> & 
 /** Flexible body text element within a card supporting dynamic tags (`as` prop). */
 const CardText = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement> & { as?: 'p' | 'div' }>(CardTextRender);
 
-// terra-quality-ignore single-use -- Keep CardQuoteRender as a named React component to preserve its identity. TSDoc: Renders a blockquote with typography from the current card size.
+// hygiene-ignore single-use -- Keep CardQuoteRender as a named React component to preserve its identity. TSDoc: Renders a blockquote with typography from the current card size.
 /** Renders a blockquote with typography from the current card size.
  * @param quoteProps - Blockquote content and native attributes.
  * @param ref - Ref forwarded to the blockquote element.
@@ -492,7 +492,7 @@ function CardQuoteRender(quoteProps: React.HTMLAttributes<HTMLElement>, ref: Rea
 /** Blockquote component formatted for cards. */
 const CardQuote = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(CardQuoteRender);
 
-// terra-quality-ignore single-use -- Keep CardMetaRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders attribution or timestamp text using a selected inline tag.
+// hygiene-ignore single-use -- Keep CardMetaRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders attribution or timestamp text using a selected inline tag.
 /** Renders attribution or timestamp text using a selected inline tag.
  * @param metaProps - Text attributes and the desired HTML tag.
  * @param ref - Ref forwarded to the selected meta element.
@@ -529,7 +529,7 @@ function CardMetaRender(
 const CardMeta = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement> & { as?: 'span' | 'cite' | 'p' | 'div' }>(CardMetaRender);
 
 // CONTENT
-// terra-quality-ignore single-use -- Keep CardContentRender as a named React component to preserve its identity. TSDoc: Renders the card content body with inherited size spacing and typography.
+// hygiene-ignore single-use -- Keep CardContentRender as a named React component to preserve its identity. TSDoc: Renders the card content body with inherited size spacing and typography.
 /** Renders the card content body with inherited size spacing and typography.
  * @param contentProps - Content attributes and child elements.
  * @param ref - Ref forwarded to the content container.
@@ -544,7 +544,7 @@ function CardContentRender(contentProps: React.HTMLAttributes<HTMLDivElement>, r
 const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(CardContentRender);
 
 // FOOTER
-// terra-quality-ignore single-use -- Keep CardFooterRender as a named React component to preserve its identity. TSDoc: Renders the card footer with inherited size padding.
+// hygiene-ignore single-use -- Keep CardFooterRender as a named React component to preserve its identity. TSDoc: Renders the card footer with inherited size padding.
 /** Renders the card footer with inherited size padding.
  * @param footerProps - Footer attributes and child content.
  * @param ref - Ref forwarded to the footer element.

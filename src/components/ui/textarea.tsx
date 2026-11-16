@@ -32,7 +32,7 @@ type TextareaProps = React.ComponentProps<'textarea'> & {
 	setValueAs?: (value: string) => unknown;
 };
 
-// terra-quality-ignore single-use -- Keep renderTextarea as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the textarea and adapts its callbacks to react-hook-form when a form is present.
+// hygiene-ignore single-use -- Keep renderTextarea as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the textarea and adapts its callbacks to react-hook-form when a form is present.
 /** Renders the textarea and adapts its callbacks to react-hook-form when a form is present.
  * @param textareaProps - Native textarea props, variants, and optional form conversion.
  * @param ref - External ref combined with react-hook-form's registered ref.
@@ -42,7 +42,7 @@ function renderTextarea(textareaProps: TextareaProps, ref: React.ForwardedRef<HT
 	const { className, variant = 'primary', size = 'md', name, onChange, onBlur, setValueAs, ...props } = textareaProps;
 	const form = useOptionalFormContext<FieldValues>();
 	const registration = form && name ? form.register(name, { setValueAs }) : null;
-	// terra-quality-ignore single-use -- Keep attachTextareaRef as a named declaration so its authored TSDoc stays attached. TSDoc: Combines form registration and caller refs for the rendered textarea.
+	// hygiene-ignore single-use -- Keep attachTextareaRef as a named declaration so its authored TSDoc stays attached. TSDoc: Combines form registration and caller refs for the rendered textarea.
 	/** Combines form registration and caller refs for the rendered textarea.
 	 * @param element - Mounted textarea element or null during unmount.
 	 * @return Nothing; both refs receive the element value.
@@ -52,7 +52,7 @@ function renderTextarea(textareaProps: TextareaProps, ref: React.ForwardedRef<HT
 		if (typeof ref === 'function') ref(element);
 		else if (ref) ref.current = element;
 	}
-	// terra-quality-ignore single-use -- Keep handleTextareaChange as a named declaration so its authored TSDoc stays attached. TSDoc: Updates form state before notifying the caller's change handler.
+	// hygiene-ignore single-use -- Keep handleTextareaChange as a named declaration so its authored TSDoc stays attached. TSDoc: Updates form state before notifying the caller's change handler.
 	/** Updates form state before notifying the caller's change handler.
 	 * @param event - Textarea change event.
 	 * @return Nothing; both change handlers are invoked in order.
@@ -61,7 +61,7 @@ function renderTextarea(textareaProps: TextareaProps, ref: React.ForwardedRef<HT
 		registration?.onChange(event);
 		onChange?.(event);
 	}
-	// terra-quality-ignore single-use -- Keep handleTextareaBlur as a named declaration so its authored TSDoc stays attached. TSDoc: Updates form state before notifying the caller's blur handler.
+	// hygiene-ignore single-use -- Keep handleTextareaBlur as a named declaration so its authored TSDoc stays attached. TSDoc: Updates form state before notifying the caller's blur handler.
 	/** Updates form state before notifying the caller's blur handler.
 	 * @param event - Textarea focus event.
 	 * @return Nothing; both blur handlers are invoked in order.

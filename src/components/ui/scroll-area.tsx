@@ -24,7 +24,7 @@ COMPONENTS
  */
 type ScrollAreaProps = React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root> & { viewportClassName?: string };
 
-// terra-quality-ignore single-use -- Keep renderScrollArea as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the scroll root, viewport, scrollbar, and corner together.
+// hygiene-ignore single-use -- Keep renderScrollArea as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the scroll root, viewport, scrollbar, and corner together.
 /** Renders the scroll root, viewport, scrollbar, and corner together.
  * @param areaProps - Scroll root attributes and viewport class override.
  * @param ref - Ref forwarded to the Radix scroll root.
@@ -68,7 +68,7 @@ function renderScrollArea(areaProps: ScrollAreaProps, ref: React.ForwardedRef<Re
 
 const ScrollArea = React.forwardRef<React.ElementRef<typeof ScrollAreaPrimitive.Root>, ScrollAreaProps>(renderScrollArea);
 
-// terra-quality-ignore single-use -- Keep renderScrollBar as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the scrollbar track with an orientation-aware layout.
+// hygiene-ignore single-use -- Keep renderScrollBar as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the scrollbar track with an orientation-aware layout.
 /** Renders the scrollbar track with an orientation-aware layout.
  * @param barProps - Radix scrollbar attributes and optional orientation.
  * @param ref - Ref forwarded to the Radix scrollbar element.

@@ -18,7 +18,7 @@ import * as SeparatorPrimitive from '@radix-ui/react-separator';
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-// terra-quality-ignore single-use -- Keep renderSeparator as a named declaration so its authored TSDoc stays attached. TSDoc: Separator primitive component.
+// hygiene-ignore single-use -- Keep renderSeparator as a named declaration so its authored TSDoc stays attached. TSDoc: Separator primitive component.
 /**
  * Separator primitive component.
  *

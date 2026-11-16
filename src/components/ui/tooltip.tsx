@@ -59,7 +59,7 @@ const tooltipVariants = cva(
 /** Radix tooltip content props with the shared visual size variant. */
 type TooltipContentProps = React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> & VariantProps<typeof tooltipVariants>;
 
-// terra-quality-ignore single-use -- Keep renderTooltipContent as a named declaration so its authored TSDoc stays attached. TSDoc: Renders tooltip content, its trigger-relative placement, and the arrow.
+// hygiene-ignore single-use -- Keep renderTooltipContent as a named declaration so its authored TSDoc stays attached. TSDoc: Renders tooltip content, its trigger-relative placement, and the arrow.
 /** Renders tooltip content, its trigger-relative placement, and the arrow.
  * @param tooltipProps - Content props and visual size variant.
  * @param ref - Ref forwarded to the Radix tooltip content element.

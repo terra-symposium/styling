@@ -55,11 +55,11 @@ export function createWordTemplate(options: WordTemplateOptions = {}): Document 
 	const noBorder = { style: BorderStyle.NIL, size: 0 };
 	const thinRule = { style: BorderStyle.SINGLE, size: 5, color: c.line.replace(SHARED_REGEX, '') };
 	const sectionRule = { style: BorderStyle.SINGLE, size: 10, color: c.primaryStrong.replace(SHARED_REGEX, '') };
-	// terra-quality-ignore single-use -- Share one border-options object across the generated Word tables instead of recreating it for each table.
+	// hygiene-ignore single-use -- Share one border-options object across the generated Word tables instead of recreating it for each table.
 	const emptyTableBorders = { top: noBorder, bottom: noBorder, left: noBorder, right: noBorder, insideHorizontal: noBorder, insideVertical: noBorder };
-	// terra-quality-ignore single-use -- Share one margin-options object across the generated Word cells instead of recreating it for each cell.
+	// hygiene-ignore single-use -- Share one margin-options object across the generated Word cells instead of recreating it for each cell.
 	const cellMargins = { top: 100, bottom: 100, left: 140, right: 140 };
-	// terra-quality-ignore single-use -- Keep colorFill as a named declaration so its authored TSDoc stays attached. TSDoc: Removes a leading hash before assigning a Word cell fill.
+	// hygiene-ignore single-use -- Keep colorFill as a named declaration so its authored TSDoc stays attached. TSDoc: Removes a leading hash before assigning a Word cell fill.
 	/** Removes a leading hash before assigning a Word cell fill.
 	 * @param color - CSS-style hexadecimal fill color.
 	 * @return Word shading options for the fill.
@@ -466,7 +466,7 @@ export async function editWordTemplate(srcPath: string, destPath: string, replac
 	await replaceWordText(srcPath, destPath, replacements);
 }
 
-// terra-quality-ignore single-use -- Keep replaceWordText as a named declaration so its authored TSDoc stays attached. TSDoc: Replaces exact text in editable Word XML parts while preserving other package content.
+// hygiene-ignore single-use -- Keep replaceWordText as a named declaration so its authored TSDoc stays attached. TSDoc: Replaces exact text in editable Word XML parts while preserving other package content.
 /**
  * Replaces exact text in editable Word XML parts while preserving other package content.
  *

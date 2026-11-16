@@ -193,9 +193,9 @@ export function createPresentationTemplate(options: PresentationTemplateOptions 
 		bodyFontFace: brand.fonts.body,
 		lang: 'en-AU',
 	};
-	// terra-quality-ignore single-use -- Bind the original PptxGenJS writer before replacing writeFile; inlining at the call would recurse into the wrapper.
+	// hygiene-ignore single-use -- Bind the original PptxGenJS writer before replacing writeFile; inlining at the call would recurse into the wrapper.
 	const writeFile = pptx.writeFile.bind(pptx);
-	// terra-quality-ignore single-use -- Keep writeBrandedPresentation as a named declaration so its authored TSDoc stays attached. TSDoc: Writes the deck and applies the resolved brand palette to its theme.
+	// hygiene-ignore single-use -- Keep writeBrandedPresentation as a named declaration so its authored TSDoc stays attached. TSDoc: Writes the deck and applies the resolved brand palette to its theme.
 	/** Writes the deck and applies the resolved brand palette to its theme.
 	 *
 	 * @param writeOptions Output filename passed to PptxGenJS.
@@ -203,7 +203,7 @@ export function createPresentationTemplate(options: PresentationTemplateOptions 
 	 * @return The result returned by PptxGenJS after the theme is updated.
 	 */
 	async function writeBrandedPresentation(writeOptions: { fileName: string }): Promise<string> {
-		// terra-quality-ignore single-use -- Keep the original writer result before applying the brand; the wrapper must return that exact result afterward.
+		// hygiene-ignore single-use -- Keep the original writer result before applying the brand; the wrapper must return that exact result afterward.
 		const result = await writeFile(writeOptions);
 		await applyPresentationBrand(writeOptions.fileName, brand);
 		return result;
@@ -261,11 +261,11 @@ export function createPresentationTemplate(options: PresentationTemplateOptions 
 	 */
 	function registerEditableMaster(title: string, layout: 'cover' | 'section' | 'content' | 'table' | 'closing'): void {
 		const dark = layout === 'closing';
-		// terra-quality-ignore single-use -- Resolve title foreground before building logo objects so color getter order stays unchanged.
+		// hygiene-ignore single-use -- Resolve title foreground before building logo objects so color getter order stays unchanged.
 		const foreground = dark ? c.paper : c.ink;
-		// terra-quality-ignore single-use -- Choose title geometry before PptxGenJS constructs slide-master objects, preserving setup order.
+		// hygiene-ignore single-use -- Choose title geometry before PptxGenJS constructs slide-master objects, preserving setup order.
 		const titlePosition = layout === 'cover' ? { x: 0.62, y: 2.05, w: 8.7, h: 1.35 } : layout === 'section' ? { x: 0.62, y: 2.0, w: 9.0, h: 1.05 } : { x: 0.62, y: 0.72, w: 12.0, h: 0.56 };
-		// terra-quality-ignore single-use -- Choose body geometry before PptxGenJS constructs slide-master objects, preserving setup order.
+		// hygiene-ignore single-use -- Choose body geometry before PptxGenJS constructs slide-master objects, preserving setup order.
 		const bodyPosition = layout === 'cover' ? { x: 0.62, y: 3.72, w: 8.0, h: 0.9 } : layout === 'section' ? { x: 0.62, y: 3.35, w: 8.0, h: 0.76 } : { x: 0.62, y: 1.42, w: 11.9, h: 0.45 };
 		pptx.defineSlideMaster({
 			title,
@@ -428,7 +428,7 @@ export function createPresentationTemplate(options: PresentationTemplateOptions 
 		addText(slide, 'A table that matches the UI', textOptions(brand.fonts.body, 25, c.ink), { x: 0.62, y: 0.72, w: 9.0, h: 0.56 });
 		addText(slide, 'Same hierarchy, row rules and cell spacing as the Styling table component.', textOptions(brand.fonts.body, 13, c.muted), { x: 0.62, y: 1.42, w: 9.0, h: 0.35 });
 		const none = { type: 'none' };
-		// terra-quality-ignore single-use -- Share one bottom-border object across table cells so PptxGenJS sees consistent border options.
+		// hygiene-ignore single-use -- Share one bottom-border object across table cells so PptxGenJS sees consistent border options.
 		const bottom = {
 			type: 'solid',
 			color: officeColor(scaleToken(brand.scales.primary, 5)),
@@ -456,7 +456,7 @@ export function createPresentationTemplate(options: PresentationTemplateOptions 
 				},
 			};
 		}
-		// terra-quality-ignore single-use -- Build all cell values before passing the rows to PptxGenJS, preserving generation order.
+		// hygiene-ignore single-use -- Build all cell values before passing the rows to PptxGenJS, preserving generation order.
 		const rows = [
 			[
 				cell('Element', {
@@ -553,7 +553,7 @@ export async function applyPresentationBrand(presentationPath: string, brandOrOp
  * @throws If none of the requested source text occurs in slide parts.
  */
 export async function editPresentationTemplate(srcPath: string, destPath: string, replacements: Record<string, string>): Promise<void> {
-	// terra-quality-ignore single-use -- Keep isSlidePart as a named declaration so its authored TSDoc stays attached. TSDoc: Selects only numbered slide XML parts for exact-text edits.
+	// hygiene-ignore single-use -- Keep isSlidePart as a named declaration so its authored TSDoc stays attached. TSDoc: Selects only numbered slide XML parts for exact-text edits.
 	/** Selects only numbered slide XML parts for exact-text edits.
 	 *
 	 * @param name Package entry name.
@@ -586,7 +586,7 @@ export async function replaceOfficeText(srcPath: string, destPath: string, repla
 		let xml = await entry.async('string');
 		for (const [from, to] of Object.entries(replacements)) {
 			const escapedFrom = escapeXml(from);
-			// terra-quality-ignore single-use -- Escape each replacement before checking occurrences; inlining inside the branch would skip validation for absent text.
+			// hygiene-ignore single-use -- Escape each replacement before checking occurrences; inlining inside the branch would skip validation for absent text.
 			const escapedTo = escapeXml(to);
 			const occurrences = xml.split(escapedFrom).length - 1;
 			if (occurrences) {
@@ -601,7 +601,7 @@ export async function replaceOfficeText(srcPath: string, destPath: string, repla
 	await fs.writeFile(destPath, await zip.generateAsync({ type: 'nodebuffer' }));
 }
 
-// terra-quality-ignore single-use -- Keep finalizePresentation as a named declaration so its authored TSDoc stays attached. TSDoc: Finalizes the OOXML deck and applies its palette to the theme and compatibility metadata.
+// hygiene-ignore single-use -- Keep finalizePresentation as a named declaration so its authored TSDoc stays attached. TSDoc: Finalizes the OOXML deck and applies its palette to the theme and compatibility metadata.
 /**
  * Finalizes the OOXML deck for common Office editors and applies its Design > Variants palette to the theme and compatibility metadata.
  *
@@ -617,7 +617,7 @@ async function finalizePresentation(presentationPath: string, brand: TerraDocume
 	const contentTypes = zip.file('[Content_Types].xml');
 	if (!contentTypes) throw new Error('The generated presentation is missing [Content_Types].xml.');
 	let xml = await contentTypes.async('string');
-	// terra-quality-ignore single-use -- Keep removeMissingOverride as a named declaration so its authored TSDoc stays attached. TSDoc: Keeps content-type overrides only when the package part still exists.
+	// hygiene-ignore single-use -- Keep removeMissingOverride as a named declaration so its authored TSDoc stays attached. TSDoc: Keeps content-type overrides only when the package part still exists.
 	/** Keeps content-type overrides only when the package part still exists.
 	 *
 	 * @param match Full content-type override element.
@@ -648,7 +648,7 @@ async function finalizePresentation(presentationPath: string, brand: TerraDocume
 		folHlink: brand.colors.secondary,
 	};
 	for (const [name, value] of Object.entries(scheme)) {
-		// terra-quality-ignore single-use -- Validate and convert the palette color before testing theme XML so error precedence stays unchanged.
+		// hygiene-ignore single-use -- Validate and convert the palette color before testing theme XML so error precedence stays unchanged.
 		const replacement = '<a:' + name + '><a:srgbClr val="' + officeColor(value) + '"/></a:' + name + '>';
 		const pattern = new RegExp('<a:' + name + '>[\\s\\S]*?<\\/a:' + name + '>');
 		if (!pattern.test(themeXml)) throw new Error('The generated presentation theme is missing ' + name + '.');

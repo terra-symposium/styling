@@ -158,7 +158,7 @@ CONFIG
 //////////////////////////////////////////////////*/
 
 // FORM LAYOUTS
-// terra-quality-ignore single-use -- Keep the layout map at module scope so all form renders share one stable lookup object.
+// hygiene-ignore single-use -- Keep the layout map at module scope so all form renders share one stable lookup object.
 const FORM_LAYOUT_CLASSES: Record<FormLayout, string> = {
 	stacked: 'grid gap-4',
 	compact: 'grid gap-2',
@@ -369,9 +369,9 @@ export function MappedFormControl({ field, id: suppliedId }: { field: MappedForm
 	};
 	if ('control' in f) return <>{f.control}</>;
 	if (f.type === 'input') {
-		// terra-quality-ignore single-use -- Capture this input's callback at render time so a later field-object mutation cannot change its event handler.
+		// hygiene-ignore single-use -- Capture this input's callback at render time so a later field-object mutation cannot change its event handler.
 		const onValueChange = f.onValueChange;
-		// terra-quality-ignore single-use -- Keep handleInputChange as a named declaration so its authored TSDoc stays attached. TSDoc: Forwards the current input value to the field's value-change handler.
+		// hygiene-ignore single-use -- Keep handleInputChange as a named declaration so its authored TSDoc stays attached. TSDoc: Forwards the current input value to the field's value-change handler.
 		/**
 		 * Forwards the current input value to the field's value-change handler.
 		 *
@@ -435,9 +435,9 @@ export function MappedFormControl({ field, id: suppliedId }: { field: MappedForm
 		);
 	}
 	if (f.type === 'textarea') {
-		// terra-quality-ignore single-use -- Capture this textarea callback at render time so a later field-object mutation cannot change its event handler.
+		// hygiene-ignore single-use -- Capture this textarea callback at render time so a later field-object mutation cannot change its event handler.
 		const onValueChange = f.onValueChange;
-		// terra-quality-ignore single-use -- Keep handleTextareaChange as a named declaration so its authored TSDoc stays attached. TSDoc: Forwards the current textarea value to the field's value-change handler.
+		// hygiene-ignore single-use -- Keep handleTextareaChange as a named declaration so its authored TSDoc stays attached. TSDoc: Forwards the current textarea value to the field's value-change handler.
 		/**
 		 * Forwards the current textarea value to the field's value-change handler.
 		 *
@@ -464,9 +464,9 @@ export function MappedFormControl({ field, id: suppliedId }: { field: MappedForm
 		);
 	}
 	if (f.type === 'checkbox') {
-		// terra-quality-ignore single-use -- Capture this checkbox callback at render time so a later field-object mutation cannot change its event handler.
+		// hygiene-ignore single-use -- Capture this checkbox callback at render time so a later field-object mutation cannot change its event handler.
 		const onCheckedChange = f.onCheckedChange;
-		// terra-quality-ignore single-use -- Keep handleCheckedChange as a named declaration so its authored TSDoc stays attached. TSDoc: Converts the checkbox primitive's indeterminate state to a boolean field value.
+		// hygiene-ignore single-use -- Keep handleCheckedChange as a named declaration so its authored TSDoc stays attached. TSDoc: Converts the checkbox primitive's indeterminate state to a boolean field value.
 		/**
 		 * Converts the checkbox primitive's indeterminate state to a boolean field value.
 		 *
@@ -542,7 +542,7 @@ export function MappedFormFields({
 	className?: string;
 	layout?: FormLayout;
 }): React.JSX.Element {
-	// terra-quality-ignore single-use -- Preserve this useId call at the same hook position for every MappedFormFields render.
+	// hygiene-ignore single-use -- Preserve this useId call at the same hook position for every MappedFormFields render.
 	const genId = React.useId();
 	/**
 	 * Renders one field and derives its id and key when the caller omits them.
@@ -552,9 +552,9 @@ export function MappedFormFields({
 	 * @return A labelled field layout containing the mapped control.
 	 */
 	function renderField(f: MappedFormField, i: number): React.JSX.Element {
-		// terra-quality-ignore single-use -- Capture the caller's ID before reading the custom control so ID getter order stays unchanged.
+		// hygiene-ignore single-use -- Capture the caller's ID before reading the custom control so ID getter order stays unchanged.
 		const suppliedId = f.id ?? ('name' in f ? f.name : undefined);
-		// terra-quality-ignore single-use -- Read the custom control even when an ID is supplied; inlining under ?? would skip that access.
+		// hygiene-ignore single-use -- Read the custom control even when an ID is supplied; inlining under ?? would skip that access.
 		const hasCustomControl = 'control' in f && f.control !== undefined;
 		const id = suppliedId ?? (hasCustomControl ? undefined : `${genId}-${i}`);
 		return (

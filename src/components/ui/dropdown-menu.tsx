@@ -46,7 +46,7 @@ const classes = {
 	palette: cn('rounded-md border p-1 focus:ring-0', OVERLAY_SURFACE_VARIANTS(), OVERLAY_MOTION_VARIANTS(), RADIX_SIDE_POSITION_VARIANTS()),
 };
 
-// terra-quality-ignore single-use -- Keep DropdownMenuSubTriggerRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the trigger for a nested dropdown menu.
+// hygiene-ignore single-use -- Keep DropdownMenuSubTriggerRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the trigger for a nested dropdown menu.
 /** Renders the trigger for a nested dropdown menu.
  * className: - Additional classes for the submenu trigger.
  * inset: - Whether the trigger aligns with inset menu items.
@@ -77,7 +77,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
 	}
 >(DropdownMenuSubTriggerRender);
 
-// terra-quality-ignore single-use -- Keep DropdownMenuSubContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the floating panel for a nested dropdown menu.
+// hygiene-ignore single-use -- Keep DropdownMenuSubContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the floating panel for a nested dropdown menu.
 /** Renders the floating panel for a nested dropdown menu.
  * className: - Additional classes for the submenu panel.
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
@@ -102,7 +102,7 @@ const DropdownMenuSubContent = React.forwardRef<React.ElementRef<typeof Dropdown
 	DropdownMenuSubContentRender,
 );
 
-// terra-quality-ignore single-use -- Keep DropdownMenuContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the portaled main dropdown panel.
+// hygiene-ignore single-use -- Keep DropdownMenuContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the portaled main dropdown panel.
 /** Renders the portaled main dropdown panel.
  * className: - Additional classes for the panel surface.
  * collisionPadding: - Minimum distance from viewport edges.
@@ -135,7 +135,7 @@ function DropdownMenuContentRender(
 
 const DropdownMenuContent = React.forwardRef<React.ElementRef<typeof DropdownMenuPrimitive.Content>, React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>>(DropdownMenuContentRender);
 
-// terra-quality-ignore single-use -- Keep DropdownMenuItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an actionable menu item with shared intent variants.
+// hygiene-ignore single-use -- Keep DropdownMenuItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an actionable menu item with shared intent variants.
 /** Renders an actionable menu item with shared intent variants.
  * className: - Additional classes for the menu item.
  * inset: - Whether the item aligns with an inset menu group.
@@ -180,7 +180,7 @@ const DropdownMenuItem = React.forwardRef<
 		}
 >(DropdownMenuItemRender);
 
-// terra-quality-ignore single-use -- Keep DropdownMenuCheckboxItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a toggleable checkbox and its selected indicator.
+// hygiene-ignore single-use -- Keep DropdownMenuCheckboxItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a toggleable checkbox and its selected indicator.
 /** Renders a toggleable checkbox and its selected indicator.
  * className: - Additional classes for the checkbox item.
  * children: - Checkbox label content.
@@ -211,7 +211,7 @@ const DropdownMenuCheckboxItem = Object.assign(
 	{ displayName: DropdownMenuPrimitive.CheckboxItem.displayName },
 );
 
-// terra-quality-ignore single-use -- Keep DropdownMenuRadioItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a radio option with its selected-state bullet.
+// hygiene-ignore single-use -- Keep DropdownMenuRadioItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a radio option with its selected-state bullet.
 /** Renders a radio option with its selected-state bullet.
  * className: - Additional classes for the radio item.
  * children: - Radio option label content.
@@ -241,7 +241,7 @@ const DropdownMenuRadioItem = Object.assign(
 	{ displayName: DropdownMenuPrimitive.RadioItem.displayName },
 );
 
-// terra-quality-ignore single-use -- Keep DropdownMenuLabelRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a category heading, optionally aligned with inset entries.
+// hygiene-ignore single-use -- Keep DropdownMenuLabelRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a category heading, optionally aligned with inset entries.
 /** Renders a category heading, optionally aligned with inset entries.
  * className: - Additional classes for the label.
  * inset: - Whether the label aligns with inset menu items.
@@ -266,7 +266,7 @@ const DropdownMenuLabel = React.forwardRef<
 	}
 >(DropdownMenuLabelRender);
 
-// terra-quality-ignore single-use -- Keep DropdownMenuSeparatorRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the horizontal divider between dropdown sections.
+// hygiene-ignore single-use -- Keep DropdownMenuSeparatorRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the horizontal divider between dropdown sections.
 /** Renders the horizontal divider between dropdown sections.
  * className: - Additional classes for the separator.
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
@@ -285,7 +285,7 @@ const DropdownMenuSeparator = React.forwardRef<React.ElementRef<typeof DropdownM
 	DropdownMenuSeparatorRender,
 );
 
-// terra-quality-ignore single-use -- Keep DropdownMenuShortcutRender as a named React component to preserve its identity. TSDoc: Renders keyboard shortcut text after a dropdown menu label.
+// hygiene-ignore single-use -- Keep DropdownMenuShortcutRender as a named React component to preserve its identity. TSDoc: Renders keyboard shortcut text after a dropdown menu label.
 /** Renders keyboard shortcut text after a dropdown menu label.
  * className: - Optional style overrides for the shortcut label.
  * @param attributes - Remaining span attributes forwarded to the label.

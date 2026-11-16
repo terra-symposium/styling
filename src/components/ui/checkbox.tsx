@@ -33,7 +33,7 @@ type CheckboxProps = React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Roo
 	name?: string;
 };
 
-// terra-quality-ignore single-use -- Keep updateCheckboxValue as a named declaration so its authored TSDoc stays attached. TSDoc: Writes a checkbox change to the form before notifying the caller.
+// hygiene-ignore single-use -- Keep updateCheckboxValue as a named declaration so its authored TSDoc stays attached. TSDoc: Writes a checkbox change to the form before notifying the caller.
 /** Writes a checkbox change to the form before notifying the caller.
  * @param next - Checked or indeterminate state reported by Radix.
  * @param name - Registered field name, when the checkbox belongs to a form.
@@ -56,7 +56,7 @@ function updateCheckboxValue(
 	onCheckedChange?.(next);
 }
 
-// terra-quality-ignore single-use -- Keep renderCheckbox as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a controlled or form-registered Radix checkbox.
+// hygiene-ignore single-use -- Keep renderCheckbox as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a controlled or form-registered Radix checkbox.
 /** Renders a controlled or form-registered Radix checkbox.
  * @param checkboxProps - Radix state, field name, and native checkbox attributes.
  * @param ref - Ref forwarded to the Radix checkbox root.
@@ -66,7 +66,7 @@ function renderCheckbox(checkboxProps: CheckboxProps, ref: React.ForwardedRef<Re
 	const { className, name, checked, defaultChecked, onCheckedChange, ...props } = checkboxProps;
 	const form = useOptionalFormContext<FieldValues>();
 	const formChecked = form && name ? form.watch(name) : undefined;
-	// terra-quality-ignore single-use -- Keep initializeFormValue as a named declaration so its authored TSDoc stays attached. TSDoc: Seeds a registered checkbox from its initial value without marking it dirty.
+	// hygiene-ignore single-use -- Keep initializeFormValue as a named declaration so its authored TSDoc stays attached. TSDoc: Seeds a registered checkbox from its initial value without marking it dirty.
 	/** Seeds a registered checkbox from its initial value without marking it dirty. */
 	function initializeFormValue(): void {
 		const initialValue = checked ?? defaultChecked;
@@ -74,7 +74,7 @@ function renderCheckbox(checkboxProps: CheckboxProps, ref: React.ForwardedRef<Re
 		form.setValue(name, initialValue as never, { shouldDirty: false });
 	}
 	React.useEffect(initializeFormValue, [form, name, checked, defaultChecked]);
-	// terra-quality-ignore single-use -- Keep handleCheckedChange as a named declaration so its authored TSDoc stays attached. TSDoc: Persists the Radix state and notifies the optional caller callback.
+	// hygiene-ignore single-use -- Keep handleCheckedChange as a named declaration so its authored TSDoc stays attached. TSDoc: Persists the Radix state and notifies the optional caller callback.
 	/** Persists the Radix state and notifies the optional caller callback.
 	 * @param next - Checked or indeterminate state reported by Radix.
 	 * @return Nothing; the form and caller receive the value in order.
@@ -107,7 +107,7 @@ function renderCheckbox(checkboxProps: CheckboxProps, ref: React.ForwardedRef<Re
 
 const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root>, CheckboxProps>(renderCheckbox);
 
-// terra-quality-ignore single-use -- Keep renderCheckboxIndicator as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the optional checkbox icon or mark inside Radix's indicator slot.
+// hygiene-ignore single-use -- Keep renderCheckboxIndicator as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the optional checkbox icon or mark inside Radix's indicator slot.
 /** Renders the optional checkbox icon or mark inside Radix's indicator slot.
  * @param indicatorProps - Native indicator attributes and optional classes.
  * @param ref - Ref forwarded to the Radix indicator element.

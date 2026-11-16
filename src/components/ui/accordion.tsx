@@ -51,12 +51,12 @@ VariantCtx.displayName = 'AccordionVariantContext';
  * @return Accordion class variants for item, trigger, and content.
  */
 function useAccordionVariant(variant?: Variant): (typeof ACCORDION_VARIANT_CLASSES)[Variant] {
-	// terra-quality-ignore single-use -- Keep useContext at this unconditional hook position before variant lookup.
+	// hygiene-ignore single-use -- Keep useContext at this unconditional hook position before variant lookup.
 	const contextVariant = React.useContext(VariantCtx);
 	return ACCORDION_VARIANT_CLASSES[variant ?? contextVariant];
 }
 
-// terra-quality-ignore single-use -- Keep AccordionItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an accordion item with the active variant's item spacing.
+// hygiene-ignore single-use -- Keep AccordionItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an accordion item with the active variant's item spacing.
 /** Renders an accordion item with the active variant's item spacing.
  * @param itemProps - Radix item attributes and optional size variant.
  * @param ref - Ref forwarded to the Radix item element.
@@ -69,7 +69,7 @@ function AccordionItemRender(
 	ref: React.ForwardedRef<React.ElementRef<typeof AccordionPrimitive.Item>>,
 ): React.JSX.Element {
 	const { className, variant: variantOverride, ...props } = itemProps;
-	// terra-quality-ignore single-use -- Keep the accordion variant hook before JSX construction on every item render.
+	// hygiene-ignore single-use -- Keep the accordion variant hook before JSX construction on every item render.
 	const variant = useAccordionVariant(variantOverride);
 	return <AccordionPrimitive.Item ref={ref} className={cn('relative w-full min-w-0 overflow-hidden border-t border-primary-6', variant.item, className)} {...props} />;
 }
@@ -86,7 +86,7 @@ const AccordionItem = React.forwardRef<
 	}
 >(AccordionItemRender);
 
-// terra-quality-ignore single-use -- Keep AccordionTriggerRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a trigger and its disclosure icon using the active variant.
+// hygiene-ignore single-use -- Keep AccordionTriggerRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a trigger and its disclosure icon using the active variant.
 /** Renders a trigger and its disclosure icon using the active variant.
  * @param triggerProps - Radix trigger attributes, content, and optional size variant.
  * @param ref - Ref forwarded to the Radix trigger element.
@@ -99,7 +99,7 @@ function AccordionTriggerRender(
 	ref: React.ForwardedRef<React.ElementRef<typeof AccordionPrimitive.Trigger>>,
 ): React.JSX.Element {
 	const { className, children, variant: variantOverride, ...props } = triggerProps;
-	// terra-quality-ignore single-use -- Keep the accordion variant hook before JSX construction on every trigger render.
+	// hygiene-ignore single-use -- Keep the accordion variant hook before JSX construction on every trigger render.
 	const variant = useAccordionVariant(variantOverride);
 	return (
 		<AccordionPrimitive.Header className={cn('flex w-full min-w-0', className)}>
@@ -131,7 +131,7 @@ const AccordionTrigger = React.forwardRef<
 	}
 >(AccordionTriggerRender);
 
-// terra-quality-ignore single-use -- Keep AccordionContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the expandable content region using the active variant's spacing.
+// hygiene-ignore single-use -- Keep AccordionContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the expandable content region using the active variant's spacing.
 /** Renders the expandable content region using the active variant's spacing.
  * @param contentProps - Radix content attributes, children, and optional variant.
  * @param ref - Ref forwarded to the Radix content element.
@@ -144,7 +144,7 @@ function AccordionContentRender(
 	ref: React.ForwardedRef<React.ElementRef<typeof AccordionPrimitive.Content>>,
 ): React.JSX.Element {
 	const { className, children, variant: variantOverride, ...props } = contentProps;
-	// terra-quality-ignore single-use -- Keep the accordion variant hook before JSX construction on every content render.
+	// hygiene-ignore single-use -- Keep the accordion variant hook before JSX construction on every content render.
 	const variant = useAccordionVariant(variantOverride);
 	return (
 		<AccordionPrimitive.Content

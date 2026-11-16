@@ -25,7 +25,7 @@ LOCAL TYPES
 
 const CarouselCtx = React.createContext<CarouselCtxProps | null>(null);
 CarouselCtx.displayName = 'CarouselContext';
-// terra-quality-ignore single-use -- Keep CarouselRender as a named React component to preserve its identity. TSDoc: Renders an accessible Embla carousel and publishes its navigation state.
+// hygiene-ignore single-use -- Keep CarouselRender as a named React component to preserve its identity. TSDoc: Renders an accessible Embla carousel and publishes its navigation state.
 /** Renders an accessible Embla carousel and publishes its navigation state.
  * @param carouselProps - Root attributes, orientation, plugins, and API callback.
  * @param ref - Ref forwarded to the outer carousel region.
@@ -36,7 +36,7 @@ function CarouselRender(carouselProps: React.HTMLAttributes<HTMLDivElement> & Ca
 	const [carouselRef, api] = useEmblaCarousel({ ...opts, axis: orientation === 'horizontal' ? 'x' : 'y' }, plugins);
 	const [canScrollPrev, setCanScrollPrev] = React.useState(false);
 	const [canScrollNext, setCanScrollNext] = React.useState(false);
-	// terra-quality-ignore single-use -- Keep updateCarouselSelection as a named declaration so its authored TSDoc stays attached. TSDoc: Updates previous and next availability after Embla selection changes.
+	// hygiene-ignore single-use -- Keep updateCarouselSelection as a named declaration so its authored TSDoc stays attached. TSDoc: Updates previous and next availability after Embla selection changes.
 	/** Updates previous and next availability after Embla selection changes.
 	 * @param api - Active Embla API.
 	 * @return Nothing; both control availability states are refreshed.
@@ -47,26 +47,26 @@ function CarouselRender(carouselProps: React.HTMLAttributes<HTMLDivElement> & Ca
 		setCanScrollNext(api.canScrollNext());
 	}
 	const onSelect = React.useCallback(updateCarouselSelection, []);
-	// terra-quality-ignore single-use -- Keep moveToPreviousSlide as a named declaration so its authored TSDoc stays attached. TSDoc: Moves to the previous slide when Embla is available.
+	// hygiene-ignore single-use -- Keep moveToPreviousSlide as a named declaration so its authored TSDoc stays attached. TSDoc: Moves to the previous slide when Embla is available.
 	/** Moves to the previous slide when Embla is available. */
 	function moveToPreviousSlide(): void {
 		api?.scrollPrev();
 	}
 	const scrollPrev = React.useCallback(moveToPreviousSlide, [api]);
-	// terra-quality-ignore single-use -- Keep moveToNextSlide as a named declaration so its authored TSDoc stays attached. TSDoc: Moves to the next slide when Embla is available.
+	// hygiene-ignore single-use -- Keep moveToNextSlide as a named declaration so its authored TSDoc stays attached. TSDoc: Moves to the next slide when Embla is available.
 	/** Moves to the next slide when Embla is available. */
 	function moveToNextSlide(): void {
 		api?.scrollNext();
 	}
 	const scrollNext = React.useCallback(moveToNextSlide, [api]);
-	// terra-quality-ignore single-use -- Keep publishCarouselApi as a named declaration so its authored TSDoc stays attached. TSDoc: Publishes the mounted API to the optional caller callback.
+	// hygiene-ignore single-use -- Keep publishCarouselApi as a named declaration so its authored TSDoc stays attached. TSDoc: Publishes the mounted API to the optional caller callback.
 	/** Publishes the mounted API to the optional caller callback. */
 	function publishCarouselApi(): void {
 		if (!api || !setApi) return;
 		setApi(api);
 	}
 	React.useEffect(publishCarouselApi, [api, setApi]);
-	// terra-quality-ignore single-use -- Keep subscribeToCarouselSelection as a named declaration so its authored TSDoc stays attached. TSDoc: Subscribes to Embla selection updates and returns listener cleanup.
+	// hygiene-ignore single-use -- Keep subscribeToCarouselSelection as a named declaration so its authored TSDoc stays attached. TSDoc: Subscribes to Embla selection updates and returns listener cleanup.
 	/** Subscribes to Embla selection updates and returns listener cleanup.
 	 * @return A cleanup callback when Embla is available.
 	 */
@@ -77,13 +77,13 @@ function CarouselRender(carouselProps: React.HTMLAttributes<HTMLDivElement> & Ca
 		api.on('select', onSelect);
 		return removeCarouselSelectionListener;
 	}
-	// terra-quality-ignore single-use -- Keep removeCarouselSelectionListener as a named declaration so its authored TSDoc stays attached. TSDoc: Removes the Embla selection listener when the carousel unmounts.
+	// hygiene-ignore single-use -- Keep removeCarouselSelectionListener as a named declaration so its authored TSDoc stays attached. TSDoc: Removes the Embla selection listener when the carousel unmounts.
 	/** Removes the Embla selection listener when the carousel unmounts. */
 	function removeCarouselSelectionListener(): void {
 		api?.off('select', onSelect);
 	}
 	React.useEffect(subscribeToCarouselSelection, [api, onSelect]);
-	// terra-quality-ignore single-use -- Keep handleCarouselKeyDown as a named declaration so its authored TSDoc stays attached. TSDoc: Handles arrow-key navigation within the carousel region.
+	// hygiene-ignore single-use -- Keep handleCarouselKeyDown as a named declaration so its authored TSDoc stays attached. TSDoc: Handles arrow-key navigation within the carousel region.
 	/** Handles arrow-key navigation within the carousel region.
 	 * @param event - Captured keyboard event.
 	 * @return Nothing; horizontal arrows move the carousel and prevent default.
@@ -97,7 +97,7 @@ function CarouselRender(carouselProps: React.HTMLAttributes<HTMLDivElement> & Ca
 			scrollNext();
 		}
 	}
-	// terra-quality-ignore single-use -- Keep the keyboard callback memo at this hook position so Carousel preserves handler identity across renders.
+	// hygiene-ignore single-use -- Keep the keyboard callback memo at this hook position so Carousel preserves handler identity across renders.
 	const onCarouselKeyDown = React.useCallback(handleCarouselKeyDown, [scrollPrev, scrollNext]);
 	return (
 		<CarouselCtx.Provider
@@ -120,7 +120,7 @@ function CarouselRender(carouselProps: React.HTMLAttributes<HTMLDivElement> & Ca
 }
 /** Accessible carousel region with Embla navigation state and arrow-key controls. */
 const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & CarouselProps>(CarouselRender);
-// terra-quality-ignore single-use -- Keep renderCarouselContent as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the scrollable carousel track controlled by Embla.
+// hygiene-ignore single-use -- Keep renderCarouselContent as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the scrollable carousel track controlled by Embla.
 /** Renders the scrollable carousel track controlled by Embla.
  * @param contentProps - Track attributes and child slides.
  * @param ref - Ref forwarded to the track element.
@@ -142,7 +142,7 @@ function renderCarouselContent(contentProps: React.HTMLAttributes<HTMLDivElement
  * @returns A scrollable track region controlled by Embla.
  */
 const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(renderCarouselContent);
-// terra-quality-ignore single-use -- Keep renderCarouselItem as a named declaration so its authored TSDoc stays attached. TSDoc: Renders one slide with the current carousel orientation spacing.
+// hygiene-ignore single-use -- Keep renderCarouselItem as a named declaration so its authored TSDoc stays attached. TSDoc: Renders one slide with the current carousel orientation spacing.
 /** Renders one slide with the current carousel orientation spacing.
  * @param itemProps - Slide attributes and child content.
  * @param ref - Ref forwarded to the slide element.
@@ -160,7 +160,7 @@ function renderCarouselItem(itemProps: React.HTMLAttributes<HTMLDivElement>, ref
  * @returns A group element representing an individual slide.
  */
 const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(renderCarouselItem);
-// terra-quality-ignore single-use -- Keep renderCarouselPrevious as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the control that moves Embla to its previous slide.
+// hygiene-ignore single-use -- Keep renderCarouselPrevious as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the control that moves Embla to its previous slide.
 /** Renders the control that moves Embla to its previous slide.
  * @param buttonProps - Button attributes, label, and variant options.
  * @param ref - Ref forwarded to the navigation button.
@@ -195,7 +195,7 @@ function renderCarouselPrevious(buttonProps: React.ComponentProps<typeof Button>
  * @returns A button that moves the carousel to the previous slide.
  */
 const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(renderCarouselPrevious);
-// terra-quality-ignore single-use -- Keep renderCarouselNext as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the control that moves Embla to its next slide.
+// hygiene-ignore single-use -- Keep renderCarouselNext as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the control that moves Embla to its next slide.
 /** Renders the control that moves Embla to its next slide.
  * @param buttonProps - Button attributes, label, and variant options.
  * @param ref - Ref forwarded to the navigation button.

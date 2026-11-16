@@ -29,7 +29,7 @@ CONFIG
  * @return A color callback that uses `opacityValue`, falling back to `100` when it is falsy.
  */
 function applyOpacityValue(variable: string) {
-	// terra-quality-ignore single-use -- Keep applyOpacity as a named declaration so its authored TSDoc stays attached. TSDoc: Builds an RGB declaration with Tailwind's optional opacity modifier.
+	// hygiene-ignore single-use -- Keep applyOpacity as a named declaration so its authored TSDoc stays attached. TSDoc: Builds an RGB declaration with Tailwind's optional opacity modifier.
 	/**
 	 * Builds an RGB declaration with Tailwind's optional opacity modifier.
 	 *
@@ -60,7 +60,7 @@ function makeOpacityColors(prefix: string, legacy: readonly number[], current: r
 /** Theme resolver passed to computed min-width and typography extensions. */
 type ThemeExtOptions = { theme: (path: string) => unknown };
 
-// terra-quality-ignore single-use -- Keep minWidthFromTheme as a named declaration so its authored TSDoc stays attached. TSDoc: Returns the shared maximum-width scale for Tailwind's min-width extension.
+// hygiene-ignore single-use -- Keep minWidthFromTheme as a named declaration so its authored TSDoc stays attached. TSDoc: Returns the shared maximum-width scale for Tailwind's min-width extension.
 /**
  * Returns the shared maximum-width scale for Tailwind's min-width extension.
  *
@@ -71,7 +71,7 @@ function minWidthFromTheme({ theme }: ThemeExtOptions): Record<string, string> {
 	return { ...(theme('maxWidth') as Record<string, string>) };
 }
 
-// terra-quality-ignore single-use -- Keep typographyFromTheme as a named declaration so its authored TSDoc stays attached. TSDoc: Builds the shared prose colors and typography rules from Tailwind's theme resolver.
+// hygiene-ignore single-use -- Keep typographyFromTheme as a named declaration so its authored TSDoc stays attached. TSDoc: Builds the shared prose colors and typography rules from Tailwind's theme resolver.
 /**
  * Builds the shared prose colors and typography rules from Tailwind's theme resolver.
  *
@@ -124,7 +124,7 @@ function typographyFromTheme({ theme }: ThemeExtOptions) {
 	};
 }
 
-// terra-quality-ignore single-use -- Keep registerTailwindVariants as a named declaration so its authored TSDoc stays attached. TSDoc: Registers the shared focus, enabled, and direct-child variants.
+// hygiene-ignore single-use -- Keep registerTailwindVariants as a named declaration so its authored TSDoc stays attached. TSDoc: Registers the shared focus, enabled, and direct-child variants.
 /**
  * Registers the shared focus, enabled, and direct-child variants.
  *
@@ -144,7 +144,7 @@ function registerTailwindVariants({
 	matchVariant('*', childSelector, { values: { DEFAULT: '*' } });
 }
 
-// terra-quality-ignore single-use -- Keep childSelector as a named declaration so its authored TSDoc stays attached. TSDoc: Converts underscores in a matched child selector to spaces.
+// hygiene-ignore single-use -- Keep childSelector as a named declaration so its authored TSDoc stays attached. TSDoc: Converts underscores in a matched child selector to spaces.
 /**
  * Converts underscores in a matched child selector to spaces.
  *

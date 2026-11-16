@@ -56,7 +56,7 @@ function useSidebar(): SidebarCtxProps {
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-// terra-quality-ignore single-use -- Keep SidebarProviderRender as a named declaration so its authored TSDoc stays attached. TSDoc: Manages responsive sidebar state, persistence, and child context.
+// hygiene-ignore single-use -- Keep SidebarProviderRender as a named declaration so its authored TSDoc stays attached. TSDoc: Manages responsive sidebar state, persistence, and child context.
 /** Manages responsive sidebar state, persistence, and child context.
  * @param providerProps - Root attributes and controlled/uncontrolled open props.
  * @param ref - Ref forwarded to the provider's root element.
@@ -74,7 +74,7 @@ function SidebarProviderRender(
 	// STATE
 	// Track the same media query used by the mobile sidebar variant.
 	const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined);
-	// terra-quality-ignore single-use -- Keep subscribeToMobileBreakpoint as a named declaration so its authored TSDoc stays attached. TSDoc: Registers the mobile breakpoint listener and returns its cleanup.
+	// hygiene-ignore single-use -- Keep subscribeToMobileBreakpoint as a named declaration so its authored TSDoc stays attached. TSDoc: Registers the mobile breakpoint listener and returns its cleanup.
 	/** Registers the mobile breakpoint listener and returns its cleanup.
 	 * @return A callback that removes the media-query listener.
 	 */
@@ -86,7 +86,7 @@ function SidebarProviderRender(
 		function updateMobileState(): void {
 			setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
 		}
-		// terra-quality-ignore single-use -- Keep removeMobileBreakpointListener as a named declaration so its authored TSDoc stays attached. TSDoc: Removes the listener registered on the media query.
+		// hygiene-ignore single-use -- Keep removeMobileBreakpointListener as a named declaration so its authored TSDoc stays attached. TSDoc: Removes the listener registered on the media query.
 		/** Removes the listener registered on the media query. */
 		function removeMobileBreakpointListener(): void {
 			mql.removeEventListener('change', updateMobileState);
@@ -102,7 +102,7 @@ function SidebarProviderRender(
 
 	// HANDLERS
 	// updates state and persists to cookie
-	// terra-quality-ignore single-use -- Keep applySidebarOpenState as a named declaration so its authored TSDoc stays attached. TSDoc: Updates controlled or local sidebar state and persists the choice.
+	// hygiene-ignore single-use -- Keep applySidebarOpenState as a named declaration so its authored TSDoc stays attached. TSDoc: Updates controlled or local sidebar state and persists the choice.
 	/** Updates controlled or local sidebar state and persists the choice.
 	 * @param value - The next open state or an updater based on the current state.
 	 * @return Nothing; state, callback, and cookie reflect the chosen value.
@@ -125,7 +125,7 @@ function SidebarProviderRender(
 	function invertSidebarOpenState(value: boolean): boolean {
 		return !value;
 	}
-	// terra-quality-ignore single-use -- Keep toggleSidebarState as a named declaration so its authored TSDoc stays attached. TSDoc: Toggles the mobile drawer or desktop sidebar according to the viewport.
+	// hygiene-ignore single-use -- Keep toggleSidebarState as a named declaration so its authored TSDoc stays attached. TSDoc: Toggles the mobile drawer or desktop sidebar according to the viewport.
 	/** Toggles the mobile drawer or desktop sidebar according to the viewport. */
 	function toggleSidebarState(): void {
 		if (isMobile) setOpenMobile(invertSidebarOpenState);
@@ -145,14 +145,14 @@ function SidebarProviderRender(
 			toggleSidebar();
 		}
 	}
-	// terra-quality-ignore single-use -- Keep subscribeToSidebarShortcut as a named declaration so its authored TSDoc stays attached. TSDoc: Registers the global sidebar shortcut and returns its cleanup callback.
+	// hygiene-ignore single-use -- Keep subscribeToSidebarShortcut as a named declaration so its authored TSDoc stays attached. TSDoc: Registers the global sidebar shortcut and returns its cleanup callback.
 	/**
 	 * Registers the global sidebar shortcut and returns its cleanup callback.
 	 *
 	 * @return A function that removes the window keydown listener.
 	 */
 	function subscribeToSidebarShortcut(): () => void {
-		// terra-quality-ignore single-use -- Keep removeSidebarShortcut as a named declaration so its authored TSDoc stays attached. TSDoc: Removes the global shortcut listener during cleanup.
+		// hygiene-ignore single-use -- Keep removeSidebarShortcut as a named declaration so its authored TSDoc stays attached. TSDoc: Removes the global shortcut listener during cleanup.
 		/** Removes the global shortcut listener during cleanup. */
 		function removeSidebarShortcut(): void {
 			window.removeEventListener('keydown', handleSidebarShortcut);
@@ -162,7 +162,7 @@ function SidebarProviderRender(
 	}
 	React.useEffect(subscribeToSidebarShortcut, [toggleSidebar]);
 	const state: SidebarCtxProps['state'] = open ? 'expanded' : 'collapsed';
-	// terra-quality-ignore single-use -- Keep createSidebarContextValue as a named declaration so its authored TSDoc stays attached. TSDoc: Builds the context value consumed by sidebar child controls.
+	// hygiene-ignore single-use -- Keep createSidebarContextValue as a named declaration so its authored TSDoc stays attached. TSDoc: Builds the context value consumed by sidebar child controls.
 	/** Builds the context value consumed by sidebar child controls.
 	 * @return Current state, mobile status, and control methods.
 	 */
@@ -177,7 +177,7 @@ function SidebarProviderRender(
 			toggleSidebar,
 		};
 	}
-	// terra-quality-ignore single-use -- Keep the sidebar context memo at this hook position and preserve its value identity between renders.
+	// hygiene-ignore single-use -- Keep the sidebar context memo at this hook position and preserve its value identity between renders.
 	const contextValue = React.useMemo(createSidebarContextValue, [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]);
 	return (
 		<SidebarCtx.Provider value={contextValue}>
@@ -221,7 +221,7 @@ type SidebarProps = React.ComponentProps<'div'> & {
 	collapsible?: 'offcanvas' | 'icon' | 'none';
 };
 
-// terra-quality-ignore single-use -- Keep SidebarRender as a named React component to preserve its identity. TSDoc: Renders the responsive sidebar surface for the current viewport.
+// hygiene-ignore single-use -- Keep SidebarRender as a named React component to preserve its identity. TSDoc: Renders the responsive sidebar surface for the current viewport.
 /** Renders the responsive sidebar surface for the current viewport.
  * @param sidebarProps - DOM attributes and options controlling sidebar layout.
  * @param ref - Forwarded reference to the sidebar wrapper.
@@ -316,7 +316,7 @@ function SidebarRender(sidebarProps: SidebarProps, ref: React.ForwardedRef<HTMLD
 const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(SidebarRender);
 Sidebar.displayName = 'Sidebar';
 
-// terra-quality-ignore single-use -- Keep SidebarTriggerClick as a named declaration so its authored TSDoc stays attached. TSDoc: Calls the consumer click handler before toggling sidebar visibility.
+// hygiene-ignore single-use -- Keep SidebarTriggerClick as a named declaration so its authored TSDoc stays attached. TSDoc: Calls the consumer click handler before toggling sidebar visibility.
 /** Calls the consumer click handler before toggling sidebar visibility.
  * @param event - Click event from the trigger button.
  * @param onClick - Optional click handler supplied by the consumer.
@@ -328,7 +328,7 @@ function SidebarTriggerClick(event: React.MouseEvent<HTMLButtonElement>, onClick
 	toggleSidebar();
 }
 
-// terra-quality-ignore single-use -- Keep SidebarTriggerRender as a named React component to preserve its identity. TSDoc: Renders the icon trigger with tooltip and sidebar toggle behavior.
+// hygiene-ignore single-use -- Keep SidebarTriggerRender as a named React component to preserve its identity. TSDoc: Renders the icon trigger with tooltip and sidebar toggle behavior.
 /** Renders the icon trigger with tooltip and sidebar toggle behavior.
  * @param triggerProps - Button attributes and optional consumer click handler.
  * @param ref - Forwarded reference to the underlying button.
@@ -337,7 +337,7 @@ function SidebarTriggerClick(event: React.MouseEvent<HTMLButtonElement>, onClick
 function SidebarTriggerRender(triggerProps: React.ComponentProps<typeof Button>, ref: React.ForwardedRef<React.ElementRef<typeof Button>>): React.JSX.Element {
 	const { className, onClick, ...props } = triggerProps;
 	const { toggleSidebar } = useSidebar();
-	// terra-quality-ignore single-use -- Keep handleClick as a named declaration so its authored TSDoc stays attached. TSDoc: Forwards the trigger click and then toggles the sidebar.
+	// hygiene-ignore single-use -- Keep handleClick as a named declaration so its authored TSDoc stays attached. TSDoc: Forwards the trigger click and then toggles the sidebar.
 	/**
 	 * Forwards the trigger click and then toggles the sidebar.
 	 *
@@ -364,7 +364,7 @@ function SidebarTriggerRender(triggerProps: React.ComponentProps<typeof Button>,
 const SidebarTrigger = React.forwardRef<React.ElementRef<typeof Button>, React.ComponentProps<typeof Button>>(SidebarTriggerRender);
 SidebarTrigger.displayName = 'SidebarTrigger';
 
-// terra-quality-ignore single-use -- Keep SidebarRailRender as a named React component to preserve its identity. TSDoc: Renders the sidebar's narrow click rail.
+// hygiene-ignore single-use -- Keep SidebarRailRender as a named React component to preserve its identity. TSDoc: Renders the sidebar's narrow click rail.
 /** Renders the sidebar's narrow click rail.
  * @param railProps - Button attributes for the rail element.
  * @param ref - Forwarded reference to the rail button.
@@ -398,7 +398,7 @@ function SidebarRailRender(railProps: React.ComponentProps<'button'>, ref: React
 const SidebarRail = React.forwardRef<HTMLButtonElement, React.ComponentProps<'button'>>(SidebarRailRender);
 SidebarRail.displayName = 'SidebarRail';
 
-// terra-quality-ignore single-use -- Keep SidebarInsetRender as a named React component to preserve its identity. TSDoc: Renders the main content surface alongside the sidebar.
+// hygiene-ignore single-use -- Keep SidebarInsetRender as a named React component to preserve its identity. TSDoc: Renders the main content surface alongside the sidebar.
 /** Renders the main content surface alongside the sidebar.
  * @param insetProps - Main element attributes and optional class name.
  * @param ref - Forwarded reference to the main element.
@@ -422,7 +422,7 @@ function SidebarInsetRender(insetProps: React.ComponentProps<'main'>, ref: React
 const SidebarInset = React.forwardRef<HTMLDivElement, React.ComponentProps<'main'>>(SidebarInsetRender);
 SidebarInset.displayName = 'SidebarInset';
 
-// terra-quality-ignore single-use -- Keep SidebarInputRender as a named React component to preserve its identity. TSDoc: Renders a compact input with sidebar-specific data and sizing.
+// hygiene-ignore single-use -- Keep SidebarInputRender as a named React component to preserve its identity. TSDoc: Renders a compact input with sidebar-specific data and sizing.
 /** Renders a compact input with sidebar-specific data and sizing.
  * @param inputProps - Input attributes and optional class name.
  * @param ref - Forwarded reference to the input element.
@@ -436,7 +436,7 @@ function SidebarInputRender(inputProps: React.ComponentProps<typeof Input>, ref:
 /** Input field formatted for use inside sidebar containers. */
 const SidebarInput = Object.assign(React.forwardRef<React.ElementRef<typeof Input>, React.ComponentProps<typeof Input>>(SidebarInputRender), { displayName: 'SidebarInput' });
 
-// terra-quality-ignore single-use -- Keep SidebarHeaderRender as a named React component to preserve its identity. TSDoc: Renders a padded header section within a sidebar.
+// hygiene-ignore single-use -- Keep SidebarHeaderRender as a named React component to preserve its identity. TSDoc: Renders a padded header section within a sidebar.
 /** Renders a padded header section within a sidebar.
  * @param headerProps - Header attributes and optional class name.
  * @param ref - Forwarded reference to the header element.
@@ -451,7 +451,7 @@ function SidebarHeaderRender(headerProps: React.ComponentProps<'div'>, ref: Reac
 const SidebarHeader = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(SidebarHeaderRender);
 SidebarHeader.displayName = 'SidebarHeader';
 
-// terra-quality-ignore single-use -- Keep SidebarFooterRender as a named React component to preserve its identity. TSDoc: Renders a padded footer section within a sidebar.
+// hygiene-ignore single-use -- Keep SidebarFooterRender as a named React component to preserve its identity. TSDoc: Renders a padded footer section within a sidebar.
 /** Renders a padded footer section within a sidebar.
  * @param footerProps - Footer attributes and optional class name.
  * @param ref - Forwarded reference to the footer element.
@@ -466,7 +466,7 @@ function SidebarFooterRender(footerProps: React.ComponentProps<'div'>, ref: Reac
 const SidebarFooter = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(SidebarFooterRender);
 SidebarFooter.displayName = 'SidebarFooter';
 
-// terra-quality-ignore single-use -- Keep SidebarSeparatorRender as a named React component to preserve its identity. TSDoc: Renders the divider used between sidebar sections.
+// hygiene-ignore single-use -- Keep SidebarSeparatorRender as a named React component to preserve its identity. TSDoc: Renders the divider used between sidebar sections.
 /** Renders the divider used between sidebar sections.
  * @param separatorProps - Separator attributes and optional class name.
  * @param ref - Forwarded reference to the separator element.
@@ -480,7 +480,7 @@ function SidebarSeparatorRender(separatorProps: React.ComponentProps<typeof Sepa
 /** Visual separator line for dividing sidebar content. */
 const SidebarSeparator = Object.assign(React.forwardRef<React.ElementRef<typeof Separator>, React.ComponentProps<typeof Separator>>(SidebarSeparatorRender), { displayName: 'SidebarSeparator' });
 
-// terra-quality-ignore single-use -- Keep SidebarContentRender as a named React component to preserve its identity. TSDoc: Renders scroll state and ref forwarding for the sidebar content region.
+// hygiene-ignore single-use -- Keep SidebarContentRender as a named React component to preserve its identity. TSDoc: Renders scroll state and ref forwarding for the sidebar content region.
 /** Renders scroll state and ref forwarding for the sidebar content region.
  * @param contentProps - Container attributes, content, and optional class name.
  * @param ref - Forwarded reference to the outer content container.
@@ -494,7 +494,7 @@ function SidebarContentRender(contentProps: React.ComponentProps<'div'>, ref: Re
 	const scrollRef = React.useRef<HTMLDivElement>(null);
 
 	// HANDLERS
-	// terra-quality-ignore single-use -- Keep updateSidebarScrollState as a named declaration so its authored TSDoc stays attached. TSDoc: Updates the top and bottom scrim state from the scroll position.
+	// hygiene-ignore single-use -- Keep updateSidebarScrollState as a named declaration so its authored TSDoc stays attached. TSDoc: Updates the top and bottom scrim state from the scroll position.
 	/** Updates the top and bottom scrim state from the scroll position. */
 	function updateSidebarScrollState(): void {
 		const el = scrollRef.current;
@@ -509,14 +509,14 @@ function SidebarContentRender(contentProps: React.ComponentProps<'div'>, ref: Re
 
 	// EFFECTS
 	// Check initial scroll state on mount
-	// terra-quality-ignore single-use -- Keep initializeSidebarScroll as a named declaration so its authored TSDoc stays attached. TSDoc: Initializes the scroll scrims after the content element mounts.
+	// hygiene-ignore single-use -- Keep initializeSidebarScroll as a named declaration so its authored TSDoc stays attached. TSDoc: Initializes the scroll scrims after the content element mounts.
 	/** Initializes the scroll scrims after the content element mounts. */
 	function initializeSidebarScroll(): void {
 		onScroll();
 	}
 	React.useEffect(initializeSidebarScroll, [onScroll]);
 
-	// terra-quality-ignore single-use -- Keep attachSidebarScrollElement as a named declaration so its authored TSDoc stays attached. TSDoc: Stores the scrolling element and forwards its ref to the caller.
+	// hygiene-ignore single-use -- Keep attachSidebarScrollElement as a named declaration so its authored TSDoc stays attached. TSDoc: Stores the scrolling element and forwards its ref to the caller.
 	/**
 	 * Stores the scrolling element and forwards its ref to the caller.
 	 *
@@ -564,7 +564,7 @@ function SidebarContentRender(contentProps: React.ComponentProps<'div'>, ref: Re
 const SidebarContent = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(SidebarContentRender);
 SidebarContent.displayName = 'SidebarContent';
 
-// terra-quality-ignore single-use -- Keep SidebarGroupRender as a named React component to preserve its identity. TSDoc: Renders the layout wrapper for a related set of sidebar controls.
+// hygiene-ignore single-use -- Keep SidebarGroupRender as a named React component to preserve its identity. TSDoc: Renders the layout wrapper for a related set of sidebar controls.
 /** Renders the layout wrapper for a related set of sidebar controls.
  * @param groupProps - Group container attributes and optional class name.
  * @param ref - Forwarded reference to the group element.
@@ -584,7 +584,7 @@ type SidebarGroupLabelProps = React.ComponentProps<'div'> & {
 	asChild?: boolean;
 };
 
-// terra-quality-ignore single-use -- Keep SidebarGroupLabelRender as a named React component to preserve its identity. TSDoc: Renders a visible or slotted heading for a sidebar group.
+// hygiene-ignore single-use -- Keep SidebarGroupLabelRender as a named React component to preserve its identity. TSDoc: Renders a visible or slotted heading for a sidebar group.
 /** Renders a visible or slotted heading for a sidebar group.
  * @param labelProps - Heading attributes, slot choice, and optional class name.
  * @param ref - Forwarded reference to the rendered heading element.
@@ -608,7 +608,7 @@ type SidebarGroupActionProps = React.ComponentProps<'button'> & {
 	asChild?: boolean;
 };
 
-// terra-quality-ignore single-use -- Keep SidebarGroupActionRender as a named React component to preserve its identity. TSDoc: Renders a button or slotted action in a sidebar group header.
+// hygiene-ignore single-use -- Keep SidebarGroupActionRender as a named React component to preserve its identity. TSDoc: Renders a button or slotted action in a sidebar group header.
 /** Renders a button or slotted action in a sidebar group header.
  * @param actionProps - Button attributes and optional slot selection.
  * @param ref - Forwarded reference to the rendered action element.
@@ -627,7 +627,7 @@ function SidebarGroupActionRender(actionProps: SidebarGroupActionProps, ref: Rea
 
 const SidebarGroupAction = Object.assign(React.forwardRef<HTMLButtonElement, SidebarGroupActionProps>(SidebarGroupActionRender), { displayName: 'SidebarGroupAction' });
 
-// terra-quality-ignore single-use -- Keep SidebarGroupContentRender as a named React component to preserve its identity. TSDoc: Renders the container around a sidebar group's menu items.
+// hygiene-ignore single-use -- Keep SidebarGroupContentRender as a named React component to preserve its identity. TSDoc: Renders the container around a sidebar group's menu items.
 /** Renders the container around a sidebar group's menu items.
  * @param groupContentProps - Container attributes and optional class name.
  * @param ref - Forwarded reference to the group content element.
@@ -642,7 +642,7 @@ function SidebarGroupContentRender(groupContentProps: React.ComponentProps<'div'
 const SidebarGroupContent = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(SidebarGroupContentRender);
 SidebarGroupContent.displayName = 'SidebarGroupContent';
 
-// terra-quality-ignore single-use -- Keep SidebarMenuRender as a named React component to preserve its identity. TSDoc: Renders the list that contains sidebar navigation links.
+// hygiene-ignore single-use -- Keep SidebarMenuRender as a named React component to preserve its identity. TSDoc: Renders the list that contains sidebar navigation links.
 /** Renders the list that contains sidebar navigation links.
  * @param menuProps - List attributes and optional class name.
  * @param ref - Forwarded reference to the navigation list.
@@ -657,7 +657,7 @@ function SidebarMenuRender(menuProps: React.ComponentProps<'ul'>, ref: React.For
 const SidebarMenu = React.forwardRef<HTMLUListElement, React.ComponentProps<'ul'>>(SidebarMenuRender);
 SidebarMenu.displayName = 'SidebarMenu';
 
-// terra-quality-ignore single-use -- Keep SidebarMenuItemRender as a named React component to preserve its identity. TSDoc: Renders the list item wrapper for one sidebar menu entry.
+// hygiene-ignore single-use -- Keep SidebarMenuItemRender as a named React component to preserve its identity. TSDoc: Renders the list item wrapper for one sidebar menu entry.
 /** Renders the list item wrapper for one sidebar menu entry.
  * @param itemProps - List item attributes and optional class name.
  * @param ref - Forwarded reference to the menu item element.
@@ -701,7 +701,7 @@ type SidebarMenuButtonProps = React.ComponentProps<'button'> & {
 	tooltip?: string | React.ComponentProps<typeof TooltipContent>;
 } & VariantProps<typeof sidebarMenuButtonVariants>;
 
-// terra-quality-ignore single-use -- Keep SidebarMenuButtonRender as a named React component to preserve its identity. TSDoc: Renders the primary button and optional collapsed-sidebar tooltip.
+// hygiene-ignore single-use -- Keep SidebarMenuButtonRender as a named React component to preserve its identity. TSDoc: Renders the primary button and optional collapsed-sidebar tooltip.
 /** Renders the primary button and optional collapsed-sidebar tooltip.
  * @param buttonProps - Button attributes, active state, variant, and tooltip.
  * @param ref - Forwarded reference to the button or slotted element.
@@ -734,7 +734,7 @@ type SidebarMenuActionProps = React.ComponentProps<'button'> & {
 	showOnHover?: boolean;
 };
 
-// terra-quality-ignore single-use -- Keep SidebarMenuActionRender as a named React component to preserve its identity. TSDoc: Renders a contextual action button alongside a sidebar menu item.
+// hygiene-ignore single-use -- Keep SidebarMenuActionRender as a named React component to preserve its identity. TSDoc: Renders a contextual action button alongside a sidebar menu item.
 /** Renders a contextual action button alongside a sidebar menu item.
  * @param actionProps - Button attributes and action display options.
  * @param ref - Forwarded reference to the action button or slotted child.
@@ -758,7 +758,7 @@ function SidebarMenuActionRender(actionProps: SidebarMenuActionProps, ref: React
 /** Contextual action button for a sidebar menu item (e.g. options menu or delete button). */
 const SidebarMenuAction = Object.assign(React.forwardRef<HTMLButtonElement, SidebarMenuActionProps>(SidebarMenuActionRender), { displayName: 'SidebarMenuAction' });
 
-// terra-quality-ignore single-use -- Keep SidebarMenuBadgeRender as a named React component to preserve its identity. TSDoc: Renders a noninteractive badge aligned with a sidebar menu item.
+// hygiene-ignore single-use -- Keep SidebarMenuBadgeRender as a named React component to preserve its identity. TSDoc: Renders a noninteractive badge aligned with a sidebar menu item.
 /** Renders a noninteractive badge aligned with a sidebar menu item.
  * @param badgeProps - Badge attributes and optional class name.
  * @param ref - Forwarded reference to the badge element.
@@ -787,7 +787,7 @@ function SidebarMenuBadgeRender(badgeProps: React.ComponentProps<'div'>, ref: Re
 /** Numeric or textual badge appended to a sidebar menu item. */
 const SidebarMenuBadge = Object.assign(React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(SidebarMenuBadgeRender), { displayName: 'SidebarMenuBadge' });
 
-// terra-quality-ignore single-use -- Keep SidebarMenuSkeletonRender as a named React component to preserve its identity. TSDoc: Renders a menu skeleton and stable text-width placeholder.
+// hygiene-ignore single-use -- Keep SidebarMenuSkeletonRender as a named React component to preserve its identity. TSDoc: Renders a menu skeleton and stable text-width placeholder.
 /** Renders a menu skeleton and stable text-width placeholder.
  * @param skeletonProps - Skeleton attributes and optional icon visibility.
  * @param ref - Forwarded reference to the skeleton wrapper.
@@ -795,7 +795,7 @@ const SidebarMenuBadge = Object.assign(React.forwardRef<HTMLDivElement, React.Co
  */
 function SidebarMenuSkeletonRender(skeletonProps: React.ComponentProps<'div'> & { showIcon?: boolean }, ref: React.ForwardedRef<HTMLDivElement>): React.JSX.Element {
 	const { className, showIcon = false, ...props } = skeletonProps;
-	// terra-quality-ignore single-use -- Keep createSkeletonWidth as a named declaration so its authored TSDoc stays attached. TSDoc: Chooses the text placeholder width for a sidebar menu skeleton.
+	// hygiene-ignore single-use -- Keep createSkeletonWidth as a named declaration so its authored TSDoc stays attached. TSDoc: Chooses the text placeholder width for a sidebar menu skeleton.
 	/**
 	 * Chooses the text placeholder width for a sidebar menu skeleton.
 	 *
@@ -804,7 +804,7 @@ function SidebarMenuSkeletonRender(skeletonProps: React.ComponentProps<'div'> & 
 	function createSkeletonWidth(): string {
 		return `${Math.floor(Math.random() * 40) + 50}%`;
 	}
-	// terra-quality-ignore single-use -- Keep the random skeleton width memo at this hook position so it does not change on rerender.
+	// hygiene-ignore single-use -- Keep the random skeleton width memo at this hook position so it does not change on rerender.
 	const skeletonWidth = React.useMemo(createSkeletonWidth, []);
 	return (
 		<div ref={ref} data-sidebar='menu-skeleton' className={cn('flex h-8 items-center gap-2 rounded-md px-2', className)} {...props}>
@@ -817,7 +817,7 @@ function SidebarMenuSkeletonRender(skeletonProps: React.ComponentProps<'div'> & 
 /** Loading placeholder skeleton for sidebar menu items. */
 const SidebarMenuSkeleton = Object.assign(React.forwardRef<HTMLDivElement, React.ComponentProps<'div'> & { showIcon?: boolean }>(SidebarMenuSkeletonRender), { displayName: 'SidebarMenuSkeleton' });
 
-// terra-quality-ignore single-use -- Keep SidebarMenuSubRender as a named React component to preserve its identity. TSDoc: Renders the list container for nested sidebar links.
+// hygiene-ignore single-use -- Keep SidebarMenuSubRender as a named React component to preserve its identity. TSDoc: Renders the list container for nested sidebar links.
 /** Renders the list container for nested sidebar links.
  * @param subProps - List attributes and optional class name.
  * @param ref - Forwarded reference to the submenu list.
@@ -832,7 +832,7 @@ function SidebarMenuSubRender(subProps: React.ComponentProps<'ul'>, ref: React.F
 const SidebarMenuSub = React.forwardRef<HTMLUListElement, React.ComponentProps<'ul'>>(SidebarMenuSubRender);
 SidebarMenuSub.displayName = 'SidebarMenuSub';
 
-// terra-quality-ignore single-use -- Keep SidebarMenuSubItemRender as a named React component to preserve its identity. TSDoc: Renders one list item within a sidebar submenu.
+// hygiene-ignore single-use -- Keep SidebarMenuSubItemRender as a named React component to preserve its identity. TSDoc: Renders one list item within a sidebar submenu.
 /** Renders one list item within a sidebar submenu.
  * @param itemProps - List item attributes and children.
  * @param ref - Forwarded reference to the submenu item.
@@ -846,7 +846,7 @@ function SidebarMenuSubItemRender(itemProps: React.ComponentProps<'li'>, ref: Re
 const SidebarMenuSubItem = React.forwardRef<HTMLLIElement, React.ComponentProps<'li'>>(SidebarMenuSubItemRender);
 SidebarMenuSubItem.displayName = 'SidebarMenuSubItem';
 
-// terra-quality-ignore single-use -- Keep SidebarMenuSubButtonRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the link or slotted button used for a nested sidebar item.
+// hygiene-ignore single-use -- Keep SidebarMenuSubButtonRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the link or slotted button used for a nested sidebar item.
 /** Renders the link or slotted button used for a nested sidebar item.
  * @param buttonProps - Link attributes and submenu button display options.
  * @param ref - Forwarded reference to the link or slotted element.

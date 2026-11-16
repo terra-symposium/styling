@@ -29,7 +29,7 @@ const GRID_GAP_3_CLASS = 'grid gap-3';
 type CompSlug = keyof typeof componentTsDocs;
 /** Keep the rendered section order stable even when the generated API cache changes. */
 
-// terra-quality-ignore single-use -- Keep createApiCols as a named declaration so its authored TSDoc stays attached. TSDoc: Builds the generated API columns for a component reference page.
+// hygiene-ignore single-use -- Keep createApiCols as a named declaration so its authored TSDoc stays attached. TSDoc: Builds the generated API columns for a component reference page.
 /**
  * Builds the generated API columns for a component reference page.
  *
@@ -38,7 +38,7 @@ type CompSlug = keyof typeof componentTsDocs;
 function createApiCols(): DataTableColumn<(typeof componentTsDocs)[CompSlug]['members'][number]>[] {
 	/** Describes one generated API member in the component-reference table. */
 	type ApiMember = (typeof componentTsDocs)[CompSlug]['members'][number];
-	// terra-quality-ignore single-use -- Keep renderMemberName as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an API member's name, summary, and documented TSDoc tags.
+	// hygiene-ignore single-use -- Keep renderMemberName as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an API member's name, summary, and documented TSDoc tags.
 	/**
 	 * Renders an API member's name, summary, and documented TSDoc tags.
 	 *
@@ -56,7 +56,7 @@ function createApiCols(): DataTableColumn<(typeof componentTsDocs)[CompSlug]['me
 			</div>
 		);
 	}
-	// terra-quality-ignore single-use -- Keep renderMemberSignature as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an API member's TypeScript declaration as formatted code.
+	// hygiene-ignore single-use -- Keep renderMemberSignature as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an API member's TypeScript declaration as formatted code.
 	/**
 	 * Renders an API member's TypeScript declaration as formatted code.
 	 *

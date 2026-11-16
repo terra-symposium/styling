@@ -302,7 +302,7 @@ function fillRegion(sheet: ExcelJS.Worksheet, firstRow: number, lastRow: number,
 	}
 }
 
-// terra-quality-ignore single-use -- Keep styleTableBorders as a named declaration so its authored TSDoc stays attached. TSDoc: Applies a bottom border to every cell in a rectangular worksheet region.
+// hygiene-ignore single-use -- Keep styleTableBorders as a named declaration so its authored TSDoc stays attached. TSDoc: Applies a bottom border to every cell in a rectangular worksheet region.
 /**
  * Applies a bottom border to every cell in a rectangular worksheet region.
  *

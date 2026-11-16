@@ -52,7 +52,7 @@ function Slider({
 	children,
 	...rootProps
 }: React.ComponentProps<typeof SliderPrimitive.Root>): React.JSX.Element {
-	// terra-quality-ignore single-use -- Keep getSliderValues as a named declaration so its authored TSDoc stays attached. TSDoc: Resolves the thumb positions from the controlled or default slider values.
+	// hygiene-ignore single-use -- Keep getSliderValues as a named declaration so its authored TSDoc stays attached. TSDoc: Resolves the thumb positions from the controlled or default slider values.
 	/** Resolves the thumb positions from the controlled or default slider values.
 	 *
 	 * @return Slider values or the minimum and maximum endpoints.
@@ -61,7 +61,7 @@ function Slider({
 		return Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [min, max];
 	}
 	const vals = React.useMemo(getSliderValues, [value, defaultValue, min, max]);
-	// terra-quality-ignore single-use -- Keep renderThumb as a named declaration so its authored TSDoc stays attached. TSDoc: Renders one thumb and labels its position when multiple values are present.
+	// hygiene-ignore single-use -- Keep renderThumb as a named declaration so its authored TSDoc stays attached. TSDoc: Renders one thumb and labels its position when multiple values are present.
 	/** Renders one thumb and labels its position when multiple values are present.
 	 *
 	 * @param _value Unused array element placeholder required by `Array.from`.
@@ -111,7 +111,7 @@ function Slider({
 	);
 }
 
-// terra-quality-ignore single-use -- Keep renderSliderTrack as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the track primitive with shared slider track classes.
+// hygiene-ignore single-use -- Keep renderSliderTrack as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the track primitive with shared slider track classes.
 /** Renders the track primitive with shared slider track classes.
  *
  * @param trackProps Track properties and optional classes.
@@ -127,7 +127,7 @@ const SliderTrack = Object.assign(React.forwardRef(renderSliderTrack), {
 	displayName: SliderPrimitive.Track.displayName,
 });
 
-// terra-quality-ignore single-use -- Keep renderSliderRange as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the selected-value fill with shared slider range classes.
+// hygiene-ignore single-use -- Keep renderSliderRange as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the selected-value fill with shared slider range classes.
 /** Renders the selected-value fill with shared slider range classes.
  *
  * @param rangeProps Range properties and optional classes.
@@ -143,7 +143,7 @@ const SliderRange = Object.assign(React.forwardRef(renderSliderRange), {
 	displayName: SliderPrimitive.Range.displayName,
 });
 
-// terra-quality-ignore single-use -- Keep renderSliderThumb as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a slider thumb with focus and selection styling.
+// hygiene-ignore single-use -- Keep renderSliderThumb as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a slider thumb with focus and selection styling.
 /** Renders a slider thumb with focus and selection styling.
  *
  * @param thumbProps Thumb properties and optional classes.

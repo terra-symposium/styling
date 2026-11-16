@@ -65,7 +65,7 @@ function Badge({
 	size?: UiSize;
 	rounded?: 'full' | 'md' | 'sm' | 'none';
 }): React.JSX.Element {
-	// terra-quality-ignore single-use -- JSX needs this capitalized binding to select Slot or span without changing the element factory.
+	// hygiene-ignore single-use -- JSX needs this capitalized binding to select Slot or span without changing the element factory.
 	const Comp = asChild ? Slot : 'span';
 	return (
 		<Comp

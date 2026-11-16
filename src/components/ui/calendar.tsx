@@ -25,7 +25,7 @@ import type { DayButton } from 'react-day-picker';
 /** DayPicker's component override map with optional entries made concrete. */
 type DayPickerComponents = NonNullable<React.ComponentProps<typeof DayPicker>['components']>;
 
-// terra-quality-ignore single-use -- Keep formatMonthDropdown as a named declaration so its authored TSDoc stays attached. TSDoc: Formats the month caption used by DayPicker's month dropdown.
+// hygiene-ignore single-use -- Keep formatMonthDropdown as a named declaration so its authored TSDoc stays attached. TSDoc: Formats the month caption used by DayPicker's month dropdown.
 /** Formats the month caption used by DayPicker's month dropdown.
  *
  * @param date Month date supplied by DayPicker.
@@ -36,7 +36,7 @@ function formatMonthDropdown(date: Date): string {
 	return date.toLocaleString('default', { month: 'short' });
 }
 
-// terra-quality-ignore single-use -- Keep CalendarRoot as a named React component to preserve its identity. TSDoc: Renders the DayPicker root with the shared calendar data slot.
+// hygiene-ignore single-use -- Keep CalendarRoot as a named React component to preserve its identity. TSDoc: Renders the DayPicker root with the shared calendar data slot.
 /** Renders the DayPicker root with the shared calendar data slot.
  *
  * @param className DayPicker root classes.
@@ -49,7 +49,7 @@ function CalendarRoot({ className, rootRef, ...rootProps }: React.ComponentProps
 	return <div data-slot='calendar' ref={rootRef} className={cn(className)} {...rootProps} />;
 }
 
-// terra-quality-ignore single-use -- Keep CalendarChevron as a named React component to preserve its identity. TSDoc: Renders the orientation-specific chevron used by DayPicker.
+// hygiene-ignore single-use -- Keep CalendarChevron as a named React component to preserve its identity. TSDoc: Renders the orientation-specific chevron used by DayPicker.
 /** Renders the orientation-specific chevron used by DayPicker.
  *
  * @param className Classes supplied by DayPicker for the chevron.
@@ -64,7 +64,7 @@ function CalendarChevron({ className, orientation, ...chevronProps }: React.Comp
 	return <ChevronDownIcon className={cn('size-4', className)} aria-hidden='true' {...chevronProps} />;
 }
 
-// terra-quality-ignore single-use -- Keep CalendarWeekNumber as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a week number in the center of its table cell.
+// hygiene-ignore single-use -- Keep CalendarWeekNumber as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a week number in the center of its table cell.
 /** Renders a week number in the center of its table cell.
  *
  * @param children Week-number content supplied by DayPicker.
@@ -159,7 +159,7 @@ function Calendar({
 	const isCompact = size === 'xs';
 	// 'responsive' is the only layout that fills its container
 	const isResponsive = size === 'responsive';
-	// terra-quality-ignore single-use -- Read caller formatter overrides before building JSX; inlining this spread would delay getter reads until after class computation.
+	// hygiene-ignore single-use -- Read caller formatter overrides before building JSX; inlining this spread would delay getter reads until after class computation.
 	const monthFormatters: Partial<NonNullable<React.ComponentProps<typeof DayPicker>['formatters']>> = {
 		formatMonthDropdown,
 		...formatters,
@@ -318,7 +318,7 @@ function CalendarDayButton({ className, day, modifiers, ...dayButtonProps }: Rea
 	// create a ref to manually manage focus
 	const ref = React.useRef<HTMLButtonElement>(null);
 	// ensures the focused day is programmatically focused
-	// terra-quality-ignore single-use -- Keep focusDayButton as a named declaration so its authored TSDoc stays attached. TSDoc: Moves browser focus to the button when DayPicker marks the day focused.
+	// hygiene-ignore single-use -- Keep focusDayButton as a named declaration so its authored TSDoc stays attached. TSDoc: Moves browser focus to the button when DayPicker marks the day focused.
 	/** Moves browser focus to the button when DayPicker marks the day focused. */
 	function focusDayButton(): void {
 		if (modifiers.focused) ref.current?.focus();

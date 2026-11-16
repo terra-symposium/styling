@@ -21,7 +21,7 @@ import { FORM_LABEL_VARIANTS } from './variants.js';
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-// terra-quality-ignore single-use -- Keep renderLabel as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an accessible form label with shared typography and spacing.
+// hygiene-ignore single-use -- Keep renderLabel as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an accessible form label with shared typography and spacing.
 /** Renders an accessible form label with shared typography and spacing.
  * @param labelProps - Label content, attributes, and optional classes.
  * @param ref - Ref forwarded to the Radix label element.

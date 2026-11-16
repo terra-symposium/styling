@@ -33,7 +33,7 @@ const Dialog = DialogPrimitive.Root;
 
 // TRIGGER
 
-// terra-quality-ignore single-use -- Keep renderDialogTrigger as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the trigger primitive while forwarding its element ref.
+// hygiene-ignore single-use -- Keep renderDialogTrigger as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the trigger primitive while forwarding its element ref.
 /** Renders the trigger primitive while forwarding its element ref.
  *
  * @param triggerProps Trigger attributes and optional class name.
@@ -61,7 +61,7 @@ DialogClose.displayName = DialogPrimitive.Close.displayName;
 
 // OVERLAY
 
-// terra-quality-ignore single-use -- Keep renderDialogOverlay as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the backdrop primitive with shared overlay animation styles.
+// hygiene-ignore single-use -- Keep renderDialogOverlay as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the backdrop primitive with shared overlay animation styles.
 /** Renders the backdrop primitive with shared overlay animation styles.
  *
  * @param overlayProps Overlay attributes and optional class name.
@@ -90,7 +90,7 @@ DialogOverlay.displayName = 'DialogOverlay';
 
 // CONTENT
 
-// terra-quality-ignore single-use -- Keep renderDialogContent as a named declaration so its authored TSDoc stays attached. TSDoc: Renders modal content with a backdrop, responsive bounds, and optional close action.
+// hygiene-ignore single-use -- Keep renderDialogContent as a named declaration so its authored TSDoc stays attached. TSDoc: Renders modal content with a backdrop, responsive bounds, and optional close action.
 /** Renders modal content with a backdrop, responsive bounds, and optional close action.
  *
  * @param dialogProps Content, size, surface, scrolling, close-control, and Radix props.
@@ -248,7 +248,7 @@ DialogFooter.displayName = 'DialogFooter';
 
 // TITLE
 
-// terra-quality-ignore single-use -- Keep renderDialogTitle as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the dialog title with shared heading typography.
+// hygiene-ignore single-use -- Keep renderDialogTitle as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the dialog title with shared heading typography.
 /** Renders the dialog title with shared heading typography.
  *
  * @param titleProps Title attributes and optional class name.
@@ -265,7 +265,7 @@ DialogTitle.displayName = 'DialogTitle';
 
 // DESCRIPTION
 
-// terra-quality-ignore single-use -- Keep renderDialogDescription as a named declaration so its authored TSDoc stays attached. TSDoc: Renders dialog description text and optionally wraps it in a hint.
+// hygiene-ignore single-use -- Keep renderDialogDescription as a named declaration so its authored TSDoc stays attached. TSDoc: Renders dialog description text and optionally wraps it in a hint.
 /** Renders dialog description text and optionally wraps it in a hint.
  *
  * @param descriptionProps Description content, tooltip, and primitive attributes.

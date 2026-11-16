@@ -15,7 +15,7 @@ import test from 'node:test';
 CONFIG
 //////////////////////////////////////////////////*/
 
-// terra-quality-ignore single-use -- Capture the test repository root once at module load so later cwd changes cannot redirect stylesheet reads.
+// hygiene-ignore single-use -- Capture the test repository root once at module load so later cwd changes cannot redirect stylesheet reads.
 const repo = process.cwd();
 
 /*//////////////////////////////////////////////////
@@ -24,7 +24,7 @@ TESTS
 
 test.describe('published styling stylesheet contracts', stylesheetContracts);
 
-// terra-quality-ignore single-use -- Keep stylesheetContracts as a named declaration so its authored TSDoc stays attached. TSDoc: Registers source stylesheet and generated CSS distribution checks.
+// hygiene-ignore single-use -- Keep stylesheetContracts as a named declaration so its authored TSDoc stays attached. TSDoc: Registers source stylesheet and generated CSS distribution checks.
 /** Registers source stylesheet and generated CSS distribution checks. */
 function stylesheetContracts(): void {
 	// SOURCE STYLESHEET CONTRACT
@@ -44,7 +44,7 @@ function src(path: string): string {
 	return readFileSync(join(repo, path), 'utf8');
 }
 
-// terra-quality-ignore single-use -- Keep sourceStylesheetProvidesSharedTokensAndExports as a named declaration so its authored TSDoc stays attached. TSDoc: Checks source ordering, shared tokens, and package stylesheet exports.
+// hygiene-ignore single-use -- Keep sourceStylesheetProvidesSharedTokensAndExports as a named declaration so its authored TSDoc stays attached. TSDoc: Checks source ordering, shared tokens, and package stylesheet exports.
 /** Checks source ordering, shared tokens, and package stylesheet exports. */
 function srcStylesheetProvidesSharedTokensAndExports(): void {
 	const stylesheet = src('src/styles/global.css');
@@ -86,7 +86,7 @@ function findNestedSelectors(container: postcss.Container): string[] {
 	return nestedSelectors;
 }
 
-// terra-quality-ignore single-use -- Keep publishedStylesheetsAreBrowserReady as a named declaration so its authored TSDoc stays attached. TSDoc: Checks generated entries contain neither Tailwind directives nor residual nested rules before.
+// hygiene-ignore single-use -- Keep publishedStylesheetsAreBrowserReady as a named declaration so its authored TSDoc stays attached. TSDoc: Checks generated entries contain neither Tailwind directives nor residual nested rules before.
 /**
  * Checks generated entries contain neither Tailwind directives nor residual
  * nested rules before browsers consume them.

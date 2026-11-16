@@ -55,7 +55,7 @@ export { PortalContainerProvider as PortalProvider };
  */
 export function createTerraPortal<P extends { container?: Element | DocumentFragment | null; children?: React.ReactNode }>(PrimitivePortal: React.ComponentType<P>): React.ComponentType<P> {
 	function ThemedPortal(props: P): React.JSX.Element {
-		// terra-quality-ignore single-use -- Keep the context hook unconditional and in the same call order on every render.
+		// hygiene-ignore single-use -- Keep the context hook unconditional and in the same call order on every render.
 		const scopedContainer = usePortalContainer();
 		return <PrimitivePortal {...props} container={props.container ?? scopedContainer} />;
 	}

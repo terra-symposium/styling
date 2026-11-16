@@ -22,7 +22,7 @@ import type { UiSize } from './types.js';
 CONFIG
 //////////////////////////////////////////////////*/
 
-// terra-quality-ignore single-use -- Keep size classes in one module-level map so avatar renders reuse the same values.
+// hygiene-ignore single-use -- Keep size classes in one module-level map so avatar renders reuse the same values.
 const AVATAR_SIZE_CLASSES: Record<UiSize, string> = {
 	xs: 'size-6',
 	sm: 'size-8',
@@ -31,7 +31,7 @@ const AVATAR_SIZE_CLASSES: Record<UiSize, string> = {
 	xl: 'size-16',
 };
 
-// terra-quality-ignore single-use -- Keep renderAvatarRoot as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the sized avatar root while preserving forwarded HTML attributes.
+// hygiene-ignore single-use -- Keep renderAvatarRoot as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the sized avatar root while preserving forwarded HTML attributes.
 /** Renders the sized avatar root while preserving forwarded HTML attributes.
  * @param avatarProps - Radix root attributes and the shared avatar size.
  * @param ref - Ref forwarded to the Radix avatar root.
@@ -47,7 +47,7 @@ function renderAvatarRoot(
 	return <AvatarPrimitive.Root ref={ref} data-slot='avatar' className={cn('relative flex shrink-0 overflow-hidden rounded-full', AVATAR_SIZE_CLASSES[size], className)} {...props} />;
 }
 
-// terra-quality-ignore single-use -- Keep renderAvatarImage as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an avatar image that preserves its square aspect ratio.
+// hygiene-ignore single-use -- Keep renderAvatarImage as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an avatar image that preserves its square aspect ratio.
 /** Renders an avatar image that preserves its square aspect ratio.
  * @param imageProps - Radix image attributes and optional classes.
  * @param ref - Ref forwarded to the Radix avatar image.
@@ -58,7 +58,7 @@ function renderAvatarImage(imageProps: React.ComponentPropsWithoutRef<typeof Ava
 	return <AvatarPrimitive.Image ref={ref} data-slot='avatar-image' className={cn('aspect-square size-full border-none', className)} {...props} />;
 }
 
-// terra-quality-ignore single-use -- Keep renderAvatarFallback as a named declaration so its authored TSDoc stays attached. TSDoc: Renders centered fallback content for an unavailable avatar image.
+// hygiene-ignore single-use -- Keep renderAvatarFallback as a named declaration so its authored TSDoc stays attached. TSDoc: Renders centered fallback content for an unavailable avatar image.
 /** Renders centered fallback content for an unavailable avatar image.
  * @param fallbackProps - Radix fallback content and optional classes.
  * @param ref - Ref forwarded to the Radix avatar fallback.

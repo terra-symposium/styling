@@ -33,7 +33,7 @@ import {
 CONFIG
 //////////////////////////////////////////////////*/
 
-// terra-quality-ignore single-use -- Capture the test repository root at module load so later cwd changes cannot redirect variant reads.
+// hygiene-ignore single-use -- Capture the test repository root at module load so later cwd changes cannot redirect variant reads.
 const repo = process.cwd();
 const colors = ['primary', 'secondary', 'gray', 'destructive', 'success', 'caution'] as const;
 const uiSizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
@@ -93,7 +93,7 @@ TESTS
 
 test.describe('shared UI variant contracts', sharedUiVariantContracts);
 
-// terra-quality-ignore single-use -- Keep sharedUiVariantContracts as a named declaration so its authored TSDoc stays attached. TSDoc: Registers the independent matrix, primitive, and consumer contracts.
+// hygiene-ignore single-use -- Keep sharedUiVariantContracts as a named declaration so its authored TSDoc stays attached. TSDoc: Registers the independent matrix, primitive, and consumer contracts.
 /** Registers the independent matrix, primitive, and consumer contracts. */
 function sharedUiVariantContracts(): void {
 	// VARIANT MATRICES
@@ -109,7 +109,7 @@ function sharedUiVariantContracts(): void {
 	test('shared exports retain multiple UI consumers and one-off contracts live with their components', sharedExportsRetainConsumersAndLocalContracts);
 }
 
-// terra-quality-ignore single-use -- Keep validVariantMatricesGenClasses as a named declaration so its authored TSDoc stays attached. TSDoc: Every non-default matrix coordinate must differ from CVA's canonical fallback so a missing key.
+// hygiene-ignore single-use -- Keep validVariantMatricesGenClasses as a named declaration so its authored TSDoc stays attached. TSDoc: Every non-default matrix coordinate must differ from CVA's canonical fallback so a missing key.
 /**
  * Every non-default matrix coordinate must differ from CVA's canonical fallback
  * so a missing key cannot pass on the shared base classes alone.
@@ -178,7 +178,7 @@ function validVariantMatricesGenClasses(): void {
 	}
 }
 
-// terra-quality-ignore single-use -- Keep legacyAliasesAndSemanticFeedbackRemainAvailable as a named declaration so its authored TSDoc stays attached. TSDoc: Semantic statuses retain their palette family while legacy action and toggle aliases remain.
+// hygiene-ignore single-use -- Keep legacyAliasesAndSemanticFeedbackRemainAvailable as a named declaration so its authored TSDoc stays attached. TSDoc: Semantic statuses retain their palette family while legacy action and toggle aliases remain.
 /**
  * Semantic statuses retain their palette family while legacy action and toggle
  * aliases remain resolvable.
@@ -196,7 +196,7 @@ function legacyAliasesAndSemanticFeedbackRemainAvailable(): void {
 	assert.match(SURFACE_VARIANTS({ variant: 'info' }), /sky/);
 }
 
-// terra-quality-ignore single-use -- Keep sharedClassContractsGenClasses as a named declaration so its authored TSDoc stays attached. TSDoc: The common interaction, typography, overlay, and menu recipes must remain nonempty for components.
+// hygiene-ignore single-use -- Keep sharedClassContractsGenClasses as a named declaration so its authored TSDoc stays attached. TSDoc: The common interaction, typography, overlay, and menu recipes must remain nonempty for components.
 /**
  * The common interaction, typography, overlay, and menu recipes must remain
  * nonempty for components that compose them.
@@ -217,7 +217,7 @@ function sharedClassContractsGenClasses(): void {
 	hasClasses(MENU_ITEM_INDICATOR, 'menu item indicator');
 }
 
-// terra-quality-ignore single-use -- Keep sharedExportsRetainConsumersAndLocalContracts as a named declaration so its authored TSDoc stays attached. TSDoc: Multi-consumer recipes stay centralized while styles with one consumer remain in their owning.
+// hygiene-ignore single-use -- Keep sharedExportsRetainConsumersAndLocalContracts as a named declaration so its authored TSDoc stays attached. TSDoc: Multi-consumer recipes stay centralized while styles with one consumer remain in their owning.
 /**
  * Multi-consumer recipes stay centralized while styles with one consumer remain
  * in their owning component modules.

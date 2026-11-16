@@ -97,7 +97,7 @@ function FormField<TFieldValues extends FieldValues = FieldValues, TName extends
 	);
 }
 
-// terra-quality-ignore single-use -- Keep FormItemRender as a named React component to preserve its identity. TSDoc: Renders the provider boundary that gives each form item a stable ID.
+// hygiene-ignore single-use -- Keep FormItemRender as a named React component to preserve its identity. TSDoc: Renders the provider boundary that gives each form item a stable ID.
 /** Renders the provider boundary that gives each form item a stable ID.
  * @param attributes - Container attributes and optional class name.
  * @param ref - Forwarded reference to the form item element.
@@ -113,7 +113,7 @@ function FormItemRender(attributes: React.HTMLAttributes<HTMLDivElement>, ref: R
 }
 const FormItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(FormItemRender);
 
-// terra-quality-ignore single-use -- Keep FormLabelRender as a named React component to preserve its identity. TSDoc: Renders a form label connected to the current field and its error state.
+// hygiene-ignore single-use -- Keep FormLabelRender as a named React component to preserve its identity. TSDoc: Renders a form label connected to the current field and its error state.
 /** Renders a form label connected to the current field and its error state.
  * @param attributes - Radix label attributes and optional class name.
  * @param ref - Forwarded reference to the label element.
@@ -126,7 +126,7 @@ function FormLabelRender(attributes: React.ComponentPropsWithoutRef<typeof Label
 }
 const FormLabel = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>>(FormLabelRender);
 
-// terra-quality-ignore single-use -- Keep FormControlRender as a named React component to preserve its identity. TSDoc: Renders a slotted control with form IDs and validation accessibility state.
+// hygiene-ignore single-use -- Keep FormControlRender as a named React component to preserve its identity. TSDoc: Renders a slotted control with form IDs and validation accessibility state.
 /** Renders a slotted control with form IDs and validation accessibility state.
  * @param attributes - Control attributes passed to the slotted child.
  * @param ref - Forwarded reference to the control element.
@@ -138,7 +138,7 @@ function FormControlRender(attributes: React.ComponentPropsWithoutRef<typeof Slo
 }
 const FormControl = React.forwardRef<React.ElementRef<typeof Slot>, React.ComponentPropsWithoutRef<typeof Slot>>(FormControlRender);
 
-// terra-quality-ignore single-use -- Keep FormDescriptionRender as a named React component to preserve its identity. TSDoc: Renders explanatory text linked to its current form field.
+// hygiene-ignore single-use -- Keep FormDescriptionRender as a named React component to preserve its identity. TSDoc: Renders explanatory text linked to its current form field.
 /** Renders explanatory text linked to its current form field.
  * @param attributes - Paragraph attributes and optional class name.
  * @param ref - Forwarded reference to the description paragraph.
@@ -151,7 +151,7 @@ function FormDescriptionRender(attributes: React.HTMLAttributes<HTMLParagraphEle
 }
 const FormDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(FormDescriptionRender);
 
-// terra-quality-ignore single-use -- Keep FormMessageRender as a named React component to preserve its identity. TSDoc: Renders validation feedback, returning nothing when no message exists.
+// hygiene-ignore single-use -- Keep FormMessageRender as a named React component to preserve its identity. TSDoc: Renders validation feedback, returning nothing when no message exists.
 /** Renders validation feedback, returning nothing when no message exists.
  * @param attributes - Paragraph attributes, fallback children, and class name.
  * @param ref - Forwarded reference to the message paragraph.

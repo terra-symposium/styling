@@ -24,7 +24,7 @@ import type { VariantProps } from 'class-variance-authority';
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-// terra-quality-ignore single-use -- Keep renderAlert as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the alert surface with a forwarded ref and variant classes.
+// hygiene-ignore single-use -- Keep renderAlert as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the alert surface with a forwarded ref and variant classes.
 /** Renders the alert surface with a forwarded ref and variant classes.
  *
  * @param alertProps Alert attributes, class name, and optional surface variant.
@@ -56,7 +56,7 @@ function renderAlert(
 }
 const Alert = React.forwardRef(renderAlert);
 
-// terra-quality-ignore single-use -- Keep renderAlertTitle as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the alert heading with its shared text treatment.
+// hygiene-ignore single-use -- Keep renderAlertTitle as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the alert heading with its shared text treatment.
 /** Renders the alert heading with its shared text treatment.
  *
  * @param titleProps Heading attributes and optional class name.
@@ -70,7 +70,7 @@ function renderAlertTitle(titleProps: React.HTMLAttributes<HTMLHeadingElement>, 
 }
 const AlertTitle = React.forwardRef(renderAlertTitle);
 
-// terra-quality-ignore single-use -- Keep renderAlertDescription as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the supporting text beneath an alert title.
+// hygiene-ignore single-use -- Keep renderAlertDescription as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the supporting text beneath an alert title.
 /** Renders the supporting text beneath an alert title.
  *
  * @param descriptionProps Paragraph attributes and optional class name.

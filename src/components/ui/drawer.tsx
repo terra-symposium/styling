@@ -25,7 +25,7 @@ const DrawerTrigger = DrawerPrimitive.Trigger;
 const DrawerPortal = DrawerPrimitive.Portal;
 const DrawerClose = DrawerPrimitive.Close;
 
-// terra-quality-ignore single-use -- Keep DrawerOverlayRender as a named React component to preserve its identity. TSDoc: Renders the dimmed overlay behind an open drawer.
+// hygiene-ignore single-use -- Keep DrawerOverlayRender as a named React component to preserve its identity. TSDoc: Renders the dimmed overlay behind an open drawer.
 /** Renders the dimmed overlay behind an open drawer.
  * className: - Additional classes for the overlay surface.
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
@@ -40,7 +40,7 @@ function DrawerOverlayRender(attributes: React.ComponentPropsWithoutRef<typeof D
 /** Drawer backdrop overlay element. */
 const DrawerOverlay = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Overlay>, React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>>(DrawerOverlayRender);
 
-// terra-quality-ignore single-use -- Keep DrawerContentRender as a named React component to preserve its identity. TSDoc: Renders drawer content inside a portal with its overlay and handle.
+// hygiene-ignore single-use -- Keep DrawerContentRender as a named React component to preserve its identity. TSDoc: Renders drawer content inside a portal with its overlay and handle.
 /** Renders drawer content inside a portal with its overlay and handle.
  * className: - Additional classes for the content panel.
  * children: - Content rendered inside the drawer panel.
@@ -72,7 +72,7 @@ function DrawerContentRender(attributes: React.ComponentPropsWithoutRef<typeof D
  */
 const DrawerContent = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Content>, React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>>(DrawerContentRender);
 
-// terra-quality-ignore single-use -- Keep DrawerTitleRender as a named React component to preserve its identity. TSDoc: Renders the accessible title using the shared drawer heading styles.
+// hygiene-ignore single-use -- Keep DrawerTitleRender as a named React component to preserve its identity. TSDoc: Renders the accessible title using the shared drawer heading styles.
 /** Renders the accessible title using the shared drawer heading styles.
  * className: - Additional classes for the title.
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
@@ -87,7 +87,7 @@ function DrawerTitleRender(attributes: React.ComponentPropsWithoutRef<typeof Dra
 /** Drawer accessible title heading primitive. */
 const DrawerTitle = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Title>, React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>>(DrawerTitleRender);
 
-// terra-quality-ignore single-use -- Keep DrawerDescriptionRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the accessible description with drawer body text styling.
+// hygiene-ignore single-use -- Keep DrawerDescriptionRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the accessible description with drawer body text styling.
 /** Renders the accessible description with drawer body text styling.
  * className: - Additional classes for the description text.
  * @param attributes - Remaining Radix attributes forwarded to the primitive.

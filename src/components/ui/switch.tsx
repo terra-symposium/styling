@@ -22,7 +22,7 @@ const SWITCH_THUMB_CLASSES = 'pointer-events-none block size-4 rounded-full bg-p
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-// terra-quality-ignore single-use -- Keep renderSwitch as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the switch root and exposes an indeterminate state accessibly.
+// hygiene-ignore single-use -- Keep renderSwitch as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the switch root and exposes an indeterminate state accessibly.
 /** Renders the switch root and exposes an indeterminate state accessibly.
  * @param switchProps - Root attributes, current checked state, and classes.
  * @param ref - Ref forwarded to the Radix switch root.
@@ -60,7 +60,7 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
 	renderSwitch,
 );
 
-// terra-quality-ignore single-use -- Keep renderSwitchThumb as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the switch thumb with the shared sliding transition.
+// hygiene-ignore single-use -- Keep renderSwitchThumb as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the switch thumb with the shared sliding transition.
 /** Renders the switch thumb with the shared sliding transition.
  * @param thumbProps - Native Radix thumb attributes and optional classes.
  * @param ref - Ref forwarded to the Radix thumb element.

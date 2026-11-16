@@ -37,7 +37,7 @@ function stopContentScrollPropagation(event: React.SyntheticEvent<HTMLDivElement
 	event.stopPropagation();
 }
 
-// terra-quality-ignore single-use -- Keep renderPopoverContent as a named declaration so its authored TSDoc stays attached. TSDoc: Renders popover content inside a portal with shared overlay styling.
+// hygiene-ignore single-use -- Keep renderPopoverContent as a named declaration so its authored TSDoc stays attached. TSDoc: Renders popover content inside a portal with shared overlay styling.
 /** Renders popover content inside a portal with shared overlay styling.
  * @param contentProps - Radix positioning, event, and child props.
  * @param ref - Ref forwarded to the Radix content element.

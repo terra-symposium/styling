@@ -24,7 +24,7 @@ import type { VariantProps } from 'class-variance-authority';
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-// terra-quality-ignore single-use -- Keep renderToggle as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an accessible toggle with the shared action variants.
+// hygiene-ignore single-use -- Keep renderToggle as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an accessible toggle with the shared action variants.
 /** Renders an accessible toggle with the shared action variants.
  * @param toggleProps - Toggle state, native attributes, and visual variants.
  * @param ref - Ref forwarded to the Radix toggle element.

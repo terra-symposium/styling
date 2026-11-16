@@ -132,7 +132,7 @@ function FormSelect({
 	const formValue = form && name ? form.watch(name as never) : undefined;
 	const hasFormField = Boolean(form && name);
 	const isControlled = value !== undefined;
-	// terra-quality-ignore single-use -- Keep getInitialValue as a named declaration so its authored TSDoc stays attached. TSDoc: Derives the local state initializer from the uncontrolled default value.
+	// hygiene-ignore single-use -- Keep getInitialValue as a named declaration so its authored TSDoc stays attached. TSDoc: Derives the local state initializer from the uncontrolled default value.
 	/**
 	 * Derives the local state initializer from the uncontrolled default value.
 	 *
@@ -142,7 +142,7 @@ function FormSelect({
 		return toPrimitiveValue(defaultValue);
 	}
 	const [internalValue, setInternalValue] = React.useState<string | undefined>(getInitialValue);
-	// terra-quality-ignore single-use -- Keep initializeFormField as a named declaration so its authored TSDoc stays attached. TSDoc: Initializes a named React Hook Form field when it has no current value.
+	// hygiene-ignore single-use -- Keep initializeFormField as a named declaration so its authored TSDoc stays attached. TSDoc: Initializes a named React Hook Form field when it has no current value.
 	/** Initializes a named React Hook Form field when it has no current value. */
 	function initializeFormField(): void {
 		const initialValue = value ?? defaultValue;
@@ -151,7 +151,7 @@ function FormSelect({
 	}
 	React.useEffect(initializeFormField, [form, name, value, defaultValue]);
 	const selectedValue = hasFormField ? (typeof formValue === 'string' ? formValue : (value ?? defaultValue ?? '')) : isControlled ? (value ?? '') : (internalValue ?? '');
-	// terra-quality-ignore single-use -- Keep handleValueChange as a named declaration so its authored TSDoc stays attached. TSDoc: Converts the select's sentinel value and updates the active value owner.
+	// hygiene-ignore single-use -- Keep handleValueChange as a named declaration so its authored TSDoc stays attached. TSDoc: Converts the select's sentinel value and updates the active value owner.
 	/**
 	 * Converts the select's sentinel value and updates the active value owner.
 	 *
@@ -181,7 +181,7 @@ function FormSelect({
 			</FormSelectOption>
 		);
 	}
-	// terra-quality-ignore single-use -- Render options before invoking the selected-value renderer so callback evaluation order stays unchanged.
+	// hygiene-ignore single-use -- Render options before invoking the selected-value renderer so callback evaluation order stays unchanged.
 	const optionItems = options?.map(renderOption);
 	return (
 		<>

@@ -92,7 +92,7 @@ export function Empty({
 		isDragging && !uploadDisabled && 'border-primary-9 bg-primary-3',
 		className,
 	);
-	// terra-quality-ignore single-use -- Keep handleDragOver as a named declaration so its authored TSDoc stays attached. TSDoc: Keeps the drop target active while a file is dragged over the label.
+	// hygiene-ignore single-use -- Keep handleDragOver as a named declaration so its authored TSDoc stays attached. TSDoc: Keeps the drop target active while a file is dragged over the label.
 	/**
 	 * Keeps the drop target active while a file is dragged over the label.
 	 *
@@ -102,7 +102,7 @@ export function Empty({
 		event.preventDefault();
 		if (!uploadDisabled) setIsDragging(true);
 	}
-	// terra-quality-ignore single-use -- Keep handleDragLeave as a named declaration so its authored TSDoc stays attached. TSDoc: Clears drag state when the pointer leaves the target and its descendants.
+	// hygiene-ignore single-use -- Keep handleDragLeave as a named declaration so its authored TSDoc stays attached. TSDoc: Clears drag state when the pointer leaves the target and its descendants.
 	/**
 	 * Clears drag state when the pointer leaves the target and its descendants.
 	 *
@@ -111,7 +111,7 @@ export function Empty({
 	function handleDragLeave(event: DragEvent<HTMLLabelElement>): void {
 		if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setIsDragging(false);
 	}
-	// terra-quality-ignore single-use -- Keep handleDrop as a named declaration so its authored TSDoc stays attached. TSDoc: Sends the first dropped file to the upload handler when uploads are enabled.
+	// hygiene-ignore single-use -- Keep handleDrop as a named declaration so its authored TSDoc stays attached. TSDoc: Sends the first dropped file to the upload handler when uploads are enabled.
 	/**
 	 * Sends the first dropped file to the upload handler when uploads are enabled.
 	 *
@@ -123,7 +123,7 @@ export function Empty({
 		const file = event.dataTransfer.files[0];
 		if (file && !uploadDisabled) onUpload?.(file);
 	}
-	// terra-quality-ignore single-use -- Keep handleFileChange as a named declaration so its authored TSDoc stays attached. TSDoc: Sends the first picked file to the upload handler and clears the input.
+	// hygiene-ignore single-use -- Keep handleFileChange as a named declaration so its authored TSDoc stays attached. TSDoc: Sends the first picked file to the upload handler and clears the input.
 	/**
 	 * Sends the first picked file to the upload handler and clears the input.
 	 *

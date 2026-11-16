@@ -27,7 +27,7 @@ COMPONENTS
 /** Native input props accepted by the password field, excluding its fixed type. */
 type PasswordInputProps = Omit<InputProps, 'type'>;
 
-// terra-quality-ignore single-use -- Keep renderPasswordInput as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a password input and its accessible visibility toggle.
+// hygiene-ignore single-use -- Keep renderPasswordInput as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a password input and its accessible visibility toggle.
 /** Renders a password input and its accessible visibility toggle.
  * @param inputProps - Native input attributes and optional Styling classes.
  * @param ref - Ref forwarded to the underlying input element.
@@ -37,7 +37,7 @@ function renderPasswordInput(inputProps: PasswordInputProps, ref: React.Forwarde
 	const { className, ...props } = inputProps;
 	const [visible, setVisible] = React.useState(false);
 	const label = visible ? 'Hide password' : 'Show password';
-	// terra-quality-ignore single-use -- Keep invertVisibility as a named declaration so its authored TSDoc stays attached. TSDoc: Returns the opposite visibility state for React's state updater.
+	// hygiene-ignore single-use -- Keep invertVisibility as a named declaration so its authored TSDoc stays attached. TSDoc: Returns the opposite visibility state for React's state updater.
 	/**
 	 * Returns the opposite visibility state for React's state updater.
 	 *
@@ -47,7 +47,7 @@ function renderPasswordInput(inputProps: PasswordInputProps, ref: React.Forwarde
 	function invertVisibility(current: boolean): boolean {
 		return !current;
 	}
-	// terra-quality-ignore single-use -- Keep toggleVisibility as a named declaration so its authored TSDoc stays attached. TSDoc: Toggles whether password characters are visible.
+	// hygiene-ignore single-use -- Keep toggleVisibility as a named declaration so its authored TSDoc stays attached. TSDoc: Toggles whether password characters are visible.
 	/** Toggles whether password characters are visible.
 	 * @return Nothing; the input visibility state is inverted.
 	 */

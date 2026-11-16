@@ -19,7 +19,7 @@ TESTS
 
 test.describe('mapped checkbox field accessibility', mappedCheckboxAccessibility);
 
-// terra-quality-ignore single-use -- Keep mappedCheckboxAccessibility as a named declaration so its authored TSDoc stays attached. TSDoc: Registers checkbox orientation and generated-label association contracts.
+// hygiene-ignore single-use -- Keep mappedCheckboxAccessibility as a named declaration so its authored TSDoc stays attached. TSDoc: Registers checkbox orientation and generated-label association contracts.
 /** Registers checkbox orientation and generated-label association contracts. */
 function mappedCheckboxAccessibility(): void {
 	// ORIENTATION AND FEEDBACK
@@ -45,7 +45,7 @@ function renderCheckbox(orientation?: 'vertical' | 'horizontal'): string {
 	);
 }
 
-// terra-quality-ignore single-use -- Keep defaultCheckboxKeepsLabelBeforeControl as a named declaration so its authored TSDoc stays attached. TSDoc: An omitted orientation uses the vertical layout; its label and Radix control still share.
+// hygiene-ignore single-use -- Keep defaultCheckboxKeepsLabelBeforeControl as a named declaration so its authored TSDoc stays attached. TSDoc: An omitted orientation uses the vertical layout; its label and Radix control still share.
 /**
  * An omitted orientation uses the vertical layout; its label and Radix control
  * still share description and error ids.
@@ -63,7 +63,7 @@ function defaultCheckboxKeepsLabelBeforeControl(): void {
 	assert.match(markup, /id="terms-error" role="alert"/);
 }
 
-// terra-quality-ignore single-use -- Keep horizontalCheckboxKeepsFeedbackAssociations as a named declaration so its authored TSDoc stays attached. TSDoc: Horizontal placement moves the control before its label without changing the control's feedback.
+// hygiene-ignore single-use -- Keep horizontalCheckboxKeepsFeedbackAssociations as a named declaration so its authored TSDoc stays attached. TSDoc: Horizontal placement moves the control before its label without changing the control's feedback.
 /**
  * Horizontal placement moves the control before its label without changing the
  * control's feedback associations.
@@ -81,7 +81,7 @@ function horizontalCheckboxKeepsFeedbackAssociations(): void {
 	assert.match(markup, /id="terms-error" role="alert"/);
 }
 
-// terra-quality-ignore single-use -- Keep genCheckboxIdConnectsLabelAndFeedback as a named declaration so its authored TSDoc stays attached. TSDoc: When id and name are absent, one generated id connects the label, checkbox, description, and error.
+// hygiene-ignore single-use -- Keep genCheckboxIdConnectsLabelAndFeedback as a named declaration so its authored TSDoc stays attached. TSDoc: When id and name are absent, one generated id connects the label, checkbox, description, and error.
 /**
  * When id and name are absent, one generated id connects the label, checkbox,
  * description, and error.
@@ -104,7 +104,7 @@ function genCheckboxIdConnectsLabelAndFeedback(): void {
 	assert.ok(markup.includes(`id="${checkboxId}-error" role="alert"`));
 }
 
-// terra-quality-ignore single-use -- Keep customControlWithoutIdentityHasNoDanglingLabel as a named declaration so its authored TSDoc stays attached. TSDoc: A custom ReactNode control has no discoverable id, so its label must not point to an element that.
+// hygiene-ignore single-use -- Keep customControlWithoutIdentityHasNoDanglingLabel as a named declaration so its authored TSDoc stays attached. TSDoc: A custom ReactNode control has no discoverable id, so its label must not point to an element that.
 /**
  * A custom ReactNode control has no discoverable id, so its label must not point
  * to an element that does not exist.

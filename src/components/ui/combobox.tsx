@@ -95,19 +95,19 @@ export function Combobox({
 	// Report an empty selection only when the selection changes to empty.
 	const prevSelection = React.useRef(sel);
 	// effect necessary to avoid violating rules of hooks
-	// terra-quality-ignore single-use -- Keep reportClearedSelection as a named declaration so its authored TSDoc stays attached. TSDoc: Reports a transition to no selection once and records the current choice.
+	// hygiene-ignore single-use -- Keep reportClearedSelection as a named declaration so its authored TSDoc stays attached. TSDoc: Reports a transition to no selection once and records the current choice.
 	/** Reports a transition to no selection once and records the current choice. */
 	function reportClearedSelection(): void {
 		if (sel === null && sel !== prevSelection.current) onValueChange(null);
 		prevSelection.current = sel;
 	}
 	React.useEffect(reportClearedSelection, [sel, onValueChange]);
-	// terra-quality-ignore single-use -- Keep handleSearchClear as a named declaration so its authored TSDoc stays attached. TSDoc: Clears the controlled search query when the command input is reset.
+	// hygiene-ignore single-use -- Keep handleSearchClear as a named declaration so its authored TSDoc stays attached. TSDoc: Clears the controlled search query when the command input is reset.
 	/** Clears the controlled search query when the command input is reset. */
 	function handleSearchClear(): void {
 		onSearchChange?.('');
 	}
-	// terra-quality-ignore single-use -- Keep handleOptionSelect as a named declaration so its authored TSDoc stays attached. TSDoc: Updates the selected value and closes the option list after activation.
+	// hygiene-ignore single-use -- Keep handleOptionSelect as a named declaration so its authored TSDoc stays attached. TSDoc: Updates the selected value and closes the option list after activation.
 	/**
 	 * Updates the selected value and closes the option list after activation.
 	 *

@@ -1,6 +1,6 @@
 {
 	"name": "@terra-symposium/styling",
-	"version": "0.1.28",
+	"version": "0.1.36",
 	"description": "Shared Terra UI and hue theming",
 	"license": "Apache-2.0",
 	"type": "module",
@@ -24,6 +24,10 @@
 		"./tailwind-preset": {
 			"types": "./dist/lib/tailwind-preset.d.ts",
 			"import": "./dist/lib/tailwind-preset.js"
+		},
+		"./hue-demo": {
+			"types": "./dist/lib/hue-demo.d.ts",
+			"import": "./dist/lib/hue-demo.js"
 		},
 		"./global.css": "./dist/global.css",
 		"./ui.css": "./dist/global.css",

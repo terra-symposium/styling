@@ -601,10 +601,9 @@ export async function replaceOfficeText(sourcePath: string, destinationPath: str
 	await fs.writeFile(destinationPath, await zip.generateAsync({ type: 'nodebuffer' }));
 }
 
-/* Finalizes a standard OOXML deck for common Office editors and sets its Design > Variants palette. */
 // terra-quality-ignore single-use -- Keep finalizePresentation as a named declaration so its authored TSDoc stays attached. TSDoc: Finalizes the OOXML deck and applies its palette to the theme and compatibility metadata.
 /**
- * Finalizes the OOXML deck and applies its palette to the theme and compatibility metadata.
+ * Finalizes the OOXML deck for common Office editors and applies its Design > Variants palette to the theme and compatibility metadata.
  *
  * @param presentationPath - Path to the generated PPTX file to update.
  * @param brand - Resolved palette and color roles applied to the deck.

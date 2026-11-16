@@ -20,7 +20,7 @@ const homeHref = firstAvailableLeafHref() ?? pageHref('', base);
 		<div class='terra-styling'>
 			<main class='styling-404'>
 				<div class='styling-404__marquee'>
-					<Marquee client:load terms={['404']} duration={3500} alternate measureBeforeShow pauseOnHover pauseOnClick randomizeDelay rowClassName='styling-404__row' />
+					<Marquee client:load terms={['404']} duration={3500} alternate measureBeforeShow pauseOnClick randomizeDelay rowClassName='styling-404__row' />
 				</div>
 
 				<Card variant='primary-tonal' size='lg' className='styling-404__card' aria-labelledby='not-found-title'>
@@ -72,16 +72,22 @@ const homeHref = firstAvailableLeafHref() ?? pageHref('', base);
 		overflow: hidden;
 		color: rgb(var(--gray-7));
 		pointer-events: auto;
-		cursor: pointer;
+		cursor: default;
 		filter: grayscale(1);
 	}
 
 	.styling-404__row {
 		margin: 0;
+		cursor: pointer;
 		font-size: clamp(1.25rem, 2.8vw, 2.25rem);
 		font-weight: 700;
 		line-height: 1.1;
 		white-space: nowrap;
+	}
+
+	.styling-404__row:focus-visible {
+		outline: 2px solid rgb(var(--primary-8));
+		outline-offset: 2px;
 	}
 
 	.styling-404__card {

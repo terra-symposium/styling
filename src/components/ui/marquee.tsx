@@ -3,7 +3,7 @@
  */
 
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
-import type { ElementType, KeyboardEvent, ReactNode } from 'react';
+import type { ElementType, KeyboardEvent, PointerEvent, ReactNode } from 'react';
 import { cn } from '../../lib/cn.js';
 
 const SPEEDS = [0.86, 1.08, 0.93, 1.17, 0.98, 1.12, 0.9, 1.04];
@@ -31,17 +31,6 @@ export type MarqueeProps = {
 	randomizeDelay?: boolean;
 };
 
-// terra-quality-ignore single-use -- Keep invertPauseState as a named declaration so its authored TSDoc stays attached. TSDoc: Toggles a marquee's paused state using React's state updater contract.
-/**
- * Toggles a marquee's paused state using React's state updater contract.
- *
- * @param current - Current paused state.
- * @return The next paused state.
- */
-function invertPauseState(current: boolean): boolean {
-	return !current;
-}
-
 /**
  * Repeats text in animated rows, with optional pointer pause and auto sizing.
  *
@@ -51,7 +40,7 @@ function invertPauseState(current: boolean): boolean {
  * @param delay - Initial animation delay in milliseconds.
  * @param ease - CSS timing function, or `true` to use the component's easing curve.
  * @param pauseOnHover - Pauses a row while the pointer is over it.
- * @param pauseOnClick - Enables click and keyboard pause controls on the root.
+ * @param pauseOnClick - Pauses only the pressed row until pointer or keyboard release.
  * @param className - Additional classes applied to each row.
  * @param rowClassName - Additional classes applied to each row track container.
  * @param size - Text sizing preset for each row.
@@ -90,7 +79,7 @@ export function Marquee({
 	const [measured, setMeasured] = useState(false);
 	const [randomOffsets, setRandomOffsets] = useState<number[]>([]);
 	const randomOffsetsRef = useRef<number[]>([]);
-	const [paused, setPaused] = useState(false);
+	const [heldRow, setHeldRow] = useState<number | null>(null);
 
 	// terra-quality-ignore single-use -- Keep setupLayoutEffect as a named declaration so its authored TSDoc stays attached. TSDoc: Measures the marquee and keeps its row and item counts aligned with the available space.
 	/**
@@ -177,21 +166,30 @@ export function Marquee({
 	// terra-quality-ignore single-use -- Keep row text memoized at this hook position so rerenders preserve shuffled terms.
 	const rowTerms = useMemo(createRowTerms, [count, separator, terms]);
 
-	/** Pauses or resumes the animation when click interaction is enabled. */
-	function togglePaused(): void {
-		if (pauseOnClick) setPaused(invertPauseState);
+	/** Holds the selected row while its pointer is pressed. */
+	function holdRow(event: PointerEvent<HTMLDivElement>, index: number): void {
+		if (!pauseOnClick || (event.pointerType === 'mouse' && event.button !== 0)) return;
+		event.currentTarget.setPointerCapture(event.pointerId);
+		setHeldRow(index);
 	}
 
-	// terra-quality-ignore single-use -- Keep handleKeyDown as a named declaration so its authored TSDoc stays attached. TSDoc: Handles keyboard activation for the marquee's button-like root.
-	/**
-	 * Handles keyboard activation for the marquee's button-like root.
-	 *
-	 * @param event - Keyboard event from the marquee root.
-	 */
-	function handleKeyDown(event: KeyboardEvent<HTMLDivElement>): void {
+	/** Releases a row after its pointer is lifted or cancelled. */
+	function releaseRow(index: number): void {
+		setHeldRow(current => (current === index ? null : current));
+	}
+
+	/** Holds a focused row while Enter or Space is down. */
+	function holdRowWithKeyboard(event: KeyboardEvent<HTMLDivElement>, index: number): void {
 		if (!pauseOnClick || (event.key !== 'Enter' && event.key !== ' ')) return;
 		event.preventDefault();
-		togglePaused();
+		setHeldRow(index);
+	}
+
+	/** Releases a focused row when Enter or Space is lifted. */
+	function releaseRowWithKeyboard(event: KeyboardEvent<HTMLDivElement>, index: number): void {
+		if (event.key !== 'Enter' && event.key !== ' ') return;
+		event.preventDefault();
+		releaseRow(index);
 	}
 
 	/**
@@ -224,19 +222,29 @@ export function Marquee({
 					className,
 					rowClassName,
 				)}
-				aria-hidden='true'
+				role={pauseOnClick ? 'button' : undefined}
+				tabIndex={pauseOnClick ? 0 : undefined}
+				aria-label={pauseOnClick ? `Hold to pause marquee row ${index + 1}` : undefined}
+				aria-pressed={pauseOnClick ? heldRow === index : undefined}
+				aria-hidden={pauseOnClick ? undefined : true}
+				onPointerDown={event => holdRow(event, index)}
+				onPointerUp={() => releaseRow(index)}
+				onPointerCancel={() => releaseRow(index)}
+				onLostPointerCapture={() => releaseRow(index)}
+				onKeyDown={event => holdRowWithKeyboard(event, index)}
+				onKeyUp={event => releaseRowWithKeyboard(event, index)}
+				onBlur={() => releaseRow(index)}
 			>
 				<span
 					className={cn(
 						pauseOnHover && 'group-hover:[animation-play-state:paused]',
-						pauseOnClick && 'group-active:!paused',
 						reverse !== (alternate && index % 2 === 1) && '[animation-direction:reverse]',
 						'inline-flex whitespace-nowrap [will-change:transform] motion-reduce:[animation-play-state:paused]',
 					)}
 					data-marquee-track='true'
 					style={{
 						animation: `styling-marquee-slide ${speed}ms ${delay - (randomizeDelay ? (randomOffsets[index] ?? 0) : (((index * 37) % 100) * speed) / 100)}ms ${ease === true ? 'cubic-bezier(0.46,0.03,0.52,0.96)' : ease} infinite`,
-						animationPlayState: paused ? 'paused' : undefined,
+						animationPlayState: heldRow === index ? 'paused' : undefined,
 					}}
 				>
 					{copies}
@@ -252,12 +260,6 @@ export function Marquee({
 			style={{
 				visibility: (measureBeforeShow || randomizeDelay) && !measured ? 'hidden' : undefined,
 			}}
-			role={pauseOnClick ? 'button' : undefined}
-			tabIndex={pauseOnClick ? 0 : undefined}
-			aria-label={pauseOnClick ? 'Toggle marquee animation' : undefined}
-			aria-pressed={pauseOnClick ? paused : undefined}
-			onClick={togglePaused}
-			onKeyDown={handleKeyDown}
 		>
 			{rowTerms.map(renderRow)}
 		</div>

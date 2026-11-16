@@ -124,13 +124,7 @@ function SheetHeader({ className, ...attributes }: React.HTMLAttributes<HTMLDivE
 function SheetFooter({ className, ...attributes }: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
 	return <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...attributes} />;
 }
-/*
- * Title text for the sheet dialog.
- *
- * @param className - Optional style overrides for the title.
- *
- * @returns A styled heading that names the sheet dialog.
- */
+
 // terra-quality-ignore single-use -- Keep SheetTitleRender as a named React component to preserve its identity. TSDoc: Renders the accessible title for the sheet dialog.
 /** Renders the accessible title for the sheet dialog.
  * @param attributes - Title attributes and optional class name.
@@ -143,13 +137,7 @@ function SheetTitleRender(attributes: React.ComponentPropsWithoutRef<typeof Shee
 }
 
 const SheetTitle = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Title>, React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>>(SheetTitleRender);
-/*
- * Supporting description text for the sheet dialog.
- *
- * @param className - Optional style overrides for the description.
- *
- * @returns A styled paragraph describing the sheet dialog.
- */
+
 // terra-quality-ignore single-use -- Keep SheetDescriptionRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders supporting description text and its optional tooltip.
 /** Renders supporting description text and its optional tooltip.
  * @param attributes - Description props, children, and optional tooltip content.

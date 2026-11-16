@@ -69,13 +69,6 @@ const SelectGroup = SelectPrimitive.Group;
  */
 const SelectValue = SelectPrimitive.Value;
 
-/*
- * Clickable trigger that opens the select content.
- *
- * @param children - Trigger label and value content.
- *
- * @returns A control that toggles the select menu.
- */
 // terra-quality-ignore single-use -- Keep SelectTriggerRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the select trigger using the inherited size and chosen variant.
 /** Renders the select trigger using the inherited size and chosen variant.
  * @param attributes - Trigger props, size, width, and variant options.
@@ -128,13 +121,6 @@ const SelectTrigger = React.forwardRef<
 	}
 >(SelectTriggerRender);
 
-/*
- * Scroll control displayed at the top of the select content.
- *
- * @param className - Optional style overrides for the scroll control.
- *
- * @returns A control that scrolls the option list upwards.
- */
 // terra-quality-ignore single-use -- Keep SelectScrollUpButtonRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the control that scrolls the option list toward its start.
 /** Renders the control that scrolls the option list toward its start.
  * @param attributes - Radix button attributes and optional class name.
@@ -157,13 +143,6 @@ const SelectScrollUpButton = React.forwardRef<React.ElementRef<typeof SelectPrim
 	SelectScrollUpButtonRender,
 );
 
-/*
- * Scroll control displayed at the bottom of the select content.
- *
- * @param className - Optional style overrides for the scroll control.
- *
- * @returns A control that scrolls the option list downwards.
- */
 // terra-quality-ignore single-use -- Keep SelectScrollDownButtonRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the control that scrolls the option list toward its end.
 /** Renders the control that scrolls the option list toward its end.
  * @param attributes - Radix button attributes and optional class name.
@@ -186,14 +165,6 @@ const SelectScrollDownButton = React.forwardRef<React.ElementRef<typeof SelectPr
 	SelectScrollDownButtonRender,
 );
 
-/*
- * Overlay panel that renders the select options.
- *
- * @param children - Option groups and items to render.
- * @param position - Positioning strategy for the content (default: 'popper').
- *
- * @returns A panel containing the option list, optionally rendered in a portal.
- */
 // terra-quality-ignore single-use -- Keep SelectContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders option groups with optional portal placement and scroll controls.
 /** Renders option groups with optional portal placement and scroll controls.
  * @param attributes - Radix panel props, children, placement, and portal choice.
@@ -239,13 +210,6 @@ const SelectContent = React.forwardRef<
 	}
 >(SelectContentRender);
 
-/*
- * Text label used to describe a group of select items.
- *
- * @param className - Optional style overrides for the label.
- *
- * @returns A styled label for an option group.
- */
 // terra-quality-ignore single-use -- Keep SelectLabelRender as a named React component to preserve its identity. TSDoc: Renders a group heading above related select options.
 /** Renders a group heading above related select options.
  * @param attributes - Radix label attributes and optional class name.
@@ -259,14 +223,6 @@ function SelectLabelRender(attributes: React.ComponentPropsWithoutRef<typeof Sel
 
 const SelectLabel = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Label>, React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>>(SelectLabelRender);
 
-/*
- * Single option within the select menu.
- *
- * @param className - Optional style overrides for the option row.
- * @param children - Option label.
- *
- * @returns A selectable option with highlighted and selected state styling.
- */
 // terra-quality-ignore single-use -- Keep SelectItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a selectable option with size and selection styling.
 /** Renders a selectable option with size and selection styling.
  * @param attributes - Radix option props, label children, and optional icon.
@@ -316,13 +272,6 @@ const SelectItem = React.forwardRef<
 	}
 >(SelectItemRender);
 
-/*
- * Visual divider used to separate logical groups of options.
- *
- * @param className - Optional style overrides for the separator.
- *
- * @returns A horizontal rule inside the option list.
- */
 // terra-quality-ignore single-use -- Keep SelectSeparatorRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the divider between logical groups of select options.
 /** Renders the divider between logical groups of select options.
  * @param attributes - Radix separator attributes and optional class name.

@@ -56,11 +56,6 @@ function renderAlert(
 }
 const Alert = React.forwardRef(renderAlert);
 
-/*
- * Heading text for an alert, used to summarise the msg content.
- *
- * @returns A styled heading el for the alert.
- */
 // terra-quality-ignore single-use -- Keep renderAlertTitle as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the alert heading with its shared text treatment.
 /** Renders the alert heading with its shared text treatment.
  *
@@ -75,11 +70,6 @@ function renderAlertTitle(titleProps: React.HTMLAttributes<HTMLHeadingElement>, 
 }
 const AlertTitle = React.forwardRef(renderAlertTitle);
 
-/*
- * Supporting body content for an alert, providing detailed ctx.
- *
- * @returns A styled container for alert description text.
- */
 // terra-quality-ignore single-use -- Keep renderAlertDescription as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the supporting text beneath an alert title.
 /** Renders the supporting text beneath an alert title.
  *

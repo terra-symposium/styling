@@ -32,9 +32,7 @@ COMPONENTS
 const Dialog = DialogPrimitive.Root;
 
 // TRIGGER
-/*
- * Trigger element that opens the dialog modal.
- */
+
 // terra-quality-ignore single-use -- Keep renderDialogTrigger as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the trigger primitive while forwarding its element ref.
 /** Renders the trigger primitive while forwarding its element ref.
  *
@@ -62,9 +60,7 @@ const DialogClose = DialogPrimitive.Close;
 DialogClose.displayName = DialogPrimitive.Close.displayName;
 
 // OVERLAY
-/*
- * Dark translucent backdrop rendered behind dialog content.
- */
+
 // terra-quality-ignore single-use -- Keep renderDialogOverlay as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the backdrop primitive with shared overlay animation styles.
 /** Renders the backdrop primitive with shared overlay animation styles.
  *
@@ -251,9 +247,7 @@ function DialogFooter({
 DialogFooter.displayName = 'DialogFooter';
 
 // TITLE
-/*
- * Accessible dialog title heading.
- */
+
 // terra-quality-ignore single-use -- Keep renderDialogTitle as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the dialog title with shared heading typography.
 /** Renders the dialog title with shared heading typography.
  *

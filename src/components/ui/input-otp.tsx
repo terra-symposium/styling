@@ -44,9 +44,6 @@ function renderInputOTP(otpProps: InputOTPProps, ref: React.ForwardedRef<React.E
 /** Root OTP input component for entering one-time passwords. */
 const InputOTP = React.forwardRef<React.ElementRef<typeof OTPInput>, InputOTPProps>(renderInputOTP);
 
-/*
- * Container group for OTP input slots.
- */
 // terra-quality-ignore single-use -- Keep renderInputOTPGroup as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the container for a related group of OTP character slots.
 /** Renders the container for a related group of OTP character slots.
  * @param groupProps - Native div attributes and optional classes.
@@ -60,9 +57,6 @@ function renderInputOTPGroup(groupProps: React.ComponentPropsWithoutRef<'div'>, 
 
 const InputOTPGroup = React.forwardRef<React.ElementRef<'div'>, React.ComponentPropsWithoutRef<'div'>>(renderInputOTPGroup);
 
-/*
- * Individual character slot within an OTP input component.
- */
 // terra-quality-ignore single-use -- Keep renderInputOTPSlot as a named declaration so its authored TSDoc stays attached. TSDoc: Renders one OTP character and the active fake caret when present.
 /** Renders one OTP character and the active fake caret when present.
  * @param slotProps - Native div attributes and the OTP slot index.
@@ -94,9 +88,6 @@ function renderInputOTPSlot(slotProps: React.ComponentPropsWithoutRef<'div'> & {
 
 const InputOTPSlot = React.forwardRef<React.ElementRef<'div'>, React.ComponentPropsWithoutRef<'div'> & { index: number }>(renderInputOTPSlot);
 
-/*
- * Decorative separator between OTP slot groups.
- */
 // terra-quality-ignore single-use -- Keep renderInputOTPSeparator as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the decorative divider between OTP slot groups.
 /** Renders the decorative divider between OTP slot groups.
  * @param separatorProps - Native div attributes forwarded to the separator.

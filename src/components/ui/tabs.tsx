@@ -25,11 +25,7 @@ CONFIG
 //////////////////////////////////////////////////*/
 
 const Tabs = TabsPrimitive.Root;
-/*
- * Tabs list container primitive.
- *
- */
-/** Radix tab-list attributes plus the supported layout variants. */
+/** Radix tab-list container attributes plus the supported layout variants. */
 type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> & {
 	variant?: 'default' | 'line' | 'dashboard-nav';
 };
@@ -85,7 +81,7 @@ function renderTabsTrigger(triggerProps: TabsTriggerProps, ref: React.ForwardedR
 			data-slot='tabs-trigger'
 			ref={ref}
 			className={cn(
-				ACTION_VARIANTS({ variant: (dashboardNav ? 'primary-default' : variant) as TabActionVariant, size: 'sm' }),
+				ACTION_VARIANTS({ variant: (dashboardNav ? 'primary-saturated' : variant) as TabActionVariant, size: 'sm' }),
 				dashboardNav && 'min-h-14 rounded-none border-0 bg-transparent text-[0.93rem] font-semibold tracking-[-0.01em] text-white/80 hover:bg-transparent hover:text-white/95',
 				selection === 'surface' &&
 					'data-[state=active]:border-primary-4 data-[state=active]:bg-primary-3 data-[state=active]:text-primary-12 data-[state=active]:hover:bg-primary-4 data-[state=active]:shadow-sm',

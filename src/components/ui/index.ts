@@ -75,6 +75,7 @@ export * from '../data-table.js';
 // FORM COMPOSITIONS
 export * from '../field.js';
 export * from '../forms.js';
+export * from '../docs/toolbar-frame.js';
 
 // STYLE VARIANTS
 export * from './variants.js';

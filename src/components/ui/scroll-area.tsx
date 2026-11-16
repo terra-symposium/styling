@@ -18,13 +18,10 @@ import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-/*
- * ScrollArea primitive component that partitions root and viewport layout classes.
- *
- * @param children - ScrollArea content elements.
- * @param viewportClassName - Additional class name applied specifically to the viewport.
+/** Scroll area props that partition root and viewport layout classes.
+ * @property children - Scroll area content elements.
+ * @property viewportClassName - Additional class name applied to the viewport.
  */
-/** Scroll area props with a separate class hook for its viewport. */
 type ScrollAreaProps = React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root> & { viewportClassName?: string };
 
 // terra-quality-ignore single-use -- Keep renderScrollArea as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the scroll root, viewport, scrollbar, and corner together.
@@ -71,11 +68,6 @@ function renderScrollArea(areaProps: ScrollAreaProps, ref: React.ForwardedRef<Re
 
 const ScrollArea = React.forwardRef<React.ElementRef<typeof ScrollAreaPrimitive.Root>, ScrollAreaProps>(renderScrollArea);
 
-/*
- * ScrollBar primitive thumb/track component for the ScrollArea.
- *
- * @param orientation - Scrollbar orientation ('vertical' or 'horizontal').
- */
 // terra-quality-ignore single-use -- Keep renderScrollBar as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the scrollbar track with an orientation-aware layout.
 /** Renders the scrollbar track with an orientation-aware layout.
  * @param barProps - Radix scrollbar attributes and optional orientation.

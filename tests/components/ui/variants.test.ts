@@ -37,7 +37,7 @@ CONFIG
 const repo = process.cwd();
 const colors = ['primary', 'secondary', 'gray', 'destructive', 'success', 'caution'] as const;
 const uiSizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
-const actionTypes = ['default', 'outline', 'ghost', 'tonal', 'glass', 'underline'] as const;
+const actionTypes = ['saturated', 'outline', 'ghost', 'tonal', 'glass', 'underline'] as const;
 const surfaceTypes = ['outline', 'ghost', 'tonal', 'saturated', 'glass'] as const;
 const formTypes = ['default', 'outline', 'ghost', 'tonal'] as const;
 const toggleTypes = ['default', 'outline', 'ghost', 'tonal'] as const;
@@ -120,12 +120,12 @@ function validVariantMatricesGenClasses(): void {
 			for (const size of uiSizes) {
 				const name = `action ${color}/${treatment}/${size}`;
 				const value = ACTION_VARIANTS({
-					variant: matrixKey(color, treatment) as never,
+					variant: `${color}-${treatment}` as never,
 					size,
 				});
-				if (color === 'primary' && treatment === 'default') hasClasses(value, name);
+				if (color === 'primary' && treatment === 'saturated') hasClasses(value, name);
 				else {
-					hasDistinctClasses(value, ACTION_VARIANTS({ variant: 'primary-default', size }), name);
+					hasDistinctClasses(value, ACTION_VARIANTS({ variant: 'primary-saturated', size }), name);
 				}
 			}
 		}

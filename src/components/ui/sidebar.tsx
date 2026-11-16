@@ -579,10 +579,7 @@ function SidebarGroupRender(groupProps: React.ComponentProps<'div'>, ref: React.
 const SidebarGroup = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(SidebarGroupRender);
 SidebarGroup.displayName = 'SidebarGroup';
 
-/*
- * Text label for a sidebar group.
- */
-/** Props for a sidebar group label that can render as a slotted child. */
+/** Props for a sidebar group text label that can render as a slotted child. */
 type SidebarGroupLabelProps = React.ComponentProps<'div'> & {
 	asChild?: boolean;
 };
@@ -606,10 +603,7 @@ function SidebarGroupLabelRender(labelProps: SidebarGroupLabelProps, ref: React.
 const SidebarGroupLabel = React.forwardRef<HTMLDivElement, SidebarGroupLabelProps>(SidebarGroupLabelRender);
 SidebarGroupLabel.displayName = 'SidebarGroupLabel';
 
-/*
- * Secondary action button placed within a sidebar group header.
- */
-/** Props for a sidebar group action button or slotted action. */
+/** Props for a secondary action button or slotted action in a sidebar group header. */
 type SidebarGroupActionProps = React.ComponentProps<'button'> & {
 	asChild?: boolean;
 };

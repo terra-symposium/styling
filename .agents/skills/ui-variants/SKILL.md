@@ -42,7 +42,7 @@ The shared axes live in `src/components/ui/types.ts`:
 - `UiSize` is `xs | sm | md | lg | xl`.
 - `UiColor` is `primary | secondary | gray | destructive | success | caution`.
 - `UiType` is `default | outline | ghost | tonal | saturated | underline | glass`; button links use the underline treatment.
-- A plain color key represents the default treatment. Combined matrix keys use `color-type`; preserve the existing `primary-default` Button alias and its distinct compound styling while it remains a public default.
+- A plain color key remains a compatibility alias for the saturated treatment. Name button matrix entries `color-saturated`; `primary-saturated` keeps its distinct medium-size styling. Card and other component defaults are separate contracts.
 - Each family gets a narrower type: actions exclude surface-only treatments, surfaces exclude action-only underline, and form controls expose only treatments that make sense for fields.
 - Cards accept explicit color/treatment combinations without a `default` treatment; their default variant is `primary-tonal`.
 - `UiSize` shares the scale keys, not a universal set of pixel dimensions. Preserve geometry appropriate to buttons, fields, cards, tooltips, and menus.

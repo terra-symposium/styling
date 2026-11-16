@@ -111,10 +111,6 @@ function Slider({
 	);
 }
 
-/*
- * Slider track primitive container.
- *
- */
 // terra-quality-ignore single-use -- Keep renderSliderTrack as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the track primitive with shared slider track classes.
 /** Renders the track primitive with shared slider track classes.
  *
@@ -131,10 +127,6 @@ const SliderTrack = Object.assign(React.forwardRef(renderSliderTrack), {
 	displayName: SliderPrimitive.Track.displayName,
 });
 
-/*
- * Slider range primitive fill indicator.
- *
- */
 // terra-quality-ignore single-use -- Keep renderSliderRange as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the selected-value fill with shared slider range classes.
 /** Renders the selected-value fill with shared slider range classes.
  *
@@ -151,10 +143,6 @@ const SliderRange = Object.assign(React.forwardRef(renderSliderRange), {
 	displayName: SliderPrimitive.Range.displayName,
 });
 
-/*
- * Slider thumb primitive handle.
- *
- */
 // terra-quality-ignore single-use -- Keep renderSliderThumb as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a slider thumb with focus and selection styling.
 /** Renders a slider thumb with focus and selection styling.
  *

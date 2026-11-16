@@ -26,12 +26,9 @@ import type { FieldValues } from 'react-hook-form';
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-/*
- * Styled checkbox component built on top of Radix UI's checkbox primitive.
- *
- * @returns A themed checkbox with focus, disabled, and checked states.
+/** Radix checkbox attributes with an optional react-hook-form field name.
+ * The styled checkbox supports focus, disabled, and checked states.
  */
-/** Radix checkbox attributes with an optional react-hook-form field name. */
 type CheckboxProps = React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> & {
 	name?: string;
 };
@@ -110,10 +107,6 @@ function renderCheckbox(checkboxProps: CheckboxProps, ref: React.ForwardedRef<Re
 
 const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root>, CheckboxProps>(renderCheckbox);
 
-/*
- * Checkbox indicator component for custom icon or mark rendering.
- *
- */
 // terra-quality-ignore single-use -- Keep renderCheckboxIndicator as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the optional checkbox icon or mark inside Radix's indicator slot.
 /** Renders the optional checkbox icon or mark inside Radix's indicator slot.
  * @param indicatorProps - Native indicator attributes and optional classes.

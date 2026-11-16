@@ -63,7 +63,7 @@ addGroup('Actions and forms', [
 	'toggle',
 	'toggle-group',
 ]);
-addGroup('Content and feedback', ['alert', 'avatar', 'badge', 'bubble', 'card', 'empty', 'hint', 'message', 'message-scroller', 'progress', 'skeleton', 'spinner', 'table']);
+addGroup('Content and feedback', ['alert', 'avatar', 'badge', 'bubble', 'card', 'empty', 'hint', 'marquee', 'message', 'message-scroller', 'progress', 'skeleton', 'spinner', 'table']);
 addGroup('Menus and overlays', ['alert-dialog', 'command', 'context-menu', 'dialog', 'drawer', 'dropdown-menu', 'popover', 'sheet', 'toaster', 'tooltip']);
 addGroup('Navigation and layout', ['accordion', 'calendar', 'carousel', 'collapsible', 'pagination', 'portal-container', 'resizable', 'scroll-area', 'separator', 'sidebar', 'tabs']);
 addGroup('Data and composition', ['data-table', 'docs-toolbar-frame', 'field', 'mapped-form-fields']);
@@ -148,6 +148,38 @@ function describeExport(exported, checker, source) {
 	const declaration = symbol.valueDeclaration ?? symbol.declarations?.[0] ?? source;
 	const type = checker.getTypeOfSymbolAtLocation(exported, declaration);
 	const signatures = type.getCallSignatures();
+	const firstParameter = signatures[0]?.getParameters()[0];
+	const propsType = firstParameter ? checker.getTypeOfSymbolAtLocation(firstParameter, declaration) : undefined;
+	const props = [];
+	let defaultOwner = declaration;
+	if (ts.isVariableDeclaration(declaration) && declaration.initializer && ts.isCallExpression(declaration.initializer)) {
+		const renderer = declaration.initializer.arguments[0];
+		if (renderer && ts.isIdentifier(renderer)) {
+			const functionDeclaration = source.statements.find(statement => ts.isFunctionDeclaration(statement) && statement.name?.text === renderer.text);
+			if (functionDeclaration) defaultOwner = functionDeclaration;
+		}
+	}
+	const ownerDefaults = literalDefaults(defaultOwner);
+	if (propsType) {
+		const usefulInherited = new Set(['disabled', 'type', 'name', 'placeholder', 'required', 'readOnly', 'value', 'defaultValue', 'min', 'max', 'step', 'aria-label']);
+		for (const prop of checker.getPropertiesOfType(propsType)) {
+			const propDeclaration = prop.valueDeclaration ?? prop.declarations?.[0] ?? declaration;
+			if (!propDeclaration.getSourceFile().fileName.startsWith(join(root, 'src') + sep) && !usefulInherited.has(prop.getName())) continue;
+			const propType = checker.getTypeOfSymbolAtLocation(prop, propDeclaration);
+			const typeText = checker.typeToString(propType, propDeclaration, ts.TypeFormatFlags.NoTruncation);
+			const choiceTypes = propType.isUnion() ? propType.types.filter(item => !(item.flags & (ts.TypeFlags.Undefined | ts.TypeFlags.Null))) : [propType];
+			const choices = choiceTypes.length <= 40 && choiceTypes.every(item => item.isStringLiteral()) ? choiceTypes.map(item => item.value) : [];
+			const defaultValue = ownerDefaults.get(prop.getName());
+			props.push({
+				name: prop.getName(),
+				type: typeText,
+				description: displayParts(prop.getDocumentationComment(checker)),
+				optional: Boolean(prop.flags & ts.SymbolFlags.Optional),
+				...(defaultValue ? { defaultValue } : {}),
+				choices,
+			});
+		}
+	}
 	/**
 	 * Formats a TypeScript call signature without truncating its public type.
 	 *
@@ -171,7 +203,33 @@ function describeExport(exported, checker, source) {
 		signature: signatures.length ? signatures.map(fmtSignature).join('\n') : checker.typeToString(type, declaration, ts.TypeFormatFlags.NoTruncation),
 		summary: displayParts(exported.getDocumentationComment(checker)) || displayParts(symbol.getDocumentationComment(checker)),
 		tags: exported.getJsDocTags(checker).map(serializeTag),
+		props,
 	};
+}
+
+/** Conservatively records literal defaults shared by every destructure of a name in one source file. */
+function literalDefaults(source) {
+	const values = new Map();
+	function visit(node) {
+		if (ts.isBindingElement(node) && ts.isIdentifier(node.name) && node.initializer) {
+			const initializer = node.initializer;
+			if (
+				ts.isStringLiteral(initializer) ||
+				ts.isNumericLiteral(initializer) ||
+				initializer.kind === ts.SyntaxKind.TrueKeyword ||
+				initializer.kind === ts.SyntaxKind.FalseKeyword ||
+				initializer.kind === ts.SyntaxKind.NullKeyword
+			) {
+				const name = node.name.text;
+				const found = values.get(name) ?? new Set();
+				found.add(initializer.getText());
+				values.set(name, found);
+			}
+		}
+		ts.forEachChild(node, visit);
+	}
+	visit(source);
+	return new Map([...values].filter(([, found]) => found.size === 1).map(([name, found]) => [name, [...found][0]]));
 }
 
 /*//////////////////////////////////////////////////
@@ -216,7 +274,7 @@ function trimLine(c) {
  * @return Whether the line can describe the component family.
  */
 function isSummaryLine(c) {
-	return Boolean(c) && !c.startsWith('src/');
+	return Boolean(c) && !c.startsWith('src/') && !c.startsWith('@') && !/^https?:\/\//.test(c);
 }
 for (const { slug, sourcePath } of entries) {
 	const source = program.getSourceFile(sourcePath);
@@ -230,17 +288,13 @@ for (const { slug, sourcePath } of entries) {
 	const componentExport = members.find(isComponentExport);
 	const sourceText = await readFile(sourcePath, 'utf8');
 	const shadcnUrl = /https:\/\/ui\.shadcn\.com\/docs\/components(?:\/[^\s*]+)?/i.exec(sourceText)?.[0];
+	const sourceSummary = [...sourceText.matchAll(/\/\*\*([\s\S]*?)\*\//g)]
+		.flatMap(comment => comment[1].replace(/^\s*\* ?/gm, '').split('\n'))
+		.map(trimLine)
+		.find(isSummaryLine);
 	cache[slug] = {
 		title: titleFromSlug(slug),
-		description:
-			componentExport?.summary ||
-			sourceText
-				.match(/\/\*\*([\s\S]*?)\*\//)?.[1]
-				?.replace(/^\s*\* ?/gm, '')
-				.split('\n')
-				.map(trimLine)
-				.find(isSummaryLine) ||
-			`${titleFromSlug(slug)} component family.`,
+		description: componentExport?.summary || sourceSummary || `${titleFromSlug(slug)} component family.`,
 		group: groupBySlug.get(slug) ?? 'Components',
 		source: relative(root, sourcePath).split(sep).join('/'),
 		demoExport: preferredExports[slug] ?? componentExport?.name,
@@ -249,5 +303,9 @@ for (const { slug, sourcePath } of entries) {
 	};
 }
 await mkdir(join(root, 'dist/cache'), { recursive: true });
-await writeFile(join(root, 'dist/cache/component-tsdocs.ts'), `export const componentTsDocs = ${JSON.stringify(cache, null, 2)} as const;\n`);
+const slugType = Object.keys(cache)
+	.map(slug => JSON.stringify(slug))
+	.join(' | ');
+const cacheType = `type ComponentDocs = Record<${slugType}, { title: string; description: string; group: string; source: string; demoExport: string; shadcnUrl?: string; members: { name: string; signature: string; summary: string; tags: { name: string; text: string }[]; props: { name: string; type: string; description: string; optional: boolean; defaultValue?: string; choices: string[] }[] }[] }>;`;
+await writeFile(join(root, 'dist/cache/component-tsdocs.ts'), `${cacheType}\nexport const componentTsDocs = ${JSON.stringify(cache, null, 2)} as unknown as ComponentDocs;\n`);
 console.log(`Generated TypeScript references for ${Object.keys(cache).length} components.`);

@@ -144,10 +144,7 @@ const ACTION_TREATMENT_VALUES = flattenColorTypeGrid({
 		underline: 'p-0 text-amber-800 enabled:hover:underline dark:text-amber-300',
 		glass: 'border border-white/15 bg-amber-700/40 text-white/90 shadow-lg backdrop-blur-xl hover:bg-amber-700/50',
 	},
-} satisfies Record<UiColor, Record<Exclude<UiType, 'default'>, string>>) as Record<
-	`${UiColor}-${Exclude<UiType, 'default'>}`,
-	string
->;
+} satisfies Record<UiColor, Record<Exclude<UiType, 'default'>, string>>) as Record<`${UiColor}-${Exclude<UiType, 'default'>}`, string>;
 const ACTION_MATRIX_VALUES = {
 	...ACTION_TREATMENT_VALUES,
 	primary: ACTION_TREATMENT_VALUES['primary-saturated'],

@@ -204,10 +204,10 @@ export function applyHue(hue: number | null, scope?: HTMLElement): void {
 		? Array.from(scope.querySelectorAll<HTMLElement>('[style*="--primaryLight1"]'))
 		: Array.from(document.querySelectorAll<HTMLElement>('[style*="--primaryLight1"]'));
 	const targets = scope ? [scope, ...legacyTargets] : [document.documentElement, ...(document.body ? [document.body] : []), ...legacyTargets];
-	for (const element of new Set<HTMLElement>(targets)) {
+	for (const el of new Set<HTMLElement>(targets)) {
 		const declarations: string[] = [];
 		for (const [name, value] of Object.entries(colorVars)) declarations.push(`${name}: ${value};`);
-		element.style.cssText = `${element.style.cssText.replace(/--(?:hue|(?:primary|gray|secondary)-\d+|(?:primary|gray|secondary)(?:Light|Dark)\d+)\s*:[^;]*;?/g, '')}; --hue: ${hue ?? 0}; ${declarations.join('')}`;
+		el.style.cssText = `${el.style.cssText.replace(/--(?:hue|(?:primary|gray|secondary)-\d+|(?:primary|gray|secondary)(?:Light|Dark)\d+)\s*:[^;]*;?/g, '')}; --hue: ${hue ?? 0}; ${declarations.join('')}`;
 	}
 	document.dispatchEvent(new CustomEvent('docs:hue-change', { detail: { hue } }));
 }

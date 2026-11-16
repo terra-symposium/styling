@@ -313,7 +313,7 @@ export function DataTableContent<Row extends object>({
  */
 export function DataTable<Row extends object = Record<string, unknown>>({
 	title,
-	description,
+	description: desc,
 	header,
 	action,
 	toolbar,
@@ -368,7 +368,7 @@ export function DataTable<Row extends object = Record<string, unknown>>({
 		<Card variant='gray-outline' size='sm'>
 			<CardHeader topRight={action}>
 				<CardTitle>{title}</CardTitle>
-				<CardDescription>{description}</CardDescription>
+				<CardDescription>{desc}</CardDescription>
 			</CardHeader>
 			{header && <div className='px-3 pb-3'>{header}</div>}
 			{(toolbar || toolbarData?.length) && (

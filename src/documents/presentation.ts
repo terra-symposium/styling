@@ -380,10 +380,10 @@ export function createPresentationTemplate(options: PresentationTemplateOptions 
 			['Type', 'Use Authentic Sans for reading.'],
 			['Space', 'Give each idea room to land.'],
 		];
-		for (const [index, [label, description]] of principles.entries()) {
+		for (const [index, [label, desc]] of principles.entries()) {
 			const x = 0.62 + index * 3.95;
 			addText(slide, label!, textOptions(brand.fonts.body, 15, c.primaryStrong), { x, y: 5.0, w: 3.3, h: 0.3 });
-			addText(slide, description!, textOptions(brand.fonts.body, 11, c.muted, { fit: 'shrink' }), { x, y: 5.42, w: 3.45, h: 0.48 });
+			addText(slide, desc!, textOptions(brand.fonts.body, 11, c.muted, { fit: 'shrink' }), { x, y: 5.42, w: 3.45, h: 0.48 });
 		}
 	}
 	// Palette slide shows roles and contrast without exposing serialized hex or RGB values.
@@ -544,15 +544,15 @@ export async function applyPresentationBrand(presentationPath: string, brandOrOp
 /**
  * Replaces exact text in slide XML parts of a generated PPTX.
  *
- * @param sourcePath - Existing generated presentation to edit.
- * @param destinationPath - Path where the edited presentation is written.
+ * @param srcPath - Existing generated presentation to edit.
+ * @param destPath - Path where the edited presentation is written.
  * @param replacements - Map of exact source text to replacement text.
  *
  * @return Resolves after matching slide text has been replaced.
  *
  * @throws If none of the requested source text occurs in slide parts.
  */
-export async function editPresentationTemplate(sourcePath: string, destinationPath: string, replacements: Record<string, string>): Promise<void> {
+export async function editPresentationTemplate(srcPath: string, destPath: string, replacements: Record<string, string>): Promise<void> {
 	// terra-quality-ignore single-use -- Keep isSlidePart as a named declaration so its authored TSDoc stays attached. TSDoc: Selects only numbered slide XML parts for exact-text edits.
 	/** Selects only numbered slide XML parts for exact-text edits.
 	 *
@@ -563,14 +563,14 @@ export async function editPresentationTemplate(sourcePath: string, destinationPa
 	function isSlidePart(name: string): boolean {
 		return /^ppt\/slides\/slide\d+\.xml$/.test(name);
 	}
-	await replaceOfficeText(sourcePath, destinationPath, replacements, isSlidePart);
+	await replaceOfficeText(srcPath, destPath, replacements, isSlidePart);
 }
 
 /**
  * Replaces exact text in selected entries of an OOXML presentation package.
  *
- * @param sourcePath - Existing package file to edit.
- * @param destinationPath - Path where the updated package is written.
+ * @param srcPath - Existing package file to edit.
+ * @param destPath - Path where the updated package is written.
  * @param replacements - Map of exact source text to replacement text.
  * @param include - Predicate selecting package entry names eligible for replacement.
  *
@@ -578,8 +578,8 @@ export async function editPresentationTemplate(sourcePath: string, destinationPa
  *
  * @throws If none of the requested text occurs in selected entries.
  */
-export async function replaceOfficeText(sourcePath: string, destinationPath: string, replacements: Record<string, string>, include: (entry: string) => boolean): Promise<void> {
-	const zip = await JSZip.loadAsync(await fs.readFile(sourcePath));
+export async function replaceOfficeText(srcPath: string, destPath: string, replacements: Record<string, string>, include: (entry: string) => boolean): Promise<void> {
+	const zip = await JSZip.loadAsync(await fs.readFile(srcPath));
 	let replacementsMade = 0;
 	for (const [entryName, entry] of Object.entries(zip.files)) {
 		if (entry.dir || !include(entryName)) continue;
@@ -596,9 +596,9 @@ export async function replaceOfficeText(sourcePath: string, destinationPath: str
 		}
 		zip.file(entryName, xml);
 	}
-	if (!replacementsMade) throw new Error('No editable text matched the requested replacements in ' + path.basename(sourcePath) + '.');
-	await fs.mkdir(path.dirname(destinationPath), { recursive: true });
-	await fs.writeFile(destinationPath, await zip.generateAsync({ type: 'nodebuffer' }));
+	if (!replacementsMade) throw new Error('No editable text matched the requested replacements in ' + path.basename(srcPath) + '.');
+	await fs.mkdir(path.dirname(destPath), { recursive: true });
+	await fs.writeFile(destPath, await zip.generateAsync({ type: 'nodebuffer' }));
 }
 
 // terra-quality-ignore single-use -- Keep finalizePresentation as a named declaration so its authored TSDoc stays attached. TSDoc: Finalizes the OOXML deck and applies its palette to the theme and compatibility metadata.

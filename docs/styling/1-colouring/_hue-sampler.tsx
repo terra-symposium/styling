@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { applyHue, colors } from '../../../src/lib/hue.js';
 import { Button, Card, Checkbox, Input, Label, Slider } from '../../../src/components/ui/index.js';
+const MB_2_TEXT_SM_CLASS = 'mb-2 text-sm';
 
 /** An isolated, interactive preview of the generated twelve-step palettes. */
 export function HueSampler(): React.JSX.Element {
@@ -18,10 +19,10 @@ export function HueSampler(): React.JSX.Element {
 	function swatches(values: readonly string[], label: string): React.JSX.Element {
 		return (
 			<div className='grid gap-2' style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(4rem, 1fr))' }} aria-label={`${label} twelve color steps`}>
-				{values.map((rgb, index) => (
-					<div key={index} className='grid gap-1 text-center text-xs'>
+				{values.map((rgb, i) => (
+					<div key={i} className='grid gap-1 text-center text-xs'>
 						<span className='h-10 rounded border' style={{ backgroundColor: `rgb(${rgb.replaceAll(' ', ', ')})` }} />
-						<span>{index + 1}</span>
+						<span>{i + 1}</span>
 					</div>
 				))}
 			</div>
@@ -57,15 +58,15 @@ export function HueSampler(): React.JSX.Element {
 				</div>
 			</div>
 			<div>
-				<p className='mb-2 text-sm'>Primary</p>
+				<p className={MB_2_TEXT_SM_CLASS}>Primary</p>
 				{swatches(steps, 'Primary')}
 			</div>
 			<div>
-				<p className='mb-2 text-sm'>Gray</p>
+				<p className={MB_2_TEXT_SM_CLASS}>Gray</p>
 				{swatches(graySteps, 'Gray')}
 			</div>
 			<div ref={scope} data-hue-scope className={`${dark ? 'dark' : 'light'} rounded-lg border border-primary-6 bg-primary-1 p-4 text-primary-12`}>
-				<p className='mb-2 text-sm'>This preview is scoped to the selected palette.</p>
+				<p className={MB_2_TEXT_SM_CLASS}>This preview is scoped to the selected palette.</p>
 				<div className='flex flex-wrap gap-2'>
 					<Button variant='primary-saturated' size='sm'>
 						Primary action

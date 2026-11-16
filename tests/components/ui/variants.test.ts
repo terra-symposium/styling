@@ -63,7 +63,7 @@ function matrixKey(color: string, treatment: string): string {
  *
  * @returns The file contents as UTF-8 text.
  */
-function source(file: string): string {
+function src(file: string): string {
 	return readFileSync(join(repo, file), 'utf8');
 }
 
@@ -271,17 +271,17 @@ function sharedExportsRetainConsumersAndLocalContracts(): void {
 		assert.ok(files.length > 1, `${contract} should have at least two component consumers`);
 		let usages = 0;
 		for (const file of files) {
-			const matches = source(file).match(new RegExp(`\\b${contract}\\b`, 'g')) ?? [];
+			const matches = src(file).match(new RegExp(`\\b${contract}\\b`, 'g')) ?? [];
 			assert.ok(matches.length > 0, `${file} should consume ${contract}`);
 			usages += matches.length;
 		}
 		assert.ok(usages > 1, `${contract} should be used by multiple UI components`);
 	}
 
-	const shared = source('src/components/ui/variants.ts');
+	const shared = src('src/components/ui/variants.ts');
 	for (const local of ['BADGE_VARIANTS', 'buttonGroupVariants', 'InputOTPPattern', 'INPUT_VARIANT_SIZE_CLASSES']) {
 		assert.doesNotMatch(shared, new RegExp(`export const ${local}\\b`), `${local} should not be exported as a shared contract`);
 	}
-	assert.match(source('src/components/ui/badge.tsx'), /cva\(\s*["']inline-flex[\s\S]*?defaultVariants:\s*\{/);
-	assert.match(source('src/components/ui/button-group.tsx'), /const BUTTON_GROUP_VARIANTS\s*=/);
+	assert.match(src('src/components/ui/badge.tsx'), /cva\(\s*["']inline-flex[\s\S]*?defaultVariants:\s*\{/);
+	assert.match(src('src/components/ui/button-group.tsx'), /const BUTTON_GROUP_VARIANTS\s*=/);
 }

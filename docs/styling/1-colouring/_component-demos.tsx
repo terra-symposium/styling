@@ -58,10 +58,10 @@ import toggleGroupDemo, { exampleCode as toggleGroupCode } from './demos/toggle-
 import tooltipDemo, { exampleCode as tooltipCode } from './demos/tooltip.js';
 import { componentTsDocs } from '../../../dist/cache/component-tsdocs.js';
 import { Star } from 'lucide-react';
+const GRID_GAP_4_CLASS = 'grid gap-4';
+const ROUNDED_BORDER_P_4_CLASS = 'rounded border p-4';
 
-type ComponentSlug = keyof typeof componentTsDocs;
-const TEXT_SM_TEXT_PRIMARY_11_CLASS = 'text-sm text-primary-11';
-const GRID_W_FULL_MAX_W_SM_GAP_2_CLASS = 'grid w-full max-w-sm gap-2';
+type CompSlug = keyof typeof componentTsDocs;
 const DEMO_REGISTRY = {
 	button: { Preview: buttonDemo, code: buttonCode },
 	input: { Preview: inputDemo, code: inputCode },
@@ -119,21 +119,21 @@ const DEMO_REGISTRY = {
 	toggle: { Preview: toggleDemo, code: toggleCode },
 	'toggle-group': { Preview: toggleGroupDemo, code: toggleGroupCode },
 	tooltip: { Preview: tooltipDemo, code: tooltipCode },
-} satisfies Record<ComponentSlug, { Preview: React.ComponentType; code: string }>;
+} satisfies Record<CompSlug, { Preview: React.ComponentType; code: string }>;
 
-export function ComponentDemo({ component }: { component: ComponentSlug }): React.JSX.Element {
-	const Preview = DEMO_REGISTRY[component].Preview;
+export function ComponentDemo({ component: comp }: { component: CompSlug }): React.JSX.Element {
+	const Preview = DEMO_REGISTRY[comp].Preview;
 	return <Preview />;
 }
 
-export function ComponentWorkbench({ component }: { component: ComponentSlug }): React.JSX.Element {
-	if (component === 'button') return <ButtonWorkbench />;
-	if (component === 'card') return <CardWorkbench />;
-	if (SIMPLE_CONTROLS[component]) return <SimpleWorkbench component={component} />;
+export function ComponentWorkbench({ component: comp }: { component: CompSlug }): React.JSX.Element {
+	if (comp === 'button') return <ButtonWorkbench />;
+	if (comp === 'card') return <CardWorkbench />;
+	if (SIMPLE_CONTROLS[comp]) return <SimpleWorkbench component={comp} />;
 	return (
-		<div className='grid gap-4'>
-			<ComponentDemo component={component} />
-			<CopyableCode code={DEMO_REGISTRY[component].code} />
+		<div className={GRID_GAP_4_CLASS}>
+			<ComponentDemo component={comp} />
+			<CopyableCode code={DEMO_REGISTRY[comp].code} />
 		</div>
 	);
 }
@@ -143,8 +143,8 @@ type Treatment = 'saturated' | 'outline' | 'ghost' | 'tonal' | 'glass' | 'underl
 const COLORS: Color[] = ['primary', 'secondary', 'gray', 'destructive', 'success', 'caution'];
 const TREATMENTS: Treatment[] = ['saturated', 'outline', 'ghost', 'tonal', 'glass', 'underline'];
 const BUTTON_SIZES = ['xs', 'sm', 'md', 'lg', 'xl', 'icon', 'icon-xs', 'icon-sm', 'icon-lg'] as const;
-function finiteChoices(component: ComponentSlug, prop: string, fallback: readonly string[]): readonly string[] {
-	const docs = componentTsDocs[component];
+function finiteChoices(comp: CompSlug, prop: string, fallback: readonly string[]): readonly string[] {
+	const docs = componentTsDocs[comp];
 	const member = docs.members.find(item => item.name === docs.demoExport);
 	const choices = member?.props.find(item => item.name === prop)?.choices;
 	return choices && choices.length > 0 && choices.length <= 20 ? choices : fallback;
@@ -193,7 +193,7 @@ function ButtonWorkbench(): React.JSX.Element {
 	const iconOnly = size.startsWith('icon');
 	const snippet = `import { Button } from '@terra-symposium/styling/ui';${icon ? "\nimport { Star } from 'lucide-react';" : ''}\n\n<Button variant='${variant}' size='${size}'${disabled ? ' disabled' : ''}${loading ? ' loading' : ''}${loading && loadingText ? ` loadingText='${loadingText}'` : ''}${iconOnly ? " aria-label='Save'" : ''}>${icon ? "<Star aria-hidden className='size-4' />" : ''}${iconOnly ? '' : 'Save'}</Button>`;
 	return (
-		<div className='grid gap-4'>
+		<div className={GRID_GAP_4_CLASS}>
 			<div className='grid gap-3 sm:grid-cols-3'>
 				<DemoSelect label='Color' value={color} choices={COLORS} onChange={value => setColor(value as Color)} />
 				<DemoSelect label='Treatment' value={treatment} choices={TREATMENTS} onChange={value => setTreatment(value as Treatment)} />
@@ -208,7 +208,7 @@ function ButtonWorkbench(): React.JSX.Element {
 				<UI.Label htmlFor='button-demo-loading-text'>Loading text</UI.Label>
 				<UI.Input id='button-demo-loading-text' value={loadingText} onChange={event => setLoadingText(event.target.value)} />
 			</div>
-			<div className='rounded border p-4'>
+			<div className={ROUNDED_BORDER_P_4_CLASS}>
 				<UI.Button variant={variant} size={size} disabled={disabled} loading={loading} loadingText={loadingText} aria-label={iconOnly ? 'Save' : undefined}>
 					{icon ? <Star aria-hidden className='size-4' /> : null}
 					{iconOnly ? null : 'Save'}
@@ -228,14 +228,14 @@ function CardWorkbench(): React.JSX.Element {
 	const variant = `${color}-${treatment}` as React.ComponentProps<typeof UI.Card>['variant'];
 	const snippet = `import { Card } from '@terra-symposium/styling/ui';\n\n<Card variant='${variant}' size='${size}'${interactive ? " href='#component-example-heading'" : ''}>Project update</Card>`;
 	return (
-		<div className='grid gap-4'>
+		<div className={GRID_GAP_4_CLASS}>
 			<div className='grid gap-3 sm:grid-cols-3'>
 				<DemoSelect label='Color' value={color} choices={COLORS} onChange={value => setColor(value as Color)} />
 				<DemoSelect label='Treatment' value={treatment} choices={TREATMENTS.filter(value => value !== 'underline')} onChange={value => setTreatment(value as Exclude<Treatment, 'underline'>)} />
 				<DemoSelect label='Size' value={size} choices={finiteChoices('card', 'size', ['xs', 'sm', 'md', 'lg', 'xl'])} onChange={value => setSize(value as typeof size)} />
 			</div>
 			<DemoCheckbox label='Interactive' checked={interactive} onChange={setInteractive} />
-			<div className='rounded border p-4'>
+			<div className={ROUNDED_BORDER_P_4_CLASS}>
 				{interactive ? (
 					<UI.Card variant={variant} size={size} href='#component-example-heading' className='p-4'>
 						Project update
@@ -273,9 +273,18 @@ function CopyableCode({ code }: { code: string }): React.JSX.Element {
 	);
 }
 
-type SimpleControl = { prop: string; label: string; values: readonly string[]; initial: string };
 /** Short, safe choices for public states that benefit from side-by-side inspection. */
-const SIMPLE_CONTROLS: Partial<Record<ComponentSlug, SimpleControl>> = {
+const SIMPLE_CONTROLS: Partial<
+	Record<
+		CompSlug,
+		{
+			prop: string;
+			label: string;
+			values: readonly string[];
+			initial: string;
+		}
+	>
+> = {
 	alert: { prop: 'kind', label: 'Status', values: ['info', 'success', 'warning', 'error'], initial: 'info' },
 	avatar: { prop: 'name', label: 'Name', values: ['Kai', 'Alex', 'Morgan'], initial: 'Kai' },
 	badge: { prop: 'variant', label: 'Variant', values: ['primary-tonal', 'secondary-outline', 'success-tonal', 'destructive-saturated'], initial: 'primary-tonal' },
@@ -292,13 +301,13 @@ const SIMPLE_CONTROLS: Partial<Record<ComponentSlug, SimpleControl>> = {
 	toggle: { prop: 'pressed', label: 'Pressed', values: ['true', 'false'], initial: 'true' },
 };
 
-function SimpleWorkbench({ component }: { component: ComponentSlug }): React.JSX.Element {
-	const control = SIMPLE_CONTROLS[component]!;
+function SimpleWorkbench({ component: comp }: { component: CompSlug }): React.JSX.Element {
+	const control = SIMPLE_CONTROLS[comp]!;
 	const [value, setValue] = React.useState(control.initial);
-	const importName = component === 'alert' ? `Alert${value[0]!.toUpperCase() + value.slice(1)}` : componentTsDocs[component].demoExport;
+	const importName = comp === 'alert' ? `Alert${value[0]!.toUpperCase() + value.slice(1)}` : componentTsDocs[comp].demoExport;
 	let preview: React.ReactNode;
 	let code: string;
-	switch (component) {
+	switch (comp) {
 		case 'alert': {
 			const Alert = { info: UI.AlertInfo, success: UI.AlertSuccess, warning: UI.AlertWarning, error: UI.AlertError }[value] ?? UI.AlertInfo;
 			preview = <Alert title={`${value} notice`}>This is a {value} message.</Alert>;
@@ -368,12 +377,12 @@ function SimpleWorkbench({ component }: { component: ComponentSlug }): React.JSX
 			code = `<Toggle defaultPressed={${value}} aria-label='Bold'>Bold</Toggle>`;
 			break;
 		default:
-			throw new Error(`Missing simple demo for ${component}`);
+			throw new Error(`Missing simple demo for ${comp}`);
 	}
 	return (
-		<div className='grid gap-4'>
-			<DemoSelect label={control.label} value={value} choices={finiteChoices(component, control.prop, control.values)} onChange={setValue} />
-			<div className='rounded border p-4'>{preview}</div>
+		<div className={GRID_GAP_4_CLASS}>
+			<DemoSelect label={control.label} value={value} choices={finiteChoices(comp, control.prop, control.values)} onChange={setValue} />
+			<div className={ROUNDED_BORDER_P_4_CLASS}>{preview}</div>
 			<CopyableCode code={`import { ${importName} } from '@terra-symposium/styling/ui';\n\n${code}`} />
 		</div>
 	);

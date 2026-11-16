@@ -225,29 +225,29 @@ export function createSpreadsheetTemplate(options: SpreadsheetTemplateOptions = 
 /**
  * Reopens a generated XLSX, applies cell edits, and writes a new XLSX.
  *
- * @param sourcePath - Existing generated workbook to edit.
- * @param destinationPath - Path where the edited workbook is written.
+ * @param srcPath - Existing generated workbook to edit.
+ * @param destPath - Path where the edited workbook is written.
  * @param edits - Worksheet names mapped to cell addresses and replacement values.
  *
  * @return Resolves after the edited workbook has been written.
  *
  * @throws If a named worksheet does not exist or no cell edits were provided.
  */
-export async function editSpreadsheetTemplate(sourcePath: string, destinationPath: string, edits: SpreadsheetCellEdits): Promise<void> {
+export async function editSpreadsheetTemplate(srcPath: string, destPath: string, edits: SpreadsheetCellEdits): Promise<void> {
 	const workbook = new ExcelJS.Workbook();
-	await workbook.xlsx.readFile(sourcePath);
+	await workbook.xlsx.readFile(srcPath);
 	let edited = 0;
 	for (const [sheetName, cells] of Object.entries(edits)) {
 		const sheet = workbook.getWorksheet(sheetName);
-		if (!sheet) throw new Error(`No worksheet named "${sheetName}" in ${path.basename(sourcePath)}.`);
+		if (!sheet) throw new Error(`No worksheet named "${sheetName}" in ${path.basename(srcPath)}.`);
 		for (const [address, value] of Object.entries(cells)) {
 			sheet.getCell(address).value = value;
 			edited += 1;
 		}
 	}
 	if (!edited) throw new Error('Provide at least one workbook cell edit.');
-	await fs.mkdir(path.dirname(destinationPath), { recursive: true });
-	await workbook.xlsx.writeFile(destinationPath);
+	await fs.mkdir(path.dirname(destPath), { recursive: true });
+	await workbook.xlsx.writeFile(destPath);
 }
 
 /*//////////////////////////////////////////////////

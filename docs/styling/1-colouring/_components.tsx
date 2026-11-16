@@ -23,10 +23,10 @@ import type { DataTableColumn } from '../../../src/components/data-table.js';
 /*//////////////////////////////////////////////////
 CONFIG
 //////////////////////////////////////////////////*/
-const TEXT_SM_TEXT_PRIMARY_11_CLASS = 'text-sm text-primary-11';
+const GRID_GAP_3_CLASS = 'grid gap-3';
 
 /** Component names are generated from the public Styling TypeScript exports. */
-type ComponentSlug = keyof typeof componentTsDocs;
+type CompSlug = keyof typeof componentTsDocs;
 /** Keep the rendered section order stable even when the generated API cache changes. */
 
 // terra-quality-ignore single-use -- Keep createApiCols as a named declaration so its authored TSDoc stays attached. TSDoc: Builds the generated API columns for a component reference page.
@@ -35,9 +35,9 @@ type ComponentSlug = keyof typeof componentTsDocs;
  *
  * @return Name, signature, description, and tags for the selected component API.
  */
-function createApiCols(): DataTableColumn<(typeof componentTsDocs)[ComponentSlug]['members'][number]>[] {
+function createApiCols(): DataTableColumn<(typeof componentTsDocs)[CompSlug]['members'][number]>[] {
 	/** Describes one generated API member in the component-reference table. */
-	type ApiMember = (typeof componentTsDocs)[ComponentSlug]['members'][number];
+	type ApiMember = (typeof componentTsDocs)[CompSlug]['members'][number];
 	// terra-quality-ignore single-use -- Keep renderMemberName as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an API member's name, summary, and documented TSDoc tags.
 	/**
 	 * Renders an API member's name, summary, and documented TSDoc tags.
@@ -52,7 +52,7 @@ function createApiCols(): DataTableColumn<(typeof componentTsDocs)[ComponentSlug
 			<div className='grid gap-1'>
 				<strong>{member.name}</strong>
 				{member.summary ? <span>{member.summary}</span> : null}
-				{tags.length > 0 ? <span className={TEXT_SM_TEXT_PRIMARY_11_CLASS}>{tags.join(' · ')}</span> : null}
+				{tags.length > 0 ? <span className={'text-sm text-primary-11'}>{tags.join(' · ')}</span> : null}
 			</div>
 		);
 	}
@@ -94,8 +94,8 @@ function createApiCols(): DataTableColumn<(typeof componentTsDocs)[ComponentSlug
  *
  * @return The full component reference content for the selected component.
  */
-export function ComponentReference({ component }: { component: ComponentSlug }): React.JSX.Element {
-	const docs = componentTsDocs[component];
+export function ComponentReference({ component: comp }: { component: CompSlug }): React.JSX.Element {
+	const docs = componentTsDocs[comp];
 	const entry = docs.members.find(member => member.name === docs.demoExport);
 	const props = entry?.props.filter(prop => !prop.name.startsWith('on') && !['children', 'className', 'style', 'key', 'ref'].includes(prop.name)) ?? [];
 	return (
@@ -112,20 +112,20 @@ export function ComponentReference({ component }: { component: ComponentSlug }):
 					</a>
 				)}
 			</p>
-			<section className='grid gap-3' aria-labelledby='component-example-heading'>
+			<section className={GRID_GAP_3_CLASS} aria-labelledby='component-example-heading'>
 				<h2 id='component-example-heading'>Example</h2>
 				<UI.Card variant='gray-outline' size='sm'>
 					<UI.CardContent className='grid gap-4'>
-						<ComponentWorkbench component={component} />
+						<ComponentWorkbench component={comp} />
 					</UI.CardContent>
 				</UI.Card>
 			</section>
 			<section className='grid gap-2' aria-labelledby='component-notes-heading'>
 				<h2 id='component-notes-heading'>Usage and accessibility</h2>
-				<p>{componentNotes[component]}</p>
+				<p>{componentNotes[comp]}</p>
 			</section>
 			{props.length > 0 && (
-				<section className='grid gap-3' aria-labelledby='component-props-heading'>
+				<section className={GRID_GAP_3_CLASS} aria-labelledby='component-props-heading'>
 					<h2 id='component-props-heading'>Props</h2>
 					<div className='overflow-x-auto'>
 						<UI.Table className='min-w-[680px] text-sm'>
@@ -159,7 +159,7 @@ export function ComponentReference({ component }: { component: ComponentSlug }):
 					</div>
 				</section>
 			)}
-			<section className='grid gap-3' aria-labelledby='component-api-heading'>
+			<section className={GRID_GAP_3_CLASS} aria-labelledby='component-api-heading'>
 				<h2 id='component-api-heading'>TypeScript API</h2>
 				<UI.DataTable title={`${docs.title} API`} description='Generated from the exported TypeScript API' rows={docs.members} columns={createApiCols()} rowKey='name' />
 			</section>

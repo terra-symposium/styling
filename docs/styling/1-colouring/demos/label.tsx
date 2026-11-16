@@ -1,12 +1,10 @@
 import * as React from 'react';
 import * as UI from '../../../../src/components/ui/index.js';
 
-const GRID_W_FULL_MAX_W_SM_GAP_2_CLASS = 'grid w-full max-w-sm gap-2';
-
 function InputDemo({ kind }: { kind: 'email' | 'password' | 'label' }): React.JSX.Element {
 	const id = `component-preview-${kind}`;
 	return (
-		<div className={GRID_W_FULL_MAX_W_SM_GAP_2_CLASS}>
+		<div className={'grid w-full max-w-sm gap-2'}>
 			<UI.Label htmlFor={id}>{({ email: 'Email', password: 'Password', label: 'Project name' } as const)[kind]}</UI.Label>
 			<UI.Input
 				autoComplete={kind === 'email' ? 'email' : undefined}

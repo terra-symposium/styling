@@ -7,9 +7,9 @@ const GROUP_ORDER = ['Actions and forms', 'Content and feedback', 'Menus and ove
 /** A compact index; interactive examples and API details live on each component page. */
 export function ComponentCatalog(): React.JSX.Element {
 	const [query, setQuery] = React.useState('');
-	const normalizedQuery = query.trim().toLowerCase();
+	const normQuery = query.trim().toLowerCase();
 	const base = import.meta.env.BASE_URL;
-	const components = Object.entries(componentTsDocs).map(([slug, docs]) => ({
+	const comps = Object.entries(componentTsDocs).map(([slug, docs]) => ({
 		slug,
 		title: docs.title,
 		group: docs.group,
@@ -22,7 +22,7 @@ export function ComponentCatalog(): React.JSX.Element {
 				<UI.Input id='component-search' type='search' value={query} onChange={event => setQuery(event.target.value)} placeholder='Search by name' />
 			</div>
 			{GROUP_ORDER.map(group => {
-				const matches = components.filter(component => component.group === group && component.title.toLowerCase().includes(normalizedQuery));
+				const matches = comps.filter(component => component.group === group && component.title.toLowerCase().includes(normQuery));
 				if (matches.length === 0) return null;
 				return (
 					<section key={group} className='grid gap-3'>
@@ -39,7 +39,7 @@ export function ComponentCatalog(): React.JSX.Element {
 					</section>
 				);
 			})}
-			{!components.some(component => component.title.toLowerCase().includes(normalizedQuery)) && <p>No components match your search.</p>}
+			{!comps.some(comp => comp.title.toLowerCase().includes(normQuery)) && <p>No components match your search.</p>}
 		</div>
 	);
 }

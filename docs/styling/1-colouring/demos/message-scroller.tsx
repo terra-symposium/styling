@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as UI from '../../../../src/components/ui/index.js';
 
-function MessageScrollerDemo(): React.JSX.Element {
+function MsgScrollerDemo(): React.JSX.Element {
 	return (
 		<UI.MessageScrollerProvider>
 			<UI.MessageScroller className='h-28 w-72 rounded border'>
@@ -23,7 +23,7 @@ function MessageScrollerDemo(): React.JSX.Element {
 		</UI.MessageScrollerProvider>
 	);
 }
-export default MessageScrollerDemo;
+export default MsgScrollerDemo;
 
 export const exampleCode =
 	"import { MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerContent, MessageScrollerItem, Message, MessageContent } from '@terra-symposium/styling/ui';\n\n<MessageScrollerProvider><MessageScroller className='h-28 w-72 rounded border'><MessageScrollerViewport><MessageScrollerContent><MessageScrollerItem><Message align='start'><MessageContent>Design review is ready.</MessageContent></Message></MessageScrollerItem><MessageScrollerItem><Message align='end'><MessageContent>Thanks, I’ll take a look.</MessageContent></Message></MessageScrollerItem></MessageScrollerContent></MessageScrollerViewport></MessageScroller></MessageScrollerProvider>";

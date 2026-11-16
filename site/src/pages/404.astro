@@ -1,7 +1,7 @@
 ---
 import '@terra-symposium/docs-site-style';
 import '@terra-symposium/styling/global.css';
-import { Card, Marquee } from '@terra-symposium/styling/ui';
+import { Card } from '@terra-symposium/styling/ui';
 import { firstAvailableLeafHref, pageHref } from '@terra-symposium/docs-site-catalog';
 
 const title = import.meta.env.PUBLIC_DOCS_TITLE ?? 'Styling';
@@ -14,17 +14,13 @@ const homeHref = firstAvailableLeafHref() ?? pageHref('', base);
 		<meta charset='utf-8' />
 		<meta name='viewport' content='width=device-width, initial-scale=1' />
 		<meta name='robots' content='noindex' />
-		<title>Uh Oh, 404! · {title}</title>
+		<title>Page not found · {title}</title>
 	</head>
 	<body>
 		<div class='terra-styling'>
 			<main class='styling-404'>
-				<div class='styling-404__marquee'>
-					<Marquee client:load terms={['404']} duration={3500} alternate measureBeforeShow pauseOnClick randomizeDelay rowClassName='styling-404__row' />
-				</div>
-
 				<Card variant='primary-tonal' size='lg' className='styling-404__card' aria-labelledby='not-found-title'>
-					<h1 id='not-found-title'>Uh Oh, 404!</h1>
+					<h1 id='not-found-title'>Page not found</h1>
 					<div class='styling-404__messages'>
 						<p class='styling-404__message styling-404__message--first'>We couldn't find that page.</p>
 						<p class='styling-404__message styling-404__message--second'>It may have moved or been removed.</p>
@@ -58,36 +54,8 @@ const homeHref = firstAvailableLeafHref() ?? pageHref('', base);
 		justify-content: center;
 		overflow: hidden;
 		padding: 2rem;
-		color: rgb(var(--gray-12));
-		background: rgb(var(--gray-3));
-	}
-
-	.styling-404__marquee {
-		position: absolute;
-		inset: 0;
-		z-index: 0;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-around;
-		overflow: hidden;
-		color: rgb(var(--gray-7));
-		pointer-events: auto;
-		cursor: default;
-		filter: grayscale(1);
-	}
-
-	.styling-404__row {
-		margin: 0;
-		cursor: pointer;
-		font-size: clamp(1.25rem, 2.8vw, 2.25rem);
-		font-weight: 700;
-		line-height: 1.1;
-		white-space: nowrap;
-	}
-
-	.styling-404__row:focus-visible {
-		outline: 2px solid rgb(var(--primary-8));
-		outline-offset: 2px;
+		color: rgb(var(--primary-12));
+		background: rgb(var(--primary-9));
 	}
 
 	.styling-404__card {
@@ -97,7 +65,7 @@ const homeHref = firstAvailableLeafHref() ?? pageHref('', base);
 		padding: clamp(2rem, 6vw, 3rem);
 		border-color: rgb(var(--primary-6));
 		border-radius: 0.75rem;
-		color: rgb(var(--gray-12));
+		color: rgb(var(--primary-12));
 		background: rgb(var(--primary-2));
 		box-shadow: 0 1rem 3rem rgb(var(--primary-12) / 0.08);
 	}
@@ -108,7 +76,6 @@ const homeHref = firstAvailableLeafHref() ?? pageHref('', base);
 		font-weight: 650;
 		line-height: 1.15;
 		letter-spacing: -0.025em;
-		filter: grayscale(1);
 	}
 
 	.styling-404__messages {
@@ -123,8 +90,7 @@ const homeHref = firstAvailableLeafHref() ?? pageHref('', base);
 
 	.styling-404__message {
 		margin: 0;
-		color: rgb(var(--gray-12));
-		filter: grayscale(1);
+		color: rgb(var(--primary-12));
 	}
 
 	.styling-404__message--first {
@@ -150,10 +116,10 @@ const homeHref = firstAvailableLeafHref() ?? pageHref('', base);
 		justify-content: center;
 		margin-top: 3rem;
 		padding: 0.65rem 1rem;
-		border: 1px solid rgb(var(--secondary-6));
+		border: 1px solid rgb(var(--primary-6));
 		border-radius: 0.5rem;
-		color: rgb(var(--gray-11));
-		background: rgb(var(--secondary-2));
+		color: rgb(var(--primary-11));
+		background: rgb(var(--primary-2));
 		font-weight: 600;
 		text-decoration: none;
 		transition:
@@ -162,22 +128,12 @@ const homeHref = firstAvailableLeafHref() ?? pageHref('', base);
 	}
 
 	.styling-404__action:hover {
-		border-color: rgb(var(--secondary-7));
-		background: rgb(var(--secondary-3));
+		border-color: rgb(var(--primary-7));
+		background: rgb(var(--primary-3));
 	}
 
 	.styling-404__action:focus-visible {
 		outline: 2px solid rgb(var(--primary-8));
 		outline-offset: 3px;
-	}
-
-	.styling-404__action span {
-		filter: grayscale(1);
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.styling-404__row span {
-			animation-play-state: paused !important;
-		}
 	}
 </style>

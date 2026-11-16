@@ -104,7 +104,7 @@ export function FieldLabel({ className, ...labelProps }: React.ComponentProps<ty
  *
  * @return A muted field-description paragraph.
  */
-export function FieldDescription({ className, ...descriptionProps }: React.ComponentProps<'p'>): React.JSX.Element {
+export function FieldDescription({ className, ...descProps }: React.ComponentProps<'p'>): React.JSX.Element {
 	return (
 		<p
 			data-slot='field-description'
@@ -114,7 +114,7 @@ export function FieldDescription({ className, ...descriptionProps }: React.Compo
 				'last:mt-0 nth-last-2:-mt-1 [&>a:hover]:text-primary-9 [&>a]:underline [&>a]:underline-offset-4',
 				className,
 			)}
-			{...descriptionProps}
+			{...descProps}
 		/>
 	);
 }
@@ -140,14 +140,14 @@ export function FieldError({
 }): React.JSX.Element | null {
 	let content = children;
 	if (!content && errs?.length) {
-		const errsByMessage = new Map<string | undefined, { message?: string } | undefined>();
-		for (const error of errs) errsByMessage.set(error?.message, error);
-		const uniqueErrs = [...errsByMessage.values()];
-		const messages: React.ReactNode[] = [];
+		const errsByMsg = new Map<string | undefined, { message?: string } | undefined>();
+		for (const error of errs) errsByMsg.set(error?.message, error);
+		const uniqueErrs = [...errsByMsg.values()];
+		const msgs: React.ReactNode[] = [];
 		for (const [index, error] of uniqueErrs.entries()) {
-			if (error?.message) messages.push(<li key={index}>{error.message}</li>);
+			if (error?.message) msgs.push(<li key={index}>{error.message}</li>);
 		}
-		content = uniqueErrs.length === 1 ? uniqueErrs[0]?.message : <ul className='ml-4 flex list-disc flex-col gap-1'>{messages}</ul>;
+		content = uniqueErrs.length === 1 ? uniqueErrs[0]?.message : <ul className='ml-4 flex list-disc flex-col gap-1'>{msgs}</ul>;
 	}
 	if (!content) return null;
 	return (

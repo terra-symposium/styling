@@ -2,13 +2,11 @@ import * as React from 'react';
 import * as UI from '../../../../src/components/ui/index.js';
 import { useForm } from 'react-hook-form';
 
-const GRID_W_FULL_MAX_W_SM_GAP_2_CLASS = 'grid w-full max-w-sm gap-2';
-
 function FormDemo(): React.JSX.Element {
 	const form = useForm<{ name: string }>({ defaultValues: { name: 'Kai' } });
 	return (
 		<UI.Form {...form}>
-			<form className={GRID_W_FULL_MAX_W_SM_GAP_2_CLASS} onSubmit={form.handleSubmit(() => {})}>
+			<form className={'grid w-full max-w-sm gap-2'} onSubmit={form.handleSubmit(() => {})}>
 				<UI.Label htmlFor='component-preview-name'>Name</UI.Label>
 				<UI.Input id='component-preview-name' {...form.register('name')} />
 				<UI.Button size='sm' type='submit'>

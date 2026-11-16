@@ -1,5 +1,3 @@
 interface ImportMeta {
-	readonly env: {
-		readonly BASE_URL: string;
-	};
+	readonly env: { readonly BASE_URL: string };
 }

@@ -38,7 +38,8 @@
 		"required": {
 			"functions": true,
 			"exportedFunctions": true,
-			"types": true
+			"types": true,
+			"importSection": true
 		},
 		"commandRoots": ["."]
 	},

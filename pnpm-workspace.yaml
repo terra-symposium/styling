@@ -1,3 +1,7 @@
 packages:
   - .
+
+patchedDependencies:
+  '@terra-symposium/docs@0.4.18': patches/@terra-symposium__docs@0.4.18.patch
+
 virtualStoreDir: node_modules/.pnpm

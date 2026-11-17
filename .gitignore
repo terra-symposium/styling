@@ -26,3 +26,4 @@ error.log
 
 # Local generated caches and dependency links
 .astro
+artifacts/*

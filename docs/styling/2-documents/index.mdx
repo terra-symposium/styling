@@ -1,0 +1,24 @@
+---
+title: Styling
+description: Shared Terra components, colour systems, stylesheets, and document templates.
+---
+
+Terra Styling is the shared design package for Terra projects. It provides React components, a hue-based colour system, compiled stylesheets, and editable Word, PowerPoint, and spreadsheet templates. Applications use these building blocks to keep their interfaces and generated documents consistent while choosing their own palette.
+
+## Explore the package
+
+| Area | What it contains | Start here |
+| --- | --- | --- |
+| Repository guide | Installation, application usage, and contributor workflows | [Installation](./0-repository-guide/installation.mdx) · [Usage](./0-repository-guide/usage.mdx) · [Development](./0-repository-guide/development.mdx) |
+| Colouring | Hue palettes, component variants, a visual design-language guide, and interactive examples | [Hue](./1-colouring/0-hue.mdx) · [Variants](./1-colouring/1-variants.mdx) · [Components](./1-colouring/2-components.mdx) · [Design language](./1-colouring/3-design-language.md) |
+| Documents | Native, editable templates and generation workflows | [Document](./2-documents/document.md) · [Presentation](./2-documents/presentation.md) · [Spreadsheet](./2-documents/spreadsheet.md) |
+
+## What the repository contains
+
+- **`src/lib/`** holds the public hue utilities and Tailwind preset. The package root exports helpers such as `colors`, `applyHue`, and `getHue`.
+- **`src/components/` and `src/ui/`** hold reusable React controls, composed form and table components, and the public `@terra-symposium/styling/ui` entry point.
+- **`src/styles/` and `src/assets/fonts/`** provide the source styles and fonts. Import `@terra-symposium/styling/global.css` once in a host application; `effects.css` is available separately for visual effects.
+- **`src/documents/`** provides the `@terra-symposium/styling/documents` API and editable Office templates.
+- **`docs/styling/`** contains this guide and its live component examples. **`site/`** serves the documentation site; **`scripts/`** builds the package and reference material; **`tests/`** checks the library and components.
+
+For a first integration, follow [Installation](./0-repository-guide/installation.mdx), then [Usage](./0-repository-guide/usage.mdx). Contributors can use the [Development guide](./0-repository-guide/development.mdx) for the repository layout and validation commands.

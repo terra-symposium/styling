@@ -1,0 +1,42 @@
+---
+title: Document
+description: Create and edit a Terra Word document.
+---
+
+`@terra-symposium/styling/documents` creates an editable `.docx` invoice with reusable Word styles. Open it in Word or Pages.
+
+## Workflow
+
+<DocsBlock data='{"_type":"nodes","direction":"TB","height":440,"nodes":[{"id":"create","type":"origin","position":{"x":0,"y":0},"data":{"title":"Create Word file"}},{"id":"prepare","type":"process","position":{"x":0,"y":110},"data":{"title":"Fill invoice fields"}},{"id":"edit","type":"process","position":{"x":0,"y":220},"data":{"title":"Apply Word styles"}},{"id":"review","type":"terminal","position":{"x":0,"y":330},"data":{"title":"Review in Word"}}],"edges":[{"id":"create-prepare","source":"create","target":"prepare"},{"id":"prepare-edit","source":"prepare","target":"edit"},{"id":"edit-review","source":"edit","target":"review"}]}' />
+
+## Create
+
+```ts
+import { writeWordTemplate } from '@terra-symposium/styling/documents';
+
+await writeWordTemplate('invoice.docx', { title: 'Invoice' });
+await writeWordTemplate('style-example.docx', {
+	title: 'Invoice',
+	showcase: true,
+});
+```
+
+## Preview
+
+Open each editable Word type to inspect its template. Replace the invoice placeholders before sharing; use named styles when adding content.
+
+<DocsBlock data='{"_type":"accordion","items":[{"title":"Invoice","content":[{"_type":"docImage","alt":"Word invoice with recipient, line items and payment placeholders","url":"/styling-docs/_docs/assets/styling/2-documents/assets/document-invoice.png","title":"Invoice"}]},{"title":"Word styles","content":[{"_type":"docImage","alt":"Word style example with headings, lists and tables","url":"/styling-docs/_docs/assets/styling/2-documents/assets/document-style-guide.png","title":"Word styles"}]}]}' />
+
+## Edit
+
+Pass a fixed `hue`, `hue: null` for grayscale, or `brand.logo: false` when creating the file. Replace exact text runs without changing the remaining document structure:
+
+```ts
+import { editWordTemplate } from '@terra-symposium/styling/documents';
+
+await editWordTemplate('invoice.docx', 'invoice-final.docx', {
+	Invoice: 'Project invoice',
+});
+```
+
+See the [document guide](https://github.com/Terra-Symposium/styling/blob/development/src/documents/GUIDE.md) for all brand options and editing details.

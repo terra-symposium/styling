@@ -3,7 +3,7 @@
  */
 
 export { createDocumentBrand, randomDocumentHue } from './theme.js';
-export type { DocumentColors, DocumentColorScales, DocumentSaturation, TerraDocumentBrand, TerraDocumentBrandOptions } from './theme.js';
+export type { DocumentColors, DocumentColorScales, TerraDocumentBrand, TerraDocumentBrandOptions } from './theme.js';
 export { applyPresentationBrand, createPresentationTemplate, editPresentationTemplate, replaceOfficeText } from './presentation.js';
 export type { PresentationTemplateOptions } from './presentation.js';
 export { createSpreadsheetTemplate, editSpreadsheetTemplate } from './spreadsheet.js';
@@ -24,12 +24,8 @@ TEMPLATE FILES
 
 /** Names of the editable starter files shipped with the package. */
 export const DOCUMENT_TEMPLATE_FILES = {
-	presentationLow: 'terra-presentation-low.pptx',
-	presentationMedium: 'terra-presentation-medium.pptx',
-	presentationHigh: 'terra-presentation-high.pptx',
-	presentationLowPotx: 'terra-presentation-low.potx',
-	presentationMediumPotx: 'terra-presentation-medium.potx',
-	presentationHighPotx: 'terra-presentation-high.potx',
+	presentation: 'terra-presentation.pptx',
+	presentationPotx: 'terra-presentation.potx',
 	spreadsheet: 'terra-spreadsheet.xlsx',
 	document: 'terra-document.docx',
 	documentDemo: 'terra-document-demo.docx',

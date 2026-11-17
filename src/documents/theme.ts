@@ -4,9 +4,6 @@ IMPORTS
 import { colors, invert } from '../lib/hue.js';
 import type { ColorScales } from '../lib/types.js';
 
-/** Saturation presets accepted by the shared Office document palette. */
-export type DocumentSaturation = 'low' | 'medium' | 'high';
-
 /** Public colors intentionally name the same roles used by Styling's UI palette. */
 export type DocumentColors = {
 	primary: string;
@@ -39,7 +36,6 @@ export type TerraDocumentBrandOptions = {
 	logoOnDark?: false | string;
 	/** Hue passed to Styling's palette generator. Omit for the website's random hue; null selects grayscale. */
 	hue?: number | null;
-	saturation?: DocumentSaturation;
 	colors?: Partial<DocumentColors>;
 	fonts?: { display?: string; body?: string };
 };
@@ -49,7 +45,6 @@ export type TerraDocumentBrand = {
 	logo: false | string;
 	logoOnDark: false | string;
 	hue: number | null;
-	saturation: DocumentSaturation;
 	colors: DocumentColors;
 	scales: DocumentColorScales;
 	fonts: { display: string; body: string };
@@ -58,13 +53,6 @@ export type TerraDocumentBrand = {
 /*//////////////////////////////////////////////////
 PALETTE HELPERS
 //////////////////////////////////////////////////*/
-// hygiene-ignore single-use -- Keep the saturation lookup at module scope so brand generation reuses one stable palette table.
-const SATURATION_CHROMA: Record<DocumentSaturation, number> = {
-	low: 0.04,
-	medium: 0.075,
-	high: 0.12,
-};
-
 // hygiene-ignore single-use -- Keep hex as a named declaration so its authored TSDoc stays attached. TSDoc: Converts a space-separated RGB triplet to a hash-prefixed hexadecimal color.
 /**
  * Converts a space-separated RGB triplet to a hash-prefixed hexadecimal color.
@@ -97,20 +85,18 @@ BRAND PALETTE
 /**
  * Builds the color, logo, and font settings shared by native Office templates.
  *
- * @param options - Optional hue, saturation, color, font, and logo overrides.
+ * @param options - Optional hue, color, font, and logo overrides.
  * @returns A resolved brand with generated scales and merged public color roles.
  */
 export function createDocumentBrand(options: TerraDocumentBrandOptions = {}): TerraDocumentBrand {
-	const saturation = options.saturation ?? 'medium';
 	const hue = options.hue === undefined ? Math.random() * 300 : options.hue;
 	const logo = options.logo === false ? false : (options.logo ?? 'terra-wordmark');
 	// hygiene-ignore single-use -- Read the dark-logo option before random palette generation so option getter order stays unchanged.
 	const logoOnDark = options.logoOnDark === false ? false : (options.logoOnDark ?? logo);
-	const paletteOptions = { accentChroma: SATURATION_CHROMA[saturation] };
-	const [basePrimary] = colors(hue, paletteOptions);
+	const [basePrimary] = colors(hue);
 	// Match the website's palette assignment: both secondary and gray come from
 	// the inverted hue, with secondary using its accent scale and gray its neutral scale.
-	const [baseSecondary, baseGray] = colors(invert(hue), paletteOptions);
+	const [baseSecondary, baseGray] = colors(invert(hue));
 	const grayscale = hue === null;
 	const scales: DocumentColorScales = {
 		primary: grayscale ? baseGray : basePrimary,
@@ -147,13 +133,12 @@ export function createDocumentBrand(options: TerraDocumentBrandOptions = {}): Te
 		logo,
 		logoOnDark,
 		hue,
-		saturation,
 		colors: mergedColors,
 		scales,
 		fonts: {
-			// Functional text stays in Authentic Sans. Avara is reserved for the small wordmark.
-			display: options.fonts?.display ?? 'AUTHENTIC Sans',
-			body: options.fonts?.body ?? 'AUTHENTIC Sans',
+			// Editorial display text uses Avara; functional text stays in Authentic Sans.
+			display: options.fonts?.display ?? 'Avara',
+			body: options.fonts?.body ?? 'AUTHENTIC Sans 90',
 		},
 	};
 }

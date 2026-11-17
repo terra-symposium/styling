@@ -9,7 +9,7 @@ IMPORTS
 // API
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { createPresentationTemplate, createSpreadsheetTemplate, randomDocumentHue, writeWordTemplate } from '../dist/documents/index.js';
+import { createPresentationTemplate, createSpreadsheetTemplate, writeWordTemplate } from '../dist/documents/index.js';
 import { fileURLToPath } from 'node:url';
 
 // COMPONENTS
@@ -24,25 +24,35 @@ const packageTemplates = path.join(root, 'dist/documents/templates');
 const reviewOutput = process.argv[2] === '--package' ? undefined : process.argv[2] ? path.resolve(process.argv[2]) : path.join(root, 'outputs/terra-brand-templates');
 await fs.mkdir(packageTemplates, { recursive: true });
 if (reviewOutput) await fs.mkdir(reviewOutput, { recursive: true });
-// Share a fresh hue across all formats and saturation variants in this build.
-const templateHue = randomDocumentHue();
+// Keep packaged examples and their Docs screenshots reproducible; the public API still defaults to a fresh hue.
+const templateHue = 200;
 
 /*//////////////////////////////////////////////////
 GENERATE TEMPLATES
 //////////////////////////////////////////////////*/
 
-for (const saturation of ['low', 'medium', 'high']) {
-	const pptxName = 'terra-presentation-' + saturation + '.pptx';
-	const potxName = 'terra-presentation-' + saturation + '.potx';
-	const pptxPath = path.join(packageTemplates, pptxName);
-	await createPresentationTemplate({ title: 'The Styling system', subtitle: 'A clear starting point for ideas, decisions and work in progress.', brand: { hue: templateHue, saturation } }).writeFile({
-		fileName: pptxPath,
-	});
-	await createPowerPointTemplate(pptxPath, path.join(packageTemplates, potxName));
-	if (reviewOutput) {
-		await fs.copyFile(pptxPath, path.join(reviewOutput, pptxName));
-		await fs.copyFile(path.join(packageTemplates, potxName), path.join(reviewOutput, potxName));
-	}
+const pptxName = 'terra-presentation.pptx';
+const potxName = 'terra-presentation.potx';
+const pptxPath = path.join(packageTemplates, pptxName);
+await createPresentationTemplate({ title: 'Community workshop pilot', subtitle: 'An illustrative story from need to decision.', showcase: true, brand: { hue: templateHue } }).writeFile({
+	fileName: pptxPath,
+});
+const templateSource = path.join(packageTemplates, 'terra-presentation-template-source.pptx');
+await createPresentationTemplate({ showcase: false, brand: { hue: templateHue } }).writeFile({ fileName: templateSource });
+await createPowerPointTemplate(templateSource, path.join(packageTemplates, potxName));
+await fs.unlink(templateSource);
+const officeFonts = ['AUTHENTICSans-90.ttf', 'AUTHENTICSans-130.ttf', 'AUTHENTICSans-150.ttf', 'Avara-Bold.ttf', 'Avara-BoldItalic.ttf'];
+const packageFonts = path.join(packageTemplates, 'fonts');
+await fs.mkdir(packageFonts, { recursive: true });
+for (const font of officeFonts) await fs.copyFile(path.join(root, 'src/assets/fonts', font), path.join(packageFonts, font));
+await fs.copyFile(path.join(root, 'src/assets/fonts/README.md'), path.join(packageFonts, 'README.md'));
+if (reviewOutput) {
+	await fs.copyFile(pptxPath, path.join(reviewOutput, pptxName));
+	await fs.copyFile(path.join(packageTemplates, potxName), path.join(reviewOutput, potxName));
+	const reviewFonts = path.join(reviewOutput, 'fonts');
+	await fs.mkdir(reviewFonts, { recursive: true });
+	for (const font of officeFonts) await fs.copyFile(path.join(packageFonts, font), path.join(reviewFonts, font));
+	await fs.copyFile(path.join(packageFonts, 'README.md'), path.join(reviewFonts, 'README.md'));
 }
 const xlsx = path.join(packageTemplates, 'terra-spreadsheet.xlsx');
 await createSpreadsheetTemplate({ title: 'Terra project plan', brand: { hue: templateHue } }).xlsx.writeFile(xlsx);

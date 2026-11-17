@@ -9,10 +9,7 @@ For validation and pull-request guidance, see the [repository README](../../READ
 ```ts
 import { createPresentationTemplate } from '@terra-symposium/styling/documents';
 
-const deck = createPresentationTemplate({
-	title: 'Product direction',
-	saturation: 'medium',
-});
+const deck = createPresentationTemplate({ title: 'Product direction' });
 await deck.writeFile({ fileName: 'product-direction.pptx' });
 ```
 

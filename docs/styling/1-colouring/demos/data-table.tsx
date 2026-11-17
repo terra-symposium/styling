@@ -1,11 +1,23 @@
+/**
+ * docs/styling/1-colouring/demos/data-table.tsx
+ * Interactive DataTable example and its copyable source.
+ */
+
+/*//////////////////////////////////////////////////
+IMPORTS
+//////////////////////////////////////////////////*/
+
 import * as React from 'react';
 import * as UI from '../../../../src/components/ui/index.js';
 
+/**
+ * Shows a small two-column table in the component catalog.
+ *
+ * @return The DataTable preview.
+ */
 function DataTableDemo(): React.JSX.Element {
 	return (
 		<UI.DataTable
-			title='Team members'
-			description='Two people in the design team'
 			rows={[{ name: 'Kai', role: 'Designer' }]}
 			columns={[
 				{ key: 'name', label: 'Name' },
@@ -17,4 +29,4 @@ function DataTableDemo(): React.JSX.Element {
 export default DataTableDemo;
 
 export const exampleCode =
-	"import { DataTable } from '@terra-symposium/styling/ui';\n\n<DataTable\n\t\t\ttitle='Team members'\n\t\t\tdescription='Two people in the design team'\n\t\t\trows={[{ name: 'Kai', role: 'Designer' }]}\n\t\t\tcolumns={[\n\t\t\t\t{ key: 'name', label: 'Name' },\n\t\t\t\t{ key: 'role', label: 'Role' },\n\t\t\t]}\n\t\t/>";
+	"import { DataTable } from '@terra-symposium/styling/ui';\n\n<DataTable\n\trows={[{ name: 'Kai', role: 'Designer' }]}\n\tcolumns={[\n\t\t{ key: 'name', label: 'Name' },\n\t\t{ key: 'role', label: 'Role' },\n\t]}\n/>";

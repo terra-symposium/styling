@@ -32,7 +32,7 @@ This checklist inventories repository-owned functions, documents, and configurat
 
 - [ ] File behavior: execute or compile this source, including expected output and failure handling. No direct test file is linked yet.
 
-### `docs/styling/1-colouring/_components.tsx`
+### `docs/styling/1-colouring/components.tsx`
 
 - [ ] `AccordionDemo` (line 95): Test expected input/output, empty and boundary cases, and a relevant failure path. No direct test file is linked yet.
 - [ ] `TabsDemo` (line 114): Test expected input/output, empty and boundary cases, and a relevant failure path. No direct test file is linked yet.

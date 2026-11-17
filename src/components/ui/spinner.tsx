@@ -11,7 +11,7 @@ IMPORTS
 import { cn } from '../../lib/cn.js';
 
 // COMPONENTS
-import { Loader2Icon as LoadIcon } from 'lucide-react';
+import { Renew as LoadIcon } from '@carbon/icons-react';
 
 /*//////////////////////////////////////////////////
 COMPONENTS

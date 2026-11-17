@@ -2,7 +2,7 @@
 import DocsSiteLayout from '@terra-symposium/docs/site-layout.astro';
 import { pageHref, siteNavigation } from '@terra-symposium/docs-site-catalog';
 import { componentTsDocs } from '../../../../../../dist/cache/component-tsdocs.js';
-import { ComponentReference } from '../../../../../../docs/styling/1-colouring/_components.tsx';
+import { ComponentReference } from '../../../../../../docs/styling/1-colouring/components.tsx';
 
 const { component: compRefSlug = '' } = Astro.params;
 const docs = componentTsDocs[compRefSlug as keyof typeof componentTsDocs];

@@ -1,6 +1,6 @@
 /**
  * src/components/data-table.tsx
- * Shared card and table composition for searchable, editable entity directories.
+ * Data-driven table rendering for searchable and editable entity directories.
  * https://ui.shadcn.com/docs/components/table
  */
 
@@ -12,11 +12,9 @@ IMPORTS
 import { cn } from '../lib/cn.js';
 
 // COMPONENTS
-import { Button } from './ui/button.js';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card.js';
 import { Empty } from './ui/empty.js';
 import { Fragment } from 'react';
-import { MappedFormControl, MappedFormFieldError, MappedFormFields } from './forms.js';
+import { MappedFormControl, MappedFormFieldError } from './forms.js';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table.js';
 
 // TYPES
@@ -279,141 +277,5 @@ export function DataTableContent<Row extends object>({
 	return variant === 'editor' ? <div className='border-gray-6 overflow-x-auto border-t'>{tableContent}</div> : tableContent;
 }
 
-// DIRECTORY CARD
-/**
- * Renders an entity directory from row and column data or wraps a custom interactive table.
- *
- * @param title - Title displayed in the directory card heading.
- * @param description - Supporting description displayed beneath the title.
- * @param header - Optional consumer-owned content above the table.
- * @param action - Optional action aligned with the card heading.
- * @param toolbar - Optional controls placed above the table content.
- * @param toolbarData - Optional mapped form fields placed beside toolbar content.
- * @param pagination - Optional pagination controls shown in the card footer.
- * @param add - Optional add action shown with pagination and save controls.
- * @param save - Optional save action; its presence enables the save button.
- * @param saving - Whether the save button should show its loading state.
- * @param footer - Optional consumer content placed in the card footer.
- * @param rows - Optional records used by the data-driven table renderer.
- * @param cols - Optional column definitions paired with `rows`.
- * @param rowKey - Stable row-key property or callback; defaults to the row index.
- * @param rowClassName - Optional callback that adds styling to each data row.
- * @param rowProps - Optional callback that supplies native table-row properties.
- * @param renderRow - Optional renderer that replaces the default cell-based row.
- * @param detail - Optional content rendered in a second row beneath each record.
- * @param variant - Selects standard table behavior or the editor empty-state layout.
- * @param tableLayout - Chooses automatic or fixed table column sizing.
- * @param tableWidth - Optional minimum width preset for horizontally scrollable tables.
- * @param emptyState - Empty-state title and optional description shown when there are no rows.
- * @param emphasizeFirstCol - Gives the first table cell stronger text weight.
- * @param pendingRowKey - Row key whose presentation should indicate pending work.
- * @param children - Optional custom interactive table content used when row data is absent.
- *
- * @return A card containing the directory header and table content.
- */
-export function DataTable<Row extends object = Record<string, unknown>>({
-	title,
-	description: desc,
-	header,
-	action,
-	toolbar,
-	toolbarData,
-	pagination,
-	add,
-	save,
-	saving = false,
-	footer,
-	rows,
-	columns: cols,
-	rowKey,
-	rowClassName,
-	rowProps,
-	renderRow,
-	detail,
-	variant,
-	tableLayout,
-	tableWidth,
-	emptyState,
-	emphasizeFirstColumn: emphasizeFirstCol,
-	pendingRowKey,
-	children,
-}: {
-	title: ReactNode;
-	description: ReactNode;
-	header?: ReactNode;
-	action?: ReactNode;
-	toolbar?: ReactNode;
-	toolbarData?: readonly MappedFormField[];
-	pagination?: ReactNode;
-	add?: ReactNode;
-	save?: () => void | Promise<void>;
-	saving?: boolean;
-	footer?: ReactNode;
-	rows?: readonly Row[];
-	columns?: readonly DataTableColumn<Row>[];
-	rowKey?: string | ((row: Row, index: number) => Key);
-	rowClassName?: (row: Row, index: number) => string | undefined;
-	rowProps?: (row: Row, index: number) => Omit<ComponentProps<typeof TableRow>, 'children' | 'className' | 'key'>;
-	renderRow?: (row: Row, index: number) => ReactNode;
-	detail?: (row: Row, index: number) => ReactNode;
-	variant?: 'default' | 'editor';
-	tableLayout?: 'auto' | 'fixed';
-	tableWidth?: 'medium' | 'wide' | 'wider';
-	emptyState?: { title: string; description?: string };
-	emphasizeFirstColumn?: boolean;
-	pendingRowKey?: Key | null;
-	children?: ReactNode;
-}): JSX.Element {
-	return (
-		<Card variant='gray-outline' size='sm'>
-			<CardHeader topRight={action}>
-				<CardTitle>{title}</CardTitle>
-				<CardDescription>{desc}</CardDescription>
-			</CardHeader>
-			{header && <div className='px-3 pb-3'>{header}</div>}
-			{(toolbar || toolbarData?.length) && (
-				<div className='px-3 pb-3'>
-					{toolbar}
-					{toolbarData && <MappedFormFields data={toolbarData} layout='inline' className={toolbar ? 'mt-3' : undefined} />}
-				</div>
-			)}
-			<CardContent className='pt-0'>
-				<div data-slot='data-table' className='border-gray-6 border-t'>
-					{rows && cols ? (
-						<DataTableContent
-							rows={rows}
-							columns={cols}
-							rowKey={rowKey}
-							rowClassName={rowClassName}
-							rowProps={rowProps}
-							renderRow={renderRow}
-							detail={detail}
-							variant={variant}
-							tableLayout={tableLayout}
-							tableWidth={tableWidth}
-							emptyState={emptyState}
-							emphasizeFirstColumn={emphasizeFirstCol}
-							pendingRowKey={pendingRowKey}
-						/>
-					) : (
-						children
-					)}
-				</div>
-			</CardContent>
-			{Boolean(pagination || add || save || footer) && (
-				<CardFooter className='flex-wrap justify-between gap-3'>
-					<div className='flex items-center gap-2'>{pagination}</div>
-					<div className='flex flex-wrap items-center justify-end gap-3'>
-						{add}
-						{footer}
-						{save && (
-							<Button variant='primary' size='sm' loading={saving} onClick={save}>
-								Save
-							</Button>
-						)}
-					</div>
-				</CardFooter>
-			)}
-		</Card>
-	);
-}
+/** The public data table uses the same unwrapped table renderer. */
+export { DataTableContent as DataTable };

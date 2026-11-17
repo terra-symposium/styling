@@ -17,7 +17,7 @@ Use this skill when adding, reviewing, consolidating, or migrating shared styles
 
 ## Purpose
 
-The goal is a small set of understandable contracts that components compose.
+The goal is a small set of understandable contracts that components compose. Follow the [Terra design language](../ui/references/terra-design-language.md) for font roles, hue-derived palette roles, contrast, and composition; this skill governs the typed component variant contract.
 
 A component should obtain shared palette and state behavior from the primitive family that owns those decisions, while retaining its own dimensions, slot layout, and interaction behavior.
 

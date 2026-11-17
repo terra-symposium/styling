@@ -28,28 +28,11 @@ const ungrouped = Object.entries(docs)
 	.filter(([, entry]) => !groups.has(entry.group))
 	.map(([slug]) => slug);
 if (ungrouped.length) throw new Error(`Components missing from the catalog: ${ungrouped.join(', ')}`);
-const src = await readFile(resolve(root, 'docs/styling/1-colouring/_component-demos.tsx'), 'utf8');
-const file = ts.createSourceFile('component-demos.tsx', src, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
-const names = new Set();
-function visit(node) {
-	if (
-		ts.isVariableDeclaration(node) &&
-		node.name.getText(file) === 'DEMO_REGISTRY' &&
-		node.initializer &&
-		ts.isSatisfiesExpression(node.initializer) &&
-		ts.isObjectLiteralExpression(node.initializer.expression)
-	) {
-		for (const prop of node.initializer.expression.properties) if (ts.isPropertyAssignment(prop)) names.add(prop.name.getText(file).replace(G_REGEX(), ''));
-	}
-	ts.forEachChild(node, visit);
-}
-visit(file);
+const demoDir = resolve(root, 'docs/styling/1-colouring/demos');
+const names = new Set((await readdir(demoDir)).filter(name => name.endsWith('.tsx')).map(name => name.slice(0, -4)));
 const missing = Object.keys(docs).filter(slug => !names.has(slug));
 const stale = [...names].filter(slug => !docs[slug]);
-const demoDir = resolve(root, 'docs/styling/1-colouring/demos');
-const orphan = (await readdir(demoDir)).filter(name => name.endsWith('.tsx') && !names.has(name.slice(0, -4)));
-if (missing.length || stale.length || orphan.length)
-	throw new Error(`Demo coverage mismatch: missing ${missing.join(', ') || 'none'}; stale ${stale.join(', ') || 'none'}; orphan ${orphan.join(', ') || 'none'}`);
+if (missing.length || stale.length) throw new Error(`Demo coverage mismatch: missing ${missing.join(', ') || 'none'}; stale ${stale.join(', ') || 'none'}`);
 for (const slug of names) {
 	const demo = await readFile(resolve(demoDir, `${slug}.tsx`), 'utf8');
 	if (!demo.includes('export default')) throw new Error(`Incomplete ${slug} demo module`);

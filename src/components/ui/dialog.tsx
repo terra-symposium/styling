@@ -115,7 +115,7 @@ function renderDialogContent(
 		className,
 		children,
 		size = 'lg',
-		variant = 'gray-default',
+		variant = 'control',
 		closeClassName,
 		overlayClassName,
 		bodyClassName,

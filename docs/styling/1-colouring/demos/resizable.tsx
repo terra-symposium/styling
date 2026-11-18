@@ -1,6 +1,14 @@
+/*//////////////////////////////////////////////////
+IMPORTS
+//////////////////////////////////////////////////*/
+
 import * as React from 'react';
 import * as UI from '../../../../src/components/ui/index.js';
 
+/**
+ * Renders the resizable component example.
+ * @return Renders the example and returns its React element.
+ */
 export default function Demo(): React.JSX.Element {
 	return (
 		<div className='flex h-24 w-64 rounded border'>

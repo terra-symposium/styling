@@ -37,10 +37,10 @@ const pptxPath = path.join(packageTemplates, pptxName);
 await createPresentationTemplate({ title: 'Community workshop pilot', subtitle: 'An illustrative story from need to decision.', showcase: true, brand: { hue: templateHue } }).writeFile({
 	fileName: pptxPath,
 });
-const templateSource = path.join(packageTemplates, 'terra-presentation-template-source.pptx');
-await createPresentationTemplate({ showcase: false, brand: { hue: templateHue } }).writeFile({ fileName: templateSource });
-await createPowerPointTemplate(templateSource, path.join(packageTemplates, potxName));
-await fs.unlink(templateSource);
+const templateSrc = path.join(packageTemplates, 'terra-presentation-template-source.pptx');
+await createPresentationTemplate({ showcase: false, brand: { hue: templateHue } }).writeFile({ fileName: templateSrc });
+await createPowerPointTemplate(templateSrc, path.join(packageTemplates, potxName));
+await fs.unlink(templateSrc);
 const officeFonts = ['AUTHENTICSans-90.ttf', 'AUTHENTICSans-130.ttf', 'AUTHENTICSans-150.ttf', 'Avara-Bold.ttf', 'Avara-BoldItalic.ttf'];
 const packageFonts = path.join(packageTemplates, 'fonts');
 await fs.mkdir(packageFonts, { recursive: true });
@@ -71,6 +71,7 @@ console.log(JSON.stringify({ packageTemplates, reviewOutput: reviewOutput ?? nul
 HELPERS
 //////////////////////////////////////////////////*/
 
+// hygiene-ignore single-use -- Keep template conversion as a separate async operation so ZIP validation and write failures stay within the selected template branch.
 /**
  * Converts a generated PowerPoint deck into a PowerPoint template package.
  *

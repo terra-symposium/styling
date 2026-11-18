@@ -1,3 +1,7 @@
+/*//////////////////////////////////////////////////
+IMPORTS
+//////////////////////////////////////////////////*/
+
 import assert from 'node:assert/strict';
 import { afterEach, describe, it } from 'node:test';
 import { applyHue, colors, flattenColors, getHue, invert, isDarkMode } from '../../src/lib/hue.ts';

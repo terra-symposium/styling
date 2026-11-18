@@ -5,12 +5,12 @@ description: Choose Terra display, heading, and reading fonts by role.
 
 # Typography
 
-| Role | Web | Native Office | Use |
-| --- | --- | --- | --- |
-| Editorial display | `font-serif italic` · Avara Bold Italic | `Avara` | Short Website and Docs display moments; optional for bespoke slides |
-| Functional heading | `font-sans font-semibold` · Authentic Sans 130 | `AUTHENTIC Sans 130` | UI and data headings |
-| Body and labels | `font-sans` · Authentic Sans 90 | `AUTHENTIC Sans 90` | Reading copy, controls, tables, slide details |
-| Code | Monospace | Monospace | Source examples only |
+| Role               | Web                                            | Native Office        | Use                                                                 |
+| ------------------ | ---------------------------------------------- | -------------------- | ------------------------------------------------------------------- |
+| Editorial display  | `font-serif italic` · Avara Bold Italic        | `Avara`              | Short Website and Docs display moments; optional for bespoke slides |
+| Functional heading | `font-sans font-semibold` · Authentic Sans 130 | `AUTHENTIC Sans 130` | UI and data headings                                                |
+| Body and labels    | `font-sans` · Authentic Sans 90                | `AUTHENTIC Sans 90`  | Reading copy, controls, tables, slide details                       |
+| Code               | Monospace                                      | Monospace            | Source examples only                                                |
 
 The Website and Styling CSS register the web family name `Authentic Sans` from 90, 130 and 150 font files. The font files identify **different Office family names**: `AUTHENTIC Sans 90`, `AUTHENTIC Sans 130`, and `AUTHENTIC Sans 150`. Use the actual name in native files; `Authentic Sans` may fall back silently there. Inter serves some Docs chrome and is not the public body face.
 

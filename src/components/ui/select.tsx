@@ -90,7 +90,7 @@ function SelectTriggerRender(
 		<SelectPrimitive.Trigger
 			ref={ref}
 			className={cn(
-				'items-center justify-between text-nowrap ring-offset-transparent data-[placeholder]:text-primary-11 [&>span]:line-clamp-1',
+				'items-center justify-between text-nowrap data-[placeholder]:text-primary-11 [&>span]:line-clamp-1',
 				FORM_CONTROL_VARIANTS({
 					variant: variant === 'default' ? 'primary' : variant === 'ghost' ? 'primary-ghost' : variant,
 					size: resolvedSize === 'default' ? 'md' : resolvedSize,
@@ -183,7 +183,7 @@ function SelectContentRender(
 			ref={ref}
 			className={cn(
 				'relative z-[110] max-h-[--radix-select-content-available-height] min-w-32 origin-[--radix-select-content-transform-origin]',
-				'overflow-y-auto overflow-x-hidden rounded-md border bg-primary-2 text-primary-12',
+				'overflow-y-auto overflow-x-hidden rounded-md border',
 				OVERLAY_SURFACE_VARIANTS(),
 				OVERLAY_MOTION_VARIANTS(),
 				RADIX_SIDE_POSITION_VARIANTS(),

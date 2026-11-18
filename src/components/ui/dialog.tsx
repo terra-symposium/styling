@@ -158,7 +158,7 @@ function renderDialogContent(
 						<DialogPrimitive.Close
 							aria-label='Close dialog'
 							className={cn(
-								'absolute right-0 z-10 flex size-6 items-center justify-center rounded-sm text-primary-12 ring-offset-transparent transition-colors hover:text-primary-12 focus:outline-none focus-visible:ring-inset focus-visible:ring-offset-0',
+								'absolute right-0 z-10 flex size-6 items-center justify-center rounded-sm text-primary-12 transition-colors hover:text-primary-12 focus:outline-none focus-visible:ring-offset-2',
 								FOCUS_VISIBLE_VARIANTS(),
 								DISABLED_STATE_VARIANTS({ target: 'native' }),
 								closeClassName,
@@ -170,7 +170,7 @@ function renderDialogContent(
 					)}
 					<div
 						className={cn(
-							'relative flex min-h-0 flex-1 flex-col [&_*:focus-visible]:ring-inset [&_*:focus-visible]:ring-offset-0',
+							'relative flex min-h-0 flex-1 flex-col [&_*:focus-visible]:ring-offset-2',
 							scrollable && 'overflow-y-auto overscroll-y-contain',
 							!scrollable && 'overflow-hidden',
 							bodyClassName,

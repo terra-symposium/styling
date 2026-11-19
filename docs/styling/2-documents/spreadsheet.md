@@ -11,7 +11,12 @@ description: Create and edit a Terra spreadsheet.
 
 ## Create
 
-<CodeBlock language="ts" code={"import { createSpreadsheetTemplate } from '@terra-symposium/styling/documents';\n\nconst workbook = createSpreadsheetTemplate({ title: 'Project plan' });\nawait workbook.xlsx.writeFile('project-plan.xlsx');"} />
+```ts
+import { createSpreadsheetTemplate } from '@terra-symposium/styling/documents';
+
+const workbook = createSpreadsheetTemplate({ title: 'Project plan' });
+await workbook.xlsx.writeFile('project-plan.xlsx');
+```
 
 ## Preview
 
@@ -33,6 +38,12 @@ Enter work items on Inputs; Overview calculates project totals from those entrie
 
 Pass a fixed `hue` or `hue: null` when creating the workbook. Edit cells by sheet name and address to retain the workbook styles and formulas:
 
-<CodeBlock language="ts" code={"import { editSpreadsheetTemplate } from '@terra-symposium/styling/documents';\n\nawait editSpreadsheetTemplate('project-plan.xlsx', 'project-plan-final.xlsx', {\n\tInputs: { A6: 'Confirm the launch date', B6: 'Project lead' },\n});"} />
+```ts
+import { editSpreadsheetTemplate } from '@terra-symposium/styling/documents';
+
+await editSpreadsheetTemplate('project-plan.xlsx', 'project-plan-final.xlsx', {
+	Inputs: { A6: 'Confirm the launch date', B6: 'Project lead' },
+});
+```
 
 See the [document guide](https://github.com/Terra-Symposium/styling/blob/development/src/documents/GUIDE.md) for all brand options and editing details.

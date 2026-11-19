@@ -11,7 +11,18 @@ description: Create and edit a Terra PowerPoint presentation.
 
 ## Create
 
-<CodeBlock language="ts" code={"import { createPresentationTemplate } from '@terra-symposium/styling/documents';\n\nconst deck = createPresentationTemplate({\n\ttitle: 'Product direction',\n});\nawait deck.writeFile({ fileName: 'product-direction.pptx' });\n\n// Start with editable cover and graphic slides plus the same styled layouts.\nconst template = createPresentationTemplate({ showcase: false, brand: { hue: 170 } });\nawait template.writeFile({ fileName: 'presentation-starter.pptx' });"} />
+```ts
+import { createPresentationTemplate } from '@terra-symposium/styling/documents';
+
+const deck = createPresentationTemplate({
+	title: 'Product direction',
+});
+await deck.writeFile({ fileName: 'product-direction.pptx' });
+
+// Start with editable cover and graphic slides plus the same styled layouts.
+const template = createPresentationTemplate({ showcase: false, brand: { hue: 170 } });
+await template.writeFile({ fileName: 'presentation-starter.pptx' });
+```
 
 ## Preview
 
@@ -93,6 +104,12 @@ The demo follows a four-session workshop pilot from need to decision. The `.potx
 
 Use **Home → Layout** for a styled editable layout, including chart, table, picture and four-column process placeholders. Duplicate the demo table or chart slide to edit its native data. Use **View → Slide Master** to change the design. Omit `hue` for a new palette, pass a number for a fixed hue, or pass `null` for grayscale. Replace exact text runs in a generated deck:
 
-<CodeBlock language="ts" code={"import { editPresentationTemplate } from '@terra-symposium/styling/documents';\n\nawait editPresentationTemplate('product-direction.pptx', 'final.pptx', {\n\t'Product direction': 'Launch plan',\n});"} />
+```ts
+import { editPresentationTemplate } from '@terra-symposium/styling/documents';
+
+await editPresentationTemplate('product-direction.pptx', 'final.pptx', {
+	'Product direction': 'Launch plan',
+});
+```
 
 See [Design language](../1-colouring/3-design-language.md) for the visual rules and the [document guide](https://github.com/Terra-Symposium/styling/blob/development/src/documents/GUIDE.md) for all brand options and editing details.

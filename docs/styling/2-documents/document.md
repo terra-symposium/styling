@@ -11,7 +11,15 @@ description: Create and edit a Terra Word document.
 
 ## Create
 
-<CodeBlock language="ts" code={"import { writeWordTemplate } from '@terra-symposium/styling/documents';\n\nawait writeWordTemplate('invoice.docx', { title: 'Invoice' });\nawait writeWordTemplate('style-example.docx', {\n\ttitle: 'Invoice',\n\tshowcase: true,\n});"} />
+```ts
+import { writeWordTemplate } from '@terra-symposium/styling/documents';
+
+await writeWordTemplate('invoice.docx', { title: 'Invoice' });
+await writeWordTemplate('style-example.docx', {
+	title: 'Invoice',
+	showcase: true,
+});
+```
 
 ## Preview
 
@@ -33,6 +41,12 @@ Open each editable Word type to inspect its template. Replace the invoice placeh
 
 Pass a fixed `hue`, `hue: null` for grayscale, or `brand.logo: false` when creating the file. Replace exact text runs without changing the remaining document structure:
 
-<CodeBlock language="ts" code={"import { editWordTemplate } from '@terra-symposium/styling/documents';\n\nawait editWordTemplate('invoice.docx', 'invoice-final.docx', {\n\tInvoice: 'Project invoice',\n});"} />
+```ts
+import { editWordTemplate } from '@terra-symposium/styling/documents';
+
+await editWordTemplate('invoice.docx', 'invoice-final.docx', {
+	Invoice: 'Project invoice',
+});
+```
 
 See the [document guide](https://github.com/Terra-Symposium/styling/blob/development/src/documents/GUIDE.md) for all brand options and editing details.

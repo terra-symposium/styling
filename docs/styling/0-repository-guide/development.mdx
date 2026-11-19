@@ -10,18 +10,12 @@ Agent workflows: [Styling](https://github.com/Terra-Symposium/styling/blob/devel
 
 ## Repository map
 
-```text
-src/
-  assets/fonts/       Font files and licenses
-  components/ui/      Shared React primitives and variant contracts
-  documents/          Editable document templates
-  lib/                Hue utilities, types, and Tailwind preset
-  styles/             Tokens and source stylesheets
-docs/styling/          Markdown, MDX, and interactive documentation examples
-site/src/pages/       Astro routes, including the generated component detail route
-scripts/              Build, Docs, and TypeScript reference generation
-tests/                Component and library checks
-```
+<CodeBlock
+	language='text'
+	code={
+		'src/\n  assets/fonts/       Font files and licenses\n  components/ui/      Shared React primitives and variant contracts\n  documents/          Editable document templates\n  lib/                Hue utilities, types, and Tailwind preset\n  styles/             Tokens and source stylesheets\ndocs/styling/          Markdown, MDX, and interactive documentation examples\nsite/src/pages/       Astro routes, including the generated component detail route\nscripts/              Build, Docs, and TypeScript reference generation\ntests/                Component and library checks'
+	}
+/>
 
 The package root exports hue utilities. The `./ui` entry point exports shared components, variants, and types. Build output and package declarations are generated in `dist/`.
 
@@ -33,19 +27,13 @@ The package root exports hue utilities. The `./ui` entry point exports shared co
 
 ## Install and build
 
-```sh
-pnpm install --frozen-lockfile
-pnpm run build
-```
+<CodeBlock language='sh' code={'pnpm install --frozen-lockfile\npnpm run build'} />
 
 `pnpm run build` rebuilds `dist/`, generates TypeScript references, emits type declarations and CSS, and compiles the package styles.
 
 ## Run and build the Docs site
 
-```sh
-pnpm run docs
-pnpm run docs:build
-```
+<CodeBlock language='sh' code={'pnpm run docs\npnpm run docs:build'} />
 
 `pnpm run docs` builds the package, then starts the local Astro Docs site. `pnpm run docs:build` builds the package, checks the documentation, and writes the static site to `dist/docs/`.
 
@@ -53,11 +41,7 @@ Add guide pages as Markdown or MDX files under `docs/styling/<section>/`. The Do
 
 ## Checks
 
-```sh
-pnpm run docs:check
-pnpm run test
-git diff --check
-```
+<CodeBlock language='sh' code={'pnpm run docs:check\npnpm run test\ngit diff --check'} />
 
 `docs:check` validates documentation TypeScript and demo coverage. `test` builds the package and runs the component and library checks. Run the narrowest relevant checks after changing shared component or hue behavior, and use `git diff --check` before sending a change.
 
@@ -76,9 +60,6 @@ The repository UI workflow is documented in the [Styling agent skill](https://gi
 
 This package uses Changesets. Create a changeset for a releasable package change, then update package versions and changelogs:
 
-```sh
-pnpm changeset
-pnpm version-packages
-```
+<CodeBlock language='sh' code={'pnpm changeset\npnpm version-packages'} />
 
 Review the generated changeset and version updates before publishing. The package is configured for public registry access. Publishing is a separate release action.

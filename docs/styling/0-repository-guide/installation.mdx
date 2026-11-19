@@ -6,9 +6,7 @@ order: 1
 
 Install the published package from the npm registry:
 
-```sh
-pnpm add @terra-symposium/styling
-```
+<CodeBlock language='sh' code={'pnpm add @terra-symposium/styling'} />
 
 The package declares React and React DOM as peer dependencies. Install React 19 or later in the application if they are not already present.
 
@@ -16,16 +14,12 @@ The package declares React and React DOM as peer dependencies. Install React 19 
 
 Import the shared UI stylesheet once from the application entry point:
 
-```tsx
-import '@terra-symposium/styling/global.css';
-```
+<CodeBlock language='tsx' code={"import '@terra-symposium/styling/global.css';"} />
 
 The stylesheet includes the shared utility classes, base styles, fonts, and Docs typography. It does not set a fixed palette: provide CSS variables from the host's hue system or call `applyHue(hue)` from the package API.
 
 Visual effects are separate from the global stylesheet. Import them only when you use effect utilities such as `grain`, `animate-crt`, or `shake`:
 
-```tsx
-import '@terra-symposium/styling/effects.css';
-```
+<CodeBlock language='tsx' code={"import '@terra-symposium/styling/effects.css';"} />
 
 Continue with [Usage](/styling/0-repository-guide/usage/) to import components and theme helpers.

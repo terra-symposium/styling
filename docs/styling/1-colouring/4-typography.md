@@ -18,6 +18,6 @@ The Website and Styling CSS register the web family name `Authentic Sans` from 9
 
 The Media Kit title is Avara italic; the description, section headings and labels use Authentic Sans. The reusable PowerPoint library uses Authentic Sans for all headings and body text so long titles and changing content remain predictable. The Media Kit wordmark stays an image.
 
-<DocsBlock data='{"_type":"docImage","alt":"Media Kit showing an Avara italic title above Authentic Sans descriptions and labels","url":"/styling-docs/_docs/assets/styling/1-colouring/3-design-language/assets/website-media-kit.png","title":"Public Website · display and functional type"}' />
+![Media Kit showing an Avara italic title above Authentic Sans descriptions and labels](/styling-docs/_docs/assets/styling/1-colouring/3-design-language/assets/website-media-kit.png 'Public Website · display and functional type')
 
 Keep display phrases short and check line breaks after rendering. Avoid Avara for paragraphs or table cells. On a computer without the Terra fonts installed, Office substitutes a local font; the logo remains an image to preserve its form.

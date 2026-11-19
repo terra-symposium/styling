@@ -11,14 +11,14 @@ Start with a clear outside margin and one alignment grid. Use a numbered kicker,
 
 The homepage pairs a strong hue field with open reading space; the Media Kit uses a responsive grid for identity assets and workshop photography. Docs keeps navigation and tools compact while leaving the content column clear. These are distinct layouts using the same type and palette roles.
 
-<DocsBlock data='{"_type":"docImage","alt":"Media Kit with a numbered identity section and responsive logo and photo cards","url":"/styling-docs/_docs/assets/styling/1-colouring/3-design-language/assets/website-media-kit.png","title":"Website · numbered sections and image grid"}' />
+![Media Kit with a numbered identity section and responsive logo and photo cards](/styling-docs/_docs/assets/styling/1-colouring/3-design-language/assets/website-media-kit.png 'Website · numbered sections and image grid')
 
-<DocsBlock data='{"_type":"docImage","alt":"Styling Docs workspace with a compact left navigation and a clear reading column","url":"/styling-docs/_docs/assets/styling/1-colouring/3-design-language/assets/docs-workspace.png","title":"Docs · compact navigation and reading space"}' />
+![Styling Docs workspace with a compact left navigation and a clear reading column](/styling-docs/_docs/assets/styling/1-colouring/3-design-language/assets/docs-workspace.png 'Docs · compact navigation and reading space')
 
 ## Slides and tables
 
 Use a common safe margin and baseline across all five layouts. A cover or divider can carry one oversized editorial phrase; content and table slides use smaller functional headings. Tables have left-aligned cells, generous padding and subtle horizontal rules. Avoid vertical grid lines and alternating fills unless they communicate state.
 
-<DocsBlock data='{"_type":"docImage","alt":"Editable presentation table with aligned headings and horizontal row rules","url":"/styling-docs/_docs/assets/styling/2-documents/assets/presentation-table.png","title":"PowerPoint · restrained data layout"}' />
+![Editable presentation table with aligned headings and horizontal row rules](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-table.png 'PowerPoint · restrained data layout')
 
 Check the final render for long-text clipping, slide-edge collisions, image crop, and readable contrast. For UI, also check keyboard focus, mobile width, dark mode and print.

@@ -1,0 +1,43 @@
+diff --git a/dist/lib/components/StaticWorkspace.js b/dist/lib/components/StaticWorkspace.js
+index 2f35548f23f6a8a2f6191f9ad2453e3d055b3400..b20f07e37e6d04f5249adfa9a2a0496b2c698a8f 100644
+--- a/dist/lib/components/StaticWorkspace.js
++++ b/dist/lib/components/StaticWorkspace.js
+@@ -212,12 +212,22 @@ export function DocsStaticWorkspace({ title, homeHref = '/', description, pageTi
+         groupIndex,
+         leafIndex,
+     }))));
+-    const a = allLeaves.find((i) => routeKey(i.leaf.href) === currentKey) ??
++    const matchedLeaf = allLeaves.find((i) => routeKey(i.leaf.href) === currentKey) ??
+         allLeaves
+             .filter((i) => routeOwnsPath(i.leaf.href, currentPath))
+-            .sort((l, r) => routeKey(r.leaf.href).length - routeKey(l.leaf.href).length)[0] ??
+-        allLeaves.find((i) => routeKey(i.leaf.href) === routeKey(rootPath)) ??
+-        allLeaves[0];
++            .sort((l, r) => routeKey(r.leaf.href).length - routeKey(l.leaf.href).length)[0];
++    const a = matchedLeaf ?? (staticContent && allLeaves[0]
++        ? {
++            ...allLeaves[0],
++            leaf: {
++                id: 'index',
++                title: pageTitle ?? title,
++                href: currentPath,
++                path: storageKey(currentPath),
++                ...(pageDescription ? { description: pageDescription } : {}),
++            },
++        }
++        : allLeaves.find((i) => routeKey(i.leaf.href) === routeKey(rootPath)) ?? allLeaves[0]);
+     const currentAttachments = a?.leaf.attachments ?? attachments;
+     const docPath = a?.leaf.href ?? currentPath;
+     const effectivePageDescription = pageDescription ?? a?.leaf.description;
+diff --git a/site/src/pages/[...slug].astro b/site/src/pages/[...slug].astro
+index a6d6ffea787f0713f079dfb896f41f9a6e0c78ac..cde26f4ef5f7935c9a9bee3a3c6d4246c2b748d5 100644
+--- a/site/src/pages/[...slug].astro
++++ b/site/src/pages/[...slug].astro
+@@ -29,6 +29,7 @@ const layoutProps = {
+ 	homeHref: pageHref('', base),
+ 	description,
+ 	pageTitle: currentPage?.title,
++	pageDescription: currentPage?.description,
+ 	hue: currentPage?.hue,
+ 	nodes: siteNavigation,
+ 	currentPath,

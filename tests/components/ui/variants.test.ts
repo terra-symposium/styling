@@ -210,6 +210,8 @@ function sharedClassContractsGenClasses(): void {
 	hasClasses(DISABLED_STATE_VARIANTS({ target: 'aria' }), 'ARIA disabled');
 	hasClasses(INTERACTIVE_CONTROL_VARIANTS(), 'interactive control');
 	hasClasses(OVERLAY_SURFACE_VARIANTS(), 'overlay surface');
+	assert.match(SURFACE_VARIANTS({ variant: 'control' }), /border-primary-6 bg-white.*dark:bg-black/);
+	assert.doesNotMatch(OVERLAY_SURFACE_VARIANTS(), /gray-outline|bg-gray/);
 	hasClasses(OVERLAY_MOTION_VARIANTS(), 'overlay motion');
 	hasClasses(RADIX_SIDE_POSITION_VARIANTS(), 'Radix side position');
 	hasClasses(menuItemVariants({ intent: 'destructive' }), 'menu item intent');

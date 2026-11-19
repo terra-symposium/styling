@@ -335,6 +335,8 @@ export const SURFACE_VARIANTS = cva('', {
 				success: 'border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-100',
 				warning: 'border-amber-300 bg-amber-50 text-amber-950 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100',
 				transparent: '',
+				/* for shadcn controls, not general usage -- done for emphasis. */
+				control: 'border border-primary-6 bg-white text-primary-12 dark:bg-black',
 				dark: 'border border-white/10 bg-white/5 text-white',
 			} as const),
 		},
@@ -428,8 +430,8 @@ export const FORM_CONTROL_VARIANTS = cva(
 OVERLAYS AND MENUS
 //////////////////////////////////////////////////*/
 
-/** Shared neutral surface for positioned overlay content. */
-export const OVERLAY_SURFACE_VARIANTS = cva(cn(SURFACE_VARIANTS({ variant: 'gray-outline' }), 'text-gray-12 shadow-lg'));
+/** Shared control surface for positioned overlay content. */
+export const OVERLAY_SURFACE_VARIANTS = cva(cn(SURFACE_VARIANTS({ variant: 'control' }), 'shadow-lg'));
 /** Shared entry/exit motion for Radix overlay content. */
 export const OVERLAY_MOTION_VARIANTS = cva(
 	'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',

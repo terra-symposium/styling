@@ -1,0 +1,984 @@
+---
+title: Recovered development notes
+description: Undated legacy source material from the Docs Backup; current repository docs remain authoritative.
+---
+
+# Recovered development notes
+
+These notes preserve the backup’s original reasoning and proposals. Verify claims against current source before using them as implementation guidance. Exact original MDX files are under `archive/docs-backup/development/`.
+
+## Styling
+
+_Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
+
+> ## Overview
+>
+> These standards describe how Terra Symposium interfaces should feel and behave. Styling decisions
+> should strengthen hierarchy, make actions obvious, and preserve the project's established visual
+> language.
+>
+> ### Styling priorities
+>
+> Use these priorities when styling work spans layout, content hierarchy, and interaction design.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🎯 Area</th>
+>       <th align="left">Standard</th>
+>       <th align="left">Outcome</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Workflow</td>
+>       <td align="left">Design in low fidelity, build simply, then refine.</td>
+>       <td align="left">
+>         Faster iteration and fewer premature styling choices.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Hierarchy</td>
+>       <td align="left">Use size, weight, colour, and spacing together.</td>
+>       <td align="left">Clearer visual emphasis.</td>
+>     </tr>
+>     <tr>
+>       <td align="left">Layout</td>
+>       <td align="left">Prefer systems over arbitrary values.</td>
+>       <td align="left">More consistent, maintainable screens.</td>
+>     </tr>
+>     <tr>
+>       <td align="left">Typography</td>
+>       <td align="left">
+>         Use a restrained type scale with deliberate line length.
+>       </td>
+>       <td align="left">More readable content and cleaner interfaces.</td>
+>     </tr>
+>     <tr>
+>       <td align="left">Components</td>
+>       <td align="left">Reuse Shadcn components with minimal alteration.</td>
+>       <td align="left">Faster implementation and lower visual drift.</td>
+>     </tr>
+>     <tr>
+>       <td align="left">Iconography</td>
+>       <td align="left">
+>         Use the approved icon sources in their intended contexts.
+>       </td>
+>       <td align="left">Consistent visual semantics across app and CMS.</td>
+>     </tr>
+>     <tr>
+>       <td align="left">Accessibility</td>
+>       <td align="left">
+>         Preserve clarity across desktop, mobile, keyboard, and motion.
+>       </td>
+>       <td align="left">Interfaces remain usable, not only attractive.</td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ### Section map
+>
+> Use this page from broadest decision to narrowest. Start with workflow and hierarchy, then move into
+> layout, typography, components, and icon rules.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">📂 Section</th>
+>       <th align="left">Purpose</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Workflow</td>
+>       <td align="left">
+>         Defines how styling work should be designed and refined.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Visual Hierarchy</td>
+>       <td align="left">Defines how emphasis is created and reduced.</td>
+>     </tr>
+>     <tr>
+>       <td align="left">Layout</td>
+>       <td align="left">
+>         Defines spacing, width, grouping, and responsive structure.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Typography</td>
+>       <td align="left">
+>         Defines readable type scale, font choice, and text rhythm.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Components</td>
+>       <td align="left">
+>         Defines how UI primitives, states, and motion should behave.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Iconography</td>
+>       <td align="left">
+>         Defines the approved icon sources and context-specific usage.
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ---
+>
+> ## Workflow
+>
+> Styling work should move from broad structure to detail. Start with hierarchy and layout, then add
+> colour, typography, and polish once the interface already works.
+>
+> ### Design loop
+>
+> The most effective workflow is cyclical rather than exhaustive. Build a simple version first, then
+> refine only the problems revealed by the real interface.
+>
+> :::tip[Work in low fidelity]
+>
+> To focus on layout and structure without distraction, sketch with a thick marker on paper or work in
+> To focus on layout and structure without distraction, sketch with a thick marker on paper or work in
+> greyscale first. This forces hierarchy to come from spacing, contrast, and size before colour does
+> the work.
+>
+
+> :::
+>
+> _Interactive diagram or component retained in the original source._
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🧩 Step</th>
+>       <th align="left">Goal</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Start with a feature</td>
+>       <td align="left">
+>         Design around the core user task, not every edge case at once.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Low-fidelity design</td>
+>       <td align="left">Validate hierarchy and flow before visual polish.</td>
+>     </tr>
+>     <tr>
+>       <td align="left">Simple build</td>
+>       <td align="left">
+>         Ship the smallest working version into the real interface.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Review</td>
+>       <td align="left">
+>         Ask whether the design actually works rather than whether it looks busy.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Refine</td>
+>       <td align="left">
+>         Solve the problems the first version exposed, then repeat.
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ### Workflow rule
+>
+> Do not spend high-fidelity effort on a screen that has not yet proven its hierarchy and task flow.
+>
+> ### Personality
+>
+> Every design communicates a personality, whether it is secure, playful, elegant, or utilitarian.
+> Typography, colour, borders, and language all influence that impression.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🎨 Element</th>
+>       <th align="left">Personality effect</th>
+>       <th align="left">Example</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">
+>         <a href="/docs/marketing/0-misc/3-persona#font">Font</a>
+>       </td>
+>       <td align="left">
+>         A serif font feels elegant, while a rounded sans-serif feels playful.
+>       </td>
+>       <td align="left">
+>         <code>freight-text</code> vs <code>proxima-soft</code>
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">
+>         <a href="/docs/marketing/0-misc/3-persona#colours">Colour</a>
+>       </td>
+>       <td align="left">
+>         Blue feels safe and familiar, while gold feels expensive.
+>       </td>
+>       <td align="left">Corporate blue vs luxury gold</td>
+>     </tr>
+>     <tr>
+>       <td align="left">
+>         <a href="/docs/marketing/0-misc/3-persona">Persona</a>
+>       </td>
+>       <td align="left">
+>         Border shape changes tone, from formal sharp corners to playful radii.
+>       </td>
+>       <td align="left">Government form vs startup dashboard</td>
+>     </tr>
+>     <tr>
+>       <td align="left">
+>         <a href="/docs/marketing/1-prospect/0-target-market">Language</a>
+>       </td>
+>       <td align="left">
+>         Copy can feel official and distant or warm and conversational.
+>       </td>
+>       <td align="left">
+>         &quot;Verify your identity&quot; vs &quot;Sweet, thanks Steve!&quot;
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ### Systems
+>
+> Limitless choices slow the design process and create visual drift. Define systems for colour, type,
+> spacing, and shadow before refining the final look.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🧩 System</th>
+>       <th align="left">Standard</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Type</td>
+>       <td align="left">Reuse a small, deliberate type scale.</td>
+>     </tr>
+>     <tr>
+>       <td align="left">Colour</td>
+>       <td align="left">
+>         Establish a consistent palette with primary and support roles.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Spacing</td>
+>       <td align="left">
+>         Use Tailwind&#39;s spacing scale instead of arbitrary values.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Shadow</td>
+>       <td align="left">
+>         Reuse a small set of elevations instead of inventing one-off depth
+>         values.
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ---
+>
+> ## Visual Hierarchy
+>
+> Visual hierarchy determines what the reader notices first, second, and last. A well-designed screen
+> guides attention without needing labels everywhere.
+>
+> ### Hierarchy tools
+>
+> Do not rely on font size alone to create hierarchy. Most interfaces need a restrained combination of
+> size, weight, and colour.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🧩 Tool</th>
+>       <th align="left">Standard</th>
+>       <th align="left">Typical use</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Size</td>
+>       <td align="left">
+>         Make important content larger, but avoid too many distinct font sizes.
+>       </td>
+>       <td align="left">Headings, totals, primary actions</td>
+>     </tr>
+>     <tr>
+>       <td align="left">Weight</td>
+>       <td align="left">
+>         Use heavier font weights for emphasis instead of increasing size alone.
+>       </td>
+>       <td align="left">Active states, headings, key labels</td>
+>     </tr>
+>     <tr>
+>       <td align="left">Colour</td>
+>       <td align="left">
+>         Reduce contrast for secondary content rather than shrinking it
+>         excessively.
+>       </td>
+>       <td align="left">Metadata, hints, inactive navigation</td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> :::tip[Hierarchy trio]
+>
+> Create a strong and subtle hierarchy by combining size, weight, and colour rather than overusing any
+> Create a strong and subtle hierarchy by combining size, weight, and colour rather than overusing any
+> one of them.
+>
+
+> :::
+>
+> ### Supporting emphasis
+>
+> Hierarchy also depends on what you de-emphasise. Use background-aware text colours, softer inactive
+> states, and context-first phrasing to reduce clutter.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🧩 Technique</th>
+>       <th align="left">Standard</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Coloured backgrounds</td>
+>       <td align="left">
+>         On coloured surfaces, use a related hue with adjusted saturation and
+>         lightness instead of generic grey text.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Relative emphasis</td>
+>       <td align="left">
+>         Make important elements stand out by softening the competing ones around
+>         them.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Avoid labels</td>
+>       <td align="left">
+>         Prefer context-rich phrasing over <code>label: value</code> formatting
+>         when the layout already provides meaning.
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ### Phrasing example
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">Don&#39;t</th>
+>       <th align="left">Do</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">
+>         <code>In stock: 12</code>
+>       </td>
+>       <td align="left">
+>         <code>12 left in stock</code>
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">
+>         <code>Bedrooms: 3</code>
+>       </td>
+>       <td align="left">
+>         <code>3 Bedrooms</code>
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> When a label is necessary, treat it as secondary content by reducing its weight, contrast, or size.
+>
+> ### Action priority
+>
+> Buttons and links should look as important as their consequence, not merely as important as their
+> semantic tag.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🥇 Priority</th>
+>       <th align="left">Goal</th>
+>       <th align="left">Tailwind example</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Primary</td>
+>       <td align="left">Most obvious, high-contrast.</td>
+>       <td align="left">
+>         <code>bg-primary-600 text-white</code>
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Secondary</td>
+>       <td align="left">Clear, but less prominent.</td>
+>       <td align="left">
+>         <code>border border-primary-600 text-primary-600</code>
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Tertiary</td>
+>       <td align="left">Discoverable, link-like.</td>
+>       <td align="left">
+>         <code>text-primary-600 hover:underline</code>
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ---
+>
+> ## Layout
+>
+> Layouts define the structural experience of the application. They should make content grouping,
+> navigation, and reading width feel intentional across screen sizes.
+>
+> ### Layout roles
+>
+> Layouts are foundational components. They provide a shared frame so pages stay consistent even when
+> their content and controls differ.
+>
+> _Interactive diagram or component retained in the original source._
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">📄 Layout</th>
+>       <th align="left">Purpose</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">
+>         <code>Base.astro</code>
+>       </td>
+>       <td align="left">
+>         Cornerstone layout that sets HTML structure, SEO metadata, theming, and
+>         global components such as <code>Toaster</code>.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">
+>         <code>Dashboard.astro</code>
+>       </td>
+>       <td align="left">
+>         Moderator layout that extends <code>Base</code> with authenticated
+>         navigation and user-specific controls.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">
+>         <code>Static.astro</code>
+>       </td>
+>       <td align="left">
+>         Public-content layout that extends <code>Base</code> with a persistent
+>         nav bar, search, and footer.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">
+>         <code>Modal.astro</code>
+>       </td>
+>       <td align="left">
+>         Focused dialog layout that centres a modal over an animated background
+>         and exposes a <code>footer</code> slot.
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ### Spacing system
+>
+> A systematic approach to spacing makes layouts easier to reason about. Use Tailwind's built-in scale
+> rather than arbitrary pixel values.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🧭 Principle</th>
+>       <th align="left">Tailwind practice</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Use a system</td>
+>       <td align="left">
+>         Use built-in spacing utilities such as <code>p-4</code>,{" "}
+>         <code>m-6</code>, and <code>space-y-8</code>.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Constrain width</td>
+>       <td align="left">
+>         Use <code>max-w-*</code> or <code>@apply container</code> to control
+>         line length and readability.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Flexible grids</td>
+>       <td align="left">
+>         Use <code>flex</code> and <code>grid</code>, with fixed widths such as{" "}
+>         <code>w-64</code> where sidebars need stability.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Group with space</td>
+>       <td align="left">
+>         Use larger margins between sections than within them, such as{" "}
+>         <code>space-y-4</code> inside a card and <code>mb-12</code> between
+>         cards.
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> :::caution[Grouping rule]
+>
+> To visually group related items, make the space between groups at least twice as large as the space
+> To visually group related items, make the space between groups at least twice as large as the space
+> within a group. This creates clearer, more scannable sections.
+>
+
+> :::
+>
+> ### Responsive structure
+>
+> Layouts must degrade cleanly on smaller screens. Preserve hierarchy and grouping when columns stack
+> or sidebars collapse.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">📱 Concern</th>
+>       <th align="left">Standard</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Reading width</td>
+>       <td align="left">
+>         Constrain long-form content with <code>max-w-*</code> or{" "}
+>         <code>max-w-prose</code>.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Sidebars</td>
+>       <td align="left">
+>         Use stable widths on large screens, then collapse or stack them on
+>         mobile.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Grid density</td>
+>       <td align="left">
+>         Prefer fewer columns on smaller screens rather than shrinking content
+>         until it becomes cramped.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Grouping rhythm</td>
+>       <td align="left">
+>         Preserve the same between-group and within-group spacing ratio on
+>         mobile.
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ### Responsive priority
+>
+> When space is tight, preserve hierarchy first, then preserve decoration. Content should stack before
+> it becomes visually cramped.
+>
+> ---
+>
+> ## Typography
+>
+> Typography is one of the strongest tools for clarity. A restrained scale and readable rhythm will
+> usually outperform a larger catalogue of decorative decisions.
+>
+> ### Type scale
+>
+> Use Tailwind's default type scale and avoid inventing excessive intermediate sizes. Most interfaces
+> only need a small set of reliable steps.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🎯 Use</th>
+>       <th align="left">Class</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Small text, tertiary info</td>
+>       <td align="left">
+>         <code>text-xs</code>
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Secondary text, labels</td>
+>       <td align="left">
+>         <code>text-sm</code>
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Body copy</td>
+>       <td align="left">
+>         <code>text-base</code>
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Large body, subheadings</td>
+>       <td align="left">
+>         <code>text-lg</code>
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Subheadings</td>
+>       <td align="left">
+>         <code>text-xl</code>
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Small headings</td>
+>       <td align="left">
+>         <code>text-2xl</code>
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Headings</td>
+>       <td align="left">
+>         <code>text-3xl</code>
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Large headings</td>
+>       <td align="left">
+>         <code>text-4xl</code>
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Marketing headlines</td>
+>       <td align="left">
+>         <code>text-5xl</code>
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ### Font selection
+>
+> Typeface quality matters. A few simple heuristics help you choose fonts that stay legible under real
+> UI conditions.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🔎 Heuristic</th>
+>       <th align="left">Description</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Play it safe</td>
+>       <td align="left">
+>         A neutral sans-serif or the native system stack is a reliable default.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Weights</td>
+>       <td align="left">
+>         Typefaces with five or more weights tend to be more flexible and
+>         polished.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Legibility</td>
+>       <td align="left">For body text, choose fonts with a large x-height.</td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ### Readability rules
+>
+> Readable typography depends on more than type size. Line length, alignment, and line height should
+> all reinforce the content's density and role.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🧩 Concern</th>
+>       <th align="left">Standard</th>
+>       <th align="left">Example</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Line length</td>
+>       <td align="left">
+>         Keep lines between 45 and 75 characters for long-form readability.
+>       </td>
+>       <td align="left">
+>         <code>max-w-prose</code>, <code>prose</code>
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Alignment</td>
+>       <td align="left">
+>         Align mixed-size text on the baseline rather than the visual centre.
+>       </td>
+>       <td align="left">Metric + unit on one line</td>
+>     </tr>
+>     <tr>
+>       <td align="left">Line height</td>
+>       <td align="left">
+>         Use taller leading for small text and long lines, shorter leading for
+>         large headings.
+>       </td>
+>       <td align="left">
+>         <code>leading-relaxed</code>, <code>leading-tight</code>
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ### Example
+>
+> :::example[Proportional line height in Tailwind]
+>
+> \n  &#x20; \\&#x20; \\&#x20; \\&#x9;This is a paragraph of small text. The\n  `leading-relaxed` &#x20; class \\&#x20; adds space \\&#x20; between lines to\n  make it \\&#x9;easier to read. &#x20; \\ \\ \\ \\\n</p>\n\n\\ \\ \\ \\\n<h1 class\\=\"text-4xl font-bold leading-tight\">This heading is large\\</h1>"} />
+>
+>
+
+> :::
+>
+> ---
+>
+> ## Components
+>
+> Component styling should stay consistent with the existing system. Prefer composing reliable
+> building blocks over hand-rolling one-off UI primitives.
+>
+> ### Shadcn usage
+>
+> Components are sourced from [Shadcn](https://ui.shadcn.com/docs/components), with minimal alteration
+> to fit Terra Symposium's visual language.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🧩 Rule</th>
+>       <th align="left">Standard</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Source</td>
+>       <td align="left">Prefer Shadcn components for common UI primitives.</td>
+>     </tr>
+>     <tr>
+>       <td align="left">Alteration</td>
+>       <td align="left">
+>         Make minimal styling changes instead of forking component logic.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Consistency</td>
+>       <td align="left">
+>         Keep variants and sizes aligned with the project&#39;s existing usage.
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> :::example[Using a Shadcn component]
+>
+> \n\\&#x9;\t\tClick Me\n\\&#x9;\t\\\n\\&#x9;);\n}"} />
+>
+>
+
+> :::
+>
+> ### Interaction states
+>
+> Components must communicate state clearly. A beautiful interface that hides focus, disabled, or
+> loading states is still a poor interface.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🎯 State</th>
+>       <th align="left">Standard</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Focus</td>
+>       <td align="left">
+>         Provide a visible keyboard focus style that is at least as clear as
+>         hover.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Disabled</td>
+>       <td align="left">
+>         Make disabled controls visibly inactive without making labels
+>         unreadable.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Loading</td>
+>       <td align="left">
+>         Preserve layout stability so buttons and cards do not jump during async
+>         work.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Status cues</td>
+>       <td align="left">
+>         Do not rely on colour alone to communicate success, warning, or error.
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ### Motion
+>
+> Motion should support comprehension, not decorate empty space. Keep it purposeful, restrained, and
+> compatible with accessibility preferences.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🎞️ Rule</th>
+>       <th align="left">Standard</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Purpose</td>
+>       <td align="left">
+>         Use animation to explain entry, hierarchy, or state change.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Restraint</td>
+>       <td align="left">
+>         Prefer a few meaningful motions over constant micro-animations.
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Accessibility</td>
+>       <td align="left">
+>         Respect reduced-motion preferences where movement is non-essential.
+>       </td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ### State priority
+>
+> If motion and clarity conflict, clarity wins. A state change must remain obvious even when reduced
+> motion is enabled.
+>
+> ---
+>
+> ## Iconography
+>
+> Icons should come from the approved source for the environment they appear in. Keep the visual
+> vocabulary consistent across the web app and the CMS.
+>
+> ### Icon sources
+>
+> Choose the icon library based on runtime context, not personal preference. The import path should
+> make that choice obvious.
+>
+> <table>
+>   <thead>
+>     <tr>
+>       <th align="left">🧩 Context</th>
+>       <th align="left">Preferred source</th>
+>       <th align="left">Fallback</th>
+>       <th align="left">Typical import style</th>
+>     </tr>
+>   </thead>
+>   <tbody>
+>     <tr>
+>       <td align="left">Web application</td>
+>       <td align="left">Carbon Icons</td>
+>       <td align="left">None</td>
+>       <td align="left">
+>         <code>~icons/carbon/hyphenated-name-of-icon</code>
+>       </td>
+>     </tr>
+>     <tr>
+>       <td align="left">Sanity studio</td>
+>       <td align="left">Carbon Icons</td>
+>       <td align="left">Sanity Icons</td>
+>       <td align="left">Package import inside the CMS schema or component</td>
+>     </tr>
+>   </tbody>
+> </table>
+>
+> ### Source priority
+>
+> Choose the icon set by environment first, then by metaphor. Do not mix libraries arbitrarily within
+> the same context.
+>
+> ### Astro icons
+>
+> Icons for the web application should come from
+> [Carbon Icons](https://carbondesignsystem.com/guidelines/icons/library/). Keep class names
+> consistent with the surrounding typography and spacing.
+>
+> _Interactive diagram or component retained in the original source._
+> "} />
+>
+> ### Sanity icons
+>
+> Icons in the CMS should use Carbon Icons where possible, and
+> [Sanity Icons](https://icons.sanity.build/all) only when the Carbon set does not provide the needed
+> metaphor.
+>
+> _Interactive diagram or component retained in the original source._
+>
+> ### Reserved icons
+>
+> Some icons are reserved for fixed meanings. They must remain exclusive to those contexts so the
+> visual language stays stable for users.
+>
+> :::caution[Reserved icons]
+>
+> These icons must always be used in their reserved contexts and never repurposed for other meanings.
+> These icons must always be used in their reserved contexts and never repurposed for other meanings.
+>
+> _Interactive diagram or component retained in the original source._
+>
+>
+
+:::

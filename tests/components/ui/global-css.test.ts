@@ -56,6 +56,7 @@ function srcStylesheetProvidesSharedTokensAndExports(): void {
 	assert.match(stylesheet, /font-family:\s*["']Avara["']/);
 	assert.match(stylesheet, /svg\[style\*=["']--icon-baseline["']\]/);
 	assert.match(stylesheet, /\[contenteditable\][\s\S]*?:focus-visible/);
+	assert.match(stylesheet, /\*:focus-visible\s*\{\s*@apply ring-offset-2/);
 	assert.match(stylesheet, /@keyframes docs-toolbar-sweep/);
 	assert.match(stylesheet, /body\s*\{\s*-webkit-font-smoothing:\s*antialiased;/);
 	assert.match(stylesheet, /:where\(\.docs-workspace\)/);

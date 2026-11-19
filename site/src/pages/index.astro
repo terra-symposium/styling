@@ -1,0 +1,25 @@
+---
+import { firstAvailableLeafHref } from '@terra-symposium/docs-site-catalog';
+
+const dest = firstAvailableLeafHref();
+const title = import.meta.env.PUBLIC_DOCS_TITLE ?? 'Styling';
+---
+
+<html lang='en'>
+	<head>
+		<meta charset='utf-8' />
+		<meta name='viewport' content='width=device-width, initial-scale=1' />
+		<meta name='robots' content='noindex' />
+		{dest && <meta http-equiv='refresh' content={`0;url=${dest}`} />}
+		<title>{dest ? 'Redirecting' : 'No pages available'} · {title}</title>
+	</head>
+	<body>
+		{dest ? (
+			<p>
+				Redirecting to <a href={dest}>the first available page</a>.
+			</p>
+		) : (
+			<p>No documentation pages are available.</p>
+		)}
+	</body>
+</html>

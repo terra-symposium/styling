@@ -112,6 +112,10 @@
 	}
 
 	/* Focusable els */
+	*:focus-visible {
+		@apply ring-offset-2;
+	}
+
 	[href],
 	input,
 	select,
@@ -124,7 +128,7 @@
 	[contenteditable],
 	[tabindex] {
 		&:focus-visible {
-			@apply box-decoration-clone outline-none ring-2;
+			@apply box-decoration-clone outline-none ring-2 ring-offset-2;
 		}
 	}
 

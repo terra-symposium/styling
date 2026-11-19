@@ -7,7 +7,19 @@ description: Create and edit a Terra spreadsheet.
 
 ## Workflow
 
-<DocsBlock data='{"_type":"nodes","direction":"TB","height":440,"nodes":[{"id":"create","type":"origin","position":{"x":0,"y":0},"data":{"title":"Create a workbook"}},{"id":"prepare","type":"process","position":{"x":0,"y":110},"data":{"title":"Edit Inputs"}},{"id":"edit","type":"process","position":{"x":0,"y":220},"data":{"title":"Check Overview"}},{"id":"review","type":"terminal","position":{"x":0,"y":330},"data":{"title":"Review formulas"}}],"edges":[{"id":"create-prepare","source":"create","target":"prepare"},{"id":"prepare-edit","source":"prepare","target":"edit"},{"id":"edit-review","source":"edit","target":"review"}]}' />
+<Nodes direction={"TB"} height={440}
+	nodes={[
+		{"id": "create","type": "origin","position": {"x": 0,"y": 0},"data": {"title": "Create a workbook"}},
+		{"id": "prepare","type": "process","position": {"x": 0,"y": 110},"data": {"title": "Edit Inputs"}},
+		{"id": "edit","type": "process","position": {"x": 0,"y": 220},"data": {"title": "Check Overview"}},
+		{"id": "review","type": "terminal","position": {"x": 0,"y": 330},"data": {"title": "Review formulas"}},
+	]}
+	edges={[
+		{"id": "create-prepare","source": "create","target": "prepare"},
+		{"id": "prepare-edit","source": "prepare","target": "edit"},
+		{"id": "edit-review","source": "edit","target": "review"},
+	]}
+/>
 
 ## Create
 
@@ -22,7 +34,17 @@ await workbook.xlsx.writeFile('project-plan.xlsx');
 
 Enter work items on Inputs; Overview calculates project totals from those entries.
 
-<DocsBlock data='{"_type":"accordion","items":[{"title":"Inputs","content":[{"_type":"docImage","alt":"Spreadsheet Inputs sheet with sample work items","url":"/styling-docs/_docs/assets/styling/2-documents/assets/spreadsheet-inputs.png","title":"Inputs"}]},{"title":"Overview","content":[{"_type":"docImage","alt":"Spreadsheet Overview with calculated project counts","url":"/styling-docs/_docs/assets/styling/2-documents/assets/spreadsheet-overview.png","title":"Overview"}]}]}' />
+===[Inputs]
+
+![Spreadsheet Inputs sheet with sample work items](/_docs/assets/styling/2-documents/assets/spreadsheet-inputs.png "Inputs")
+
+===
+
+===[Overview]
+
+![Spreadsheet Overview with calculated project counts](/_docs/assets/styling/2-documents/assets/spreadsheet-overview.png "Overview")
+
+===
 
 ## Edit
 

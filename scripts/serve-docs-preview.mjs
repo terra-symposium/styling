@@ -55,7 +55,7 @@ async function handleRequest(request, response) {
 		response.writeHead(400).end('Bad request');
 		return;
 	}
-	if (pathname === '/' || pathname === base.slice(0, -1)) {
+	if (base !== '/' && (pathname === '/' || pathname === base.slice(0, -1))) {
 		response.writeHead(308, { location: base }).end();
 		return;
 	}

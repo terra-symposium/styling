@@ -1,7 +1,15 @@
+/*//////////////////////////////////////////////////
+IMPORTS
+//////////////////////////////////////////////////*/
+
 import * as React from 'react';
 import * as UI from '../../../../src/components/ui/index.js';
 import { Trigger as AlertDialogTrigger } from '@radix-ui/react-alert-dialog';
 
+/**
+ * Renders the alert dialog component example.
+ * @return Renders the example and returns its React element.
+ */
 export default function Demo(): React.JSX.Element {
 	return (
 		<UI.AlertDialog>

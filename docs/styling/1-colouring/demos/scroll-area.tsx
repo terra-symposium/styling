@@ -1,6 +1,14 @@
+/*//////////////////////////////////////////////////
+IMPORTS
+//////////////////////////////////////////////////*/
+
 import * as React from 'react';
 import * as UI from '../../../../src/components/ui/index.js';
 
+/**
+ * Renders the scroll area component example.
+ * @return Renders the example and returns its React element.
+ */
 export default function Demo(): React.JSX.Element {
 	return (
 		<UI.ScrollArea className='h-24 w-60 rounded border p-2'>

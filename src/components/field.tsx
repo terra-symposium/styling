@@ -100,7 +100,7 @@ export function FieldLabel({ className, ...labelProps }: React.ComponentProps<ty
  * Displays optional supporting instructions under a field.
  *
  * @param className Optional classes applied to the description.
- * @param descriptionProps Description content and remaining paragraph properties.
+ * @param descProps Description content and remaining paragraph properties.
  *
  * @return A muted field-description paragraph.
  */

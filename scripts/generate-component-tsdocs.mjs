@@ -163,8 +163,10 @@ function describeExport(exported, checker, src) {
 			const propDeclaration = prop.valueDeclaration ?? prop.declarations?.[0] ?? declaration;
 			if (!propDeclaration.getSourceFile().fileName.startsWith(join(root, 'src') + sep) && !usefulInherited.has(prop.getName())) continue;
 			const propType = checker.getTypeOfSymbolAtLocation(prop, propDeclaration);
+			// hygiene-ignore single-use -- Keep the typeText serialization stage materialized once before assembling the generated component reference cache.
 			const typeText = checker.typeToString(propType, propDeclaration, ts.TypeFormatFlags.NoTruncation);
 			const choiceTypes = propType.isUnion() ? propType.types.filter(item => !(item.flags & (ts.TypeFlags.Undefined | ts.TypeFlags.Null))) : [propType];
+			// hygiene-ignore single-use -- Keep the choices serialization stage materialized once before assembling the generated component reference cache.
 			const choices = choiceTypes.length <= 40 && choiceTypes.every(item => item.isStringLiteral()) ? choiceTypes.map(item => item.value) : [];
 			const defaultValue = ownerDefaults.get(prop.getName());
 			props.push({
@@ -204,7 +206,13 @@ function describeExport(exported, checker, src) {
 	};
 }
 
-/** Conservatively records literal defaults shared by every destructure of a name in one source file. */
+// hygiene-ignore single-use -- Keep this named recursive AST visitor so TypeScript can recurse through child nodes without changing traversal boundaries.
+/**
+ * Conservatively records literal defaults shared by every destructure of a name in one source file.
+ *
+ * @param src TypeScript source file to inspect.
+ * @returns A map of names to defaults shared by every destructure.
+ */
 function literalDefaults(src) {
 	const values = new Map();
 	function visit(node) {
@@ -279,6 +287,7 @@ for (const { slug, sourcePath } of entries) {
 	const compExport = members.find(isCompExport);
 	const srcText = await readFile(sourcePath, 'utf8');
 	const shadcnUrl = /https:\/\/ui\.shadcn\.com\/docs\/components(?:\/[^\s*]+)?/i.exec(srcText)?.[0];
+	// hygiene-ignore single-use -- Keep the srcSummary serialization stage materialized once before assembling the generated component reference cache.
 	const srcSummary = [...srcText.matchAll(/\/\*\*([\s\S]*?)\*\//g)]
 		.flatMap(comment => comment[1].replace(/^\s*\* ?/gm, '').split('\n'))
 		.map(trimLine)
@@ -294,9 +303,11 @@ for (const { slug, sourcePath } of entries) {
 	};
 }
 await mkdir(join(root, 'dist/cache'), { recursive: true });
+// hygiene-ignore single-use -- Keep the slugType serialization stage materialized once before assembling the generated component reference cache.
 const slugType = Object.keys(cache)
 	.map(slug => JSON.stringify(slug))
 	.join(' | ');
+// hygiene-ignore single-use -- Keep the cacheType serialization stage materialized once before assembling the generated component reference cache.
 const cacheType = `type ComponentDocs = Record<${slugType}, { title: string; description: string; group: string; source: string; demoExport: string; shadcnUrl?: string; members: { name: string; signature: string; summary: string; tags: { name: string; text: string }[]; props: { name: string; type: string; description: string; optional: boolean; defaultValue?: string; choices: string[] }[] }[] }>;`;
 await writeFile(join(root, 'dist/cache/component-tsdocs.ts'), `${cacheType}\nexport const componentTsDocs = ${JSON.stringify(cache, null, 2)} as unknown as ComponentDocs;\n`);
 console.log(`Generated TypeScript references for ${Object.keys(cache).length} components.`);

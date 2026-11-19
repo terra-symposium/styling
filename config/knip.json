@@ -3,20 +3,24 @@
 	"entry": [
 		"src/lib/index.ts",
 		"src/lib/tailwind-preset.ts",
+		"src/lib/hue-demo.tsx",
 		"src/ui/index.ts",
 		"src/components/ui/index.ts",
 		"src/documents/index.ts",
 		"src/styles/effects.css",
 		"scripts/**/*.cjs",
 		"scripts/quality-runner.mjs",
+		"scripts/generate-weekly-review.mjs",
 		"site/**/*.astro",
 		"scripts/serve-docs-preview.mjs",
 		"config/tailwind.global.config.mjs",
 		"config/tailwind.postcss.config.cjs",
 		"docs/styling/**/*.mdx",
 		"docs/styling/1-colouring/*.tsx",
+		"docs/styling/1-colouring/demos/*.tsx",
 		"test/**/*.{ts,tsx}",
 		"config/**/*.{js,mjs,cjs,ts}"
 	],
-	"project": ["**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,mdx}"]
+	"project": ["**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,mdx}"],
+	"ignoreDependencies": ["@oai/artifact-tool"]
 }

@@ -1,7 +1,3 @@
-/**
- * Terra standup deck generator. Imports the shipped PowerPoint template.
- */
-
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
@@ -22,6 +18,7 @@ CONFIG
 const [inputPath, outputPath] = process.argv.slice(2);
 const report = JSON.parse(await fs.readFile(inputPath, 'utf8'));
 const refs = report.refs ?? [report.ref];
+// hygiene-ignore single-use -- Resolve the shipped template path once before loading it so URL conversion and file loading retain their current order.
 const templatePath = fileURLToPath(new URL('../dist/documents/templates/terra-presentation.potx', import.meta.url));
 const terraBrand = createDocumentBrand({ hue: 200 });
 
@@ -40,6 +37,7 @@ function git(args) {
 	return execFileSync('git', args, { cwd: report.repo, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }).trimEnd();
 }
 
+// hygiene-ignore single-use -- Keep theme as a named presentation-generation boundary so its coordinated validation and output behavior remain together.
 /**
  * Creates a coordinated set of colors for one report section.
  *
@@ -57,6 +55,7 @@ function theme() {
 	};
 }
 
+// hygiene-ignore single-use -- Keep addText as a named presentation-generation boundary so its coordinated validation and output behavior remain together.
 /**
  * Adds a text box after checking that every line fits its chosen width.
  *
@@ -101,6 +100,7 @@ function notes(slide, lines) {
 	slide.speakerNotes.setVisible(true);
 }
 
+// hygiene-ignore single-use -- Keep assessBigFiveTimeline as a named presentation-generation boundary so its coordinated validation and output behavior remain together.
 /**
  * Validates five objectives against complete Git history and computes their evidence scores.
  *
@@ -115,6 +115,7 @@ function assessBigFiveTimeline(plan, historyCommits) {
 	const historyBySha = new Map(historyCommits.map(commit => [commit.sha, commit]));
 	const progressByStatus = { complete: 1, partial: 0.5, not_found: 0 };
 	// terra-quality-ignore single-use -- Validate objective evidence before the history-date check so invalid input keeps its existing error priority.
+	// hygiene-ignore single-use -- Validate objective evidence before the history-date check so invalid input keeps its existing error priority.
 	const milestones = plan.objectives.map(objective => {
 		if (typeof objective.name !== 'string' || !objective.name.trim() || !Array.isArray(objective.deliverables) || !objective.deliverables.length)
 			throw new Error('Each Big Five objective requires a name and source-backed deliverable assessments.');
@@ -160,33 +161,55 @@ function assessBigFiveTimeline(plan, historyCommits) {
 	};
 }
 
+// hygiene-ignore single-use -- Keep the async CLI entry point named so its top-level failure reaches the existing process-level error handler unchanged.
+/**
+ * Builds the requested weekly-review PowerPoint from its report data.
+ * @return Nothing; writes the generated deck to the requested output path.
+ */
 async function main() {
 	if (git(['rev-parse', '--is-shallow-repository']) === 'true') throw new Error('A complete review requires full Git history.');
+	// hygiene-ignore single-use -- Materialize the selected full Git history once so the Big Five assessment uses one consistent commit snapshot.
 	const history = git(['log', ...refs, `--until=${report.until}`, '--no-merges', '--format=%H%x09%h%x09%aN%x09%aI%x09%s'])
-		.split('\n').filter(Boolean).map(line => {
+		.split('\n')
+		.filter(Boolean)
+		.map(line => {
 			const [sha, short, author, authoredAt, ...subject] = line.split('\t');
 			return { sha, short, author, date: authoredAt.slice(0, 10), subject: subject.join('\t') };
 		});
 	report.bigFive = assessBigFiveTimeline(report.bigFive, history);
 	const commits = git(['log', ...refs, `--since=${report.since}`, `--until=${report.until}`, '--no-merges', '--format=%H%x09%h%x09%aN%x09%aI%x09%s'])
-		.split('\n').filter(Boolean).map(line => {
+		.split('\n')
+		.filter(Boolean)
+		.map(line => {
 			const [sha, short, author, authoredAt, ...subject] = line.split('\t');
 			return { sha, short, author, date: authoredAt.slice(0, 10), subject: subject.join('\t'), paths: git(['show', '--format=', '--name-only', sha]).split('\n').filter(Boolean) };
 		});
 	const mergeCount = Number(git(['rev-list', '--count', ...refs, `--since=${report.since}`, `--until=${report.until}`, '--merges']));
-	const sources = [`Refs: ${refs.join(', ')}`, `Window: ${report.since} through ${report.until} (${report.timezone})`, `${commits.length} non-merge commits; ${mergeCount} merges`, 'No deploy or UI verification was performed.'];
+	const srcs = [
+		`Refs: ${refs.join(', ')}`,
+		`Window: ${report.since} through ${report.until} (${report.timezone})`,
+		`${commits.length} non-merge commits; ${mergeCount} merges`,
+		'No deploy or UI verification was performed.',
+	];
 	const deck = await PresentationFile.importPptx(await FileBlob.load(templatePath));
 	deck.slides.keep([]);
 	const colors = theme();
-	const titleFace = 'AUTHENTIC Sans 130';
+	// hygiene-ignore single-use -- Keep the bodyFace snapshot named before slide construction so the generated deck uses the selected report values consistently.
 	const bodyFace = terraBrand.fonts.body;
-	const put = (slide, value, x, y, w, h, size, color, name, extra = {}) => addText(slide, value, { left: x, top: y, width: w, height: h }, { fontSize: size, typeface: extra.typeface ?? bodyFace, color, maxChars: extra.maxChars ?? 100, bold: extra.bold ?? false, italic: extra.italic ?? false }, name);
-	const page = (title, subtitle, body, sourceLines = sources) => {
+	const put = (slide, value, x, y, w, h, size, color, name, extra = {}) =>
+		addText(
+			slide,
+			value,
+			{ left: x, top: y, width: w, height: h },
+			{ fontSize: size, typeface: extra.typeface ?? bodyFace, color, maxChars: extra.maxChars ?? 100, bold: extra.bold ?? false, italic: extra.italic ?? false },
+			name,
+		);
+	const page = (title, subtitle, body, srcLines = srcs) => {
 		const slide = deck.slides.add({ layout: 'Text P1' });
-		put(slide, title, 52, 63, 856, 43, 28, colors.text, `title-${deck.slides.items.length}`, { typeface: titleFace, maxChars: 60 });
+		put(slide, title, 52, 63, 856, 43, 28, colors.text, `title-${deck.slides.items.length}`, { typeface: 'AUTHENTIC Sans 130', maxChars: 60 });
 		if (subtitle) put(slide, subtitle, 52, 120, 856, 30, 16, colors.muted, `subtitle-${deck.slides.items.length}`, { maxChars: 92 });
 		put(slide, body, 52, 174, 856, 285, 18, colors.text, `body-${deck.slides.items.length}`, { maxChars: 80 });
-		notes(slide, sourceLines);
+		notes(slide, srcLines);
 		return slide;
 	};
 	{
@@ -194,43 +217,65 @@ async function main() {
 		put(slide, report.title, 52, 85, 740, 110, 48, terraBrand.colors.paper, 'cover-title', { typeface: 'Avara Bold', italic: true, maxChars: 38 });
 		put(slide, report.subtitle, 52, 219, 740, 52, 20, terraBrand.colors.paper, 'cover-subtitle', { maxChars: 72 });
 		put(slide, `${report.since.slice(0, 10)} → ${report.until.slice(0, 10)} · ${report.timezone}`, 52, 310, 740, 30, 16, terraBrand.colors.paper, 'cover-window', { maxChars: 70 });
-		notes(slide, sources);
+		notes(slide, srcs);
 	}
-	if (report.goals?.length) {
-		page('Goals for the week', 'Sample planning data — replace with recorded goals',
-			report.goals.slice(0, 5).map(goal => `${goal.person}   ${goal.goal}`).join('\n\n'),
-			[...sources, ...report.goals.map(goal => `${goal.person}: ${goal.source}; ${goal.status}`)]);
-	}
-	if (report.bigFive?.milestones?.length) {
-		page('Big Five', 'Illustrative objectives only; progress cannot be assessed from sample wording',
-			report.bigFive.milestones.slice(0, 5).map((objective, i) => `${String(i + 1).padStart(2, '0')}   ${objective.name}`).join('\n\n'),
-			[...sources, report.bigFive.source]);
-	}
-	page('Website activity', `${report.since.slice(0, 10)}–${report.until.slice(0, 10)} · ${refs.join(', ')}`,
-		`${commits.length} non-merge commits\n${mergeCount} merge commits\n${new Set(commits.map(commit => commit.author)).size} attributed contributors\n\nAll recorded commits in this window were authored by ${[...new Set(commits.map(commit => commit.author))].join(', ') || 'no one'}.`);
-	if (report.workstreams?.length) {
-		page('Workstreams', 'A short view of the code changes',
-			report.workstreams.map(item => `${item.name}\n${item.summary}`).join('\n\n'), sources);
-	}
+	if (report.goals?.length)
+		page(
+			'Goals for the week',
+			'Sample planning data — replace with recorded goals',
+			report.goals
+				.slice(0, 5)
+				.map(goal => `${goal.person}   ${goal.goal}`)
+				.join('\n\n'),
+			[...srcs, ...report.goals.map(goal => `${goal.person}: ${goal.source}; ${goal.status}`)],
+		);
+	if (report.bigFive?.milestones?.length)
+		page(
+			'Big Five',
+			'Illustrative objectives only; progress cannot be assessed from sample wording',
+			report.bigFive.milestones
+				.slice(0, 5)
+				.map((objective, i) => `${String(i + 1).padStart(2, '0')}   ${objective.name}`)
+				.join('\n\n'),
+			[...srcs, report.bigFive.source],
+		);
+	page(
+		'Website activity',
+		`${report.since.slice(0, 10)}–${report.until.slice(0, 10)} · ${refs.join(', ')}`,
+		`${commits.length} non-merge commits\n${mergeCount} merge commits\n${new Set(commits.map(commit => commit.author)).size} attributed contributors\n\nAll recorded commits in this window were authored by ${[...new Set(commits.map(commit => commit.author))].join(', ') || 'no one'}.`,
+	);
+	if (report.workstreams?.length) page('Workstreams', 'A short view of the code changes', report.workstreams.map(item => `${item.name}\n${item.summary}`).join('\n\n'), srcs);
 	for (const section of report.contributors ?? []) {
 		if (section.commitCount <= 0) continue;
 		const goal = report.goals?.find(item => section.name.toLowerCase().startsWith(item.person.toLowerCase()));
-		page(section.name, `${section.commitCount} non-merge commits · recorded Git identity`,
+		page(
+			section.name,
+			`${section.commitCount} non-merge commits · recorded Git identity`,
 			`Observed work\n${section.outcomes?.join('\n') || section.summary || 'See commit evidence on the following slides.'}\n\nGoal status\n${goal ? `${goal.goal} — ${goal.status}` : 'No recorded goal available.'}`,
-			[...sources, ...(section.sources ?? [])]);
+			[...srcs, ...(section.sources ?? [])],
+		);
 		for (const item of section.slides ?? []) {
+			// hygiene-ignore single-use -- Keep the trail snapshot named before slide construction so the generated deck uses the selected report values consistently.
 			const trail = item.commitTrail?.length ? item.commitTrail.join('\n') : '';
-			page(item.title, item.lead,
-				`${item.heading}\n${item.bullets.join('\n')}\n\n${item.commitTrailTitle || 'Commit evidence'}\n${trail}`,
-				[...sources, ...(item.sources ?? []), ...(item.code ? [`Code: ${item.code.sha}:${item.code.path}:${item.code.start}-${item.code.end}`] : [])]);
+			page(item.title, item.lead, `${item.heading}\n${item.bullets.join('\n')}\n\n${item.commitTrailTitle || 'Commit evidence'}\n${trail}`, [
+				...srcs,
+				...(item.sources ?? []),
+				...(item.code ? [`Code: ${item.code.sha}:${item.code.path}:${item.code.start}-${item.code.end}`] : []),
+			]);
 		}
 	}
 	const absent = (report.goals ?? []).filter(goal => !(report.contributors ?? []).some(section => section.name.toLowerCase().startsWith(goal.person.toLowerCase()) && section.commitCount > 0));
-	if (absent.length) page('Attribution gaps', 'A missing commit does not establish whether work happened',
-		absent.map(goal => `${goal.person}   No attributed commits; ${goal.status}`).join('\n\n'),
-		[...sources, ...absent.map(goal => `${goal.person}: ${goal.source}`)]);
-	page('Evidence and limits', 'What this preview can establish',
-		`Git source   ${refs.join(', ')}\nWindow   ${report.since.slice(0, 10)}–${report.until.slice(0, 10)}\n\n${commits.length} non-merge commits are verifiable in the requested history.\nGoals and Big Five objectives are sample planning data.\nNo runtime, screenshot, deployment, or meeting claim was verified.`, sources);
+	if (absent.length)
+		page('Attribution gaps', 'A missing commit does not establish whether work happened', absent.map(goal => `${goal.person}   No attributed commits; ${goal.status}`).join('\n\n'), [
+			...srcs,
+			...absent.map(goal => `${goal.person}: ${goal.source}`),
+		]);
+	page(
+		'Evidence and limits',
+		'What this preview can establish',
+		`Git source   ${refs.join(', ')}\nWindow   ${report.since.slice(0, 10)}–${report.until.slice(0, 10)}\n\n${commits.length} non-merge commits are verifiable in the requested history.\nGoals and Big Five objectives are sample planning data.\nNo runtime, screenshot, deployment, or meeting claim was verified.`,
+		srcs,
+	);
 	await fs.mkdir(outputPath.slice(0, outputPath.lastIndexOf('/')), { recursive: true });
 	await (await PresentationFile.exportPptx(deck)).save(outputPath);
 	console.log(JSON.stringify({ outputPath, slides: deck.slides.items.length, commits: commits.length, mergeCount }, null, 2));

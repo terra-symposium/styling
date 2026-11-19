@@ -7,19 +7,7 @@ description: Create and edit a Terra PowerPoint presentation.
 
 `@terra-symposium/styling/documents` creates a 12-slide illustrative `.pptx` demo and a `.potx` design template with eight structural designs with 12 colour choices each. Open them in PowerPoint; the deck also opens in Keynote.
 
-<Nodes direction={"TB"} height={440}
-	nodes={[
-		{"id": "create","type": "origin","position": {"x": 0,"y": 0},"data": {"title": "Create a deck"}},
-		{"id": "prepare","type": "process","position": {"x": 0,"y": 110},"data": {"title": "Choose a layout"}},
-		{"id": "edit","type": "process","position": {"x": 0,"y": 220},"data": {"title": "Replace sample content"}},
-		{"id": "review","type": "terminal","position": {"x": 0,"y": 330},"data": {"title": "Review in PowerPoint"}},
-	]}
-	edges={[
-		{"id": "create-prepare","source": "create","target": "prepare"},
-		{"id": "prepare-edit","source": "prepare","target": "edit"},
-		{"id": "edit-review","source": "edit","target": "review"},
-	]}
-/>
+<Nodes direction={"TB"} height={440} nodes={[ {"id": "create","type": "origin","position": {"x": 0,"y": 0},"data": {"title": "Create a deck"}}, {"id": "prepare","type": "process","position": {"x": 0,"y": 110},"data": {"title": "Choose a layout"}}, {"id": "edit","type": "process","position": {"x": 0,"y": 220},"data": {"title": "Replace sample content"}}, {"id": "review","type": "terminal","position": {"x": 0,"y": 330},"data": {"title": "Review in PowerPoint"}}, ]} edges={[ {"id": "create-prepare","source": "create","target": "prepare"}, {"id": "prepare-edit","source": "prepare","target": "edit"}, {"id": "edit-review","source": "edit","target": "review"}, ]} />
 
 ## Create
 
@@ -42,73 +30,73 @@ The demo follows a four-session workshop pilot from need to decision. The `.potx
 
 ===[Cover]
 
-![Terra illustrative pilot cover slide](/_docs/assets/styling/2-documents/assets/presentation-cover.png "Cover")
+![Terra illustrative pilot cover slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-cover.png 'Cover')
 
 ===
 
 ===[Homepage]
 
-![Terra illustrative pilot homepage marquee and cards slide](/_docs/assets/styling/2-documents/assets/presentation-homepage.png "Homepage")
+![Terra illustrative pilot homepage marquee and cards slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-homepage.png 'Homepage')
 
 ===
 
 ===[Cards and badges]
 
-![Four reusable homepage card treatments and two badge treatments](/_docs/assets/styling/2-documents/assets/presentation-cards-and-badges.png "Cards and badges")
+![Four reusable homepage card treatments and two badge treatments](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-cards-and-badges.png 'Cards and badges')
 
 ===
 
 ===[Section Public]
 
-![Terra illustrative pilot section public slide](/_docs/assets/styling/2-documents/assets/presentation-section-public.png "Section Public")
+![Terra illustrative pilot section public slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-section-public.png 'Section Public')
 
 ===
 
 ===[Theorist]
 
-![Terra illustrative pilot theorist slide](/_docs/assets/styling/2-documents/assets/presentation-theorist.png "Theorist")
+![Terra illustrative pilot theorist slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-theorist.png 'Theorist')
 
 ===
 
 ===[Content]
 
-![Terra illustrative pilot content slide](/_docs/assets/styling/2-documents/assets/presentation-content.png "Content")
+![Terra illustrative pilot content slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-content.png 'Content')
 
 ===
 
 ===[Section Demo]
 
-![Terra illustrative pilot section demo slide](/_docs/assets/styling/2-documents/assets/presentation-section-demo.png "Section Demo")
+![Terra illustrative pilot section demo slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-section-demo.png 'Section Demo')
 
 ===
 
 ===[Process]
 
-![Terra illustrative pilot process slide](/_docs/assets/styling/2-documents/assets/presentation-process.png "Process")
+![Terra illustrative pilot process slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-process.png 'Process')
 
 ===
 
 ===[Table]
 
-![Terra illustrative pilot table slide](/_docs/assets/styling/2-documents/assets/presentation-table.png "Table")
+![Terra illustrative pilot table slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-table.png 'Table')
 
 ===
 
 ===[Chart]
 
-![Terra illustrative pilot chart slide](/_docs/assets/styling/2-documents/assets/presentation-chart.png "Chart")
+![Terra illustrative pilot chart slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-chart.png 'Chart')
 
 ===
 
 ===[List]
 
-![Terra illustrative pilot list slide](/_docs/assets/styling/2-documents/assets/presentation-list.png "List")
+![Terra illustrative pilot list slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-list.png 'List')
 
 ===
 
 ===[Poster]
 
-![Terra illustrative pilot poster slide](/_docs/assets/styling/2-documents/assets/presentation-poster.png "Poster")
+![Terra illustrative pilot poster slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-poster.png 'Poster')
 
 ===
 

@@ -7,19 +7,7 @@ description: Create and edit a Terra spreadsheet.
 
 ## Workflow
 
-<Nodes direction={"TB"} height={440}
-	nodes={[
-		{"id": "create","type": "origin","position": {"x": 0,"y": 0},"data": {"title": "Create a workbook"}},
-		{"id": "prepare","type": "process","position": {"x": 0,"y": 110},"data": {"title": "Edit Inputs"}},
-		{"id": "edit","type": "process","position": {"x": 0,"y": 220},"data": {"title": "Check Overview"}},
-		{"id": "review","type": "terminal","position": {"x": 0,"y": 330},"data": {"title": "Review formulas"}},
-	]}
-	edges={[
-		{"id": "create-prepare","source": "create","target": "prepare"},
-		{"id": "prepare-edit","source": "prepare","target": "edit"},
-		{"id": "edit-review","source": "edit","target": "review"},
-	]}
-/>
+<Nodes direction={"TB"} height={440} nodes={[ {"id": "create","type": "origin","position": {"x": 0,"y": 0},"data": {"title": "Create a workbook"}}, {"id": "prepare","type": "process","position": {"x": 0,"y": 110},"data": {"title": "Edit Inputs"}}, {"id": "edit","type": "process","position": {"x": 0,"y": 220},"data": {"title": "Check Overview"}}, {"id": "review","type": "terminal","position": {"x": 0,"y": 330},"data": {"title": "Review formulas"}}, ]} edges={[ {"id": "create-prepare","source": "create","target": "prepare"}, {"id": "prepare-edit","source": "prepare","target": "edit"}, {"id": "edit-review","source": "edit","target": "review"}, ]} />
 
 ## Create
 
@@ -36,13 +24,13 @@ Enter work items on Inputs; Overview calculates project totals from those entrie
 
 ===[Inputs]
 
-![Spreadsheet Inputs sheet with sample work items](/_docs/assets/styling/2-documents/assets/spreadsheet-inputs.png "Inputs")
+![Spreadsheet Inputs sheet with sample work items](/styling-docs/_docs/assets/styling/2-documents/assets/spreadsheet-inputs.png 'Inputs')
 
 ===
 
 ===[Overview]
 
-![Spreadsheet Overview with calculated project counts](/_docs/assets/styling/2-documents/assets/spreadsheet-overview.png "Overview")
+![Spreadsheet Overview with calculated project counts](/styling-docs/_docs/assets/styling/2-documents/assets/spreadsheet-overview.png 'Overview')
 
 ===
 

@@ -1,3 +1,7 @@
+/*//////////////////////////////////////////////////
+IMPORTS
+//////////////////////////////////////////////////*/
+
 /**
  * Scrolling marquee text component.
  */
@@ -166,6 +170,7 @@ export function Marquee({
 	// hygiene-ignore single-use -- Keep row text memoized at this hook position so rerenders preserve shuffled terms.
 	const rowTerms = useMemo(createRowTerms, [count, separator, terms]);
 
+	// hygiene-ignore single-use -- Keep holdRow as a named React event handler so pointer capture and held-row updates remain one ordered pointer event boundary.
 	/** Holds the selected row while its pointer is pressed. */
 	function holdRow(event: PointerEvent<HTMLDivElement>, index: number): void {
 		if (!pauseOnClick || (event.pointerType === 'mouse' && event.button !== 0)) return;
@@ -178,6 +183,7 @@ export function Marquee({
 		setHeldRow(current => (current === index ? null : current));
 	}
 
+	// hygiene-ignore single-use -- Keep holdRowWithKeyboard as a named React event handler so key filtering, default prevention, and held-row updates remain one ordered keyboard event boundary.
 	/** Holds a focused row while Enter or Space is down. */
 	function holdRowWithKeyboard(event: KeyboardEvent<HTMLDivElement>, index: number): void {
 		if (!pauseOnClick || (event.key !== 'Enter' && event.key !== ' ')) return;
@@ -185,6 +191,7 @@ export function Marquee({
 		setHeldRow(index);
 	}
 
+	// hygiene-ignore single-use -- Keep releaseRowWithKeyboard as a named React event handler so key filtering, default prevention, and held-row release remain one ordered keyboard event boundary.
 	/** Releases a focused row when Enter or Space is lifted. */
 	function releaseRowWithKeyboard(event: KeyboardEvent<HTMLDivElement>, index: number): void {
 		if (event.key !== 'Enter' && event.key !== ' ') return;

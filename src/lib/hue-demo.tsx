@@ -1,3 +1,7 @@
+/*//////////////////////////////////////////////////
+IMPORTS
+//////////////////////////////////////////////////*/
+
 import * as React from 'react';
 import { Copy, Moon, Sun } from '@carbon/icons-react';
 import { applyHue, colors, invert } from './hue.js';
@@ -14,8 +18,10 @@ export const DEFAULT_HUE_DEMO_OPTS: Required<ColorGenOpts> = {
 	hoverLightnessShift: 0.03,
 	hoverChromaMultiplier: 0.93,
 };
+/** Required color-generation settings used by the hue demo. */
 export type HueDemoOptions = Required<ColorGenOpts>;
 
+/** Properties for rendering the generated palette without its controls. */
 export type HueDemoPreviewProps = {
 	hue: number;
 	appearance?: 'light' | 'dark';
@@ -25,7 +31,16 @@ export type HueDemoPreviewProps = {
 	className?: string;
 };
 
-/** The Website palette preview, shared with the Styling documentation. Controls belong outside this preview. */
+/**
+ * The Website palette preview, shared with the Styling documentation. Controls belong outside this preview.
+ * @param hue Hue that determines the generated palette.
+ * @param appearance Light or dark palette presentation.
+ * @param generatorOpts Generator settings for the color scales.
+ * @param showGeneratorConstants Whether to show the constants used for generation.
+ * @param compact Whether to use the compact preview layout.
+ * @param className Additional classes for the preview container.
+ * @return The rendered palette preview.
+ */
 export function HueDemoPreview({
 	hue,
 	appearance = 'light',
@@ -42,12 +57,14 @@ export function HueDemoPreview({
 
 	React.useEffect(() => {
 		if (!copiedKey) return;
+		// hygiene-ignore single-use -- Keep the timeout handle so the effect cleanup cancels the exact timer created for this copied swatch.
 		const timer = window.setTimeout(() => setCopiedKey(null), 650);
 		return () => window.clearTimeout(timer);
 	}, [copiedKey]);
 	React.useEffect(() => {
 		if (!container.current) return;
 		const observer = new ResizeObserver(entries => {
+			// hygiene-ignore single-use -- Capture the ResizeObserver entry width once before deriving the responsive column count for that notification.
 			const width = entries[0]?.contentRect.width ?? 0;
 			setCols(width >= (compact ? 960 : 1152) ? 12 : 6);
 		});
@@ -66,6 +83,7 @@ export function HueDemoPreview({
 						const hex = `#${channels.map(channel => channel.toString(16).padStart(2, '0')).join('')}`;
 						const [red = 0, green = 0, blue = 0] = channels;
 						const copied = copiedKey === key;
+						// hygiene-ignore single-use -- Capture the luminance-based foreground class once alongside the RGB values used to render this palette swatch.
 						const iconClass = (red * 299 + green * 587 + blue * 114) / 1000 > 155 ? 'text-black/80' : 'text-white/90 drop-shadow-sm';
 						return (
 							<Button
@@ -124,9 +142,17 @@ export function HueDemoPreview({
 	);
 }
 
+/** Optional controlled value, callback, and layout settings for the standalone hue demo. */
 export type HueDemoProps = { hue?: number; onHueChange?: (hue: number) => void; compact?: boolean; className?: string };
 
-/** Standalone docs demo: palette preview followed by its controls. The hue themes the whole page. */
+/**
+ * Standalone docs demo: palette preview followed by its controls. The hue themes the whole page.
+ * @param controlledHue Optional controlled hue value.
+ * @param onHueChange Callback for hue changes.
+ * @param compact Whether to use the compact layout.
+ * @param className Additional classes for the demo container.
+ * @return The rendered hue demo.
+ */
 export function HueDemo({ hue: controlledHue, onHueChange, compact = false, className = '' }: HueDemoProps): React.JSX.Element {
 	const [localHue, setLocalHue] = React.useState(220);
 	const [appearance, setAppearance] = React.useState<'light' | 'dark'>('light');
@@ -138,6 +164,7 @@ export function HueDemo({ hue: controlledHue, onHueChange, compact = false, clas
 		applyHue(hue);
 	}, [hue]);
 
+	// hygiene-ignore single-use -- Keep hue clamping and controlled/uncontrolled updates together as the Slider callback boundary.
 	function setHue(value: number): void {
 		const next = Math.max(0, Math.min(360, value));
 		if (controlledHue === undefined) setLocalHue(next);

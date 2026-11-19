@@ -1,6 +1,14 @@
+/*//////////////////////////////////////////////////
+IMPORTS
+//////////////////////////////////////////////////*/
+
 import * as React from 'react';
 import * as UI from '../../../../src/components/ui/index.js';
 
+/**
+ * Renders the toggle group component example.
+ * @return Renders the example and returns its React element.
+ */
 export default function Demo(): React.JSX.Element {
 	return (
 		<UI.ToggleGroup type='single' defaultValue='center'>

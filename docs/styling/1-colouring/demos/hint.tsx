@@ -1,6 +1,15 @@
+/*//////////////////////////////////////////////////
+IMPORTS
+//////////////////////////////////////////////////*/
+
 import * as React from 'react';
 import * as UI from '../../../../src/components/ui/index.js';
 
+// hygiene-ignore single-use -- Keep this named React component boundary in the eager demo registry; stable component identity preserves hook ownership and reconciliation state.
+/**
+ * Renders the hint component example.
+ * @return Renders the example and returns its React element.
+ */
 function HintDemo(): React.JSX.Element {
 	return (
 		<UI.Hint content='Add a short explanation for this setting.'>

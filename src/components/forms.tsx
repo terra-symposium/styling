@@ -206,7 +206,7 @@ COMPONENTS
  * @param htmlFor Control id used by the label and feedback descriptions.
  * @param orientation Places the control beside or beneath its label.
  * @param helper Optional explanatory content shown in a tooltip.
- * @param description Optional explanatory text shown below the control.
+ * @param desc Optional explanatory text shown below the control.
  * @param err Optional validation feedback shown below the control.
  *
  * @return A labelled field layout with its description and error feedback.

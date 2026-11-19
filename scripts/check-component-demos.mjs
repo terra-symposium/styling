@@ -1,9 +1,18 @@
+/*//////////////////////////////////////////////////
+IMPORTS
+//////////////////////////////////////////////////*/
+
 import ts from 'typescript';
 import { readFile, readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
+/**
+ * Creates the pattern used to strip optional quotes from generated object keys.
+ * @return A global pattern matching a quote at either key boundary.
+ */
 const G_REGEX = () => /^['"]|['"]$/g;
 
 const root = resolve(import.meta.dirname, '..');
+// hygiene-ignore single-use -- Read the complete authored file at module scope before parsing so I/O errors and parser diagnostics retain their order.
 const gen = await readFile(resolve(root, 'dist/cache/component-tsdocs.ts'), 'utf8');
 const match = /export const componentTsDocs = ([\s\S]*) as unknown as ComponentDocs;\s*$/.exec(gen);
 if (!match) throw new Error('Missing generated component documentation');
@@ -38,6 +47,11 @@ for (const slug of names) {
 	if (!demo.includes('export default')) throw new Error(`Incomplete ${slug} demo module`);
 	const demoFile = ts.createSourceFile(`${slug}.tsx`, demo, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
 	let code;
+	/**
+	 * Finds the authored copyable example string in a demo module.
+	 * @param node Syntax node in the demo source tree.
+	 * @return Nothing; stores the matching example source in the enclosing scan.
+	 */
 	function findCode(node) {
 		if (ts.isVariableDeclaration(node) && node.name.getText(demoFile) === 'exampleCode' && node.initializer && ts.isStringLiteral(node.initializer)) code = node.initializer.text;
 		ts.forEachChild(node, findCode);
@@ -54,9 +68,15 @@ for (const slug of names) {
 		if (unavailableImports.length) throw new Error(`${slug} example imports unavailable UI exports: ${unavailableImports.join(', ')}`);
 	}
 }
+// hygiene-ignore single-use -- Read the complete authored file at module scope before parsing so I/O errors and parser diagnostics retain their order.
 const notes = await readFile(resolve(demoDir, 'notes.ts'), 'utf8');
 const notesFile = ts.createSourceFile('notes.ts', notes, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
 const noteNames = new Set();
+/**
+ * Collects component slugs from the authored usage-notes object.
+ * @param node Syntax node in the usage-notes source tree.
+ * @return Nothing; adds discovered note keys to the enclosing set.
+ */
 function visitNotes(node) {
 	if (
 		ts.isVariableDeclaration(node) &&

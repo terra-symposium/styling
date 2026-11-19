@@ -5,9 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
-  '@terra-symposium/docs@0.4.28':
+  '@terra-symposium/docs@0.4.29':
     hash: a69dd628d83e7eb1dfcf633286c450f1cdf353dcc5b1b494efe823c10c2c99cf
-    path: patches/@terra-symposium__docs@0.4.28.patch
+    path: patches/@terra-symposium__docs@0.4.29.patch
 
 importers:
   .:
@@ -158,8 +158,8 @@ importers:
         specifier: 10.0.1
         version: 10.0.1(eslint@10.13.0(jiti@1.21.7))
       '@terra-symposium/docs':
-        specifier: ^0.4.28
-        version: 0.4.28(patch_hash=a69dd628d83e7eb1dfcf633286c450f1cdf353dcc5b1b494efe823c10c2c99cf)(@astrojs/markdown-satteri@0.4.5)(@types/node@24.19.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(esbuild@0.28.2)(jiti@1.21.7)(tsx@4.23.15)(xstate@5.33.3)
+        specifier: ^0.4.29
+        version: 0.4.29(patch_hash=a69dd628d83e7eb1dfcf633286c450f1cdf353dcc5b1b494efe823c10c2c99cf)(@astrojs/markdown-satteri@0.4.5)(@types/node@24.19.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(esbuild@0.28.2)(jiti@1.21.7)(tsx@4.23.15)(xstate@5.33.3)
       '@terra-symposium/hygiene':
         specifier: ^2.5.0
         version: 2.5.0(eslint@10.13.0(jiti@1.21.7))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -2167,8 +2167,8 @@ packages:
       react: '>=18'
       react-dom: '>=18'
 
-  '@terra-symposium/docs@0.4.28':
-    resolution: { integrity: sha512-NFIKievfe0jcoGhHbGvh6VzSBJ1wkJ06LqQFH94KZW02oCETZLQ0Oh02bMK+fJffPif5ryGUKIB3SE4pGa1AxA== }
+  '@terra-symposium/docs@0.4.29':
+    resolution: { integrity: sha512-DMzKytUkvlZMdTgXHMtt09XVuuqbNsNKHSI2U91u3luFgnxshGB59lmijgf/wdzwk0GLble412ZpZlm+aOaa0g== }
     engines: { node: '>=24.12.0' }
     hasBin: true
 
@@ -7013,7 +7013,7 @@ snapshots:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  '@terra-symposium/docs@0.4.28(patch_hash=a69dd628d83e7eb1dfcf633286c450f1cdf353dcc5b1b494efe823c10c2c99cf)(@astrojs/markdown-satteri@0.4.5)(@types/node@24.19.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(esbuild@0.28.2)(jiti@1.21.7)(tsx@4.23.15)(xstate@5.33.3)':
+  '@terra-symposium/docs@0.4.29(patch_hash=a69dd628d83e7eb1dfcf633286c450f1cdf353dcc5b1b494efe823c10c2c99cf)(@astrojs/markdown-satteri@0.4.5)(@types/node@24.19.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(esbuild@0.28.2)(jiti@1.21.7)(tsx@4.23.15)(xstate@5.33.3)':
     dependencies:
       '@astrojs/markdown-remark': 7.3.5
       '@astrojs/mdx': 8.1.2(@astrojs/markdown-remark@7.3.5)(@astrojs/markdown-satteri@0.4.5)(astro@7.4.2(@astrojs/markdown-remark@7.3.5)(@types/node@24.19.2)(esbuild@0.28.2)(jiti@1.21.7)(tsx@4.23.15)(yaml@2.9.1))

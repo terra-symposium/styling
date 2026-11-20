@@ -308,6 +308,6 @@ const slugType = Object.keys(cache)
 	.map(slug => JSON.stringify(slug))
 	.join(' | ');
 // hygiene-ignore single-use -- Keep the cacheType serialization stage materialized once before assembling the generated component reference cache.
-const cacheType = `type ComponentDocs = Record<${slugType}, { title: string; description: string; group: string; source: string; demoExport: string; shadcnUrl?: string; members: { name: string; signature: string; summary: string; tags: { name: string; text: string }[]; props: { name: string; type: string; description: string; optional: boolean; defaultValue?: string; choices: string[] }[] }[] }>;`;
+const cacheType = `// hygiene-ignore single-use -- Keep the generated Docs metadata shape named so every component entry shares one checked contract.\ntype ComponentDocs = Record<${slugType}, { title: string; description: string; group: string; source: string; demoExport: string; shadcnUrl?: string; members: { name: string; signature: string; summary: string; tags: { name: string; text: string }[]; props: { name: string; type: string; description: string; optional: boolean; defaultValue?: string; choices: string[] }[] }[] }>;`;
 await writeFile(join(root, 'dist/cache/component-tsdocs.ts'), `${cacheType}\nexport const componentTsDocs = ${JSON.stringify(cache, null, 2)} as unknown as ComponentDocs;\n`);
 console.log(`Generated TypeScript references for ${Object.keys(cache).length} components.`);

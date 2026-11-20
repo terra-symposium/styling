@@ -8,11 +8,12 @@ import * as UI from '../../../../src/components/ui/index.js';
 // hygiene-ignore single-use -- Keep this named React component boundary in the eager demo registry; stable component identity preserves hook ownership and reconciliation state.
 /**
  * Renders the accordion component example.
+ * @param variant - Appearance variant selected in the workbench.
  * @return Renders the example and returns its React element.
  */
-function AccordionDemo(): React.JSX.Element {
+function AccordionDemo({ variant }: { variant?: string }): React.JSX.Element {
 	return (
-		<UI.Accordion type='single' collapsible defaultValue='overview' className='w-full'>
+		<UI.Accordion variant={variant as React.ComponentProps<typeof UI.Accordion>['variant']} type='single' collapsible defaultValue='overview' className='w-full'>
 			<UI.AccordionItem value='overview'>
 				<UI.AccordionTrigger>Project overview</UI.AccordionTrigger>
 				<UI.AccordionContent>Review the project status, owner, and next milestone.</UI.AccordionContent>

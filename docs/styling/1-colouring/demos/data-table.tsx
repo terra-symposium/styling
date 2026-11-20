@@ -14,11 +14,13 @@ import * as UI from '../../../../src/components/ui/index.js';
 /**
  * Shows a small two-column table in the component catalog.
  *
+ * @param variant - Appearance variant selected in the workbench.
  * @return The DataTable preview.
  */
-function DataTableDemo(): React.JSX.Element {
+function DataTableDemo({ variant }: { variant?: string }): React.JSX.Element {
 	return (
 		<UI.DataTable
+			variant={variant as React.ComponentProps<typeof UI.DataTable>['variant']}
 			rows={[{ name: 'Kai', role: 'Designer' }]}
 			columns={[
 				{ key: 'name', label: 'Name' },

@@ -7,11 +7,12 @@ import * as UI from '../../../../src/components/ui/index.js';
 
 /**
  * Renders the toggle group component example.
+ * @param variant - Appearance variant selected in the workbench.
  * @return Renders the example and returns its React element.
  */
-export default function Demo(): React.JSX.Element {
+export default function Demo({ variant }: { variant?: string }): React.JSX.Element {
 	return (
-		<UI.ToggleGroup type='single' defaultValue='center'>
+		<UI.ToggleGroup variant={variant as React.ComponentProps<typeof UI.ToggleGroup>['variant']} type='single' defaultValue='center'>
 			<UI.ToggleGroupItem value='left'>Left</UI.ToggleGroupItem>
 			<UI.ToggleGroupItem value='center'>Center</UI.ToggleGroupItem>
 			<UI.ToggleGroupItem value='right'>Right</UI.ToggleGroupItem>

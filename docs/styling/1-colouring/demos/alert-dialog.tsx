@@ -8,9 +8,10 @@ import { Trigger as AlertDialogTrigger } from '@radix-ui/react-alert-dialog';
 
 /**
  * Renders the alert dialog component example.
+ * @param variant - Appearance variant selected in the workbench.
  * @return Renders the example and returns its React element.
  */
-export default function Demo(): React.JSX.Element {
+export default function Demo({ variant }: { variant?: string }): React.JSX.Element {
 	return (
 		<UI.AlertDialog>
 			<AlertDialogTrigger asChild>
@@ -23,7 +24,7 @@ export default function Demo(): React.JSX.Element {
 				</UI.AlertDialogHeader>
 				<UI.AlertDialogFooter>
 					<UI.AlertDialogCancel>Cancel</UI.AlertDialogCancel>
-					<UI.AlertDialogAction>Delete</UI.AlertDialogAction>
+					<UI.AlertDialogAction variant={variant as React.ComponentProps<typeof UI.AlertDialogAction>['variant']}>Delete</UI.AlertDialogAction>
 				</UI.AlertDialogFooter>
 			</UI.AlertDialogContent>
 		</UI.AlertDialog>

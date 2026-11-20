@@ -8,14 +8,25 @@ import * as UI from '../../../../src/components/ui/index.js';
 // hygiene-ignore single-use -- Keep this named React component boundary in the eager demo registry; stable component identity preserves hook ownership and reconciliation state.
 /**
  * Renders the tabs component example.
+ * @param variant - Appearance variant selected in the workbench.
+ * @param triggerVariant - Appearance variant for each tab trigger.
+ * @param selection - Style used to show the selected tab.
  * @return Renders the example and returns its React element.
  */
-function TabsDemo(): React.JSX.Element {
+function TabsDemo({ variant, triggerVariant, selection }: { variant?: string; triggerVariant?: string; selection?: 'none' | 'surface' | 'line' }): React.JSX.Element {
 	return (
 		<UI.Tabs defaultValue='overview' className='w-full'>
-			<UI.TabsList aria-label='Project details'>
-				<UI.TabsTrigger value='overview'>Overview</UI.TabsTrigger>
-				<UI.TabsTrigger value='activity'>Activity</UI.TabsTrigger>
+			<UI.TabsList
+				variant={variant as React.ComponentProps<typeof UI.TabsList>['variant']}
+				aria-label='Project details'
+				className={variant === 'dashboard-nav' ? 'rounded bg-primary-12 px-3' : undefined}
+			>
+				<UI.TabsTrigger variant={triggerVariant as React.ComponentProps<typeof UI.TabsTrigger>['variant']} selection={selection} value='overview'>
+					Overview
+				</UI.TabsTrigger>
+				<UI.TabsTrigger variant={triggerVariant as React.ComponentProps<typeof UI.TabsTrigger>['variant']} selection={selection} value='activity'>
+					Activity
+				</UI.TabsTrigger>
 			</UI.TabsList>
 			<UI.TabsContent value='overview'>
 				<p>Review the project status, owner, and next milestone.</p>

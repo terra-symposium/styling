@@ -7,16 +7,17 @@ import * as UI from '../../../../src/components/ui/index.js';
 
 /**
  * Renders the dropdown menu component example.
+ * @param variant - Appearance variant selected in the workbench.
  * @return Renders the example and returns its React element.
  */
-export default function Demo(): React.JSX.Element {
+export default function Demo({ variant }: { variant?: string }): React.JSX.Element {
 	return (
 		<UI.DropdownMenu>
 			<UI.DropdownMenuTrigger asChild>
 				<UI.Button size='sm'>Actions</UI.Button>
 			</UI.DropdownMenuTrigger>
 			<UI.DropdownMenuContent>
-				<UI.DropdownMenuItem>Rename</UI.DropdownMenuItem>
+				<UI.DropdownMenuItem variant={variant === 'default' ? undefined : 'destructive'}>Rename</UI.DropdownMenuItem>
 				<UI.DropdownMenuItem>Duplicate</UI.DropdownMenuItem>
 			</UI.DropdownMenuContent>
 		</UI.DropdownMenu>

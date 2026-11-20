@@ -46,7 +46,7 @@ function renderTabsList(listProps: TabsListProps, ref: React.ForwardedRef<React.
 			aria-label={props['aria-label'] ?? 'Tab options'}
 			className={cn(
 				'mb-2 inline-flex items-center justify-center gap-2',
-				variant === 'line' && 'gap-1 rounded-none bg-transparent',
+				variant === 'line' && 'w-full justify-start gap-0 rounded-none border-b border-primary-6 bg-transparent',
 				variant === 'dashboard-nav' && 'h-auto w-max min-w-max justify-start gap-[2.35rem] rounded-none bg-transparent p-0 max-[1440px]:gap-2 max-[1180px]:gap-1 max-[640px]:gap-3',
 				className,
 			)}
@@ -86,7 +86,7 @@ function renderTabsTrigger(triggerProps: TabsTriggerProps, ref: React.ForwardedR
 				selection === 'surface' &&
 					'data-[state=active]:border-primary-4 data-[state=active]:bg-primary-3 data-[state=active]:text-primary-12 data-[state=active]:hover:bg-primary-4 data-[state=active]:shadow-sm',
 				selection === 'line' &&
-					'relative rounded-none after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:rounded-full after:bg-current after:opacity-0 after:content-[""] data-[state=active]:after:opacity-100',
+					'relative -mb-px rounded-none border-0 bg-transparent px-4 py-2 font-normal text-primary-11 shadow-none hover:bg-transparent hover:text-primary-12 enabled:hover:no-underline after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:bg-primary-9 after:opacity-0 after:content-[""] data-[state=active]:font-semibold data-[state=active]:text-primary-12 data-[state=active]:after:opacity-100',
 				!dashboardNav && 'group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start',
 				className,
 			)}

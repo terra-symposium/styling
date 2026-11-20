@@ -9,8 +9,6 @@ IMPORTS
 
 // API
 import * as React from 'react';
-import Prism from 'prismjs';
-import 'prismjs/components/prism-typescript.js';
 
 // COMPONENTS
 import { componentTsDocs } from '../../../dist/cache/component-tsdocs.js';
@@ -42,6 +40,15 @@ const COMP_GROUPS = new Map(
 	),
 );
 const NON_DISPLAY_PROPS = new Set(['children', 'className', 'style', 'key', 'ref']);
+const GRID_GAP_4_CLASS = 'grid gap-4';
+const ROUNDED_BORDER_P_4_CLASS = 'rounded border p-4';
+const CONTROL_GRID_STYLE: React.CSSProperties = { gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 14rem), 1fr))' };
+/** Authored previews and copyable snippets, keyed by their file slug. */
+const DEMO_REGISTRY = Object.fromEntries(
+	Object.entries(
+		import.meta.glob<{ default: React.ComponentType<{ variant?: string; triggerVariant?: string; selection?: 'none' | 'surface' | 'line' }>; exampleCode: string }>('./demos/*.tsx', { eager: true }),
+	).map(([path, module]) => [path.slice(path.lastIndexOf('/') + 1, -4), { Preview: module.default, code: module.exampleCode }]),
+) as Record<CompSlug, { Preview: React.ComponentType<{ variant?: string; triggerVariant?: string; selection?: 'none' | 'surface' | 'line' }>; code: string }>;
 
 /** A compact index; interactive examples and API details live on each component page.
  *
@@ -83,35 +90,36 @@ export function ComponentCatalog(): React.JSX.Element {
 	);
 }
 
-const GRID_GAP_4_CLASS = 'grid gap-4';
-const ROUNDED_BORDER_P_4_CLASS = 'rounded border p-4';
-
-/** Authored previews and copyable snippets, keyed by their file slug. */
-const DEMO_REGISTRY = Object.fromEntries(
-	Object.entries(import.meta.glob<{ default: React.ComponentType; exampleCode: string }>('./demos/*.tsx', { eager: true })).map(([path, module]) => [
-		path.slice(path.lastIndexOf('/') + 1, -4),
-		{ Preview: module.default, code: module.exampleCode },
-	]),
-) as Record<CompSlug, { Preview: React.ComponentType; code: string }>;
-
 /*//////////////////////////////////////////////////
 DEMO RENDERING
 //////////////////////////////////////////////////*/
 
-// hygiene-ignore single-use -- Keep this named React component boundary in the eager demo registry; stable component identity preserves hook ownership and reconciliation state.
 /**
  * Renders the authored preview for a documented component.
  *
  * @param comp - Slug of the component whose preview should be shown.
+ * @param variant - Selected appearance variant.
+ * @param triggerVariant - Selected tab trigger variant.
+ * @param selection - Selected tab treatment.
  * @return The component's interactive preview.
  */
-export function ComponentDemo({ component: comp }: { component: CompSlug }): React.JSX.Element {
+export function ComponentDemo({
+	component: comp,
+	variant,
+	triggerVariant,
+	selection,
+}: {
+	component: CompSlug;
+	variant?: string;
+	triggerVariant?: string;
+	selection?: 'none' | 'surface' | 'line';
+}): React.JSX.Element {
 	// hygiene-ignore single-use -- Keep Preview as a named intermediate to preserve the current evaluation order in this generated output path.
 	const Preview = DEMO_REGISTRY[comp].Preview;
-	return <Preview />;
+	return <Preview variant={variant} triggerVariant={triggerVariant} selection={selection} />;
 }
 
-// hygiene-ignore single-use -- Keep this named React component boundary in the eager demo registry; stable component identity preserves hook ownership and reconciliation state.
+// hygiene-ignore single-use -- Keep this exported workbench boundary because generated Docs pages import it directly.
 /**
  * Selects the interactive workbench available for a component.
  *
@@ -121,7 +129,9 @@ export function ComponentDemo({ component: comp }: { component: CompSlug }): Rea
 export function ComponentWorkbench({ component: comp }: { component: CompSlug }): React.JSX.Element {
 	if (comp === 'button') return <ButtonWorkbench />;
 	if (comp === 'card') return <CardWorkbench />;
+	if (comp === 'tabs') return <TabsWorkbench />;
 	if (SIMPLE_CONTROLS[comp]) return <SimpleWorkbench component={comp} />;
+	if (VARIANT_TARGETS[comp]) return <VariantWorkbench component={comp} />;
 	return <ExampleTabs preview={<ComponentDemo component={comp} />} code={DEMO_REGISTRY[comp].code} />;
 }
 
@@ -134,13 +144,13 @@ export function ComponentWorkbench({ component: comp }: { component: CompSlug })
  */
 function ExampleTabs({ preview, code }: { preview: React.ReactNode; code: string }): React.JSX.Element {
 	return (
-		<UI.Tabs defaultValue='rendered'>
+		<UI.Tabs defaultValue='rendered' className='min-w-0 max-w-full'>
 			<UI.TabsList aria-label='Example view'>
 				<UI.TabsTrigger value='rendered'>Rendered</UI.TabsTrigger>
 				<UI.TabsTrigger value='code'>Code</UI.TabsTrigger>
 			</UI.TabsList>
 			<UI.TabsContent value='rendered'>{preview}</UI.TabsContent>
-			<UI.TabsContent value='code'>
+			<UI.TabsContent value='code' className='min-w-0 max-w-full overflow-x-auto'>
 				<CopyableCode code={code} />
 			</UI.TabsContent>
 		</UI.Tabs>
@@ -151,27 +161,151 @@ function ExampleTabs({ preview, code }: { preview: React.ReactNode; code: string
 WORKBENCH CONTROLS
 //////////////////////////////////////////////////*/
 
-/** Colour families exposed by the Button and Card workbenches. */
-type Color = 'primary' | 'secondary' | 'gray' | 'destructive' | 'success' | 'caution';
-/** Visual treatments selectable in the component workbenches. */
-type Treatment = 'saturated' | 'outline' | 'ghost' | 'tonal' | 'glass' | 'underline';
-const COLORS: Color[] = ['primary', 'secondary', 'gray', 'destructive', 'success', 'caution'];
-const TREATMENTS: Treatment[] = ['saturated', 'outline', 'ghost', 'tonal', 'glass', 'underline'];
-const BUTTON_SIZES = ['xs', 'sm', 'md', 'lg', 'xl', 'icon', 'icon-xs', 'icon-sm', 'icon-lg'] as const;
+/** Colour families and visual treatments available in component variants. */
+const COLORS = ['primary', 'secondary', 'gray', 'destructive', 'success', 'caution'] as const;
+const TREATMENTS = ['saturated', 'outline', 'ghost', 'tonal', 'glass', 'underline'] as const;
+const CARD_TREATMENTS = ['saturated', 'outline', 'ghost', 'tonal', 'glass'] as const;
+const ACTION_TYPES = ['default', ...TREATMENTS] as const;
+const BUTTON_TYPES = [...ACTION_TYPES, 'dashboard-nav', 'plain', 'authority', 'connection', 'drawer'] as const;
+const CARD_SURFACES = ['default', ...CARD_TREATMENTS, 'transparent', 'dark', 'error', 'correct', 'info', 'warning', 'control'] as const;
+const BUTTON_VARIANTS = [
+	...COLORS.flatMap(color => [color, ...TREATMENTS.map(treatment => `${color}-${treatment}`)]),
+	'default',
+	'outline',
+	'ghost',
+	'tonal',
+	'underline',
+	'ghost-destructive',
+	'dashboard-nav',
+	'plain',
+	'authority',
+	'connection',
+	'drawer',
+];
+const SURFACE_VARIANTS = [
+	...COLORS,
+	...COLORS.flatMap(color => TREATMENTS.filter(treatment => treatment !== 'underline').map(treatment => `${color}-${treatment}`)),
+	...COLORS.map(color => `${color}-default`),
+	'transparent',
+	'dark',
+	'error',
+	'correct',
+	'info',
+	'warning',
+	'control',
+];
+const BUTTON_SIZES = ['default', 'xs', 'sm', 'md', 'lg', 'xl', 'icon', 'icon-xs', 'icon-sm', 'icon-lg'] as const;
 /**
- * Reads finite prop choices from generated API docs when they are practical to display.
+ * Combines generated finite prop choices with authored variants missing from the reference.
  *
  * @param comp - Component whose prop is being controlled.
  * @param prop - Prop name to inspect in the generated reference.
- * @param fallback - Authored choices used when the reference has no small finite set.
- * @return Generated choices when available, otherwise the fallback choices.
+ * @param fallback - Authored choices to include alongside the generated reference.
+ * @param memberName - API member that owns the controlled prop.
+ * @return Every distinct generated and authored choice.
  */
-function finiteChoices(comp: CompSlug, prop: string, fallback: readonly string[]): readonly string[] {
-	const docs = componentTsDocs[comp];
-	// hygiene-ignore single-use -- Keep member as a named render value so the generated preview and copyable source use the same controlled component selection.
-	const member = docs.members.find(item => item.name === docs.demoExport);
-	const choices = member?.props.find(item => item.name === prop)?.choices;
-	return choices && choices.length > 0 && choices.length <= 20 ? choices : fallback;
+function finiteChoices(comp: CompSlug, prop: string, fallback: readonly string[], memberName = componentTsDocs[comp].demoExport): readonly string[] {
+	return [...new Set([...(componentTsDocs[comp].members.find(item => item.name === memberName)?.props.find(item => item.name === prop)?.choices ?? []), ...fallback])];
+}
+
+/** The element carrying the appearance variant in each authored component example. */
+const VARIANT_TARGETS: Partial<Record<CompSlug, { member: string; initial: string; fallback?: readonly string[]; omitDefault?: boolean }>> = {
+	accordion: { member: 'Accordion', initial: 'default' },
+	'alert-dialog': { member: 'AlertDialogAction', initial: 'default', fallback: BUTTON_VARIANTS },
+	bubble: { member: 'Bubble', initial: 'default' },
+	carousel: { member: 'CarouselPrevious', initial: 'default', fallback: BUTTON_VARIANTS },
+	combobox: { member: 'Combobox', initial: 'default', fallback: BUTTON_VARIANTS },
+	'data-table': { member: 'DataTable', initial: 'default' },
+	dialog: { member: 'DialogContent', initial: 'primary-tonal', fallback: SURFACE_VARIANTS },
+	'dropdown-menu': { member: 'DropdownMenuItem', initial: 'default', fallback: ['default', 'destructive'], omitDefault: true },
+	'form-select': { member: 'FormSelect', initial: 'default' },
+	'password-input': { member: 'PasswordInput', initial: 'primary' },
+	pagination: { member: 'PaginationItem', initial: 'default', fallback: BUTTON_VARIANTS },
+	'radio-group': { member: 'RadioGroupItem', initial: 'primary' },
+	select: { member: 'SelectTrigger', initial: 'default' },
+	sheet: { member: 'SheetContent', initial: 'primary-tonal', fallback: SURFACE_VARIANTS },
+	sidebar: { member: 'Sidebar', initial: 'sidebar' },
+	'toggle-group': { member: 'ToggleGroup', initial: 'default' },
+};
+
+/**
+ * Updates the demonstrated JSX tag so the copyable source matches the selected variant.
+ *
+ * @param code - Authored JSX snippet.
+ * @param member - JSX element whose variant changes.
+ * @param variant - Selected appearance variant.
+ * @param omitDefault - Whether to omit the implicit default prop from source.
+ * @return JSX with the selected variant on the specified element.
+ */
+function codeWithVariant(code: string, member: string, variant: string, omitDefault = false): string {
+	return code.replace(new RegExp(`<${member}(?=[\\s/>])([^>]*?)>`, 'g'), (_match, attrs: string) => {
+		const clean = attrs.replace(/\s+variant=(?:'[^']*'|"[^"]*")/, '');
+		return `<${member}${clean.replace(/\/\s*$/, '')}${omitDefault && variant === 'default' ? '' : ` variant='${variant}'`}${/\/\s*$/.test(clean) ? ' /' : ''}>`;
+	});
+}
+
+// hygiene-ignore single-use -- Retain a stable React component boundary for independent variant state and hook order.
+/**
+ * Shows a selected variant of a component's authored example.
+ *
+ * @param comp - Component whose example is shown.
+ * @return A variant selector with live preview and source.
+ */
+function VariantWorkbench({ component: comp }: { component: CompSlug }): React.JSX.Element {
+	const target = VARIANT_TARGETS[comp]!;
+	const [variant, setVariant] = React.useState(target.initial);
+	return (
+		<div className={GRID_GAP_4_CLASS}>
+			<DemoSelect label={`${target.member} variant`} value={variant} choices={finiteChoices(comp, 'variant', target.fallback ?? [], target.member)} onChange={setVariant} />
+			<ExampleTabs preview={<ComponentDemo component={comp} variant={variant} />} code={codeWithVariant(DEMO_REGISTRY[comp].code, target.member, variant, target.omitDefault)} />
+		</div>
+	);
+}
+
+// hygiene-ignore single-use -- Retain a stable React component boundary for Tabs state and hook order.
+/**
+ * Selects trigger type, colour, and a combined surface and layout treatment.
+ *
+ * @return Tabs controls with live preview and source.
+ */
+function TabsWorkbench(): React.JSX.Element {
+	const [type, setType] = React.useState<(typeof ACTION_TYPES)[number]>('tonal');
+	const [color, setColor] = React.useState<(typeof COLORS)[number]>('gray');
+	const [surface, setSurface] = React.useState<'none' | 'surface' | 'line' | 'dashboard-nav'>('surface');
+	const layout = surface === 'line' ? 'line' : surface === 'dashboard-nav' ? 'dashboard-nav' : 'default';
+	const selection = surface === 'dashboard-nav' ? 'none' : surface;
+	const triggerVariant = layout === 'dashboard-nav' ? 'dashboard-nav' : type === 'default' ? color : `${color}-${type}`;
+	return (
+		<div className={GRID_GAP_4_CLASS}>
+			<div className='grid gap-3' style={CONTROL_GRID_STYLE}>
+				<DemoSelect
+					label='Type'
+					value={type}
+					choices={ACTION_TYPES}
+					onChange={choice => {
+						setType(choice as typeof type);
+						if (surface === 'dashboard-nav') setSurface('surface');
+					}}
+				/>
+				<DemoSelect
+					label='Colour'
+					value={color}
+					choices={COLORS}
+					onChange={value => {
+						setColor(value as typeof color);
+						if (surface === 'dashboard-nav') setSurface('surface');
+					}}
+				/>
+				<DemoSelect label='Surface' value={surface} choices={['none', 'surface', 'line', 'dashboard-nav']} onChange={value => setSurface(value as typeof surface)} />
+			</div>
+			<ExampleTabs
+				preview={<ComponentDemo component='tabs' variant={layout} triggerVariant={triggerVariant} selection={selection} />}
+				code={codeWithVariant(DEMO_REGISTRY.tabs.code, 'TabsList', layout)
+					.replace("aria-label='Project details'", `aria-label='Project details'${layout === 'dashboard-nav' ? " className='rounded bg-primary-12 px-3'" : ''}`)
+					.replaceAll('<TabsTrigger ', `<TabsTrigger variant='${triggerVariant}' selection='${selection}' `)}
+			/>
+		</div>
+	);
 }
 
 /**
@@ -185,21 +319,24 @@ function finiteChoices(comp: CompSlug, prop: string, fallback: readonly string[]
  */
 function DemoSelect({ label, value, choices, onChange }: { label: string; value: string; choices: readonly string[]; onChange: (value: string) => void }): React.JSX.Element {
 	const id = React.useId();
+	const [container, setContainer] = React.useState<HTMLElement | null>(null);
 	return (
-		<div className='grid gap-2'>
-			<UI.Label htmlFor={id}>{label}</UI.Label>
-			<UI.Select value={value} onValueChange={onChange}>
-				<UI.SelectTrigger id={id} className='w-full'>
-					<UI.SelectValue />
-				</UI.SelectTrigger>
-				<UI.SelectContent>
-					{choices.map(choice => (
-						<UI.SelectItem key={choice} value={choice}>
-							{choice}
-						</UI.SelectItem>
-					))}
-				</UI.SelectContent>
-			</UI.Select>
+		<div ref={setContainer} className='grid gap-2'>
+			<UI.PortalContainerProvider container={container}>
+				<UI.Label htmlFor={id}>{label}</UI.Label>
+				<UI.Select value={value} onValueChange={onChange}>
+					<UI.SelectTrigger id={id} className='w-full'>
+						<UI.SelectValue />
+					</UI.SelectTrigger>
+					<UI.SelectContent>
+						{choices.map(choice => (
+							<UI.SelectItem key={choice} value={choice}>
+								{choice}
+							</UI.SelectItem>
+						))}
+					</UI.SelectContent>
+				</UI.Select>
+			</UI.PortalContainerProvider>
 		</div>
 	);
 }
@@ -229,22 +366,30 @@ function DemoCheckbox({ label, checked, onChange }: { label: string; checked: bo
  * @return Button controls with a live preview and matching source.
  */
 function ButtonWorkbench(): React.JSX.Element {
-	const [color, setColor] = React.useState<Color>('primary');
-	const [treatment, setTreatment] = React.useState<Treatment>('saturated');
+	const [color, setColor] = React.useState<(typeof COLORS)[number]>('primary');
+	const [type, setType] = React.useState<(typeof BUTTON_TYPES)[number]>('saturated');
 	const [size, setSize] = React.useState<(typeof BUTTON_SIZES)[number]>('md');
 	const [disabled, setDisabled] = React.useState(false);
 	const [loading, setLoading] = React.useState(false);
 	const [loadingText, setLoadingText] = React.useState('Saving…');
 	const [icon, setIcon] = React.useState(false);
-	const variant = `${color}-${treatment}` as React.ComponentProps<typeof UI.Button>['variant'];
 	const iconOnly = size.startsWith('icon');
+	const variant = (type === 'default' ? color : TREATMENTS.some(treatment => treatment === type) ? `${color}-${type}` : type) as React.ComponentProps<typeof UI.Button>['variant'];
 	// hygiene-ignore single-use -- Keep snippet as a named render value so the generated preview and copyable source use the same controlled component selection.
 	const snippet = `import { Button } from '@terra-symposium/styling/ui';${icon ? "\nimport { Star } from '@carbon/icons-react';" : ''}\n\n<Button variant='${variant}' size='${size}'${disabled ? ' disabled' : ''}${loading ? ' loading' : ''}${loading && loadingText ? ` loadingText='${loadingText}'` : ''}${iconOnly ? " aria-label='Save'" : ''}>${icon ? "<Star aria-hidden className='size-4' />" : ''}${iconOnly ? '' : 'Save'}</Button>`;
 	return (
 		<div className={GRID_GAP_4_CLASS}>
-			<div className='grid gap-3 sm:grid-cols-3'>
-				<DemoSelect label='Color' value={color} choices={COLORS} onChange={value => setColor(value as Color)} />
-				<DemoSelect label='Treatment' value={treatment} choices={TREATMENTS} onChange={value => setTreatment(value as Treatment)} />
+			<div className='grid gap-3' style={CONTROL_GRID_STYLE}>
+				<DemoSelect
+					label='Colour'
+					value={color}
+					choices={COLORS}
+					onChange={value => {
+						setColor(value as typeof color);
+						if (!ACTION_TYPES.some(choice => choice === type)) setType('saturated');
+					}}
+				/>
+				<DemoSelect label='Type' value={type} choices={BUTTON_TYPES} onChange={value => setType(value as typeof type)} />
 				<DemoSelect label='Size' value={size} choices={BUTTON_SIZES} onChange={value => setSize(value as (typeof BUTTON_SIZES)[number])} />
 			</div>
 			<div className='flex flex-wrap gap-4'>
@@ -279,18 +424,26 @@ function ButtonWorkbench(): React.JSX.Element {
  * @return Card controls with a live preview and matching source.
  */
 function CardWorkbench(): React.JSX.Element {
-	const [color, setColor] = React.useState<Color>('primary');
-	const [treatment, setTreatment] = React.useState<Exclude<Treatment, 'underline'>>('tonal');
+	const [color, setColor] = React.useState<(typeof COLORS)[number]>('primary');
+	const [surface, setSurface] = React.useState<(typeof CARD_SURFACES)[number]>('tonal');
 	const [size, setSize] = React.useState<'xs' | 'sm' | 'md' | 'lg' | 'xl'>('md');
 	const [interactive, setInteractive] = React.useState(false);
-	const variant = `${color}-${treatment}` as React.ComponentProps<typeof UI.Card>['variant'];
+	const variant = (surface === 'default' ? color : CARD_TREATMENTS.some(treatment => treatment === surface) ? `${color}-${surface}` : surface) as React.ComponentProps<typeof UI.Card>['variant'];
 	// hygiene-ignore single-use -- Keep snippet as a named render value so the generated preview and copyable source use the same controlled component selection.
 	const snippet = `import { Card } from '@terra-symposium/styling/ui';\n\n<Card variant='${variant}' size='${size}'${interactive ? " href='#component-example-heading'" : ''}>Project update</Card>`;
 	return (
 		<div className={GRID_GAP_4_CLASS}>
-			<div className='grid gap-3 sm:grid-cols-3'>
-				<DemoSelect label='Color' value={color} choices={COLORS} onChange={value => setColor(value as Color)} />
-				<DemoSelect label='Treatment' value={treatment} choices={TREATMENTS.filter(value => value !== 'underline')} onChange={value => setTreatment(value as Exclude<Treatment, 'underline'>)} />
+			<div className='grid gap-3' style={CONTROL_GRID_STYLE}>
+				<DemoSelect
+					label='Colour'
+					value={color}
+					choices={COLORS}
+					onChange={value => {
+						setColor(value as typeof color);
+						if (!CARD_TREATMENTS.some(treatment => treatment === surface) && surface !== 'default') setSurface('tonal');
+					}}
+				/>
+				<DemoSelect label='Surface' value={surface} choices={CARD_SURFACES} onChange={value => setSurface(value as typeof surface)} />
 				<DemoSelect label='Size' value={size} choices={finiteChoices('card', 'size', ['xs', 'sm', 'md', 'lg', 'xl'])} onChange={value => setSize(value as typeof size)} />
 			</div>
 			<DemoCheckbox label='Interactive' checked={interactive} onChange={setInteractive} />
@@ -314,18 +467,18 @@ function CardWorkbench(): React.JSX.Element {
 	);
 }
 
-// hygiene-ignore single-use -- Keep this named React component boundary in the eager demo registry; stable component identity preserves hook ownership and reconciliation state.
 /**
  * Renders an example snippet with the shared Docs code renderer.
  *
- * @param code - TSX snippet to display and copy.
+ * @param code - Source to display and copy.
+ * @param lang - Syntax language for the Docs code block.
  * @return The formatted, copyable code example.
  */
-function CopyableCode({ code }: { code: string }): React.JSX.Element {
+function CopyableCode({ code, lang = 'tsx' }: { code: string; lang?: string }): React.JSX.Element {
 	return renderCode({
 		attributes: {},
 		children: <></>,
-		node: { _type: 'code', _key: 'component-example', value: code, language: 'tsx' },
+		node: { _type: 'code', _key: 'component-example', value: code, language: lang },
 		path: [],
 		readOnly: true,
 	});
@@ -369,15 +522,23 @@ const SIMPLE_CONTROLS: Partial<
 function SimpleWorkbench({ component: comp }: { component: CompSlug }): React.JSX.Element {
 	const control = SIMPLE_CONTROLS[comp]!;
 	const [value, setValue] = React.useState(control.initial);
+	const variantChoices = ['alert', 'badge', 'empty', 'input', 'textarea', 'toggle'].includes(comp)
+		? finiteChoices(comp, 'variant', comp === 'alert' ? ['default', ...SURFACE_VARIANTS] : control.prop === 'variant' ? control.values : [])
+		: [];
+	const [variant, setVariant] = React.useState(comp === 'alert' ? 'default' : 'primary');
 	// hygiene-ignore single-use -- Keep importName as a named render value so the generated preview and copyable source use the same controlled component selection.
 	const importName = comp === 'alert' ? `Alert${value[0]!.toUpperCase() + value.slice(1)}` : componentTsDocs[comp].demoExport;
 	let preview: React.ReactNode;
 	let code: string;
 	switch (comp) {
 		case 'alert': {
-			const Alert = { info: UI.AlertInfo, success: UI.AlertSuccess, warning: UI.AlertWarning, error: UI.AlertError }[value] ?? UI.AlertInfo;
-			preview = <Alert title={`${value} notice`}>This is a {value} message.</Alert>;
-			code = `<Alert${value[0]!.toUpperCase() + value.slice(1)} title='${value} notice'>This is a ${value} message.</Alert${value[0]!.toUpperCase() + value.slice(1)}>`;
+			preview = (
+				<UI.Alert variant={variant as React.ComponentProps<typeof UI.Alert>['variant']}>
+					<UI.AlertTitle>{value} notice</UI.AlertTitle>
+					<UI.AlertDescription>This is a {value} message.</UI.AlertDescription>
+				</UI.Alert>
+			);
+			code = `<Alert variant='${variant}'><AlertTitle>${value} notice</AlertTitle><AlertDescription>This is a ${value} message.</AlertDescription></Alert>`;
 			break;
 		}
 		case 'avatar':
@@ -393,12 +554,12 @@ function SimpleWorkbench({ component: comp }: { component: CompSlug }): React.JS
 			code = `<Empty title='No items yet' description='Create one to get started.' variant='${value}' />`;
 			break;
 		case 'input':
-			preview = <UI.Input type={value} placeholder='Enter a value' aria-label='Example value' />;
-			code = `<Input type='${value}' placeholder='Enter a value' aria-label='Example value' />`;
+			preview = <UI.Input variant={variant as React.ComponentProps<typeof UI.Input>['variant']} type={value} placeholder='Enter a value' aria-label='Example value' />;
+			code = `<Input variant='${variant}' type='${value}' placeholder='Enter a value' aria-label='Example value' />`;
 			break;
 		case 'textarea':
-			preview = <UI.Textarea rows={Number(value)} placeholder='Write a note' />;
-			code = `<Textarea rows={${value}} placeholder='Write a note' />`;
+			preview = <UI.Textarea variant={variant as React.ComponentProps<typeof UI.Textarea>['variant']} rows={Number(value)} placeholder='Write a note' />;
+			code = `<Textarea variant='${variant}' rows={${value}} placeholder='Write a note' />`;
 			break;
 		case 'progress':
 			preview = <UI.Progress value={Number(value)} aria-label='Progress' />;
@@ -436,19 +597,25 @@ function SimpleWorkbench({ component: comp }: { component: CompSlug }): React.JS
 			break;
 		case 'toggle':
 			preview = (
-				<UI.Toggle key={value} defaultPressed={value === 'true'} aria-label='Bold'>
+				<UI.Toggle key={value} variant={variant as React.ComponentProps<typeof UI.Toggle>['variant']} defaultPressed={value === 'true'} aria-label='Bold'>
 					Bold
 				</UI.Toggle>
 			);
-			code = `<Toggle defaultPressed={${value}} aria-label='Bold'>Bold</Toggle>`;
+			code = `<Toggle variant='${variant}' defaultPressed={${value}} aria-label='Bold'>Bold</Toggle>`;
 			break;
 		default:
 			throw new Error(`Missing simple demo for ${comp}`);
 	}
 	return (
 		<div className={GRID_GAP_4_CLASS}>
-			<DemoSelect label={control.label} value={value} choices={finiteChoices(comp, control.prop, control.values)} onChange={setValue} />
-			<ExampleTabs preview={<div className={ROUNDED_BORDER_P_4_CLASS}>{preview}</div>} code={`import { ${importName} } from '@terra-symposium/styling/ui';\n\n${code}`} />
+			<div className='grid gap-3' style={CONTROL_GRID_STYLE}>
+				<DemoSelect label={control.label} value={value} choices={finiteChoices(comp, control.prop, control.values)} onChange={setValue} />
+				{variantChoices.length > 0 && control.prop !== 'variant' ? <DemoSelect label='Variant' value={variant} choices={variantChoices} onChange={setVariant} /> : null}
+			</div>
+			<ExampleTabs
+				preview={<div className={ROUNDED_BORDER_P_4_CLASS}>{preview}</div>}
+				code={`import { ${comp === 'alert' ? 'Alert, AlertTitle, AlertDescription' : importName} } from '@terra-symposium/styling/ui';\n\n${code}`}
+			/>
 		</div>
 	);
 }
@@ -478,9 +645,9 @@ function createApiCols(): DataTableColumn<(typeof componentTsDocs)[CompSlug]['me
 			label: 'TypeScript signature',
 			width: 'wider-wrapped',
 			render: member => (
-				<pre className='max-w-xl overflow-x-auto whitespace-pre-wrap break-words text-xs [&_.keyword]:text-blue-400 [&_.number]:text-amber-400 [&_.operator]:text-primary-10 [&_.punctuation]:text-primary-9 [&_.string]:text-green-400'>
-					<code className='language-typescript' dangerouslySetInnerHTML={{ __html: Prism.highlight(member.signature, Prism.languages.typescript, 'typescript') }} />
-				</pre>
+				<div className='min-w-0 max-w-xl overflow-x-auto [&_.docs-code-block]:mb-0'>
+					<CopyableCode code={member.signature} lang='typescript' />
+				</div>
 			),
 		},
 	];
@@ -500,20 +667,20 @@ export function ComponentReference({ component: comp }: { component: CompSlug })
 		.filter(member => member.props.length > 0);
 	return (
 		<div className='docs-block-flow'>
-			<p>{docs.description}</p>
-			<p>
-				Source:{' '}
-				<a href={`https://github.com/Terra-Symposium/styling/blob/development/${docs.source}`}>
-					<code>{docs.source}</code>
-				</a>{' '}
-				{'shadcnUrl' in docs && docs.shadcnUrl && (
-					<a href={docs.shadcnUrl} target='_blank' rel='noreferrer'>
-						shadcn/ui reference
-					</a>
-				)}
-			</p>
 			<section className='docs-block-flow' aria-labelledby='component-usage-heading'>
 				<h2 id='component-usage-heading'>Usage</h2>
+				<p>{docs.description}</p>
+				<p>
+					Source:{' '}
+					<a href={`https://github.com/Terra-Symposium/styling/blob/development/${docs.source}`}>
+						<code>{docs.source}</code>
+					</a>{' '}
+					{'shadcnUrl' in docs && docs.shadcnUrl && (
+						<a href={docs.shadcnUrl} target='_blank' rel='noreferrer'>
+							shadcn/ui reference
+						</a>
+					)}
+				</p>
 				<p>{componentNotes[comp]}</p>
 				<h3 id='component-example-heading'>Rendered Example</h3>
 				<aside className='docs-block my-0 flow-root' data-docs-aside='example'>

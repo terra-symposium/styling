@@ -50,7 +50,7 @@ pnpm run docs:build
 
 `pnpm run docs` builds the package, then starts the local Astro Docs site. `pnpm run docs:build` builds the package, checks the documentation, and writes the static site to `dist/docs/`.
 
-Add guide pages as Markdown or MDX files under `docs/styling/<section>/`. The Docs site discovers those files, derives routes from their paths, and builds nested navigation automatically. Frontmatter supplies page titles, descriptions, and optional order. The component catalog and interactive demos live beside the Colouring pages; a dynamic route serves component references generated from the public TypeScript API.
+Add guide leaves as Markdown or MDX files under `docs/styling/<branch>/`. The `styling` folder is the navigation tree; its child folders are branches. The Docs site discovers those files, derives routes from their paths, and builds nested navigation automatically. Frontmatter supplies leaf titles and descriptions; numeric file prefixes set order. The component catalog and interactive demos live beside the Colouring leaves; a dynamic route serves component references generated from the public TypeScript API.
 
 ## Checks
 

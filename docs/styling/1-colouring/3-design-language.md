@@ -15,6 +15,6 @@ Terra combines expressive editorial moments with a quiet, readable working inter
 
 The public homepage balances a large coloured hero against a calm reading column. The slide cover uses the same relationship, scaled for a 16:9 canvas. This reference was captured from the local Website route with a generated hue; another load can produce a different colour.
 
-![Terra Symposium public homepage with a dark hue field, pale reading column, and workshop photo](/styling-docs/_docs/assets/styling/1-colouring/3-design-language/assets/website-home.png 'Public Website · editorial field and reading column')
+![Terra Symposium public homepage with a dark hue field, pale reading column, and workshop photo](/_docs/assets/styling/1-colouring/3-design-language/assets/website-home.png 'Public Website · editorial field and reading column')
 
-See [Typography](./4-typography.md), [Hue and colour](./0-hue.mdx), [Composition](./5-composition.md), and [Brand assets](./6-brand-assets.md) for the individual rules. The implementation checklist lives in the repository [UI skill](https://github.com/Terra-Symposium/styling/blob/development/.agents/skills/ui/references/terra-design-language.md).
+See [Typography](/styling/1-colouring/4-typography/), [Hue and colour](/styling/1-colouring/0-hue/), [Composition](/styling/1-colouring/5-composition/), and [Brand assets](/styling/1-colouring/6-brand-assets/) for the individual rules. The implementation checklist lives in the repository [UI skill](https://github.com/Terra-Symposium/styling/blob/development/.agents/skills/ui/references/terra-design-language.md).

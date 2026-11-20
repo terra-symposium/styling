@@ -30,73 +30,73 @@ The demo follows a four-session workshop pilot from need to decision. The `.potx
 
 ===[Cover]
 
-![Terra illustrative pilot cover slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-cover.png 'Cover')
+![Terra illustrative pilot cover slide](/_docs/assets/styling/2-documents/assets/presentation-cover.png 'Cover')
 
 ===
 
 ===[Homepage]
 
-![Terra illustrative pilot homepage marquee and cards slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-homepage.png 'Homepage')
+![Terra illustrative pilot homepage marquee and cards slide](/_docs/assets/styling/2-documents/assets/presentation-homepage.png 'Homepage')
 
 ===
 
 ===[Cards and badges]
 
-![Four reusable homepage card treatments and two badge treatments](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-cards-and-badges.png 'Cards and badges')
+![Four reusable homepage card treatments and two badge treatments](/_docs/assets/styling/2-documents/assets/presentation-cards-and-badges.png 'Cards and badges')
 
 ===
 
 ===[Section Public]
 
-![Terra illustrative pilot section public slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-section-public.png 'Section Public')
+![Terra illustrative pilot section public slide](/_docs/assets/styling/2-documents/assets/presentation-section-public.png 'Section Public')
 
 ===
 
 ===[Theorist]
 
-![Terra illustrative pilot theorist slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-theorist.png 'Theorist')
+![Terra illustrative pilot theorist slide](/_docs/assets/styling/2-documents/assets/presentation-theorist.png 'Theorist')
 
 ===
 
 ===[Content]
 
-![Terra illustrative pilot content slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-content.png 'Content')
+![Terra illustrative pilot content slide](/_docs/assets/styling/2-documents/assets/presentation-content.png 'Content')
 
 ===
 
 ===[Section Demo]
 
-![Terra illustrative pilot section demo slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-section-demo.png 'Section Demo')
+![Terra illustrative pilot section demo slide](/_docs/assets/styling/2-documents/assets/presentation-section-demo.png 'Section Demo')
 
 ===
 
 ===[Process]
 
-![Terra illustrative pilot process slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-process.png 'Process')
+![Terra illustrative pilot process slide](/_docs/assets/styling/2-documents/assets/presentation-process.png 'Process')
 
 ===
 
 ===[Table]
 
-![Terra illustrative pilot table slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-table.png 'Table')
+![Terra illustrative pilot table slide](/_docs/assets/styling/2-documents/assets/presentation-table.png 'Table')
 
 ===
 
 ===[Chart]
 
-![Terra illustrative pilot chart slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-chart.png 'Chart')
+![Terra illustrative pilot chart slide](/_docs/assets/styling/2-documents/assets/presentation-chart.png 'Chart')
 
 ===
 
 ===[List]
 
-![Terra illustrative pilot list slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-list.png 'List')
+![Terra illustrative pilot list slide](/_docs/assets/styling/2-documents/assets/presentation-list.png 'List')
 
 ===
 
 ===[Poster]
 
-![Terra illustrative pilot poster slide](/styling-docs/_docs/assets/styling/2-documents/assets/presentation-poster.png 'Poster')
+![Terra illustrative pilot poster slide](/_docs/assets/styling/2-documents/assets/presentation-poster.png 'Poster')
 
 ===
 
@@ -112,4 +112,4 @@ await editPresentationTemplate('product-direction.pptx', 'final.pptx', {
 });
 ```
 
-See [Design language](../1-colouring/3-design-language.md) for the visual rules and the [document guide](https://github.com/Terra-Symposium/styling/blob/development/src/documents/GUIDE.md) for all brand options and editing details.
+See [Design language](/styling/1-colouring/3-design-language/) for the visual rules and the [document guide](https://github.com/Terra-Symposium/styling/blob/development/src/documents/GUIDE.md) for all brand options and editing details.

@@ -1,9 +1,11 @@
 ---
 title: Recovered development notes
 description: Undated legacy source material from the Docs Backup; current repository docs remain authoritative.
+sidebar:
+  hidden: true
 ---
 
-# Recovered development notes
+## Recovered development notes
 
 These notes preserve the backup’s original reasoning and proposals. Verify claims against current source before using them as implementation guidance. Exact original MDX files are under `archive/docs-backup/development/`.
 
@@ -13,9 +15,7 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 
 > ## Overview
 >
-> These standards describe how Terra Symposium interfaces should feel and behave. Styling decisions
-> should strengthen hierarchy, make actions obvious, and preserve the project's established visual
-> language.
+> These standards describe how Terra Symposium interfaces should feel and behave. Styling decisions should strengthen hierarchy, make actions obvious, and preserve the project's established visual language.
 >
 > ### Styling priorities
 >
@@ -78,8 +78,7 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ### Section map
 >
-> Use this page from broadest decision to narrowest. Start with workflow and hierarchy, then move into
-> layout, typography, components, and icon rules.
+> Use this page from broadest decision to narrowest. Start with workflow and hierarchy, then move into layout, typography, components, and icon rules.
 >
 > <table>
 >   <thead>
@@ -130,21 +129,15 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ## Workflow
 >
-> Styling work should move from broad structure to detail. Start with hierarchy and layout, then add
-> colour, typography, and polish once the interface already works.
+> Styling work should move from broad structure to detail. Start with hierarchy and layout, then add colour, typography, and polish once the interface already works.
 >
 > ### Design loop
 >
-> The most effective workflow is cyclical rather than exhaustive. Build a simple version first, then
-> refine only the problems revealed by the real interface.
+> The most effective workflow is cyclical rather than exhaustive. Build a simple version first, then refine only the problems revealed by the real interface.
 >
 > :::tip[Work in low fidelity]
 >
-> To focus on layout and structure without distraction, sketch with a thick marker on paper or work in
-> To focus on layout and structure without distraction, sketch with a thick marker on paper or work in
-> greyscale first. This forces hierarchy to come from spacing, contrast, and size before colour does
-> the work.
->
+> To focus on layout and structure without distraction, sketch with a thick marker on paper or work in To focus on layout and structure without distraction, sketch with a thick marker on paper or work in greyscale first. This forces hierarchy to come from spacing, contrast, and size before colour does the work.
 
 > :::
 >
@@ -195,8 +188,7 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ### Personality
 >
-> Every design communicates a personality, whether it is secure, playful, elegant, or utilitarian.
-> Typography, colour, borders, and language all influence that impression.
+> Every design communicates a personality, whether it is secure, playful, elegant, or utilitarian. Typography, colour, borders, and language all influence that impression.
 >
 > <table>
 >   <thead>
@@ -252,8 +244,7 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ### Systems
 >
-> Limitless choices slow the design process and create visual drift. Define systems for colour, type,
-> spacing, and shadow before refining the final look.
+> Limitless choices slow the design process and create visual drift. Define systems for colour, type, spacing, and shadow before refining the final look.
 >
 > <table>
 >   <thead>
@@ -293,13 +284,11 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ## Visual Hierarchy
 >
-> Visual hierarchy determines what the reader notices first, second, and last. A well-designed screen
-> guides attention without needing labels everywhere.
+> Visual hierarchy determines what the reader notices first, second, and last. A well-designed screen guides attention without needing labels everywhere.
 >
 > ### Hierarchy tools
 >
-> Do not rely on font size alone to create hierarchy. Most interfaces need a restrained combination of
-> size, weight, and colour.
+> Do not rely on font size alone to create hierarchy. Most interfaces need a restrained combination of size, weight, and colour.
 >
 > <table>
 >   <thead>
@@ -337,17 +326,13 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > :::tip[Hierarchy trio]
 >
-> Create a strong and subtle hierarchy by combining size, weight, and colour rather than overusing any
-> Create a strong and subtle hierarchy by combining size, weight, and colour rather than overusing any
-> one of them.
->
+> Create a strong and subtle hierarchy by combining size, weight, and colour rather than overusing any one of them.
 
 > :::
 >
 > ### Supporting emphasis
 >
-> Hierarchy also depends on what you de-emphasise. Use background-aware text colours, softer inactive
-> states, and context-first phrasing to reduce clutter.
+> Hierarchy also depends on what you de-emphasise. Use background-aware text colours, softer inactive states, and context-first phrasing to reduce clutter.
 >
 > <table>
 >   <thead>
@@ -414,8 +399,7 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ### Action priority
 >
-> Buttons and links should look as important as their consequence, not merely as important as their
-> semantic tag.
+> Buttons and links should look as important as their consequence, not merely as important as their semantic tag.
 >
 > <table>
 >   <thead>
@@ -454,13 +438,11 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ## Layout
 >
-> Layouts define the structural experience of the application. They should make content grouping,
-> navigation, and reading width feel intentional across screen sizes.
+> Layouts define the structural experience of the application. They should make content grouping, navigation, and reading width feel intentional across screen sizes.
 >
 > ### Layout roles
 >
-> Layouts are foundational components. They provide a shared frame so pages stay consistent even when
-> their content and controls differ.
+> Layouts are foundational components. They provide a shared frame so pages stay consistent even when their content and controls differ.
 >
 > _Interactive diagram or component retained in the original source._
 >
@@ -513,8 +495,7 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ### Spacing system
 >
-> A systematic approach to spacing makes layouts easier to reason about. Use Tailwind's built-in scale
-> rather than arbitrary pixel values.
+> A systematic approach to spacing makes layouts easier to reason about. Use Tailwind's built-in scale rather than arbitrary pixel values.
 >
 > <table>
 >   <thead>
@@ -558,17 +539,13 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > :::caution[Grouping rule]
 >
-> To visually group related items, make the space between groups at least twice as large as the space
-> To visually group related items, make the space between groups at least twice as large as the space
-> within a group. This creates clearer, more scannable sections.
->
+> To visually group related items, make the space between groups at least twice as large as the space To visually group related items, make the space between groups at least twice as large as the space within a group. This creates clearer, more scannable sections.
 
 > :::
 >
 > ### Responsive structure
 >
-> Layouts must degrade cleanly on smaller screens. Preserve hierarchy and grouping when columns stack
-> or sidebars collapse.
+> Layouts must degrade cleanly on smaller screens. Preserve hierarchy and grouping when columns stack or sidebars collapse.
 >
 > <table>
 >   <thead>
@@ -611,20 +588,17 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ### Responsive priority
 >
-> When space is tight, preserve hierarchy first, then preserve decoration. Content should stack before
-> it becomes visually cramped.
+> When space is tight, preserve hierarchy first, then preserve decoration. Content should stack before it becomes visually cramped.
 >
 > ---
 >
 > ## Typography
 >
-> Typography is one of the strongest tools for clarity. A restrained scale and readable rhythm will
-> usually outperform a larger catalogue of decorative decisions.
+> Typography is one of the strongest tools for clarity. A restrained scale and readable rhythm will usually outperform a larger catalogue of decorative decisions.
 >
 > ### Type scale
 >
-> Use Tailwind's default type scale and avoid inventing excessive intermediate sizes. Most interfaces
-> only need a small set of reliable steps.
+> Use Tailwind's default type scale and avoid inventing excessive intermediate sizes. Most interfaces only need a small set of reliable steps.
 >
 > <table>
 >   <thead>
@@ -693,8 +667,7 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ### Font selection
 >
-> Typeface quality matters. A few simple heuristics help you choose fonts that stay legible under real
-> UI conditions.
+> Typeface quality matters. A few simple heuristics help you choose fonts that stay legible under real UI conditions.
 >
 > <table>
 >   <thead>
@@ -726,8 +699,7 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ### Readability rules
 >
-> Readable typography depends on more than type size. Line length, alignment, and line height should
-> all reinforce the content's density and role.
+> Readable typography depends on more than type size. Line length, alignment, and line height should all reinforce the content's density and role.
 >
 > <table>
 >   <thead>
@@ -771,9 +743,7 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > :::example[Proportional line height in Tailwind]
 >
-> \n  &#x20; \\&#x20; \\&#x20; \\&#x9;This is a paragraph of small text. The\n  `leading-relaxed` &#x20; class \\&#x20; adds space \\&#x20; between lines to\n  make it \\&#x9;easier to read. &#x20; \\ \\ \\ \\\n</p>\n\n\\ \\ \\ \\\n<h1 class\\=\"text-4xl font-bold leading-tight\">This heading is large\\</h1>"} />
->
->
+> \n &#x20; \\&#x20; \\&#x20; \\&#x9;This is a paragraph of small text. The\n `leading-relaxed` &#x20; class \\&#x20; adds space \\&#x20; between lines to\n make it \\&#x9;easier to read. &#x20; \\ \\ \\ \\\n</p>\n\n\\ \\ \\ \\\n<h1 class\\=\"text-4xl font-bold leading-tight\">This heading is large\\</h1>"} />
 
 > :::
 >
@@ -781,13 +751,11 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ## Components
 >
-> Component styling should stay consistent with the existing system. Prefer composing reliable
-> building blocks over hand-rolling one-off UI primitives.
+> Component styling should stay consistent with the existing system. Prefer composing reliable building blocks over hand-rolling one-off UI primitives.
 >
 > ### Shadcn usage
 >
-> Components are sourced from [Shadcn](https://ui.shadcn.com/docs/components), with minimal alteration
-> to fit Terra Symposium's visual language.
+> Components are sourced from [Shadcn](https://ui.shadcn.com/docs/components), with minimal alteration to fit Terra Symposium's visual language.
 >
 > <table>
 >   <thead>
@@ -819,15 +787,12 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 > :::example[Using a Shadcn component]
 >
 > \n\\&#x9;\t\tClick Me\n\\&#x9;\t\\\n\\&#x9;);\n}"} />
->
->
 
 > :::
 >
 > ### Interaction states
 >
-> Components must communicate state clearly. A beautiful interface that hides focus, disabled, or
-> loading states is still a poor interface.
+> Components must communicate state clearly. A beautiful interface that hides focus, disabled, or loading states is still a poor interface.
 >
 > <table>
 >   <thead>
@@ -869,8 +834,7 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ### Motion
 >
-> Motion should support comprehension, not decorate empty space. Keep it purposeful, restrained, and
-> compatible with accessibility preferences.
+> Motion should support comprehension, not decorate empty space. Keep it purposeful, restrained, and compatible with accessibility preferences.
 >
 > <table>
 >   <thead>
@@ -903,20 +867,17 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ### State priority
 >
-> If motion and clarity conflict, clarity wins. A state change must remain obvious even when reduced
-> motion is enabled.
+> If motion and clarity conflict, clarity wins. A state change must remain obvious even when reduced motion is enabled.
 >
 > ---
 >
 > ## Iconography
 >
-> Icons should come from the approved source for the environment they appear in. Keep the visual
-> vocabulary consistent across the web app and the CMS.
+> Icons should come from the approved source for the environment they appear in. Keep the visual vocabulary consistent across the web app and the CMS.
 >
 > ### Icon sources
 >
-> Choose the icon library based on runtime context, not personal preference. The import path should
-> make that choice obvious.
+> Choose the icon library based on runtime context, not personal preference. The import path should make that choice obvious.
 >
 > <table>
 >   <thead>
@@ -947,38 +908,28 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > ### Source priority
 >
-> Choose the icon set by environment first, then by metaphor. Do not mix libraries arbitrarily within
-> the same context.
+> Choose the icon set by environment first, then by metaphor. Do not mix libraries arbitrarily within the same context.
 >
 > ### Astro icons
 >
-> Icons for the web application should come from
-> [Carbon Icons](https://carbondesignsystem.com/guidelines/icons/library/). Keep class names
-> consistent with the surrounding typography and spacing.
+> Icons for the web application should come from [Carbon Icons](https://carbondesignsystem.com/guidelines/icons/library/). Keep class names consistent with the surrounding typography and spacing.
 >
-> _Interactive diagram or component retained in the original source._
-> "} />
+> _Interactive diagram or component retained in the original source._ "} />
 >
 > ### Sanity icons
 >
-> Icons in the CMS should use Carbon Icons where possible, and
-> [Sanity Icons](https://icons.sanity.build/all) only when the Carbon set does not provide the needed
-> metaphor.
+> Icons in the CMS should use Carbon Icons where possible, and [Sanity Icons](https://icons.sanity.build/all) only when the Carbon set does not provide the needed metaphor.
 >
 > _Interactive diagram or component retained in the original source._
 >
 > ### Reserved icons
 >
-> Some icons are reserved for fixed meanings. They must remain exclusive to those contexts so the
-> visual language stays stable for users.
+> Some icons are reserved for fixed meanings. They must remain exclusive to those contexts so the visual language stays stable for users.
 >
 > :::caution[Reserved icons]
 >
-> These icons must always be used in their reserved contexts and never repurposed for other meanings.
-> These icons must always be used in their reserved contexts and never repurposed for other meanings.
+> These icons must always be used in their reserved contexts and never repurposed for other meanings. These icons must always be used in their reserved contexts and never repurposed for other meanings.
 >
 > _Interactive diagram or component retained in the original source._
->
->
 
 :::

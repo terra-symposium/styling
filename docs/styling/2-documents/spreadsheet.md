@@ -24,13 +24,13 @@ Enter work items on Inputs; Overview calculates project totals from those entrie
 
 ===[Inputs]
 
-![Spreadsheet Inputs sheet with sample work items](/styling-docs/_docs/assets/styling/2-documents/assets/spreadsheet-inputs.png 'Inputs')
+![Spreadsheet Inputs sheet with sample work items](/_docs/assets/styling/2-documents/assets/spreadsheet-inputs.png 'Inputs')
 
 ===
 
 ===[Overview]
 
-![Spreadsheet Overview with calculated project counts](/styling-docs/_docs/assets/styling/2-documents/assets/spreadsheet-overview.png 'Overview')
+![Spreadsheet Overview with calculated project counts](/_docs/assets/styling/2-documents/assets/spreadsheet-overview.png 'Overview')
 
 ===
 

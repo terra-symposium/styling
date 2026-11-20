@@ -27,13 +27,13 @@ Open each editable Word type to inspect its template. Replace the invoice placeh
 
 ===[Invoice]
 
-![Word invoice with recipient, line items and payment placeholders](/styling-docs/_docs/assets/styling/2-documents/assets/document-invoice.png 'Invoice')
+![Word invoice with recipient, line items and payment placeholders](/_docs/assets/styling/2-documents/assets/document-invoice.png 'Invoice')
 
 ===
 
 ===[Word styles]
 
-![Word style example with headings, lists and tables](/styling-docs/_docs/assets/styling/2-documents/assets/document-style-guide.png 'Word styles')
+![Word style example with headings, lists and tables](/_docs/assets/styling/2-documents/assets/document-style-guide.png 'Word styles')
 
 ===
 

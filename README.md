@@ -12,7 +12,9 @@ pnpm run build
 pnpm run docs:build
 ```
 
-The guide content lives in [`docs/`](docs/). `@terra-symposium/docs` supplies its Astro site, navigation, search, styling, and 404 page. Run `pnpm run docs` to preview it locally or `pnpm run docs:build` to write the static site to `dist/docs/`. The Components catalog shows live previews for every exported component family. One generated detail route serves every component slug, with API references extracted from TypeScript exports and JSDoc. Agent workflows live in [`.agents/skills/`](.agents/skills/); the guide links to them where relevant. Relative Markdown links and assets work from the content tree. The site is served from the domain root.
+The guide content lives in [`docs/`](docs/). `@terra-symposium/docs` supplies its Astro site, navigation, search, styling, and 404 page. Run `pnpm run docs` to preview it locally or `pnpm run docs:build` to write the static site to `dist/docs/`. The Components catalog shows live previews for every exported component family. One generated detail route serves every component slug, with API references extracted from TypeScript exports and JSDoc. Agent workflows live in [`.agents/skills/`](.agents/skills/); the guide links to them where relevant. The site is served from the domain root; reference screenshots use `/_docs/assets/...` URLs for assets copied from the content tree.
+
+The [component pipeline](docs/styling/0-repository-guide/3-component-pipeline.md) maps source exports, authored usage notes, live demos, generated API data, and the reference route.
 
 ## Usage
 

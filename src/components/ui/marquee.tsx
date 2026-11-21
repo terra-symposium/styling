@@ -1,3 +1,6 @@
+/**
+ * src/components/ui/marquee.tsx
+ */
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
@@ -12,7 +15,9 @@ import { cn } from '../../lib/cn.js';
 
 const SPEEDS = [0.86, 1.08, 0.93, 1.17, 0.98, 1.12, 0.9, 1.04];
 
-/** Configuration for repeated text, animation, interaction, and responsive row layout. */
+/**
+ * Configuration for repeated text, animation, interaction, and responsive row layout.
+ */
 export type MarqueeProps = {
 	reverse?: boolean;
 	alternate?: boolean;
@@ -29,9 +34,13 @@ export type MarqueeProps = {
 	separator?: string;
 	rows?: number;
 	fit?: boolean;
-	/** Wait to show the marquee until its responsive layout is measured. */
+	/**
+	 * Wait to show the marquee until its responsive layout is measured.
+	 */
 	measureBeforeShow?: boolean;
-	/** Give each row a random starting offset that stays fixed as it resizes. */
+	/**
+	 * Give each row a random starting offset that stays fixed as it resizes.
+	 */
 	randomizeDelay?: boolean;
 };
 
@@ -94,7 +103,9 @@ export function Marquee({
 	function setupLayoutEffect(): (() => void) | undefined {
 		if (!root.current) return;
 		const node = root.current;
-		/** Recalculates the number of rows, repeated terms, and stable offsets. */
+		/**
+		 * Recalculates the number of rows, repeated terms, and stable offsets.
+		 */
 		function updateLayout(): void {
 			let containerHeight = node.clientHeight;
 			for (let ancestor = node.parentElement; ancestor; ancestor = ancestor.parentElement) {
@@ -125,12 +136,16 @@ export function Marquee({
 			setMeasured(true);
 		}
 		// hygiene-ignore single-use -- Keep updateOnNextFrame as a named declaration so its authored TSDoc stays attached. TSDoc: Runs one post-paint measurement if this effect has not been cleaned up.
-		/** Runs one post-paint measurement if this effect has not been cleaned up. */
+		/**
+		 * Runs one post-paint measurement if this effect has not been cleaned up.
+		 */
 		function updateOnNextFrame(): void {
 			if (active) updateLayout();
 		}
 		// hygiene-ignore single-use -- Keep cleanupLayoutEffect as a named declaration so its authored TSDoc stays attached. TSDoc: Disconnects the resize observer and listeners for this component instance.
-		/** Disconnects the resize observer and listeners for this component instance. */
+		/**
+		 * Disconnects the resize observer and listeners for this component instance.
+		 */
 		function cleanupLayoutEffect(): void {
 			active = false;
 			resize.disconnect();
@@ -171,20 +186,26 @@ export function Marquee({
 	const rowTerms = useMemo(createRowTerms, [count, separator, terms]);
 
 	// hygiene-ignore single-use -- Keep holdRow as a named React event handler so pointer capture and held-row updates remain one ordered pointer event boundary.
-	/** Holds the selected row while its pointer is pressed. */
+	/**
+	 * Holds the selected row while its pointer is pressed.
+	 */
 	function holdRow(event: PointerEvent<HTMLDivElement>, index: number): void {
 		if (!pauseOnClick || (event.pointerType === 'mouse' && event.button !== 0)) return;
 		event.currentTarget.setPointerCapture(event.pointerId);
 		setHeldRow(index);
 	}
 
-	/** Releases a row after its pointer is lifted or cancelled. */
+	/**
+	 * Releases a row after its pointer is lifted or cancelled.
+	 */
 	function releaseRow(index: number): void {
 		setHeldRow(current => (current === index ? null : current));
 	}
 
 	// hygiene-ignore single-use -- Keep holdRowWithKeyboard as a named React event handler so key filtering, default prevention, and held-row updates remain one ordered keyboard event boundary.
-	/** Holds a focused row while Enter or Space is down. */
+	/**
+	 * Holds a focused row while Enter or Space is down.
+	 */
 	function holdRowWithKeyboard(event: KeyboardEvent<HTMLDivElement>, index: number): void {
 		if (!pauseOnClick || (event.key !== 'Enter' && event.key !== ' ')) return;
 		event.preventDefault();
@@ -192,7 +213,9 @@ export function Marquee({
 	}
 
 	// hygiene-ignore single-use -- Keep releaseRowWithKeyboard as a named React event handler so key filtering, default prevention, and held-row release remain one ordered keyboard event boundary.
-	/** Releases a focused row when Enter or Space is lifted. */
+	/**
+	 * Releases a focused row when Enter or Space is lifted.
+	 */
 	function releaseRowWithKeyboard(event: KeyboardEvent<HTMLDivElement>, index: number): void {
 		if (event.key !== 'Enter' && event.key !== ' ') return;
 		event.preventDefault();

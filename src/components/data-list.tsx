@@ -19,7 +19,8 @@ COMPONENTS
 //////////////////////////////////////////////////*/
 
 // MAPPED LIST
-/** Renders supplied data as an ordered or unordered semantic list.
+/**
+ * Renders supplied data as an ordered or unordered semantic list.
  *
  * @param data - Values rendered as list items.
  * @param getKey - Optional stable key for each item.
@@ -57,7 +58,9 @@ export function MappedList<T>({
 }
 
 // METRIC GRID
-/** One label and value in a shared semantic metric grid. */
+/**
+ * One label and value in a shared semantic metric grid.
+ */
 export type MetricGridItem = {
 	label: string;
 	value: ReactNode;
@@ -66,7 +69,8 @@ export type MetricGridItem = {
 	valueClassName?: string;
 };
 
-/** Renders metric data as a description list with shared item, label, and value styling.
+/**
+ * Renders metric data as a description list with shared item, label, and value styling.
  *
  * @param data - Metric labels and values to render.
  * @param className - Classes for the grid.

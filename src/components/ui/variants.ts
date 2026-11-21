@@ -42,7 +42,9 @@ function flattenColorTypeGrid<T extends Record<string, Record<string, string>>>(
 SHARED INTERACTION AND TEXT CONTRACTS
 //////////////////////////////////////////////////*/
 
-/** Reusable palette, typography scale, and weight choices for UI text. */
+/**
+ * Reusable palette, typography scale, and weight choices for UI text.
+ */
 export const TEXT_VARIANTS = cva('', {
 	variants: {
 		tone: {
@@ -70,9 +72,13 @@ export const TEXT_VARIANTS = cva('', {
 	},
 });
 
-/** Shared focus-visible outline and ring behavior; color stays with the control family. */
+/**
+ * Shared focus-visible outline and ring behavior; color stays with the control family.
+ */
 export const FOCUS_VISIBLE_VARIANTS = cva('focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2');
-/** Native, data, and ARIA disabled selectors used by different Radix controls. */
+/**
+ * Native, data, and ARIA disabled selectors used by different Radix controls.
+ */
 export const DISABLED_STATE_VARIANTS = cva('', {
 	variants: {
 		target: {
@@ -84,11 +90,15 @@ export const DISABLED_STATE_VARIANTS = cva('', {
 	},
 });
 
-/** Shared label alignment and disabled-state treatment for form labels. */
+/**
+ * Shared label alignment and disabled-state treatment for form labels.
+ */
 export const FORM_LABEL_VARIANTS = cva(
 	cn(TEXT_VARIANTS({ tone: 'muted', size: 'sm', weight: 'medium' }), 'flex items-center gap-0.5 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'),
 );
-/** Common focus and disabled behavior for activated controls. */
+/**
+ * Common focus and disabled behavior for activated controls.
+ */
 export const INTERACTIVE_CONTROL_VARIANTS = cva(cn(FOCUS_VISIBLE_VARIANTS(), DISABLED_STATE_VARIANTS({ target: 'native' }), '[&_svg]:pointer-events-none [&_svg]:shrink-0'));
 
 /*//////////////////////////////////////////////////
@@ -154,7 +164,9 @@ const ACTION_MATRIX_VALUES = {
 	success: ACTION_TREATMENT_VALUES['success-saturated'],
 	caution: ACTION_TREATMENT_VALUES['caution-saturated'],
 };
-/** Flattened action matrix retained for consumers that need to inspect variant classes as data. */
+/**
+ * Flattened action matrix retained for consumers that need to inspect variant classes as data.
+ */
 export const BUTTON_VARIANT_VALUES = ACTION_MATRIX_VALUES;
 const ACTION_BASE = cn(
 	'inline-flex items-center justify-center gap-2 rounded-md no-underline ring-offset-primary-1 transition-colors',
@@ -176,7 +188,9 @@ const ACTION_SIZE_VALUES = {
 	'icon-lg': 'size-11',
 } as const satisfies Record<UiSize | 'default' | 'icon' | 'icon-xs' | 'icon-sm' | 'icon-lg', string>;
 
-/** Shared color/treatment/size contract for Button and ButtonLink. */
+/**
+ * Shared color/treatment/size contract for Button and ButtonLink.
+ */
 export const ACTION_VARIANTS = cva(ACTION_BASE, {
 	variants: {
 		variant: {
@@ -233,7 +247,9 @@ const TOGGLE_MATRIX_VALUES = toggleMatrixValues as Record<
 	string
 >;
 
-/** Toggle and toggle-group controls reuse the action matrix and add pressed colors. */
+/**
+ * Toggle and toggle-group controls reuse the action matrix and add pressed colors.
+ */
 export const TOGGLE_VARIANTS = cva(cn(ACTION_BASE, 'border border-primary-6'), {
 	variants: {
 		variant: {
@@ -317,7 +333,9 @@ const SURFACE_MATRIX_VALUES = flattenColorTypeGrid({
 	>
 >) as Record<UiColor | `${UiColor}-${Exclude<UiType, 'default' | 'underline'>}`, string>;
 
-/** Shared surface palette used by cards, alerts, and floating panels. */
+/**
+ * Shared surface palette used by cards, alerts, and floating panels.
+ */
 export const SURFACE_VARIANTS = cva('', {
 	variants: {
 		variant: {
@@ -401,7 +419,9 @@ const FORM_CONTROL_MATRIX_VALUES = flattenColorTypeGrid({
 	>
 >) as Record<FormControlVariant, string>;
 
-/** Shared color/treatment/size contract for inputs, selects, and textareas. */
+/**
+ * Shared color/treatment/size contract for inputs, selects, and textareas.
+ */
 export const FORM_CONTROL_VARIANTS = cva(
 	cn(
 		'aria-invalid:border-red-600 aria-invalid:ring-red-600 flex w-full min-w-0 rounded-md border transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-primary-11',
@@ -430,18 +450,26 @@ export const FORM_CONTROL_VARIANTS = cva(
 OVERLAYS AND MENUS
 //////////////////////////////////////////////////*/
 
-/** Shared control surface for positioned overlay content. */
+/**
+ * Shared control surface for positioned overlay content.
+ */
 export const OVERLAY_SURFACE_VARIANTS = cva(cn(SURFACE_VARIANTS({ variant: 'control' }), 'shadow-lg'));
-/** Shared entry/exit motion for Radix overlay content. */
+/**
+ * Shared entry/exit motion for Radix overlay content.
+ */
 export const OVERLAY_MOTION_VARIANTS = cva(
 	'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
 );
-/** Shared slide direction for content positioned around a Radix trigger. */
+/**
+ * Shared slide direction for content positioned around a Radix trigger.
+ */
 export const RADIX_SIDE_POSITION_VARIANTS = cva(
 	'data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
 );
 
-/** Shared destructive tone for dropdown and context-menu items. */
+/**
+ * Shared destructive tone for dropdown and context-menu items.
+ */
 export const menuItemVariants = cva('', {
 	variants: {
 		intent: {
@@ -451,7 +479,11 @@ export const menuItemVariants = cva('', {
 	},
 	defaultVariants: { intent: 'default' },
 });
-/** Shared highlighted state for menu items. */
+/**
+ * Shared highlighted state for menu items.
+ */
 export const MENU_ITEM = 'data-[highlighted]:bg-primary-3 dark:data-[highlighted]:text-primary-12';
-/** Shared positioning and alignment for check and radio indicators in menu items. */
+/**
+ * Shared positioning and alignment for check and radio indicators in menu items.
+ */
 export const MENU_ITEM_INDICATOR = 'absolute left-2 flex size-3.5 items-center justify-center';

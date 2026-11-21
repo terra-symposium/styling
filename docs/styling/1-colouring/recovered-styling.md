@@ -932,4 +932,4 @@ _Source: `archive/docs-backup/development/0-general/3-styling.mdx`._
 >
 > _Interactive diagram or component retained in the original source._
 
-:::
+> :::

@@ -32,7 +32,8 @@ const AVATAR_SIZE_CLASSES: Record<UiSize, string> = {
 };
 
 // hygiene-ignore single-use -- Keep renderAvatarRoot as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the sized avatar root while preserving forwarded HTML attributes.
-/** Renders the sized avatar root while preserving forwarded HTML attributes.
+/**
+ * Renders the sized avatar root while preserving forwarded HTML attributes.
  * @param avatarProps - Radix root attributes and the shared avatar size.
  * @param ref - Ref forwarded to the Radix avatar root.
  * @return The clipped avatar root.
@@ -48,7 +49,8 @@ function renderAvatarRoot(
 }
 
 // hygiene-ignore single-use -- Keep renderAvatarImage as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an avatar image that preserves its square aspect ratio.
-/** Renders an avatar image that preserves its square aspect ratio.
+/**
+ * Renders an avatar image that preserves its square aspect ratio.
  * @param imageProps - Radix image attributes and optional classes.
  * @param ref - Ref forwarded to the Radix avatar image.
  * @return The full-size avatar image element.
@@ -59,7 +61,8 @@ function renderAvatarImage(imageProps: React.ComponentPropsWithoutRef<typeof Ava
 }
 
 // hygiene-ignore single-use -- Keep renderAvatarFallback as a named declaration so its authored TSDoc stays attached. TSDoc: Renders centered fallback content for an unavailable avatar image.
-/** Renders centered fallback content for an unavailable avatar image.
+/**
+ * Renders centered fallback content for an unavailable avatar image.
  * @param fallbackProps - Radix fallback content and optional classes.
  * @param ref - Ref forwarded to the Radix avatar fallback.
  * @return The centered avatar fallback element.
@@ -89,14 +92,19 @@ const Avatar = React.forwardRef<
 >(renderAvatarRoot);
 Avatar.displayName = 'Avatar';
 
-/** Image that fills the avatar root while preserving its square aspect ratio. */
+/**
+ * Image that fills the avatar root while preserving its square aspect ratio.
+ */
 const AvatarImage = React.forwardRef<React.ElementRef<typeof AvatarPrimitive.Image>, React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>>(renderAvatarImage);
 AvatarImage.displayName = 'AvatarImage';
 
-/** Centered content shown when the avatar image is unavailable. */
+/**
+ * Centered content shown when the avatar image is unavailable.
+ */
 const AvatarFallback = React.forwardRef<React.ElementRef<typeof AvatarPrimitive.Fallback>, React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>>(renderAvatarFallback);
 AvatarFallback.displayName = 'AvatarFallback';
-/** User identity avatar retained from the original Terra component set.
+/**
+ * User identity avatar retained from the original Terra component set.
  * @param user - User identity and image metadata.
  * @param className - Optional avatar classes.
  * @param pictureVersion - Optional image cache version.
@@ -139,7 +147,8 @@ export function UserAvatar({
 	);
 }
 
-/** Organisation identity avatar retained from the original Terra component set.
+/**
+ * Organisation identity avatar retained from the original Terra component set.
  * @param org - Organisation identity and image metadata.
  * @param className - Optional avatar classes.
  * @param pictureVersion - Optional image cache version.

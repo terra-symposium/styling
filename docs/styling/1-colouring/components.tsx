@@ -23,8 +23,13 @@ import type { DataTableColumn } from '../../../src/components/data-table.js';
 /*//////////////////////////////////////////////////
 CONFIG
 //////////////////////////////////////////////////*/
+const S_REGEX = /\/\s*$/;
 
-/** Component slugs generated from the public Styling API reference. */
+const GRID_GAP_3_CLASS = 'grid gap-3';
+
+/**
+ * Component slugs generated from the public Styling API reference.
+ */
 type CompSlug = keyof typeof componentTsDocs;
 
 const GROUP_ORDER = ['Actions and forms', 'Content and feedback', 'Menus and overlays', 'Navigation and layout', 'Data and composition'] as const;
@@ -43,14 +48,17 @@ const NON_DISPLAY_PROPS = new Set(['children', 'className', 'style', 'key', 'ref
 const GRID_GAP_4_CLASS = 'grid gap-4';
 const ROUNDED_BORDER_P_4_CLASS = 'rounded border p-4';
 const CONTROL_GRID_STYLE: React.CSSProperties = { gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 14rem), 1fr))' };
-/** Authored previews and copyable snippets, keyed by their file slug. */
+/**
+ * Authored previews and copyable snippets, keyed by their file slug.
+ */
 const DEMO_REGISTRY = Object.fromEntries(
 	Object.entries(
 		import.meta.glob<{ default: React.ComponentType<{ variant?: string; triggerVariant?: string; selection?: 'none' | 'surface' | 'line' }>; exampleCode: string }>('./demos/*.tsx', { eager: true }),
 	).map(([path, module]) => [path.slice(path.lastIndexOf('/') + 1, -4), { Preview: module.default, code: module.exampleCode }]),
 ) as Record<CompSlug, { Preview: React.ComponentType<{ variant?: string; triggerVariant?: string; selection?: 'none' | 'surface' | 'line' }>; code: string }>;
 
-/** A compact index; interactive examples and API details live on each component page.
+/**
+ * A compact index; interactive examples and API details live on each component page.
  *
  * @return Searchable links grouped by component purpose.
  */
@@ -69,7 +77,7 @@ export function ComponentCatalog(): React.JSX.Element {
 			{groups.map(({ group, matches }) => {
 				if (matches.length === 0) return null;
 				return (
-					<section key={group} className='grid gap-3'>
+					<section key={group} className={GRID_GAP_3_CLASS}>
 						<h2>{group}</h2>
 						<ul className='grid gap-2 p-0 sm:grid-cols-2' style={{ listStyle: 'none' }}>
 							{matches.map(component => (
@@ -161,7 +169,9 @@ function ExampleTabs({ preview, code }: { preview: React.ReactNode; code: string
 WORKBENCH CONTROLS
 //////////////////////////////////////////////////*/
 
-/** Colour families and visual treatments available in component variants. */
+/**
+ * Colour families and visual treatments available in component variants.
+ */
 const COLORS = ['primary', 'secondary', 'gray', 'destructive', 'success', 'caution'] as const;
 const TREATMENTS = ['saturated', 'outline', 'ghost', 'tonal', 'glass', 'underline'] as const;
 const CARD_TREATMENTS = ['saturated', 'outline', 'ghost', 'tonal', 'glass'] as const;
@@ -208,7 +218,9 @@ function finiteChoices(comp: CompSlug, prop: string, fallback: readonly string[]
 	return [...new Set([...(componentTsDocs[comp].members.find(item => item.name === memberName)?.props.find(item => item.name === prop)?.choices ?? []), ...fallback])];
 }
 
-/** The element carrying the appearance variant in each authored component example. */
+/**
+ * The element carrying the appearance variant in each authored component example.
+ */
 const VARIANT_TARGETS: Partial<Record<CompSlug, { member: string; initial: string; fallback?: readonly string[]; omitDefault?: boolean }>> = {
 	accordion: { member: 'Accordion', initial: 'default' },
 	'alert-dialog': { member: 'AlertDialogAction', initial: 'default', fallback: BUTTON_VARIANTS },
@@ -240,7 +252,7 @@ const VARIANT_TARGETS: Partial<Record<CompSlug, { member: string; initial: strin
 function codeWithVariant(code: string, member: string, variant: string, omitDefault = false): string {
 	return code.replace(new RegExp(`<${member}(?=[\\s/>])([^>]*?)>`, 'g'), (_match, attrs: string) => {
 		const clean = attrs.replace(/\s+variant=(?:'[^']*'|"[^"]*")/, '');
-		return `<${member}${clean.replace(/\/\s*$/, '')}${omitDefault && variant === 'default' ? '' : ` variant='${variant}'`}${/\/\s*$/.test(clean) ? ' /' : ''}>`;
+		return `<${member}${clean.replace(S_REGEX, '')}${omitDefault && variant === 'default' ? '' : ` variant='${variant}'`}${S_REGEX.test(clean) ? ' /' : ''}>`;
 	});
 }
 
@@ -277,7 +289,7 @@ function TabsWorkbench(): React.JSX.Element {
 	const triggerVariant = layout === 'dashboard-nav' ? 'dashboard-nav' : type === 'default' ? color : `${color}-${type}`;
 	return (
 		<div className={GRID_GAP_4_CLASS}>
-			<div className='grid gap-3' style={CONTROL_GRID_STYLE}>
+			<div className={GRID_GAP_3_CLASS} style={CONTROL_GRID_STYLE}>
 				<DemoSelect
 					label='Type'
 					value={type}
@@ -379,7 +391,7 @@ function ButtonWorkbench(): React.JSX.Element {
 	const snippet = `import { Button } from '@terra-symposium/styling/ui';${icon ? "\nimport { Star } from '@carbon/icons-react';" : ''}\n\n<Button variant='${variant}' size='${size}'${disabled ? ' disabled' : ''}${loading ? ' loading' : ''}${loading && loadingText ? ` loadingText='${loadingText}'` : ''}${iconOnly ? " aria-label='Save'" : ''}>${icon ? "<Star aria-hidden className='size-4' />" : ''}${iconOnly ? '' : 'Save'}</Button>`;
 	return (
 		<div className={GRID_GAP_4_CLASS}>
-			<div className='grid gap-3' style={CONTROL_GRID_STYLE}>
+			<div className={GRID_GAP_3_CLASS} style={CONTROL_GRID_STYLE}>
 				<DemoSelect
 					label='Colour'
 					value={color}
@@ -433,7 +445,7 @@ function CardWorkbench(): React.JSX.Element {
 	const snippet = `import { Card } from '@terra-symposium/styling/ui';\n\n<Card variant='${variant}' size='${size}'${interactive ? " href='#component-example-heading'" : ''}>Project update</Card>`;
 	return (
 		<div className={GRID_GAP_4_CLASS}>
-			<div className='grid gap-3' style={CONTROL_GRID_STYLE}>
+			<div className={GRID_GAP_3_CLASS} style={CONTROL_GRID_STYLE}>
 				<DemoSelect
 					label='Colour'
 					value={color}
@@ -484,7 +496,9 @@ function CopyableCode({ code, lang = 'tsx' }: { code: string; lang?: string }): 
 	});
 }
 
-/** Short, safe choices for public states that benefit from side-by-side inspection. */
+/**
+ * Short, safe choices for public states that benefit from side-by-side inspection.
+ */
 const SIMPLE_CONTROLS: Partial<
 	Record<
 		CompSlug,
@@ -608,7 +622,7 @@ function SimpleWorkbench({ component: comp }: { component: CompSlug }): React.JS
 	}
 	return (
 		<div className={GRID_GAP_4_CLASS}>
-			<div className='grid gap-3' style={CONTROL_GRID_STYLE}>
+			<div className={GRID_GAP_3_CLASS} style={CONTROL_GRID_STYLE}>
 				<DemoSelect label={control.label} value={value} choices={finiteChoices(comp, control.prop, control.values)} onChange={setValue} />
 				{variantChoices.length > 0 && control.prop !== 'variant' ? <DemoSelect label='Variant' value={variant} choices={variantChoices} onChange={setVariant} /> : null}
 			</div>

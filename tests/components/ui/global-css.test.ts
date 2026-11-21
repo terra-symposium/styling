@@ -1,3 +1,6 @@
+/**
+ * tests/components/ui/global-css.test.ts
+ */
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
@@ -25,7 +28,9 @@ TESTS
 test.describe('published styling stylesheet contracts', stylesheetContracts);
 
 // hygiene-ignore single-use -- Keep stylesheetContracts as a named declaration so its authored TSDoc stays attached. TSDoc: Registers source stylesheet and generated CSS distribution checks.
-/** Registers source stylesheet and generated CSS distribution checks. */
+/**
+ * Registers source stylesheet and generated CSS distribution checks.
+ */
 function stylesheetContracts(): void {
 	// SOURCE STYLESHEET CONTRACT
 	test('one global stylesheet provides the shared base, components, utilities, and dynamic hue tokens', srcStylesheetProvidesSharedTokensAndExports);
@@ -34,7 +39,8 @@ function stylesheetContracts(): void {
 	test('published stylesheets are browser-ready and contain no nested selectors', publishedStylesheetsAreBrowserReady);
 }
 
-/** Reads a repository file relative to the test process root.
+/**
+ * Reads a repository file relative to the test process root.
  *
  * @param path Repository-relative file path.
  *
@@ -45,7 +51,9 @@ function src(path: string): string {
 }
 
 // hygiene-ignore single-use -- Keep sourceStylesheetProvidesSharedTokensAndExports as a named declaration so its authored TSDoc stays attached. TSDoc: Checks source ordering, shared tokens, and package stylesheet exports.
-/** Checks source ordering, shared tokens, and package stylesheet exports. */
+/**
+ * Checks source ordering, shared tokens, and package stylesheet exports.
+ */
 function srcStylesheetProvidesSharedTokensAndExports(): void {
 	const stylesheet = src('src/styles/global.css');
 	const base = stylesheet.indexOf('@tailwind base;');
@@ -69,7 +77,8 @@ function srcStylesheetProvidesSharedTokensAndExports(): void {
 	assert.match(src('package.json'), /"\.\/effects\.css":\s*"\.\/dist\/effects\.css"/);
 }
 
-/** Finds nested CSS selectors at every rule and at-rule depth.
+/**
+ * Finds nested CSS selectors at every rule and at-rule depth.
  *
  * @param container Parsed CSS container whose child rules are inspected.
  *

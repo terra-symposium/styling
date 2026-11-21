@@ -52,7 +52,8 @@ COMPONENTS
 //////////////////////////////////////////////////*/
 
 // hygiene-ignore single-use -- Keep renderRadioGroup as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a radio group with optional form state synchronization.
-/** Renders a radio group with optional form state synchronization.
+/**
+ * Renders a radio group with optional form state synchronization.
  * @param groupProps - Radix root attributes, field name, and selection state.
  * @param ref - Ref forwarded to the Radix radio group root.
  * @return A radio group controlled by React Hook Form when available.
@@ -67,7 +68,9 @@ function renderRadioGroup(
 	const form = useOptionalFormContext<FieldValues>();
 	const formValue = form && name ? form.watch(name) : undefined;
 	// hygiene-ignore single-use -- Keep initializeRadioValue as a named declaration so its authored TSDoc stays attached. TSDoc: Seeds a registered radio field from its initial value without marking it dirty.
-	/** Seeds a registered radio field from its initial value without marking it dirty. */
+	/**
+	 * Seeds a registered radio field from its initial value without marking it dirty.
+	 */
 	function initializeRadioValue(): void {
 		const initialValue = value ?? defaultValue;
 		if (!form || !name || initialValue === undefined || form.getValues(name) !== undefined) return;
@@ -75,7 +78,8 @@ function renderRadioGroup(
 	}
 	React.useEffect(initializeRadioValue, [form, name, value, defaultValue]);
 	// hygiene-ignore single-use -- Keep handleRadioValueChange as a named declaration so its authored TSDoc stays attached. TSDoc: Saves the selected radio and notifies the optional caller handler.
-	/** Saves the selected radio and notifies the optional caller handler.
+	/**
+	 * Saves the selected radio and notifies the optional caller handler.
 	 * @param next - Selected radio value reported by Radix.
 	 * @return Nothing; form state and caller receive the value in order.
 	 */
@@ -110,7 +114,8 @@ const RadioGroup = React.forwardRef<
 >(renderRadioGroup);
 
 // hygiene-ignore single-use -- Keep renderRadioGroupItem as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a single radio option with the selected palette treatment.
-/** Renders a single radio option with the selected palette treatment.
+/**
+ * Renders a single radio option with the selected palette treatment.
  * @param itemProps - Radix item attributes and optional color variant.
  * @param ref - Ref forwarded to the Radix radio item.
  * @return A styled radio item and its indicator.
@@ -151,7 +156,8 @@ const RadioGroupItem = React.forwardRef<
 >(renderRadioGroupItem);
 
 // hygiene-ignore single-use -- Keep renderRadioGroupCard as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a radio option as a full-width selectable card.
-/** Renders a radio option as a full-width selectable card.
+/**
+ * Renders a radio option as a full-width selectable card.
  * @param cardProps - Radix item attributes, child content, and card variants.
  * @param ref - Ref forwarded to the Radix item.
  * @return A card-shaped radio option.
@@ -194,7 +200,8 @@ const RadioGroupCard = React.forwardRef<
 >(renderRadioGroupCard);
 
 // hygiene-ignore single-use -- Keep renderRadioGroupIndicator as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the indicator slot inside an individual radio item.
-/** Renders the indicator slot inside an individual radio item.
+/**
+ * Renders the indicator slot inside an individual radio item.
  * @param indicatorProps - Radix indicator attributes and optional classes.
  * @param ref - Ref forwarded to the Radix indicator element.
  * @return The centered radio selection indicator.

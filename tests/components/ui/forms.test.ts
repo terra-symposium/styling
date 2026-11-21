@@ -1,3 +1,6 @@
+/**
+ * tests/components/ui/forms.test.ts
+ */
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
@@ -20,7 +23,9 @@ TESTS
 test.describe('mapped checkbox field accessibility', mappedCheckboxAccessibility);
 
 // hygiene-ignore single-use -- Keep mappedCheckboxAccessibility as a named declaration so its authored TSDoc stays attached. TSDoc: Registers checkbox orientation and generated-label association contracts.
-/** Registers checkbox orientation and generated-label association contracts. */
+/**
+ * Registers checkbox orientation and generated-label association contracts.
+ */
 function mappedCheckboxAccessibility(): void {
 	// ORIENTATION AND FEEDBACK
 	test('mapped checkbox fields remain stacked by default', defaultCheckboxKeepsLabelBeforeControl);
@@ -31,7 +36,8 @@ function mappedCheckboxAccessibility(): void {
 	test('custom mapped controls without id or name do not get a dangling label association', customControlWithoutIdentityHasNoDanglingLabel);
 }
 
-/** Renders a checkbox with both supporting text states for association checks.
+/**
+ * Renders a checkbox with both supporting text states for association checks.
  *
  * @param orientation Optional control and label arrangement.
  *

@@ -20,10 +20,13 @@ import { Popover, PopoverContent, PopoverTrigger } from './popover.js';
 // TYPES
 import type { UiButtonButtonProps, UiComboboxOption } from './types.js';
 
-/** Supplies a no-op default when the caller does not observe selection changes. */
+/**
+ * Supplies a no-op default when the caller does not observe selection changes.
+ */
 function ignoreValueChange(): void {}
 
-/** Finds the option matching a value, returning null when the value is stale.
+/**
+ * Finds the option matching a value, returning null when the value is stale.
  *
  * @param options Options available in the combobox.
  * @param value Value to resolve against the option list.
@@ -96,14 +99,18 @@ export function Combobox({
 	const prevSelection = React.useRef(sel);
 	// effect necessary to avoid violating rules of hooks
 	// hygiene-ignore single-use -- Keep reportClearedSelection as a named declaration so its authored TSDoc stays attached. TSDoc: Reports a transition to no selection once and records the current choice.
-	/** Reports a transition to no selection once and records the current choice. */
+	/**
+	 * Reports a transition to no selection once and records the current choice.
+	 */
 	function reportClearedSelection(): void {
 		if (sel === null && sel !== prevSelection.current) onValueChange(null);
 		prevSelection.current = sel;
 	}
 	React.useEffect(reportClearedSelection, [sel, onValueChange]);
 	// hygiene-ignore single-use -- Keep handleSearchClear as a named declaration so its authored TSDoc stays attached. TSDoc: Clears the controlled search query when the command input is reset.
-	/** Clears the controlled search query when the command input is reset. */
+	/**
+	 * Clears the controlled search query when the command input is reset.
+	 */
 	function handleSearchClear(): void {
 		onSearchChange?.('');
 	}

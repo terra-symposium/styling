@@ -49,7 +49,8 @@ const classes = {
 };
 
 // hygiene-ignore single-use -- Keep ContextMenuSubTriggerRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a context menu sub-trigger item with chevron indicator.
-/** Renders a context menu sub-trigger item with chevron indicator.
+/**
+ * Renders a context menu sub-trigger item with chevron indicator.
  * className: - Additional classes for the submenu trigger.
  * inset: - Whether the label aligns with inset menu items.
  * children: - Label content rendered before the chevron.
@@ -84,7 +85,8 @@ const ContextMenuSubTrigger = React.forwardRef<
 >(ContextMenuSubTriggerRender);
 
 // hygiene-ignore single-use -- Keep ContextMenuSubContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders context menu sub-content panel.
-/** Renders context menu sub-content panel.
+/**
+ * Renders context menu sub-content panel.
  * className: - Additional classes for the submenu panel.
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the sub-content panel.
@@ -109,7 +111,8 @@ const ContextMenuSubContent = React.forwardRef<React.ElementRef<typeof ContextMe
 );
 
 // hygiene-ignore single-use -- Keep ContextMenuContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders main context menu content panel.
-/** Renders main context menu content panel.
+/**
+ * Renders main context menu content panel.
  * collisionPadding: - Minimum distance from viewport edges.
  * className: - Additional classes for the menu panel.
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
@@ -140,7 +143,8 @@ function ContextMenuContentRender(
 const ContextMenuContent = React.forwardRef<React.ElementRef<typeof ContextMenuPrimitive.Content>, React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Content>>(ContextMenuContentRender);
 
 // hygiene-ignore single-use -- Keep ContextMenuItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an interactive context menu item.
-/** Renders an interactive context menu item.
+/**
+ * Renders an interactive context menu item.
  * className: - Additional classes for the menu item.
  * inset: - Whether the item aligns with an inset menu group.
  * intent: - Visual intent passed to the shared menu item variants.
@@ -168,7 +172,8 @@ const ContextMenuItem = React.forwardRef<
 >(ContextMenuItemRender);
 
 // hygiene-ignore single-use -- Keep ContextMenuCheckboxItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a checkbox item and its checked-state indicator.
-/** Renders a checkbox item and its checked-state indicator.
+/**
+ * Renders a checkbox item and its checked-state indicator.
  * className: - Additional classes for the checkbox item.
  * children: - Checkbox label content.
  * checked: - Checked state controlled by Radix.
@@ -202,7 +207,8 @@ const ContextMenuCheckboxItem = Object.assign(
 );
 
 // hygiene-ignore single-use -- Keep ContextMenuRadioItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a radio item and its selected-state bullet.
-/** Renders a radio item and its selected-state bullet.
+/**
+ * Renders a radio item and its selected-state bullet.
  * className: - Additional classes for the radio item.
  * children: - Radio label content.
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
@@ -232,7 +238,8 @@ const ContextMenuRadioItem = Object.assign(
 );
 
 // hygiene-ignore single-use -- Keep ContextMenuLabelRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an optional inset heading inside the context menu.
-/** Renders an optional inset heading inside the context menu.
+/**
+ * Renders an optional inset heading inside the context menu.
  * className: - Additional classes for the label.
  * inset: - Whether the label aligns with inset menu items.
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
@@ -260,7 +267,8 @@ const ContextMenuLabel = Object.assign(
 );
 
 // hygiene-ignore single-use -- Keep ContextMenuSeparatorRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the divider between context menu items.
-/** Renders the divider between context menu items.
+/**
+ * Renders the divider between context menu items.
  * className: - Additional classes for the separator line.
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the separator element.
@@ -279,7 +287,8 @@ const ContextMenuSeparator = React.forwardRef<React.ElementRef<typeof ContextMen
 );
 
 // hygiene-ignore single-use -- Keep ContextMenuShortcutRender as a named React component to preserve its identity. TSDoc: Renders keyboard shortcut text aligned after a context menu label.
-/** Renders keyboard shortcut text aligned after a context menu label.
+/**
+ * Renders keyboard shortcut text aligned after a context menu label.
  * className: - Additional classes for the shortcut indicator.
  * @param attributes - Remaining span attributes forwarded to the indicator.
  * @return The styled keyboard shortcut indicator.

@@ -24,11 +24,14 @@ import type { InputProps } from './types.js';
 COMPONENTS
 //////////////////////////////////////////////////*/
 
-/** Native input props accepted by the password field, excluding its fixed type. */
+/**
+ * Native input props accepted by the password field, excluding its fixed type.
+ */
 type PasswordInputProps = Omit<InputProps, 'type'>;
 
 // hygiene-ignore single-use -- Keep renderPasswordInput as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a password input and its accessible visibility toggle.
-/** Renders a password input and its accessible visibility toggle.
+/**
+ * Renders a password input and its accessible visibility toggle.
  * @param inputProps - Native input attributes and optional Styling classes.
  * @param ref - Ref forwarded to the underlying input element.
  * @return A password input with a show or hide control.
@@ -48,7 +51,8 @@ function renderPasswordInput(inputProps: PasswordInputProps, ref: React.Forwarde
 		return !current;
 	}
 	// hygiene-ignore single-use -- Keep toggleVisibility as a named declaration so its authored TSDoc stays attached. TSDoc: Toggles whether password characters are visible.
-	/** Toggles whether password characters are visible.
+	/**
+	 * Toggles whether password characters are visible.
 	 * @return Nothing; the input visibility state is inverted.
 	 */
 	function toggleVisibility(): void {
@@ -74,7 +78,8 @@ function renderPasswordInput(inputProps: PasswordInputProps, ref: React.Forwarde
 	);
 }
 
-/** Renders a password input with a visible/redacted toggle.
+/**
+ * Renders a password input with a visible/redacted toggle.
  * @param inputProps - Native input attributes and optional Styling classes.
  * @param ref - Ref forwarded to the underlying input element.
  * @return A password input with a show or hide control.

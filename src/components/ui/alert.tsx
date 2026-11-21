@@ -25,7 +25,8 @@ COMPONENTS
 //////////////////////////////////////////////////*/
 
 // hygiene-ignore single-use -- Keep renderAlert as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the alert surface with a forwarded ref and variant classes.
-/** Renders the alert surface with a forwarded ref and variant classes.
+/**
+ * Renders the alert surface with a forwarded ref and variant classes.
  *
  * @param alertProps Alert attributes, class name, and optional surface variant.
  * @param ref Ref forwarded to the alert element.
@@ -57,7 +58,8 @@ function renderAlert(
 const Alert = React.forwardRef(renderAlert);
 
 // hygiene-ignore single-use -- Keep renderAlertTitle as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the alert heading with its shared text treatment.
-/** Renders the alert heading with its shared text treatment.
+/**
+ * Renders the alert heading with its shared text treatment.
  *
  * @param titleProps Heading attributes and optional class name.
  * @param ref Ref forwarded to the heading element.
@@ -71,7 +73,8 @@ function renderAlertTitle(titleProps: React.HTMLAttributes<HTMLHeadingElement>, 
 const AlertTitle = React.forwardRef(renderAlertTitle);
 
 // hygiene-ignore single-use -- Keep renderAlertDescription as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the supporting text beneath an alert title.
-/** Renders the supporting text beneath an alert title.
+/**
+ * Renders the supporting text beneath an alert title.
  *
  * @param descriptionProps Paragraph attributes and optional class name.
  * @param ref Ref forwarded to the description element.
@@ -89,7 +92,9 @@ HELPERS
 //////////////////////////////////////////////////*/
 
 // VARIANT
-/** Content and accessibility properties accepted by each status alert. */
+/**
+ * Content and accessibility properties accepted by each status alert.
+ */
 type AlertStatusProps = {
 	children?: React.ReactNode;
 	className?: string;

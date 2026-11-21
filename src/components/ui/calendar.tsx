@@ -22,11 +22,14 @@ import { DayPicker } from 'react-day-picker';
 import type { ButtonVariantProps, CompactSize } from './types.js';
 import type { DayButton } from 'react-day-picker';
 
-/** DayPicker's component override map with optional entries made concrete. */
+/**
+ * DayPicker's component override map with optional entries made concrete.
+ */
 type DayPickerComponents = NonNullable<React.ComponentProps<typeof DayPicker>['components']>;
 
 // hygiene-ignore single-use -- Keep formatMonthDropdown as a named declaration so its authored TSDoc stays attached. TSDoc: Formats the month caption used by DayPicker's month dropdown.
-/** Formats the month caption used by DayPicker's month dropdown.
+/**
+ * Formats the month caption used by DayPicker's month dropdown.
  *
  * @param date Month date supplied by DayPicker.
  *
@@ -37,7 +40,8 @@ function formatMonthDropdown(date: Date): string {
 }
 
 // hygiene-ignore single-use -- Keep CalendarRoot as a named React component to preserve its identity. TSDoc: Renders the DayPicker root with the shared calendar data slot.
-/** Renders the DayPicker root with the shared calendar data slot.
+/**
+ * Renders the DayPicker root with the shared calendar data slot.
  *
  * @param className DayPicker root classes.
  * @param rootRef Root element ref supplied by DayPicker.
@@ -50,7 +54,8 @@ function CalendarRoot({ className, rootRef, ...rootProps }: React.ComponentProps
 }
 
 // hygiene-ignore single-use -- Keep CalendarChevron as a named React component to preserve its identity. TSDoc: Renders the orientation-specific chevron used by DayPicker.
-/** Renders the orientation-specific chevron used by DayPicker.
+/**
+ * Renders the orientation-specific chevron used by DayPicker.
  *
  * @param className Classes supplied by DayPicker for the chevron.
  * @param orientation Direction the chevron should indicate.
@@ -65,7 +70,8 @@ function CalendarChevron({ className, orientation, ...chevronProps }: React.Comp
 }
 
 // hygiene-ignore single-use -- Keep CalendarWeekNumber as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a week number in the center of its table cell.
-/** Renders a week number in the center of its table cell.
+/**
+ * Renders a week number in the center of its table cell.
  *
  * @param children Week-number content supplied by DayPicker.
  * @param weekNumberProps Remaining table-cell attributes.
@@ -319,7 +325,9 @@ function CalendarDayButton({ className, day, modifiers, ...dayButtonProps }: Rea
 	const ref = React.useRef<HTMLButtonElement>(null);
 	// ensures the focused day is programmatically focused
 	// hygiene-ignore single-use -- Keep focusDayButton as a named declaration so its authored TSDoc stays attached. TSDoc: Moves browser focus to the button when DayPicker marks the day focused.
-	/** Moves browser focus to the button when DayPicker marks the day focused. */
+	/**
+	 * Moves browser focus to the button when DayPicker marks the day focused.
+	 */
 	function focusDayButton(): void {
 		if (modifiers.focused) ref.current?.focus();
 	}

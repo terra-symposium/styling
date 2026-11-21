@@ -42,7 +42,8 @@ const mimeTypes = {
 };
 const notFound = resolve(output, '404.html');
 // hygiene-ignore single-use -- Keep handleRequest as a named callback for useful error stacks. TSDoc: Resolves a built-site route and streams its file or fallback page.
-/** Resolves a built-site route and streams its file or fallback page.
+/**
+ * Resolves a built-site route and streams its file or fallback page.
  *
  * @param request Incoming HTTP request.
  * @param response HTTP response used to send the result.
@@ -80,7 +81,9 @@ async function handleRequest(request, response) {
 	else createReadStream(result.file).pipe(response);
 }
 // hygiene-ignore single-use -- Keep logServerStarted as a named callback for useful error stacks. TSDoc: Logs the local address after the preview server begins listening.
-/** Logs the local address after the preview server begins listening. */
+/**
+ * Logs the local address after the preview server begins listening.
+ */
 function logServerStarted() {
 	console.log(`Styling Docs preview running at http://localhost:${port}${base}`);
 }
@@ -92,7 +95,8 @@ HELPERS
 //////////////////////////////////////////////////*/
 
 // hygiene-ignore single-use -- Keep resolveFile as a named callback for useful error stacks. TSDoc: Resolves a request pathname within the built docs output directory.
-/** Resolves a request pathname within the built docs output directory.
+/**
+ * Resolves a request pathname within the built docs output directory.
  *
  * @param pathname Decoded pathname beginning with the configured docs base.
  *

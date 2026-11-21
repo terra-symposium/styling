@@ -1,6 +1,10 @@
 ---
 name: presentation-template
 description: Build or revise a reusable Terra PowerPoint design template and its narrative demo deck; use for slide masters, layouts, theme colours, placeholders, and presentation QA.
+metadata:
+  related-files:
+    - src/documents/presentation.ts
+    - docs/styling/2-documents/presentation.md
 ---
 
 # Terra PowerPoint templates

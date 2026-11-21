@@ -58,7 +58,9 @@ const gsNames = ['gray', 'mauve', 'slate', 'sage', 'olive', 'sand'] as const;
  * colors on module load.
  */
 const SCALES_CACHE: Record<string, Record<string, ArrayOf12<Color>>> = {};
-/** Cache to store the OKLab representation of a Color for fast distance calculations. */
+/**
+ * Cache to store the OKLab representation of a Color for fast distance calculations.
+ */
 const OKLAB_CACHE = new WeakMap<Color, Color>();
 const darkEasing = [1, 0, 1, 0] as [number, number, number, number];
 

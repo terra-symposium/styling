@@ -25,13 +25,16 @@ CONFIG
 //////////////////////////////////////////////////*/
 
 const Tabs = TabsPrimitive.Root;
-/** Radix tab-list container attributes plus the supported layout variants. */
+/**
+ * Radix tab-list container attributes plus the supported layout variants.
+ */
 type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> & {
 	variant?: 'default' | 'line' | 'dashboard-nav';
 };
 
 // hygiene-ignore single-use -- Keep renderTabsList as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the shared tab list and its selected navigation layout.
-/** Renders the shared tab list and its selected navigation layout.
+/**
+ * Renders the shared tab list and its selected navigation layout.
  * @param listProps - Radix list attributes and Styling layout variant.
  * @param ref - Ref forwarded to the Radix list element.
  * @return A tab list with the requested layout variant.
@@ -61,14 +64,17 @@ const TabsList = React.forwardRef<React.ElementRef<typeof TabsPrimitive.List>, T
  *
  */
 type TabActionVariant = ButtonVariant;
-/** Radix tab-trigger attributes plus action and selection variants. */
+/**
+ * Radix tab-trigger attributes plus action and selection variants.
+ */
 type TabsTriggerProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> & {
 	variant?: TabActionVariant | 'dashboard-nav';
 	selection?: 'none' | 'surface' | 'line';
 };
 
 // hygiene-ignore single-use -- Keep renderTabsTrigger as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a tab button with action and selection treatments.
-/** Renders a tab button with action and selection treatments.
+/**
+ * Renders a tab button with action and selection treatments.
  * @param triggerProps - Radix trigger attributes and Styling variants.
  * @param ref - Ref forwarded to the Radix trigger element.
  * @return A styled tab trigger button.
@@ -98,7 +104,8 @@ function renderTabsTrigger(triggerProps: TabsTriggerProps, ref: React.ForwardedR
 const TabsTrigger = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Trigger>, TabsTriggerProps>(renderTabsTrigger);
 
 // hygiene-ignore single-use -- Keep renderTabsContent as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a tab panel with visible focus treatment and print visibility.
-/** Renders a tab panel with visible focus treatment and print visibility.
+/**
+ * Renders a tab panel with visible focus treatment and print visibility.
  * @param contentProps - Radix panel attributes and child content.
  * @param ref - Ref forwarded to the Radix panel element.
  * @return A styled tab panel.

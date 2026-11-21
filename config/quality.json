@@ -1,9 +1,12 @@
 {
 	"$schema": "../node_modules/@terra-symposium/hygiene/quality.schema.json",
-	"root": ".",
 	"tsconfig": "config/tsconfig.json",
 	"sourceRoots": ["."],
-	"skippedDirectories": ["node_modules", ".git", ".astro", "dist", "site-dist"],
+	"skippedDirectories": ["node_modules", ".git", ".astro", "dist", "site-dist", "archive/docs-backup"],
+	"aliases": {
+		"@terra-symposium/docs-site-catalog": "node_modules/@terra-symposium/docs/site/src/lib/catalog.ts",
+		"@terra-symposium/docs-site-catchall": "node_modules/@terra-symposium/docs/site/src/pages/[...slug].astro"
+	},
 	"languageProfiles": ["c", "java", "python"],
 	"extensions": [
 		".astro",
@@ -39,7 +42,9 @@
 			"functions": true,
 			"exportedFunctions": true,
 			"types": true,
-			"importSection": true
+			"importSection": true,
+			"fileHeader": true,
+			"multilineTsdoc": true
 		},
 		"commandRoots": ["."]
 	},

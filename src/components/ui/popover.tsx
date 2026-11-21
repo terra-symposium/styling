@@ -26,10 +26,13 @@ const Popover = PopoverPrimitive.Root;
 const PopoverTrigger = PopoverPrimitive.Trigger;
 const PopoverPortal = createTerraPortal(PopoverPrimitive.Portal);
 
-/** Props accepted by the styled Radix floating popover content panel. */
+/**
+ * Props accepted by the styled Radix floating popover content panel.
+ */
 type PopoverContentProps = React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>;
 
-/** Prevents content scrolling from reaching a parent scroll container.
+/**
+ * Prevents content scrolling from reaching a parent scroll container.
  * @param event - Wheel or touch-move event from the popover content.
  * @return Nothing; the event remains local to the popover.
  */
@@ -38,7 +41,8 @@ function stopContentScrollPropagation(event: React.SyntheticEvent<HTMLDivElement
 }
 
 // hygiene-ignore single-use -- Keep renderPopoverContent as a named declaration so its authored TSDoc stays attached. TSDoc: Renders popover content inside a portal with shared overlay styling.
-/** Renders popover content inside a portal with shared overlay styling.
+/**
+ * Renders popover content inside a portal with shared overlay styling.
  * @param contentProps - Radix positioning, event, and child props.
  * @param ref - Ref forwarded to the Radix content element.
  * @return A portal containing the styled popover panel.

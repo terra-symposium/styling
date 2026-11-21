@@ -31,7 +31,8 @@ COMPONENTS
 const ToggleGroupCtx = React.createContext<Required<VariantProps<typeof TOGGLE_VARIANTS>>>({ size: 'md', variant: 'default' });
 
 // hygiene-ignore single-use -- Keep renderToggleGroup as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the shared Radix toggle-group container and variant context.
-/** Renders the shared Radix toggle-group container and variant context.
+/**
+ * Renders the shared Radix toggle-group container and variant context.
  * @param groupProps - Group content, native attributes, and visual variants.
  * @param ref - Ref forwarded to the Radix group root.
  * @return A Radix toggle group that supplies default variants to its items.
@@ -61,7 +62,8 @@ const ToggleGroup = React.forwardRef<React.ElementRef<typeof ToggleGroupPrimitiv
 );
 
 // hygiene-ignore single-use -- Keep renderToggleGroupItem as a named declaration so its authored TSDoc stays attached. TSDoc: Renders one toggle item using explicit overrides or the group's defaults.
-/** Renders one toggle item using explicit overrides or the group's defaults.
+/**
+ * Renders one toggle item using explicit overrides or the group's defaults.
  * @param itemProps - Item content, native attributes, and optional variants.
  * @param ref - Ref forwarded to the Radix item element.
  * @return A styled Radix toggle item.

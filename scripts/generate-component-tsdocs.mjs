@@ -36,7 +36,8 @@ const preferredExports = {
 	tooltip: 'TooltipProvider',
 };
 const groupBySlug = new Map();
-/** Adds every component slug to the group used by the generated reference site.
+/**
+ * Adds every component slug to the group used by the generated reference site.
  *
  * @param group - Human-readable reference group label.
  * @param slugs - Component slugs assigned to that group.
@@ -81,7 +82,8 @@ for (const [slug, sourcePath] of Object.entries(srcAliases)) {
 	if (!discoveredSlugs.has(slug)) extraFiles.push({ slug, sourcePath });
 }
 const entries = [...srcFiles, ...extraFiles];
-/** Orders generated reference entries alphabetically by their stable slug.
+/**
+ * Orders generated reference entries alphabetically by their stable slug.
  *
  * @param f - First component entry to compare.
  * @param s - Second component entry to compare.
@@ -248,7 +250,8 @@ const program = ts.createProgram(entrySrcFiles, {
 });
 const checker = program.getTypeChecker();
 const cache = {};
-/** Selects component entrypoints whose exported type can be rendered as React content.
+/**
+ * Selects component entrypoints whose exported type can be rendered as React content.
  *
  * @param c - Serialized metadata for a module export.
  *
@@ -257,7 +260,8 @@ const cache = {};
 function isCompExport(c) {
 	return /(?:React\.)?(?:JSX\.Element|ReactElement)|React\.ReactNode/.test(c.signature);
 }
-/** Removes surrounding whitespace from one extracted source-summary line.
+/**
+ * Removes surrounding whitespace from one extracted source-summary line.
  *
  * @param c - Source line from the component file header.
  *
@@ -266,7 +270,8 @@ function isCompExport(c) {
 function trimLine(c) {
 	return c.trim();
 }
-/** Keeps a nonempty source-summary line that is not a file path.
+/**
+ * Keeps a nonempty source-summary line that is not a file path.
  *
  * @param c - Trimmed candidate source summary line.
  *

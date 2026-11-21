@@ -1,10 +1,15 @@
+/**
+ * src/documents/theme.ts
+ */
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
 import { colors, invert } from '../lib/hue.js';
 import type { ColorScales } from '../lib/types.js';
 
-/** Public colors intentionally name the same roles used by Styling's UI palette. */
+/**
+ * Public colors intentionally name the same roles used by Styling's UI palette.
+ */
 export type DocumentColors = {
 	primary: string;
 	primaryStrong: string;
@@ -15,32 +20,46 @@ export type DocumentColors = {
 	paper: string;
 	surface: string;
 	line: string;
-	/** Backward-compatible aliases for earlier template consumers. */
+	/**
+	 * Backward-compatible aliases for earlier template consumers.
+	 */
 	accent: string;
 	accentStrong: string;
 	accentSoft: string;
 };
 
-/** Light/dark color scales applied to shared template roles. */
+/**
+ * Light/dark color scales applied to shared template roles.
+ */
 export type DocumentColorScales = {
 	primary: ColorScales;
 	secondary: ColorScales;
 	gray: ColorScales;
 };
 
-/** Optional consumer settings for document branding and palette generation. */
+/**
+ * Optional consumer settings for document branding and palette generation.
+ */
 export type TerraDocumentBrandOptions = {
-	/** `false` removes the Terra wordmark; a path supplies a consumer logo. */
+	/**
+	 * `false` removes the Terra wordmark; a path supplies a consumer logo.
+	 */
 	logo?: false | string;
-	/** Optional alternate logo for saturated backgrounds. */
+	/**
+	 * Optional alternate logo for saturated backgrounds.
+	 */
 	logoOnDark?: false | string;
-	/** Hue passed to Styling's palette generator. Omit for the website's random hue; null selects grayscale. */
+	/**
+	 * Hue passed to Styling's palette generator. Omit for the website's random hue; null selects grayscale.
+	 */
 	hue?: number | null;
 	colors?: Partial<DocumentColors>;
 	fonts?: { display?: string; body?: string };
 };
 
-/** Resolved palette, fonts, and logo assets consumed by document templates. */
+/**
+ * Resolved palette, fonts, and logo assets consumed by document templates.
+ */
 export type TerraDocumentBrand = {
 	logo: false | string;
 	logoOnDark: false | string;

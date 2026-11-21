@@ -46,10 +46,13 @@ export function PortalContainerProvider({ children, container }: { children: Rea
 	return <PortalContainerContext.Provider value={container}>{children}</PortalContainerContext.Provider>;
 }
 
-/** Compatibility name for hosts using the original Terra portal provider. */
+/**
+ * Compatibility name for hosts using the original Terra portal provider.
+ */
 export { PortalContainerProvider as PortalProvider };
 
-/** Wraps a portal primitive with the nearest shared UI container by default.
+/**
+ * Wraps a portal primitive with the nearest shared UI container by default.
  * @param PrimitivePortal - Portal component to wrap.
  * @return Portal component that inherits the shared container.
  */

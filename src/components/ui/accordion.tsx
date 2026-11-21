@@ -46,7 +46,8 @@ COMPONENTS
 
 const VariantCtx = React.createContext<Variant>('default');
 VariantCtx.displayName = 'AccordionVariantContext';
-/** Resolves an item's explicit size variant or the nearest accordion default.
+/**
+ * Resolves an item's explicit size variant or the nearest accordion default.
  * @param variant - Optional component-level size variant.
  * @return Accordion class variants for item, trigger, and content.
  */
@@ -57,7 +58,8 @@ function useAccordionVariant(variant?: Variant): (typeof ACCORDION_VARIANT_CLASS
 }
 
 // hygiene-ignore single-use -- Keep AccordionItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an accordion item with the active variant's item spacing.
-/** Renders an accordion item with the active variant's item spacing.
+/**
+ * Renders an accordion item with the active variant's item spacing.
  * @param itemProps - Radix item attributes and optional size variant.
  * @param ref - Ref forwarded to the Radix item element.
  * @return A bordered accordion item container.
@@ -87,7 +89,8 @@ const AccordionItem = React.forwardRef<
 >(AccordionItemRender);
 
 // hygiene-ignore single-use -- Keep AccordionTriggerRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a trigger and its disclosure icon using the active variant.
-/** Renders a trigger and its disclosure icon using the active variant.
+/**
+ * Renders a trigger and its disclosure icon using the active variant.
  * @param triggerProps - Radix trigger attributes, content, and optional size variant.
  * @param ref - Ref forwarded to the Radix trigger element.
  * @return An accordion header containing the trigger and disclosure icon.
@@ -132,7 +135,8 @@ const AccordionTrigger = React.forwardRef<
 >(AccordionTriggerRender);
 
 // hygiene-ignore single-use -- Keep AccordionContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the expandable content region using the active variant's spacing.
-/** Renders the expandable content region using the active variant's spacing.
+/**
+ * Renders the expandable content region using the active variant's spacing.
  * @param contentProps - Radix content attributes, children, and optional variant.
  * @param ref - Ref forwarded to the Radix content element.
  * @return An animated accordion content region.

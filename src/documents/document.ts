@@ -29,12 +29,16 @@ const SHARED_REGEX = /^#/;
 WORD TEMPLATE
 //////////////////////////////////////////////////*/
 
-/** Branding and title options for the editable Word invoice template. */
+/**
+ * Branding and title options for the editable Word invoice template.
+ */
 export type WordTemplateOptions = {
 	title?: string;
 	subtitle?: string;
 	brand?: TerraDocumentBrandOptions;
-	/** Adds the second-page style guide used to review all reusable Word styles. */
+	/**
+	 * Adds the second-page style guide used to review all reusable Word styles.
+	 */
 	showcase?: boolean;
 };
 
@@ -60,14 +64,16 @@ export function createWordTemplate(options: WordTemplateOptions = {}): Document 
 	// hygiene-ignore single-use -- Share one margin-options object across the generated Word cells instead of recreating it for each cell.
 	const cellMargins = { top: 100, bottom: 100, left: 140, right: 140 };
 	// hygiene-ignore single-use -- Keep colorFill as a named declaration so its authored TSDoc stays attached. TSDoc: Removes a leading hash before assigning a Word cell fill.
-	/** Removes a leading hash before assigning a Word cell fill.
+	/**
+	 * Removes a leading hash before assigning a Word cell fill.
 	 * @param color - CSS-style hexadecimal fill color.
 	 * @return Word shading options for the fill.
 	 */
 	function colorFill(color: string) {
 		return { type: ShadingType.CLEAR, fill: color.replace(SHARED_REGEX, '') };
 	}
-	/** Creates a text run using the selected Terra body font.
+	/**
+	 * Creates a text run using the selected Terra body font.
 	 * @param value - Text shown in the run.
 	 * @param run - Additional Word text-run options.
 	 * @return A styled Word text run.
@@ -75,7 +81,8 @@ export function createWordTemplate(options: WordTemplateOptions = {}): Document 
 	function runText(value: string, run: Record<string, unknown> = {}) {
 		return new TextRun({ text: value, font, ...run });
 	}
-	/** Creates a Word paragraph with the template's default inline text run.
+	/**
+	 * Creates a Word paragraph with the template's default inline text run.
 	 * @param value - Paragraph content.
 	 * @param style - Word paragraph style name.
 	 * @param alignment - Optional horizontal paragraph alignment.
@@ -84,7 +91,8 @@ export function createWordTemplate(options: WordTemplateOptions = {}): Document 
 	function paragraph(value: string, style = 'Normal', alignment?: (typeof AlignmentType)[keyof typeof AlignmentType]) {
 		return new Paragraph({ style, alignment, children: [runText(value)] });
 	}
-	/** Builds a numbered Word heading and keeps its following paragraph attached.
+	/**
+	 * Builds a numbered Word heading and keeps its following paragraph attached.
 	 * @param headingText - Heading content.
 	 * @param level - Heading depth from one through three.
 	 * @return A Word heading paragraph.
@@ -97,7 +105,8 @@ export function createWordTemplate(options: WordTemplateOptions = {}): Document 
 		} as const;
 		return new Paragraph({ heading: levelMap[level].heading, keepNext: true, style: levelMap[level].style, children: [runText(headingText)] });
 	}
-	/** Creates a table cell using the invoice template's spacing and vertical alignment.
+	/**
+	 * Creates a table cell using the invoice template's spacing and vertical alignment.
 	 * @param paragraphs - Cell content paragraphs.
 	 * @param width - Cell width in DXA units.
 	 * @param opts - Optional fill, border, span, and alignment settings.
@@ -118,7 +127,8 @@ export function createWordTemplate(options: WordTemplateOptions = {}): Document 
 			children: paragraphs,
 		});
 	}
-	/** Creates a fixed-layout table with shared invoice borders.
+	/**
+	 * Creates a fixed-layout table with shared invoice borders.
 	 * @param rows - Table rows in display order.
 	 * @param widths - Column widths in DXA units.
 	 * @return A fixed-layout Word table.
@@ -126,7 +136,8 @@ export function createWordTemplate(options: WordTemplateOptions = {}): Document 
 	function makeTable(rows: TableRow[], widths: number[]) {
 		return new Table({ rows, width: { size: 100, type: WidthType.PERCENTAGE }, columnWidths: widths, layout: 'fixed', borders: emptyTableBorders });
 	}
-	/** Creates a body or header paragraph for a table cell.
+	/**
+	 * Creates a body or header paragraph for a table cell.
 	 * @param value - Cell text.
 	 * @param align - Optional right or center alignment.
 	 * @param style - Word paragraph style name.
@@ -135,7 +146,8 @@ export function createWordTemplate(options: WordTemplateOptions = {}): Document 
 	function tableText(value: string, align?: 'right' | 'center', style = 'TableBody') {
 		return new Paragraph({ style, alignment: align === 'right' ? AlignmentType.RIGHT : align === 'center' ? AlignmentType.CENTER : AlignmentType.LEFT, children: [runText(value)] });
 	}
-	/** Creates a bold total row label or amount.
+	/**
+	 * Creates a bold total row label or amount.
 	 * @param value - Total label or amount.
 	 * @param align - Optional right alignment for the amount.
 	 * @return A bold total paragraph.

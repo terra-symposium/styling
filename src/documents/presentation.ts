@@ -31,7 +31,9 @@ const BTYPE_REGEX = /\btype="[^"]*"/;
 const P_SP_S_S_P_SP_G_REGEX = () => /<p:sp>[\s\S]*?<\/p:sp>/g;
 const PPT_SLIDES_SLIDE_D_XML_REGEX = /^ppt\/slides\/slide\d+\.xml$/;
 
-/** Minimal slide surface consumed by the Terra presentation builder. */
+/**
+ * Minimal slide surface consumed by the Terra presentation builder.
+ */
 type TerraSlide = {
 	background: { color: string };
 	addText: (value: string | { text: string; options?: Record<string, unknown> }[], options: Record<string, unknown>) => void;
@@ -40,7 +42,9 @@ type TerraSlide = {
 	addTable: (rows: unknown[][], options: Record<string, unknown>) => void;
 	addChart: (type: string, data: unknown[], options: Record<string, unknown>) => void;
 };
-/** Minimal PptxGenJS API surface used by the presentation builder. */
+/**
+ * Minimal PptxGenJS API surface used by the presentation builder.
+ */
 type TerraPresentation = {
 	layout: string;
 	author: string;
@@ -54,11 +58,15 @@ type TerraPresentation = {
 	defineSlideMaster: (props: Record<string, unknown>) => void;
 	writeFile: (options: { fileName: string }) => Promise<string>;
 };
-/** Title, subtitle, and brand settings for the editable slide-deck template. */
+/**
+ * Title, subtitle, and brand settings for the editable slide-deck template.
+ */
 export type PresentationTemplateOptions = {
 	title?: string;
 	subtitle?: string;
-	/** Include the narrative demo slides; false produces editable cover and graphic starter slides. */
+	/**
+	 * Include the narrative demo slides; false produces editable cover and graphic starter slides.
+	 */
 	showcase?: boolean;
 	brand?: TerraDocumentBrandOptions;
 };
@@ -92,7 +100,8 @@ function scaleToken(scale: { light: readonly string[]; dark: readonly string[] }
 	}
 	return `#${channels.join('')}`;
 }
-/** Converts one 0–255 RGB channel into two uppercase hexadecimal digits.
+/**
+ * Converts one 0–255 RGB channel into two uppercase hexadecimal digits.
  *
  * @param channel Numeric channel value encoded as a string.
  *
@@ -963,7 +972,8 @@ export async function applyPresentationBrand(presentationPath: string, brandOrOp
  */
 export async function editPresentationTemplate(srcPath: string, destPath: string, replacements: Record<string, string>): Promise<void> {
 	// hygiene-ignore single-use -- Keep isSlidePart as a named OOXML transformation step so the source snapshot, validation, and replacement sequence stay in their current order.
-	/** Selects only numbered slide XML parts for exact-text edits.
+	/**
+	 * Selects only numbered slide XML parts for exact-text edits.
 	 *
 	 * @param name Package entry name.
 	 *
@@ -1027,7 +1037,8 @@ async function finalizePresentation(presentationPath: string, brand: TerraDocume
 	if (!contentTypes) throw new Error('The generated presentation is missing [Content_Types].xml.');
 	let xml = await contentTypes.async('string');
 	// hygiene-ignore single-use -- Keep removeMissingOverride as a named OOXML transformation step so the source snapshot, validation, and replacement sequence stay in their current order.
-	/** Keeps content-type overrides only when the package part still exists.
+	/**
+	 * Keeps content-type overrides only when the package part still exists.
 	 *
 	 * @param match Full content-type override element.
 	 * @param partName Package part path declared by the override.

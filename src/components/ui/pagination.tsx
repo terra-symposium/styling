@@ -32,7 +32,8 @@ function Pagination({ className, ...attributes }: React.ComponentProps<'nav'>): 
 }
 
 // hygiene-ignore single-use -- Keep PaginationContentRender as a named React component to preserve its identity. TSDoc: Renders a horizontally arranged list of pagination controls.
-/** Renders a horizontally arranged list of pagination controls.
+/**
+ * Renders a horizontally arranged list of pagination controls.
  * @param attributes - Div attributes and optional class name.
  * @param ref - Forwarded reference to the list container.
  * @return The pagination control list container.
@@ -45,7 +46,8 @@ function PaginationContentRender(attributes: React.ComponentProps<'div'>, ref: R
 const PaginationContent = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(PaginationContentRender);
 
 // hygiene-ignore single-use -- Keep PaginationItemRender as a named React component to preserve its identity. TSDoc: Renders one pagination action using the shared ghost button styles.
-/** Renders one pagination action using the shared ghost button styles.
+/**
+ * Renders one pagination action using the shared ghost button styles.
  * @param attributes - Button props and optional class name.
  * @param ref - Forwarded reference to the action button.
  * @return The styled pagination action button.

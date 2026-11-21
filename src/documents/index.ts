@@ -1,10 +1,19 @@
+/**
+ * src/documents/index.ts
+ */
+/*
+ * src/documents/index.ts
+ */
+
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
 
-/**
- * src/documents/index.ts
- */
+import { fileURLToPath } from 'node:url';
+
+/*//////////////////////////////////////////////////
+EXPORTS
+//////////////////////////////////////////////////*/
 
 export { createDocumentBrand, randomDocumentHue } from './theme.js';
 export type { DocumentColors, DocumentColorScales, TerraDocumentBrand, TerraDocumentBrandOptions } from './theme.js';
@@ -16,17 +25,12 @@ export { createWordTemplate, writeWordTemplate, editWordTemplate } from './docum
 export type { WordTemplateOptions } from './document.js';
 
 /*//////////////////////////////////////////////////
-IMPORTS
-//////////////////////////////////////////////////*/
-
-// API
-import { fileURLToPath } from 'node:url';
-
-/*//////////////////////////////////////////////////
 TEMPLATE FILES
 //////////////////////////////////////////////////*/
 
-/** Names of the editable starter files shipped with the package. */
+/**
+ * Names of the editable starter files shipped with the package.
+ */
 export const DOCUMENT_TEMPLATE_FILES = {
 	presentation: 'terra-presentation.pptx',
 	presentationPotx: 'terra-presentation.potx',

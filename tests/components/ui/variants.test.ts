@@ -1,3 +1,6 @@
+/**
+ * tests/components/ui/variants.test.ts
+ */
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
@@ -46,7 +49,8 @@ const toggleTypes = ['default', 'outline', 'ghost', 'tonal'] as const;
 HELPERS
 //////////////////////////////////////////////////*/
 
-/** Builds the CVA key for a color and treatment pair.
+/**
+ * Builds the CVA key for a color and treatment pair.
  *
  * @param color Palette family used by the variant.
  * @param treatment Named visual treatment for that palette.
@@ -57,7 +61,8 @@ function matrixKey(color: string, treatment: string): string {
 	return treatment === 'default' ? color : `${color}-${treatment}`;
 }
 
-/** Reads a source file for component-consumer contract assertions.
+/**
+ * Reads a source file for component-consumer contract assertions.
  *
  * @param file Repository-relative source path.
  *
@@ -67,7 +72,8 @@ function src(file: string): string {
 	return readFileSync(join(repo, file), 'utf8');
 }
 
-/** Fails with the contract name when a shared variant does not produce classes.
+/**
+ * Fails with the contract name when a shared variant does not produce classes.
  *
  * @param value Generated classes returned by a shared variant.
  * @param name Variant contract label included in assertion failures.
@@ -76,7 +82,8 @@ function hasClasses(value: string | undefined, name: string): void {
 	assert.ok(value?.trim(), `${name} should generate classes`);
 }
 
-/** Ensures a selected matrix entry does not fall back to its canonical default.
+/**
+ * Ensures a selected matrix entry does not fall back to its canonical default.
  *
  * @param value Classes returned by the selected variant.
  * @param baseline Classes returned by the canonical default variant.
@@ -94,7 +101,9 @@ TESTS
 test.describe('shared UI variant contracts', sharedUiVariantContracts);
 
 // hygiene-ignore single-use -- Keep sharedUiVariantContracts as a named declaration so its authored TSDoc stays attached. TSDoc: Registers the independent matrix, primitive, and consumer contracts.
-/** Registers the independent matrix, primitive, and consumer contracts. */
+/**
+ * Registers the independent matrix, primitive, and consumer contracts.
+ */
 function sharedUiVariantContracts(): void {
 	// VARIANT MATRICES
 	test('action, surface, form-control, and toggle matrices generate every valid color/treatment/size combination', validVariantMatricesGenClasses);

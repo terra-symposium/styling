@@ -24,7 +24,8 @@ COMPONENTS
 //////////////////////////////////////////////////*/
 
 // hygiene-ignore single-use -- Keep renderCommandRoot as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the command primitive with the shared base surface classes.
-/** Renders the command primitive with the shared base surface classes.
+/**
+ * Renders the command primitive with the shared base surface classes.
  *
  * @param commandProps Properties forwarded to the command primitive.
  * @param ref Forwarded command element ref.
@@ -71,7 +72,8 @@ function CommandDialog({ className, children, size, ...dialogProps }: CommandDia
 }
 
 // hygiene-ignore single-use -- Keep renderCommandInput as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a command search input and its optional clear control.
-/** Renders a command search input and its optional clear control.
+/**
+ * Renders a command search input and its optional clear control.
  *
  * @param inputProps Command input attributes and optional clear handler.
  * @param ref Forwarded input element ref.
@@ -109,7 +111,8 @@ function renderCommandInput(inputProps: CommandInputProps, ref: React.ForwardedR
 const CommandInput = React.forwardRef(renderCommandInput);
 
 // hygiene-ignore single-use -- Keep renderCommandList as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the scrollable list area inside a command palette.
-/** Renders the scrollable list area inside a command palette.
+/**
+ * Renders the scrollable list area inside a command palette.
  *
  * @param listProps Properties forwarded to the command list primitive.
  * @param ref Forwarded list element ref.
@@ -123,7 +126,8 @@ function renderCommandList(listProps: React.ComponentPropsWithoutRef<typeof Comm
 const CommandList = React.forwardRef(renderCommandList);
 
 // hygiene-ignore single-use -- Keep renderCommandEmpty as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the empty-results indicator inside a command list.
-/** Renders the empty-results indicator inside a command list.
+/**
+ * Renders the empty-results indicator inside a command list.
  *
  * @param emptyProps Properties forwarded to the empty-results primitive.
  * @param ref Forwarded empty-state element ref.
@@ -136,7 +140,8 @@ function renderCommandEmpty(emptyProps: React.ComponentPropsWithoutRef<typeof Co
 const CommandEmpty = React.forwardRef(renderCommandEmpty);
 
 // hygiene-ignore single-use -- Keep renderCommandGroup as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a grouped set of command options with shared heading styles.
-/** Renders a grouped set of command options with shared heading styles.
+/**
+ * Renders a grouped set of command options with shared heading styles.
  *
  * @param groupProps Properties forwarded to the command group primitive.
  * @param ref Forwarded group element ref.
@@ -160,7 +165,8 @@ function renderCommandGroup(groupProps: React.ComponentPropsWithoutRef<typeof Co
 const CommandGroup = React.forwardRef(renderCommandGroup);
 
 // hygiene-ignore single-use -- Keep renderCommandSeparator as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a styled separator between command groups or items.
-/** Renders a styled separator between command groups or items.
+/**
+ * Renders a styled separator between command groups or items.
  *
  * @param separatorProps Properties forwarded to the separator primitive.
  * @param ref Forwarded separator element ref.
@@ -177,7 +183,8 @@ function renderCommandSeparator(
 const CommandSeparator = Object.assign(React.forwardRef(renderCommandSeparator), { displayName: CommandPrimitive.Separator.displayName });
 
 // hygiene-ignore single-use -- Keep renderCommandItem as a named declaration so its authored TSDoc stays attached. TSDoc: Renders one selectable command option with shared selection styling.
-/** Renders one selectable command option with shared selection styling.
+/**
+ * Renders one selectable command option with shared selection styling.
  *
  * @param itemProps Properties forwarded to the item primitive.
  * @param ref Forwarded item element ref.
@@ -202,7 +209,8 @@ function renderCommandItem(itemProps: React.ComponentPropsWithoutRef<typeof Comm
 }
 const CommandItem = React.forwardRef(renderCommandItem);
 
-/** Renders secondary shortcut indicator text at the end of a command item.
+/**
+ * Renders secondary shortcut indicator text at the end of a command item.
  *
  * @param className Optional classes applied to the shortcut text.
  * @param spanProps Remaining span attributes.

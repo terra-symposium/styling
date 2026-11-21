@@ -53,7 +53,8 @@ function Slider({
 	...rootProps
 }: React.ComponentProps<typeof SliderPrimitive.Root>): React.JSX.Element {
 	// hygiene-ignore single-use -- Keep getSliderValues as a named declaration so its authored TSDoc stays attached. TSDoc: Resolves the thumb positions from the controlled or default slider values.
-	/** Resolves the thumb positions from the controlled or default slider values.
+	/**
+	 * Resolves the thumb positions from the controlled or default slider values.
 	 *
 	 * @return Slider values or the minimum and maximum endpoints.
 	 */
@@ -62,7 +63,8 @@ function Slider({
 	}
 	const vals = React.useMemo(getSliderValues, [value, defaultValue, min, max]);
 	// hygiene-ignore single-use -- Keep renderThumb as a named declaration so its authored TSDoc stays attached. TSDoc: Renders one thumb and labels its position when multiple values are present.
-	/** Renders one thumb and labels its position when multiple values are present.
+	/**
+	 * Renders one thumb and labels its position when multiple values are present.
 	 *
 	 * @param _value Unused array element placeholder required by `Array.from`.
 	 * @param index Zero-based position of this thumb.
@@ -112,7 +114,8 @@ function Slider({
 }
 
 // hygiene-ignore single-use -- Keep renderSliderTrack as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the track primitive with shared slider track classes.
-/** Renders the track primitive with shared slider track classes.
+/**
+ * Renders the track primitive with shared slider track classes.
  *
  * @param trackProps Track properties and optional classes.
  * @param ref Forwarded track element ref.
@@ -128,7 +131,8 @@ const SliderTrack = Object.assign(React.forwardRef(renderSliderTrack), {
 });
 
 // hygiene-ignore single-use -- Keep renderSliderRange as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the selected-value fill with shared slider range classes.
-/** Renders the selected-value fill with shared slider range classes.
+/**
+ * Renders the selected-value fill with shared slider range classes.
  *
  * @param rangeProps Range properties and optional classes.
  * @param ref Forwarded range element ref.
@@ -144,7 +148,8 @@ const SliderRange = Object.assign(React.forwardRef(renderSliderRange), {
 });
 
 // hygiene-ignore single-use -- Keep renderSliderThumb as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a slider thumb with focus and selection styling.
-/** Renders a slider thumb with focus and selection styling.
+/**
+ * Renders a slider thumb with focus and selection styling.
  *
  * @param thumbProps Thumb properties and optional classes.
  * @param ref Forwarded thumb element ref.

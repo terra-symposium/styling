@@ -36,21 +36,29 @@ TYPES
 //////////////////////////////////////////////////*/
 
 // FORM LAYOUT CONTRACT
-/** Named layouts available to shared data-driven form fields. */
+/**
+ * Named layouts available to shared data-driven form fields.
+ */
 export type FormLayout = 'stacked' | 'compact' | 'spacious' | 'two-column' | 'two-column-sm' | 'two-column-compact-sm' | 'three-column' | 'four-column' | 'four-column-sm' | 'inline' | 'contents';
 
-/** Per-field control and label placement used by mapped checkbox fields. */
+/**
+ * Per-field control and label placement used by mapped checkbox fields.
+ */
 export type MappedFormFieldOrientation = 'vertical' | 'horizontal';
 
 // MAPPED FIELD CONTRACT
-/** Defines a selectable value and its label for mapped select and radio fields. */
+/**
+ * Defines a selectable value and its label for mapped select and radio fields.
+ */
 export type MappedSelectOption = {
 	value: string;
 	label: ReactNode;
 	disabled?: boolean;
 };
 
-/** Shared label, validation, and styling properties for mapped field variants. */
+/**
+ * Shared label, validation, and styling properties for mapped field variants.
+ */
 type MappedFormFieldBase = {
 	key?: string;
 	id?: string;
@@ -65,7 +73,9 @@ type MappedFormFieldBase = {
 	error?: ReactNode;
 };
 
-/** Checkbox field whose orientation controls whether its control precedes the label. */
+/**
+ * Checkbox field whose orientation controls whether its control precedes the label.
+ */
 type MappedCheckboxFormField = MappedFormFieldBase & {
 	type: 'checkbox';
 	name?: string;
@@ -77,7 +87,9 @@ type MappedCheckboxFormField = MappedFormFieldBase & {
 	control?: never;
 };
 
-/** Models a supplied control or input, select, textarea, checkbox, radio, or display field. */
+/**
+ * Models a supplied control or input, select, textarea, checkbox, radio, or display field.
+ */
 export type MappedFormField =
 	| (MappedFormFieldBase & {
 			control: ReactNode;

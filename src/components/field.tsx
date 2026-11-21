@@ -44,7 +44,9 @@ TYPES
 //////////////////////////////////////////////////*/
 
 // ORIENTATION CONTRACT
-/** Supported field group layouts, including container-responsive orientation. */
+/**
+ * Supported field group layouts, including container-responsive orientation.
+ */
 export type FieldOrientation = NonNullable<VariantProps<typeof fieldVariants>['orientation']>;
 
 /*//////////////////////////////////////////////////

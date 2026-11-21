@@ -16,12 +16,16 @@ import ExcelJS from 'exceljs';
 
 // TYPES
 import type { TerraDocumentBrandOptions } from './theme.js';
-/** Workbook title and Terra brand settings for a generated spreadsheet. */
+/**
+ * Workbook title and Terra brand settings for a generated spreadsheet.
+ */
 export type SpreadsheetTemplateOptions = {
 	title?: string;
 	brand?: TerraDocumentBrandOptions;
 };
-/** Cell values keyed by worksheet name and address for template customization. */
+/**
+ * Cell values keyed by worksheet name and address for template customization.
+ */
 export type SpreadsheetCellEdits = Record<string, Record<string, string | number | boolean | Date | null>>;
 
 /*//////////////////////////////////////////////////

@@ -1,3 +1,6 @@
+/**
+ * tests/components/ui/data-list.test.ts
+ */
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
@@ -7,6 +10,10 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import test from 'node:test';
 import { MappedList, MetricGrid } from '../../../src/components/data-list.tsx';
+
+/*//////////////////////////////////////////////////
+TESTS
+//////////////////////////////////////////////////*/
 
 test('mapped list renders data with ordered semantics, item keys, and a custom renderer', () => {
 	assert.match(

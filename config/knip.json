@@ -18,7 +18,7 @@
 		"docs/styling/**/*.mdx",
 		"docs/styling/1-colouring/*.tsx",
 		"docs/styling/1-colouring/demos/*.tsx",
-		"test/**/*.{ts,tsx}",
+		"tests/**/*.{ts,tsx}",
 		"config/**/*.{js,mjs,cjs,ts}"
 	],
 	"project": ["**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,mdx}"],

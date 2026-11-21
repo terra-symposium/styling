@@ -20,7 +20,9 @@ import { FOCUS_VISIBLE_VARIANTS, SURFACE_VARIANTS } from './variants.js';
 
 // TYPES
 import type { SurfaceMatrixVariant, UiColor, UiSize } from './types.js';
-/** Surface and solid-color variants accepted by the shared Badge component. */
+/**
+ * Surface and solid-color variants accepted by the shared Badge component.
+ */
 type BadgeVariant = SurfaceMatrixVariant | `${UiColor}-default`;
 const BADGE_COLORS: readonly UiColor[] = ['primary', 'secondary', 'gray', 'destructive', 'success', 'caution'];
 const BADGE_TREATMENTS = ['default', 'outline', 'ghost', 'tonal', 'saturated', 'glass'] as const;

@@ -26,7 +26,9 @@ TYPES
 //////////////////////////////////////////////////*/
 
 // TABLE CONTRACTS
-/** Defines a data-driven table column backed by a row property or custom content. */
+/**
+ * Defines a data-driven table column backed by a row property or custom content.
+ */
 export type DataTableColumn<Row extends object> = {
 	key: string;
 	label: ReactNode;
@@ -41,7 +43,9 @@ export type DataTableColumn<Row extends object> = {
 	field?: (row: Row, index: number) => MappedFormField | undefined;
 };
 
-/** Models a table cell's static content or mapped control and its presentation. */
+/**
+ * Models a table cell's static content or mapped control and its presentation.
+ */
 export type DataTableCell = {
 	key: string;
 	content?: ReactNode;
@@ -277,5 +281,7 @@ export function DataTableContent<Row extends object>({
 	return variant === 'editor' ? <div className='border-gray-6 overflow-x-auto border-t'>{tableContent}</div> : tableContent;
 }
 
-/** The public data table uses the same unwrapped table renderer. */
+/**
+ * The public data table uses the same unwrapped table renderer.
+ */
 export { DataTableContent as DataTable };

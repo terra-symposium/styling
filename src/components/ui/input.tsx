@@ -27,7 +27,8 @@ COMPONENTS
 //////////////////////////////////////////////////*/
 
 // hygiene-ignore single-use -- Keep renderInput as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a text input with adornments and optional react-hook-form registration.
-/** Renders a text input with adornments and optional react-hook-form registration.
+/**
+ * Renders a text input with adornments and optional react-hook-form registration.
  * @param inputProps - Native input, variant, adornment, and form conversion options.
  * @param ref - Ref combined with the form registration ref.
  * @return An input control with the requested adornments and handlers.
@@ -36,7 +37,8 @@ function renderInput(inputProps: InputProps, ref: React.ForwardedRef<HTMLInputEl
 	const { icon, prefix, suffix, onClear, setValueAs, className, type = 'text', variant = 'primary', size = 'md', name, value, onChange, onBlur, ...props } = inputProps;
 	const form = useOptionalFormContext<FieldValues>();
 	// hygiene-ignore single-use -- Keep normalizeRegisteredValue as a named declaration so its authored TSDoc stays attached. TSDoc: Applies the caller conversion and input-specific value normalization.
-	/** Applies the caller conversion and input-specific value normalization.
+	/**
+	 * Applies the caller conversion and input-specific value normalization.
 	 * @param raw - Value received from the registered input.
 	 * @return The value stored by the form field.
 	 */
@@ -49,7 +51,8 @@ function renderInput(inputProps: InputProps, ref: React.ForwardedRef<HTMLInputEl
 	const registration = form && name && type !== 'file' && !onChange ? form.register(name, { setValueAs: normalizeRegisteredValue }) : null;
 	const leading = prefix ?? icon;
 	// hygiene-ignore single-use -- Keep attachInputRef as a named declaration so its authored TSDoc stays attached. TSDoc: Merges the form ref and forwarded component ref.
-	/** Merges the form ref and forwarded component ref.
+	/**
+	 * Merges the form ref and forwarded component ref.
 	 * @param element - Mounted input element or null during unmount.
 	 * @return Nothing; each registered ref receives the element.
 	 */
@@ -59,7 +62,8 @@ function renderInput(inputProps: InputProps, ref: React.ForwardedRef<HTMLInputEl
 		else if (ref) ref.current = element;
 	}
 	// hygiene-ignore single-use -- Keep handleInputChange as a named declaration so its authored TSDoc stays attached. TSDoc: Updates form state before invoking the caller's change handler.
-	/** Updates form state before invoking the caller's change handler.
+	/**
+	 * Updates form state before invoking the caller's change handler.
 	 * @param event - Native input change event.
 	 * @return Nothing; the form and caller observe the change in order.
 	 */
@@ -68,7 +72,8 @@ function renderInput(inputProps: InputProps, ref: React.ForwardedRef<HTMLInputEl
 		onChange?.(event);
 	}
 	// hygiene-ignore single-use -- Keep handleInputBlur as a named declaration so its authored TSDoc stays attached. TSDoc: Updates form state before invoking the caller's blur handler.
-	/** Updates form state before invoking the caller's blur handler.
+	/**
+	 * Updates form state before invoking the caller's blur handler.
 	 * @param event - Native input focus event.
 	 * @return Nothing; the form and caller observe the blur in order.
 	 */
@@ -77,7 +82,8 @@ function renderInput(inputProps: InputProps, ref: React.ForwardedRef<HTMLInputEl
 		onBlur?.(event);
 	}
 	// hygiene-ignore single-use -- Keep clearInput as a named declaration so its authored TSDoc stays attached. TSDoc: Clears the registered value before invoking the supplied clear callback.
-	/** Clears the registered value before invoking the supplied clear callback.
+	/**
+	 * Clears the registered value before invoking the supplied clear callback.
 	 * @return Nothing; the field value is cleared and marked for validation.
 	 */
 	function clearInput(): void {

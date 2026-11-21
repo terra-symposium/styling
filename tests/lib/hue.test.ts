@@ -1,3 +1,6 @@
+/**
+ * tests/lib/hue.test.ts
+ */
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
@@ -7,7 +10,9 @@ import { afterEach, describe, it } from 'node:test';
 import { applyHue, colors, flattenColors, getHue, invert, isDarkMode } from '../../src/lib/hue.ts';
 import type { ColorScales } from '../../src/lib/types.ts';
 
-/** CSS class-list stub used by the document and element test doubles. */
+/**
+ * CSS class-list stub used by the document and element test doubles.
+ */
 class MockClassList {
 	/**
 	 * Reports that no test element has a theme class.
@@ -20,7 +25,9 @@ class MockClassList {
 	}
 }
 
-/** Minimal HTMLElement stand-in exposing the style and query APIs used by applyHue. */
+/**
+ * Minimal HTMLElement stand-in exposing the style and query APIs used by applyHue.
+ */
 class MockEl {
 	style = { cssText: '' };
 	classList = new MockClassList();
@@ -46,11 +53,14 @@ class MockEl {
 	}
 }
 
-/** Document stand-in that records the hue-change event emitted by applyHue. */
+/**
+ * Document stand-in that records the hue-change event emitted by applyHue.
+ */
 class MockDoc {
 	dispatchedEvent: { type: string; detail: unknown } | null = null;
 
-	/** Creates a fake document around its root and optional body elements.
+	/**
+	 * Creates a fake document around its root and optional body elements.
 	 *
 	 * @param documentElement - Root element that receives the document palette.
 	 * @param body - Optional body element that receives the document palette.
@@ -82,7 +92,9 @@ class MockDoc {
 	}
 }
 
-/** Custom-event substitute that retains the type and detail checked by the tests. */
+/**
+ * Custom-event substitute that retains the type and detail checked by the tests.
+ */
 class MockCustomEvent {
 	/**
 	 * Creates a hue-change event stand-in for the browser global.
@@ -106,7 +118,9 @@ class MockCustomEvent {
 }
 
 // hygiene-ignore single-use -- Keep resetApplyHueGlobals as a named declaration so its authored TSDoc stays attached. TSDoc: Removes browser globals installed by an applyHue fixture.
-/** Removes browser globals installed by an applyHue fixture. */
+/**
+ * Removes browser globals installed by an applyHue fixture.
+ */
 function resetApplyHueGlobals(): void {
 	Reflect.deleteProperty(globalThis, 'document');
 	Reflect.deleteProperty(globalThis, 'CustomEvent');
@@ -114,7 +128,9 @@ function resetApplyHueGlobals(): void {
 }
 
 // hygiene-ignore single-use -- Keep describeColorUtilities as a named declaration so its authored TSDoc stays attached. TSDoc: Registers focused tests for hue derivation, scale generation, and application.
-/** Registers focused tests for hue derivation, scale generation, and application. */
+/**
+ * Registers focused tests for hue derivation, scale generation, and application.
+ */
 function describeColorUtilities(): void {
 	describe('getHue', describeGetHue);
 	describe('invert', describeInvert);
@@ -125,20 +141,26 @@ function describeColorUtilities(): void {
 }
 
 // hygiene-ignore single-use -- Keep describeGetHue as a named declaration so its authored TSDoc stays attached. TSDoc: Registers hue derivation cases for explicit and normalized labels.
-/** Registers hue derivation cases for explicit and normalized labels. */
+/**
+ * Registers hue derivation cases for explicit and normalized labels.
+ */
 function describeGetHue(): void {
 	it('preserves explicit section hues', preservesExplicitSectionHues);
 	it('derives a stable hue from normalized document labels', normDocLabelsBeforeDerivingHue);
 }
 
 // hygiene-ignore single-use -- Keep preservesExplicitSectionHues as a named declaration so its authored TSDoc stays attached. TSDoc: Preserves the hue supplied for a named section.
-/** Preserves the hue supplied for a named section. */
+/**
+ * Preserves the hue supplied for a named section.
+ */
 function preservesExplicitSectionHues(): void {
 	assert.strictEqual(getHue('Programming', 145), 145);
 }
 
 // hygiene-ignore single-use -- Keep normDocumentLabelsBeforeDerivingHue as a named declaration so its authored TSDoc stays attached. TSDoc: Normalizes equivalent labels before deriving their deterministic hue.
-/** Normalizes equivalent labels before deriving their deterministic hue. */
+/**
+ * Normalizes equivalent labels before deriving their deterministic hue.
+ */
 function normDocLabelsBeforeDerivingHue(): void {
 	assert.strictEqual(getHue('Course_Notes.md'), getHue('Course Notes'));
 	assert.strictEqual(getHue('__Advanced-Topics.mdx'), getHue('Advanced Topics'));
@@ -146,7 +168,9 @@ function normDocLabelsBeforeDerivingHue(): void {
 }
 
 // hygiene-ignore single-use -- Keep describeInvert as a named declaration so its authored TSDoc stays attached. TSDoc: Registers hue inversion cases for null values, rotation, and wraparound.
-/** Registers hue inversion cases for null values, rotation, and wraparound. */
+/**
+ * Registers hue inversion cases for null values, rotation, and wraparound.
+ */
 function describeInvert(): void {
 	it('returns null when hue is null', preservesNullHueDuringInversion);
 	it('rotates numeric hue by 150 degrees', rotatesHueByOneHalfTurn);
@@ -154,32 +178,42 @@ function describeInvert(): void {
 }
 
 // hygiene-ignore single-use -- Keep preservesNullHueDuringInversion as a named declaration so its authored TSDoc stays attached. TSDoc: Keeps the grayscale marker unchanged when inversion receives null.
-/** Keeps the grayscale marker unchanged when inversion receives null. */
+/**
+ * Keeps the grayscale marker unchanged when inversion receives null.
+ */
 function preservesNullHueDuringInversion(): void {
 	assert.strictEqual(invert(null), null);
 }
 
 // hygiene-ignore single-use -- Keep rotatesHueByOneHalfTurn as a named declaration so its authored TSDoc stays attached. TSDoc: Rotates ordinary numeric hue values by 150 degrees.
-/** Rotates ordinary numeric hue values by 150 degrees. */
+/**
+ * Rotates ordinary numeric hue values by 150 degrees.
+ */
 function rotatesHueByOneHalfTurn(): void {
 	assert.strictEqual(invert(0), 150);
 	assert.strictEqual(invert(100), 250);
 }
 
 // hygiene-ignore single-use -- Keep wrapsHueAtScaleBoundary as a named declaration so its authored TSDoc stays attached. TSDoc: Wraps inverted hue values back into the three-hundred degree scale.
-/** Wraps inverted hue values back into the three-hundred degree scale. */
+/**
+ * Wraps inverted hue values back into the three-hundred degree scale.
+ */
 function wrapsHueAtScaleBoundary(): void {
 	assert.strictEqual(invert(200), 50);
 }
 
 // hygiene-ignore single-use -- Keep describeFlattenColors as a named declaration so its authored TSDoc stays attached. TSDoc: Registers flattening behavior for prefixed and unprefixed variable maps.
-/** Registers flattening behavior for prefixed and unprefixed variable maps. */
+/**
+ * Registers flattening behavior for prefixed and unprefixed variable maps.
+ */
 function describeFlattenColors(): void {
 	it('flattens light and dark scales into variable dictionary', flattensColorScales);
 }
 
 // hygiene-ignore single-use -- Keep flattensColorScales as a named declaration so its authored TSDoc stays attached. TSDoc: Flattens representative light and dark values using both naming modes.
-/** Flattens representative light and dark values using both naming modes. */
+/**
+ * Flattens representative light and dark values using both naming modes.
+ */
 function flattensColorScales(): void {
 	const mockScales = {
 		light: ['10 10 10', '20 20 20', '30 30 30', '40 40 40', '50 50 50', '60 60 60', '70 70 70', '80 80 80', '90 90 90', '100 100 100', '110 110 110', '120 120 120'] as ColorScales['light'],
@@ -209,19 +243,25 @@ function flattensColorScales(): void {
 }
 
 // hygiene-ignore single-use -- Keep describeIsDarkMode as a named declaration so its authored TSDoc stays attached. TSDoc: Registers the server-side fallback for system dark-mode detection.
-/** Registers the server-side fallback for system dark-mode detection. */
+/**
+ * Registers the server-side fallback for system dark-mode detection.
+ */
 function describeIsDarkMode(): void {
 	it('returns false in server / non-DOM environment', returnsLightModeWithoutDoc);
 }
 
 // hygiene-ignore single-use -- Keep returnsLightModeWithoutDocument as a named declaration so its authored TSDoc stays attached. TSDoc: Reports light mode when no browser document is available.
-/** Reports light mode when no browser document is available. */
+/**
+ * Reports light mode when no browser document is available.
+ */
 function returnsLightModeWithoutDoc(): void {
 	assert.strictEqual(isDarkMode(), false);
 }
 
 // hygiene-ignore single-use -- Keep describeColors as a named declaration so its authored TSDoc stays attached. TSDoc: Registers invalid, grayscale, and numeric palette generation cases.
-/** Registers invalid, grayscale, and numeric palette generation cases. */
+/**
+ * Registers invalid, grayscale, and numeric palette generation cases.
+ */
 function describeColors(): void {
 	it('throws on invalid hue type', rejectsInvalidHueType);
 	it('returns grayscale scale pair when hue is null', returnsGrayscaleScalesForNullHue);
@@ -230,19 +270,25 @@ function describeColors(): void {
 }
 
 // hygiene-ignore single-use -- Keep useInvalidHue as a named declaration so its authored TSDoc stays attached. TSDoc: Supplies an invalid runtime value to verify the public hue validator.
-/** Supplies an invalid runtime value to verify the public hue validator. */
+/**
+ * Supplies an invalid runtime value to verify the public hue validator.
+ */
 function useInvalidHue(): void {
 	colors('invalid' as never);
 }
 
 // hygiene-ignore single-use -- Keep rejectsInvalidHueType as a named declaration so its authored TSDoc stays attached. TSDoc: Rejects a runtime hue value that falls outside the documented input type.
-/** Rejects a runtime hue value that falls outside the documented input type. */
+/**
+ * Rejects a runtime hue value that falls outside the documented input type.
+ */
 function rejectsInvalidHueType(): void {
 	assert.throws(useInvalidHue, /Invalid hue/);
 }
 
 // hygiene-ignore single-use -- Keep returnsGrayscaleScalesForNullHue as a named declaration so its authored TSDoc stays attached. TSDoc: Returns identical light and dark grayscale scales when hue is null.
-/** Returns identical light and dark grayscale scales when hue is null. */
+/**
+ * Returns identical light and dark grayscale scales when hue is null.
+ */
 function returnsGrayscaleScalesForNullHue(): void {
 	const [accent, gray] = colors(null);
 	assert.strictEqual(accent.light.length, 12);
@@ -251,7 +297,9 @@ function returnsGrayscaleScalesForNullHue(): void {
 }
 
 // hygiene-ignore single-use -- Keep gensTwelveStepColorScales as a named declaration so its authored TSDoc stays attached. TSDoc: Produces twelve entries in each light, dark, and grayscale scale.
-/** Produces twelve entries in each light, dark, and grayscale scale. */
+/**
+ * Produces twelve entries in each light, dark, and grayscale scale.
+ */
 function gensTwelveStepColorScales(): void {
 	const [primary, gray] = colors(180);
 	assert.strictEqual(primary.light.length, 12);
@@ -262,7 +310,9 @@ function gensTwelveStepColorScales(): void {
 }
 
 // hygiene-ignore single-use -- Keep appliesHueAvoidanceShift as a named declaration so its authored TSDoc stays attached. TSDoc: Confirms the configured hue-avoidance shift changes the default palette.
-/** Confirms the configured hue-avoidance shift changes the default palette. */
+/**
+ * Confirms the configured hue-avoidance shift changes the default palette.
+ */
 function appliesHueAvoidanceShift(): void {
 	const [primary70] = colors(70);
 	const [unshifted70] = colors(70, { hueAvoidanceShift: 0 });
@@ -270,7 +320,9 @@ function appliesHueAvoidanceShift(): void {
 }
 
 // hygiene-ignore single-use -- Keep describeApplyHue as a named declaration so its authored TSDoc stays attached. TSDoc: Registers browser-global setup and cleanup cases for hue application.
-/** Registers browser-global setup and cleanup cases for hue application. */
+/**
+ * Registers browser-global setup and cleanup cases for hue application.
+ */
 function describeApplyHue(): void {
 	afterEach(resetApplyHueGlobals);
 	it('does nothing when document is undefined', leavesServerCallsUntouched);
@@ -280,13 +332,17 @@ function describeApplyHue(): void {
 }
 
 // hygiene-ignore single-use -- Keep leavesServerCallsUntouched as a named declaration so its authored TSDoc stays attached. TSDoc: Leaves server-side calls untouched when no browser document exists.
-/** Leaves server-side calls untouched when no browser document exists. */
+/**
+ * Leaves server-side calls untouched when no browser document exists.
+ */
 function leavesServerCallsUntouched(): void {
 	assert.doesNotThrow(applyHueWithoutDoc);
 }
 
 // hygiene-ignore single-use -- Keep appliesNumericHueToDocument as a named declaration so its authored TSDoc stays attached. TSDoc: Applies a numeric palette to the document and emits the hue-change event.
-/** Applies a numeric palette to the document and emits the hue-change event. */
+/**
+ * Applies a numeric palette to the document and emits the hue-change event.
+ */
 function appliesNumericHueToDoc(): void {
 	const docEl = new MockEl();
 	const mockDoc = new MockDoc(docEl, new MockEl());
@@ -306,7 +362,9 @@ function appliesNumericHueToDoc(): void {
 }
 
 // hygiene-ignore single-use -- Keep appliesHueOnlyToScopedWorkspace as a named declaration so its authored TSDoc stays attached. TSDoc: Applies a scoped palette without modifying the document element or body.
-/** Applies a scoped palette without modifying the document element or body. */
+/**
+ * Applies a scoped palette without modifying the document element or body.
+ */
 function appliesHueOnlyToScopedWorkspace(): void {
 	const docEl = new MockEl();
 	const bodyEl = new MockEl();
@@ -326,7 +384,9 @@ function appliesHueOnlyToScopedWorkspace(): void {
 }
 
 // hygiene-ignore single-use -- Keep appliesGrayscaleHueToDocument as a named declaration so its authored TSDoc stays attached. TSDoc: Applies the grayscale palette and emits a null hue-change event.
-/** Applies the grayscale palette and emits a null hue-change event. */
+/**
+ * Applies the grayscale palette and emits a null hue-change event.
+ */
 function appliesGrayscaleHueToDoc(): void {
 	const docEl = new MockEl();
 	const mockDoc = new MockDoc(docEl, null);
@@ -343,9 +403,15 @@ function appliesGrayscaleHueToDoc(): void {
 }
 
 // hygiene-ignore single-use -- Keep applyHueWithoutDocument as a named declaration so its authored TSDoc stays attached. TSDoc: Calls the public hue applier in a browser-less environment.
-/** Calls the public hue applier in a browser-less environment. */
+/**
+ * Calls the public hue applier in a browser-less environment.
+ */
 function applyHueWithoutDoc(): void {
 	applyHue(180);
 }
+
+/*//////////////////////////////////////////////////
+TESTS
+//////////////////////////////////////////////////*/
 
 describe('color utilities', describeColorUtilities);

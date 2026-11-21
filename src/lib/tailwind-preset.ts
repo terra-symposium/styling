@@ -57,7 +57,9 @@ function makeOpacityColors(prefix: string, legacy: readonly number[], current: r
 	return colors;
 }
 
-/** Theme resolver passed to computed min-width and typography extensions. */
+/**
+ * Theme resolver passed to computed min-width and typography extensions.
+ */
 type ThemeExtOptions = { theme: (path: string) => unknown };
 
 // hygiene-ignore single-use -- Keep minWidthFromTheme as a named declaration so its authored TSDoc stays attached. TSDoc: Returns the shared maximum-width scale for Tailwind's min-width extension.

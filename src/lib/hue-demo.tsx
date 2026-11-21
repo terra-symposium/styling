@@ -1,3 +1,6 @@
+/**
+ * src/lib/hue-demo.tsx
+ */
 /*//////////////////////////////////////////////////
 IMPORTS
 //////////////////////////////////////////////////*/
@@ -18,10 +21,14 @@ export const DEFAULT_HUE_DEMO_OPTS: Required<ColorGenOpts> = {
 	hoverLightnessShift: 0.03,
 	hoverChromaMultiplier: 0.93,
 };
-/** Required color-generation settings used by the hue demo. */
+/**
+ * Required color-generation settings used by the hue demo.
+ */
 export type HueDemoOptions = Required<ColorGenOpts>;
 
-/** Properties for rendering the generated palette without its controls. */
+/**
+ * Properties for rendering the generated palette without its controls.
+ */
 export type HueDemoPreviewProps = {
 	hue: number;
 	appearance?: 'light' | 'dark';
@@ -142,7 +149,9 @@ export function HueDemoPreview({
 	);
 }
 
-/** Optional controlled value, callback, and layout settings for the standalone hue demo. */
+/**
+ * Optional controlled value, callback, and layout settings for the standalone hue demo.
+ */
 export type HueDemoProps = { hue?: number; onHueChange?: (hue: number) => void; compact?: boolean; className?: string };
 
 /**

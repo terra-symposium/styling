@@ -29,7 +29,9 @@ const EMPTY_VALUE = '__empty_select_value__';
 TYPES
 //////////////////////////////////////////////////*/
 
-/** Option data accepted by `FormSelect` and `FormSelectOpts`. */
+/**
+ * Option data accepted by `FormSelect` and `FormSelectOpts`.
+ */
 export type FormSelectOptionProps = {
 	value: string;
 	label?: React.ReactNode;
@@ -37,7 +39,9 @@ export type FormSelectOptionProps = {
 	disabled?: boolean;
 };
 
-/** Short name for the `FormSelectOptionProps` contract. */
+/**
+ * Short name for the `FormSelectOptionProps` contract.
+ */
 export type FormSelectOptProps = FormSelectOptionProps;
 
 /*//////////////////////////////////////////////////
@@ -143,7 +147,9 @@ function FormSelect({
 	}
 	const [internalValue, setInternalValue] = React.useState<string | undefined>(getInitialValue);
 	// hygiene-ignore single-use -- Keep initializeFormField as a named declaration so its authored TSDoc stays attached. TSDoc: Initializes a named React Hook Form field when it has no current value.
-	/** Initializes a named React Hook Form field when it has no current value. */
+	/**
+	 * Initializes a named React Hook Form field when it has no current value.
+	 */
 	function initializeFormField(): void {
 		const initialValue = value ?? defaultValue;
 		if (!form || !name || initialValue === undefined || form.getValues(name as never) !== undefined) return;

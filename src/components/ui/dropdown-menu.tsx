@@ -47,7 +47,8 @@ const classes = {
 };
 
 // hygiene-ignore single-use -- Keep DropdownMenuSubTriggerRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the trigger for a nested dropdown menu.
-/** Renders the trigger for a nested dropdown menu.
+/**
+ * Renders the trigger for a nested dropdown menu.
  * className: - Additional classes for the submenu trigger.
  * inset: - Whether the trigger aligns with inset menu items.
  * children: - Trigger label shown before the chevron.
@@ -78,7 +79,8 @@ const DropdownMenuSubTrigger = React.forwardRef<
 >(DropdownMenuSubTriggerRender);
 
 // hygiene-ignore single-use -- Keep DropdownMenuSubContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the floating panel for a nested dropdown menu.
-/** Renders the floating panel for a nested dropdown menu.
+/**
+ * Renders the floating panel for a nested dropdown menu.
  * className: - Additional classes for the submenu panel.
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the Radix panel.
@@ -103,7 +105,8 @@ const DropdownMenuSubContent = React.forwardRef<React.ElementRef<typeof Dropdown
 );
 
 // hygiene-ignore single-use -- Keep DropdownMenuContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the portaled main dropdown panel.
-/** Renders the portaled main dropdown panel.
+/**
+ * Renders the portaled main dropdown panel.
  * className: - Additional classes for the panel surface.
  * collisionPadding: - Minimum distance from viewport edges.
  * sideOffset: - Distance between the trigger and menu panel.
@@ -136,7 +139,8 @@ function DropdownMenuContentRender(
 const DropdownMenuContent = React.forwardRef<React.ElementRef<typeof DropdownMenuPrimitive.Content>, React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>>(DropdownMenuContentRender);
 
 // hygiene-ignore single-use -- Keep DropdownMenuItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an actionable menu item with shared intent variants.
-/** Renders an actionable menu item with shared intent variants.
+/**
+ * Renders an actionable menu item with shared intent variants.
  * className: - Additional classes for the menu item.
  * inset: - Whether the item aligns with an inset menu group.
  * intent: - Shared visual intent for the item.
@@ -181,7 +185,8 @@ const DropdownMenuItem = React.forwardRef<
 >(DropdownMenuItemRender);
 
 // hygiene-ignore single-use -- Keep DropdownMenuCheckboxItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a toggleable checkbox and its selected indicator.
-/** Renders a toggleable checkbox and its selected indicator.
+/**
+ * Renders a toggleable checkbox and its selected indicator.
  * className: - Additional classes for the checkbox item.
  * children: - Checkbox label content.
  * checked: - Checkbox state controlled by Radix.
@@ -212,7 +217,8 @@ const DropdownMenuCheckboxItem = Object.assign(
 );
 
 // hygiene-ignore single-use -- Keep DropdownMenuRadioItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a radio option with its selected-state bullet.
-/** Renders a radio option with its selected-state bullet.
+/**
+ * Renders a radio option with its selected-state bullet.
  * className: - Additional classes for the radio item.
  * children: - Radio option label content.
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
@@ -242,7 +248,8 @@ const DropdownMenuRadioItem = Object.assign(
 );
 
 // hygiene-ignore single-use -- Keep DropdownMenuLabelRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a category heading, optionally aligned with inset entries.
-/** Renders a category heading, optionally aligned with inset entries.
+/**
+ * Renders a category heading, optionally aligned with inset entries.
  * className: - Additional classes for the label.
  * inset: - Whether the label aligns with inset menu items.
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
@@ -267,7 +274,8 @@ const DropdownMenuLabel = React.forwardRef<
 >(DropdownMenuLabelRender);
 
 // hygiene-ignore single-use -- Keep DropdownMenuSeparatorRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the horizontal divider between dropdown sections.
-/** Renders the horizontal divider between dropdown sections.
+/**
+ * Renders the horizontal divider between dropdown sections.
  * className: - Additional classes for the separator.
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the Radix separator.
@@ -286,7 +294,8 @@ const DropdownMenuSeparator = React.forwardRef<React.ElementRef<typeof DropdownM
 );
 
 // hygiene-ignore single-use -- Keep DropdownMenuShortcutRender as a named React component to preserve its identity. TSDoc: Renders keyboard shortcut text after a dropdown menu label.
-/** Renders keyboard shortcut text after a dropdown menu label.
+/**
+ * Renders keyboard shortcut text after a dropdown menu label.
  * className: - Optional style overrides for the shortcut label.
  * @param attributes - Remaining span attributes forwarded to the label.
  * @return The styled dropdown keyboard shortcut.

@@ -1,5 +1,10 @@
+/**
+ * docs/styling/1-colouring/demos/notes.ts
+ */
 // hygiene-ignore single-use -- The build-time AST visitor reads this authored literal by name; it is not a runtime import and remains the single source of demo usage guidance.
-/** Usage and accessibility guidance beside the authored component examples. */
+/**
+ * Usage and accessibility guidance beside the authored component examples.
+ */
 export const componentNotes = {
 	accordion: 'Use triggers to reveal short sections. Enter and Space toggle the focused item.',
 	alert: 'Choose the status that matches the message; keep the text understandable without its color.',

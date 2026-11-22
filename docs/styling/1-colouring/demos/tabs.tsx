@@ -11,9 +11,11 @@ import * as UI from '../../../../src/components/ui/index.js';
 // hygiene-ignore single-use -- Keep this named React component boundary in the eager demo registry; stable component identity preserves hook ownership and reconciliation state.
 /**
  * Renders the tabs component example.
+ *
  * @param variant - Appearance variant selected in the workbench.
  * @param triggerVariant - Appearance variant for each tab trigger.
  * @param selection - Style used to show the selected tab.
+ *
  * @return Renders the example and returns its React element.
  */
 function TabsDemo({ variant, triggerVariant, selection }: { variant?: string; triggerVariant?: string; selection?: 'none' | 'surface' | 'line' }): React.JSX.Element {

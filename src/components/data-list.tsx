@@ -28,6 +28,7 @@ COMPONENTS
  * @param className - Classes for the list.
  * @param itemClassName - Classes for each list item.
  * @param ordered - Whether to render an ordered list.
+ *
  * @return An ordered or unordered list containing one rendered item per value.
  */
 export function MappedList<T>({
@@ -77,6 +78,7 @@ export type MetricGridItem = {
  * @param itemClassName - Classes for each metric container.
  * @param labelClassName - Classes for each metric label.
  * @param valueClassName - Classes for each metric value.
+ *
  * @return A description list containing one labelled metric per data item.
  */
 export function MetricGrid({

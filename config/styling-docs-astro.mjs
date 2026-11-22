@@ -15,6 +15,7 @@ const projectRoot = process.cwd();
  * Converts a Vite alias record to the key-value pair accepted by Object.fromEntries.
  *
  * @param s - Styling alias whose find pattern and replacement path become one Vite entry.
+ *
  * @return {[string, string]} Alias key and replacement path.
  */
 function toStylingAliasEntry(s) {

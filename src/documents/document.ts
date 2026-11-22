@@ -65,37 +65,45 @@ export function createWordTemplate(options: WordTemplateOptions = {}): Document 
 	const cellMargins = { top: 100, bottom: 100, left: 140, right: 140 };
 	// hygiene-ignore single-use -- Keep colorFill as a named declaration so its authored TSDoc stays attached. TSDoc: Removes a leading hash before assigning a Word cell fill.
 	/**
-	 * Removes a leading hash before assigning a Word cell fill.
-	 * @param color - CSS-style hexadecimal fill color.
-	 * @return Word shading options for the fill.
+ * Removes a leading hash before assigning a Word cell fill.
+ *
+ * @param color - CSS-style hexadecimal fill color.
+ *
+ * @return Word shading options for the fill.
 	 */
 	function colorFill(color: string) {
 		return { type: ShadingType.CLEAR, fill: color.replace(SHARED_REGEX, '') };
 	}
 	/**
-	 * Creates a text run using the selected Terra body font.
-	 * @param value - Text shown in the run.
-	 * @param run - Additional Word text-run options.
-	 * @return A styled Word text run.
+ * Creates a text run using the selected Terra body font.
+ *
+ * @param value - Text shown in the run.
+ * @param run - Additional Word text-run options.
+ *
+ * @return A styled Word text run.
 	 */
 	function runText(value: string, run: Record<string, unknown> = {}) {
 		return new TextRun({ text: value, font, ...run });
 	}
 	/**
-	 * Creates a Word paragraph with the template's default inline text run.
-	 * @param value - Paragraph content.
-	 * @param style - Word paragraph style name.
-	 * @param alignment - Optional horizontal paragraph alignment.
-	 * @return A Word paragraph containing the requested text.
+ * Creates a Word paragraph with the template's default inline text run.
+ *
+ * @param value - Paragraph content.
+ * @param style - Word paragraph style name.
+ * @param alignment - Optional horizontal paragraph alignment.
+ *
+ * @return A Word paragraph containing the requested text.
 	 */
 	function paragraph(value: string, style = 'Normal', alignment?: (typeof AlignmentType)[keyof typeof AlignmentType]) {
 		return new Paragraph({ style, alignment, children: [runText(value)] });
 	}
 	/**
-	 * Builds a numbered Word heading and keeps its following paragraph attached.
-	 * @param headingText - Heading content.
-	 * @param level - Heading depth from one through three.
-	 * @return A Word heading paragraph.
+ * Builds a numbered Word heading and keeps its following paragraph attached.
+ *
+ * @param headingText - Heading content.
+ * @param level - Heading depth from one through three.
+ *
+ * @return A Word heading paragraph.
 	 */
 	function heading(headingText: string, level: 1 | 2 | 3) {
 		const levelMap = {
@@ -106,11 +114,13 @@ export function createWordTemplate(options: WordTemplateOptions = {}): Document 
 		return new Paragraph({ heading: levelMap[level].heading, keepNext: true, style: levelMap[level].style, children: [runText(headingText)] });
 	}
 	/**
-	 * Creates a table cell using the invoice template's spacing and vertical alignment.
-	 * @param paragraphs - Cell content paragraphs.
-	 * @param width - Cell width in DXA units.
-	 * @param opts - Optional fill, border, span, and alignment settings.
-	 * @return A Word table cell with template margins.
+ * Creates a table cell using the invoice template's spacing and vertical alignment.
+ *
+ * @param paragraphs - Cell content paragraphs.
+ * @param width - Cell width in DXA units.
+ * @param opts - Optional fill, border, span, and alignment settings.
+ *
+ * @return A Word table cell with template margins.
 	 */
 	function cell(
 		paragraphs: Paragraph[],
@@ -128,29 +138,35 @@ export function createWordTemplate(options: WordTemplateOptions = {}): Document 
 		});
 	}
 	/**
-	 * Creates a fixed-layout table with shared invoice borders.
-	 * @param rows - Table rows in display order.
-	 * @param widths - Column widths in DXA units.
-	 * @return A fixed-layout Word table.
+ * Creates a fixed-layout table with shared invoice borders.
+ *
+ * @param rows - Table rows in display order.
+ * @param widths - Column widths in DXA units.
+ *
+ * @return A fixed-layout Word table.
 	 */
 	function makeTable(rows: TableRow[], widths: number[]) {
 		return new Table({ rows, width: { size: 100, type: WidthType.PERCENTAGE }, columnWidths: widths, layout: 'fixed', borders: emptyTableBorders });
 	}
 	/**
-	 * Creates a body or header paragraph for a table cell.
-	 * @param value - Cell text.
-	 * @param align - Optional right or center alignment.
-	 * @param style - Word paragraph style name.
-	 * @return A paragraph formatted for a table cell.
+ * Creates a body or header paragraph for a table cell.
+ *
+ * @param value - Cell text.
+ * @param align - Optional right or center alignment.
+ * @param style - Word paragraph style name.
+ *
+ * @return A paragraph formatted for a table cell.
 	 */
 	function tableText(value: string, align?: 'right' | 'center', style = 'TableBody') {
 		return new Paragraph({ style, alignment: align === 'right' ? AlignmentType.RIGHT : align === 'center' ? AlignmentType.CENTER : AlignmentType.LEFT, children: [runText(value)] });
 	}
 	/**
-	 * Creates a bold total row label or amount.
-	 * @param value - Total label or amount.
-	 * @param align - Optional right alignment for the amount.
-	 * @return A bold total paragraph.
+ * Creates a bold total row label or amount.
+ *
+ * @param value - Total label or amount.
+ * @param align - Optional right alignment for the amount.
+ *
+ * @return A bold total paragraph.
 	 */
 	function tableTotal(value: string, align?: 'right') {
 		return new Paragraph({ style: 'TableTotal', alignment: align === 'right' ? AlignmentType.RIGHT : AlignmentType.LEFT, children: [runText(value, { bold: true })] });

@@ -20,8 +20,10 @@ COMPONENTS
 // hygiene-ignore single-use -- Keep renderTable as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the scrollable table wrapper and its native table element.
 /**
  * Renders the scrollable table wrapper and its native table element.
+ *
  * @param tableProps - Native table attributes and child content.
  * @param ref - Ref forwarded to the table element.
+ *
  * @return A horizontally scrollable wrapper around the styled table.
  */
 function renderTable(tableProps: React.HTMLAttributes<HTMLTableElement>, ref: React.ForwardedRef<HTMLTableElement>): React.JSX.Element {
@@ -36,8 +38,10 @@ function renderTable(tableProps: React.HTMLAttributes<HTMLTableElement>, ref: Re
 // hygiene-ignore single-use -- Keep renderTableHeader as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the table header section and its row separators.
 /**
  * Renders the table header section and its row separators.
+ *
  * @param headerProps - Native table-section attributes and children.
  * @param ref - Ref forwarded to the table header element.
+ *
  * @return A styled table header section.
  */
 function renderTableHeader(headerProps: React.HTMLAttributes<HTMLTableSectionElement>, ref: React.ForwardedRef<HTMLTableSectionElement>): React.JSX.Element {
@@ -48,8 +52,10 @@ function renderTableHeader(headerProps: React.HTMLAttributes<HTMLTableSectionEle
 // hygiene-ignore single-use -- Keep renderTableBody as a named declaration so its authored TSDoc stays attached. TSDoc: Renders table body rows and removes the final row border.
 /**
  * Renders table body rows and removes the final row border.
+ *
  * @param bodyProps - Native table-section attributes and children.
  * @param ref - Ref forwarded to the table body element.
+ *
  * @return A styled table body section.
  */
 function renderTableBody(bodyProps: React.HTMLAttributes<HTMLTableSectionElement>, ref: React.ForwardedRef<HTMLTableSectionElement>): React.JSX.Element {
@@ -60,8 +66,10 @@ function renderTableBody(bodyProps: React.HTMLAttributes<HTMLTableSectionElement
 // hygiene-ignore single-use -- Keep renderTableFooter as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the table footer with shared border and background styles.
 /**
  * Renders the table footer with shared border and background styles.
+ *
  * @param footerProps - Native table-section attributes and children.
  * @param ref - Ref forwarded to the table footer element.
+ *
  * @return A styled table footer section.
  */
 function renderTableFooter(footerProps: React.HTMLAttributes<HTMLTableSectionElement>, ref: React.ForwardedRef<HTMLTableSectionElement>): React.JSX.Element {
@@ -72,8 +80,10 @@ function renderTableFooter(footerProps: React.HTMLAttributes<HTMLTableSectionEle
 // hygiene-ignore single-use -- Keep renderTableRow as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a table row with shared border and hover treatment.
 /**
  * Renders a table row with shared border and hover treatment.
+ *
  * @param rowProps - Native table-row attributes and children.
  * @param ref - Ref forwarded to the table row element.
+ *
  * @return A styled table row.
  */
 function renderTableRow(rowProps: React.HTMLAttributes<HTMLTableRowElement>, ref: React.ForwardedRef<HTMLTableRowElement>): React.JSX.Element {
@@ -84,8 +94,10 @@ function renderTableRow(rowProps: React.HTMLAttributes<HTMLTableRowElement>, ref
 // hygiene-ignore single-use -- Keep renderTableHead as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a table header cell with shared alignment and spacing.
 /**
  * Renders a table header cell with shared alignment and spacing.
+ *
  * @param headProps - Native table-cell header attributes and children.
  * @param ref - Ref forwarded to the header cell element.
+ *
  * @return A styled table header cell.
  */
 function renderTableHead(headProps: React.ThHTMLAttributes<HTMLTableCellElement>, ref: React.ForwardedRef<HTMLTableCellElement>): React.JSX.Element {
@@ -96,8 +108,10 @@ function renderTableHead(headProps: React.ThHTMLAttributes<HTMLTableCellElement>
 // hygiene-ignore single-use -- Keep renderTableCell as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a table data cell with shared spacing and print styles.
 /**
  * Renders a table data cell with shared spacing and print styles.
+ *
  * @param cellProps - Native table-cell attributes and children.
  * @param ref - Ref forwarded to the data cell element.
+ *
  * @return A styled table data cell.
  */
 function renderTableCell(cellProps: React.TdHTMLAttributes<HTMLTableCellElement>, ref: React.ForwardedRef<HTMLTableCellElement>): React.JSX.Element {
@@ -108,8 +122,10 @@ function renderTableCell(cellProps: React.TdHTMLAttributes<HTMLTableCellElement>
 // hygiene-ignore single-use -- Keep renderTableCaption as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a table caption with shared muted typography.
 /**
  * Renders a table caption with shared muted typography.
+ *
  * @param captionProps - Native caption attributes and text.
  * @param ref - Ref forwarded to the caption element.
+ *
  * @return A styled table caption.
  */
 function renderTableCaption(captionProps: React.HTMLAttributes<HTMLTableCaptionElement>, ref: React.ForwardedRef<HTMLTableCaptionElement>): React.JSX.Element {

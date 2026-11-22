@@ -109,6 +109,7 @@ DEMO RENDERING
  * @param variant - Selected appearance variant.
  * @param triggerVariant - Selected tab trigger variant.
  * @param selection - Selected tab treatment.
+ *
  * @return The component's interactive preview.
  */
 export function ComponentDemo({
@@ -132,6 +133,7 @@ export function ComponentDemo({
  * Selects the interactive workbench available for a component.
  *
  * @param comp - Slug of the component to demonstrate.
+ *
  * @return A controlled workbench or the component's authored example.
  */
 export function ComponentWorkbench({ component: comp }: { component: CompSlug }): React.JSX.Element {
@@ -148,6 +150,7 @@ export function ComponentWorkbench({ component: comp }: { component: CompSlug })
  *
  * @param preview - Live example shown in the rendered tab.
  * @param code - Source shown in the code tab.
+ *
  * @return Tabs for comparing the live example with its source.
  */
 function ExampleTabs({ preview, code }: { preview: React.ReactNode; code: string }): React.JSX.Element {
@@ -212,6 +215,7 @@ const BUTTON_SIZES = ['default', 'xs', 'sm', 'md', 'lg', 'xl', 'icon', 'icon-xs'
  * @param prop - Prop name to inspect in the generated reference.
  * @param fallback - Authored choices to include alongside the generated reference.
  * @param memberName - API member that owns the controlled prop.
+ *
  * @return Every distinct generated and authored choice.
  */
 function finiteChoices(comp: CompSlug, prop: string, fallback: readonly string[], memberName = componentTsDocs[comp].demoExport): readonly string[] {
@@ -247,6 +251,7 @@ const VARIANT_TGTS: Partial<Record<CompSlug, { member: string; initial: string; 
  * @param member - JSX element whose variant changes.
  * @param variant - Selected appearance variant.
  * @param omitDefault - Whether to omit the implicit default prop from source.
+ *
  * @return JSX with the selected variant on the specified element.
  */
 function codeWithVariant(code: string, member: string, variant: string, omitDefault = false): string {
@@ -261,6 +266,7 @@ function codeWithVariant(code: string, member: string, variant: string, omitDefa
  * Shows a selected variant of a component's authored example.
  *
  * @param comp - Component whose example is shown.
+ *
  * @return A variant selector with live preview and source.
  */
 function VariantWorkbench({ component: comp }: { component: CompSlug }): React.JSX.Element {
@@ -327,6 +333,7 @@ function TabsWorkbench(): React.JSX.Element {
  * @param value - Currently selected option.
  * @param choices - Options available in the selector.
  * @param onChange - Receives a newly selected value.
+ *
  * @return A labelled component selector.
  */
 function DemoSelect({ label, value, choices, onChange }: { label: string; value: string; choices: readonly string[]; onChange: (value: string) => void }): React.JSX.Element {
@@ -359,6 +366,7 @@ function DemoSelect({ label, value, choices, onChange }: { label: string; value:
  * @param label - Text identifying the controlled state.
  * @param checked - Current boolean value.
  * @param onChange - Receives a new checked state.
+ *
  * @return A labelled checkbox.
  */
 function DemoCheckbox({ label, checked, onChange }: { label: string; checked: boolean; onChange: (checked: boolean) => void }): React.JSX.Element {
@@ -484,6 +492,7 @@ function CardWorkbench(): React.JSX.Element {
  *
  * @param code - Source to display and copy.
  * @param lang - Syntax language for the Docs code block.
+ *
  * @return The formatted, copyable code example.
  */
 function CopyableCode({ code, lang = 'tsx' }: { code: string; lang?: string }): React.JSX.Element {
@@ -531,6 +540,7 @@ const SIMPLE_CONTROLS: Partial<
  * Builds a live example from one finite component prop.
  *
  * @param comp - Component with a configured simple control.
+ *
  * @return A selector, live preview, and matching source example.
  */
 function SimpleWorkbench({ component: comp }: { component: CompSlug }): React.JSX.Element {

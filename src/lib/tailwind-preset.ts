@@ -26,15 +26,17 @@ CONFIG
  * Creates a Tailwind color callback for a CSS variable containing RGB channels.
  *
  * @param variable - CSS custom property name that resolves to a space-delimited RGB triplet.
+ *
  * @return A color callback that uses `opacityValue`, falling back to `100` when it is falsy.
  */
 function applyOpacityValue(variable: string) {
 	// hygiene-ignore single-use -- Keep applyOpacity as a named declaration so its authored TSDoc stays attached. TSDoc: Builds an RGB declaration with Tailwind's optional opacity modifier.
 	/**
-	 * Builds an RGB declaration with Tailwind's optional opacity modifier.
-	 *
-	 * @param prop - Opacity values supplied by the Tailwind color resolver.
-	 * @return CSS RGB color using the selected channel variable and opacity.
+ * Builds an RGB declaration with Tailwind's optional opacity modifier.
+ *
+ * @param prop - Opacity values supplied by the Tailwind color resolver.
+ *
+ * @return CSS RGB color using the selected channel variable and opacity.
 	 */
 	function applyOpacity(prop: Partial<{ opacityVariable: string; opacityValue: number }>): string {
 		return `rgb(var(${variable}) / ${prop?.opacityValue || '100'})`;
@@ -48,6 +50,7 @@ function applyOpacityValue(variable: string) {
  * @param prefix - CSS custom property prefix used for each scale entry.
  * @param legacy - Legacy color steps retained for existing consumers.
  * @param current - Current one-through-twelve scale step numbers.
+ *
  * @return Color callbacks keyed by the legacy and current step numbers.
  */
 function makeOpacityColors(prefix: string, legacy: readonly number[], current: readonly number[]): Record<number, ReturnType<typeof applyOpacityValue>> {
@@ -67,6 +70,7 @@ type ThemeExtOptions = { theme: (path: string) => unknown };
  * Returns the shared maximum-width scale for Tailwind's min-width extension.
  *
  * @param theme - Tailwind resolver used to read the configured max-width scale.
+ *
  * @return A shallow copy of the configured max-width entries.
  */
 function minWidthFromTheme({ theme }: ThemeExtOptions): Record<string, string> {
@@ -78,6 +82,7 @@ function minWidthFromTheme({ theme }: ThemeExtOptions): Record<string, string> {
  * Builds the shared prose colors and typography rules from Tailwind's theme resolver.
  *
  * @param theme - Tailwind resolver used to read the shared color and font tokens.
+ *
  * @return Typography plugin defaults for prose content.
  */
 function typographyFromTheme({ theme }: ThemeExtOptions) {
@@ -151,6 +156,7 @@ function registerTailwindVariants({
  * Converts underscores in a matched child selector to spaces.
  *
  * @param value - Child selector value supplied by Tailwind.
+ *
  * @return Selector with spaces restored for CSS syntax.
  */
 function childSelector(value: string): string {

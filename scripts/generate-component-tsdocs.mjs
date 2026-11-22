@@ -122,10 +122,11 @@ function displayParts(parts) {
  */
 function titleFromSlug(slug) {
 	/**
-	 * Capitalizes the first character of one title word.
-	 *
-	 * @param h - Hyphen-separated slug segment to format.
-	 * @return The segment with its first character uppercased.
+ * Capitalizes the first character of one title word.
+ *
+ * @param h - Hyphen-separated slug segment to format.
+ *
+ * @return The segment with its first character uppercased.
 	 */
 	function capitalizeWord(h) {
 		return h[0].toUpperCase() + h.slice(1);
@@ -182,19 +183,21 @@ function describeExport(exported, checker, src) {
 		}
 	}
 	/**
-	 * Formats a TypeScript call signature without truncating its public type.
-	 *
-	 * @param d - Call signature returned by the TypeScript checker.
-	 * @return The complete signature text using TypeScript's display format.
+ * Formats a TypeScript call signature without truncating its public type.
+ *
+ * @param d - Call signature returned by the TypeScript checker.
+ *
+ * @return The complete signature text using TypeScript's display format.
 	 */
 	function fmtSignature(d) {
 		return checker.signatureToString(d, declaration, ts.TypeFormatFlags.NoTruncation);
 	}
 	/**
-	 * Converts a compiler documentation tag into plain text for the reference cache.
-	 *
-	 * @param c - JSDoc tag returned by the TypeScript checker.
-	 * @return A cache record containing the tag name and flattened text.
+ * Converts a compiler documentation tag into plain text for the reference cache.
+ *
+ * @param c - JSDoc tag returned by the TypeScript checker.
+ *
+ * @return A cache record containing the tag name and flattened text.
 	 */
 	function serializeTag(c) {
 		return { name: c.name, text: displayParts(c.text) };
@@ -213,6 +216,7 @@ function describeExport(exported, checker, src) {
  * Conservatively records literal defaults shared by every destructure of a name in one source file.
  *
  * @param src TypeScript source file to inspect.
+ *
  * @returns A map of names to defaults shared by every destructure.
  */
 function literalDefaults(src) {

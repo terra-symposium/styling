@@ -40,12 +40,14 @@ export type HueDemoPreviewProps = {
 
 /**
  * The Website palette preview, shared with the Styling documentation. Controls belong outside this preview.
+ *
  * @param hue Hue that determines the generated palette.
  * @param appearance Light or dark palette presentation.
  * @param generatorOpts Generator settings for the color scales.
  * @param showGeneratorConstants Whether to show the constants used for generation.
  * @param compact Whether to use the compact preview layout.
  * @param className Additional classes for the preview container.
+ *
  * @return The rendered palette preview.
  */
 export function HueDemoPreview({
@@ -156,10 +158,12 @@ export type HueDemoProps = { hue?: number; onHueChange?: (hue: number) => void; 
 
 /**
  * Standalone docs demo: palette preview followed by its controls. The hue themes the whole page.
+ *
  * @param controlledHue Optional controlled hue value.
  * @param onHueChange Callback for hue changes.
  * @param compact Whether to use the compact layout.
  * @param className Additional classes for the demo container.
+ *
  * @return The rendered hue demo.
  */
 export function HueDemo({ hue: controlledHue, onHueChange, compact = false, className = '' }: HueDemoProps): React.JSX.Element {

@@ -35,8 +35,10 @@ type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> &
 // hygiene-ignore single-use -- Keep renderTabsList as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the shared tab list and its selected navigation layout.
 /**
  * Renders the shared tab list and its selected navigation layout.
+ *
  * @param listProps - Radix list attributes and Styling layout variant.
  * @param ref - Ref forwarded to the Radix list element.
+ *
  * @return A tab list with the requested layout variant.
  */
 function renderTabsList(listProps: TabsListProps, ref: React.ForwardedRef<React.ElementRef<typeof TabsPrimitive.List>>): React.JSX.Element {
@@ -75,8 +77,10 @@ type TabsTriggerProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trig
 // hygiene-ignore single-use -- Keep renderTabsTrigger as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a tab button with action and selection treatments.
 /**
  * Renders a tab button with action and selection treatments.
+ *
  * @param triggerProps - Radix trigger attributes and Styling variants.
  * @param ref - Ref forwarded to the Radix trigger element.
+ *
  * @return A styled tab trigger button.
  */
 function renderTabsTrigger(triggerProps: TabsTriggerProps, ref: React.ForwardedRef<React.ElementRef<typeof TabsPrimitive.Trigger>>): React.JSX.Element {
@@ -106,8 +110,10 @@ const TabsTrigger = React.forwardRef<React.ElementRef<typeof TabsPrimitive.Trigg
 // hygiene-ignore single-use -- Keep renderTabsContent as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a tab panel with visible focus treatment and print visibility.
 /**
  * Renders a tab panel with visible focus treatment and print visibility.
+ *
  * @param contentProps - Radix panel attributes and child content.
  * @param ref - Ref forwarded to the Radix panel element.
+ *
  * @return A styled tab panel.
  */
 function renderTabsContent(contentProps: React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>, ref: React.ForwardedRef<React.ElementRef<typeof TabsPrimitive.Content>>): React.JSX.Element {

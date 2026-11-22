@@ -72,8 +72,10 @@ const SelectValue = SelectPrimitive.Value;
 // hygiene-ignore single-use -- Keep SelectTriggerRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the select trigger using the inherited size and chosen variant.
 /**
  * Renders the select trigger using the inherited size and chosen variant.
+ *
  * @param attributes - Trigger props, size, width, and variant options.
  * @param ref - Forwarded reference to the trigger button.
+ *
  * @return The trigger and its optional dropdown chevron.
  */
 function SelectTriggerRender(
@@ -125,8 +127,10 @@ const SelectTrigger = React.forwardRef<
 // hygiene-ignore single-use -- Keep SelectScrollUpButtonRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the control that scrolls the option list toward its start.
 /**
  * Renders the control that scrolls the option list toward its start.
+ *
  * @param attributes - Radix button attributes and optional class name.
  * @param ref - Forwarded reference to the scroll-up button.
+ *
  * @return The labeled scroll-up control.
  */
 function SelectScrollUpButtonRender(
@@ -148,8 +152,10 @@ const SelectScrollUpButton = React.forwardRef<React.ElementRef<typeof SelectPrim
 // hygiene-ignore single-use -- Keep SelectScrollDownButtonRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the control that scrolls the option list toward its end.
 /**
  * Renders the control that scrolls the option list toward its end.
+ *
  * @param attributes - Radix button attributes and optional class name.
  * @param ref - Forwarded reference to the scroll-down button.
+ *
  * @return The labeled scroll-down control.
  */
 function SelectScrollDownButtonRender(
@@ -171,8 +177,10 @@ const SelectScrollDownButton = React.forwardRef<React.ElementRef<typeof SelectPr
 // hygiene-ignore single-use -- Keep SelectContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders option groups with optional portal placement and scroll controls.
 /**
  * Renders option groups with optional portal placement and scroll controls.
+ *
  * @param attributes - Radix panel props, children, placement, and portal choice.
  * @param ref - Forwarded reference to the option panel.
+ *
  * @return The scrollable option panel, optionally rendered in a portal.
  */
 function SelectContentRender(
@@ -217,8 +225,10 @@ const SelectContent = React.forwardRef<
 // hygiene-ignore single-use -- Keep SelectLabelRender as a named React component to preserve its identity. TSDoc: Renders a group heading above related select options.
 /**
  * Renders a group heading above related select options.
+ *
  * @param attributes - Radix label attributes and optional class name.
  * @param ref - Forwarded reference to the option group label.
+ *
  * @return The styled option group label.
  */
 function SelectLabelRender(attributes: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>, ref: React.ForwardedRef<React.ElementRef<typeof SelectPrimitive.Label>>): React.JSX.Element {
@@ -231,8 +241,10 @@ const SelectLabel = React.forwardRef<React.ElementRef<typeof SelectPrimitive.Lab
 // hygiene-ignore single-use -- Keep SelectItemRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a selectable option with size and selection styling.
 /**
  * Renders a selectable option with size and selection styling.
+ *
  * @param attributes - Radix option props, label children, and optional icon.
  * @param ref - Forwarded reference to the option element.
+ *
  * @return A selectable option row with an optional leading icon.
  */
 function SelectItemRender(
@@ -281,8 +293,10 @@ const SelectItem = React.forwardRef<
 // hygiene-ignore single-use -- Keep SelectSeparatorRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the divider between logical groups of select options.
 /**
  * Renders the divider between logical groups of select options.
+ *
  * @param attributes - Radix separator attributes and optional class name.
  * @param ref - Forwarded reference to the separator element.
+ *
  * @return The option list separator line.
  */
 function SelectSeparatorRender(

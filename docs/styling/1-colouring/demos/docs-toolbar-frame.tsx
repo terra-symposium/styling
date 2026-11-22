@@ -10,6 +10,7 @@ import { DocsToolbarFrame } from '../../../../src/components/docs/toolbar-frame.
 
 /**
  * Renders the docs toolbar frame component example.
+ *
  * @return Renders the example and returns its React element.
  */
 export default function Demo(): React.JSX.Element {

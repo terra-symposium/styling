@@ -175,10 +175,11 @@ function FormSelect({
 		onValueChange?.(normalizedValue);
 	}
 	/**
-	 * Renders one data-driven option as a select item.
-	 *
-	 * @param option - Option definition to display in the select list.
-	 * @return A select item containing the option label or children.
+ * Renders one data-driven option as a select item.
+ *
+ * @param option - Option definition to display in the select list.
+ *
+ * @return A select item containing the option label or children.
 	 */
 	function renderOption(option: FormSelectOptionProps): React.JSX.Element {
 		return (
@@ -239,10 +240,11 @@ function FormSelectOption({ children, disabled, label, value }: FormSelectOption
  */
 function FormSelectOpts({ options }: { options: readonly FormSelectOptionProps[] }): React.JSX.Element {
 	/**
-	 * Renders one option definition inside the option-list fragment.
-	 *
-	 * @param option - Option definition to convert into a select item.
-	 * @return A select item displaying the option label or children.
+ * Renders one option definition inside the option-list fragment.
+ *
+ * @param option - Option definition to convert into a select item.
+ *
+ * @return A select item displaying the option label or children.
 	 */
 	function renderOption(option: FormSelectOptionProps): React.JSX.Element {
 		return (

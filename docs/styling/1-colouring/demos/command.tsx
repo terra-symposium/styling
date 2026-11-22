@@ -10,6 +10,7 @@ import * as UI from '../../../../src/components/ui/index.js';
 
 /**
  * Renders the command component example.
+ *
  * @return Renders the example and returns its React element.
  */
 export default function Demo(): React.JSX.Element {

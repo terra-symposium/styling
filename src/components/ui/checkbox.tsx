@@ -37,10 +37,12 @@ type CheckboxProps = React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Roo
 // hygiene-ignore single-use -- Keep updateCheckboxValue as a named declaration so its authored TSDoc stays attached. TSDoc: Writes a checkbox change to the form before notifying the caller.
 /**
  * Writes a checkbox change to the form before notifying the caller.
+ *
  * @param next - Checked or indeterminate state reported by Radix.
  * @param name - Registered field name, when the checkbox belongs to a form.
  * @param form - Optional form context to update.
  * @param onCheckedChange - Optional caller callback invoked after form update.
+ *
  * @return Nothing; form state and the caller callback receive the change.
  */
 function updateCheckboxValue(
@@ -61,8 +63,10 @@ function updateCheckboxValue(
 // hygiene-ignore single-use -- Keep renderCheckbox as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a controlled or form-registered Radix checkbox.
 /**
  * Renders a controlled or form-registered Radix checkbox.
+ *
  * @param checkboxProps - Radix state, field name, and native checkbox attributes.
  * @param ref - Ref forwarded to the Radix checkbox root.
+ *
  * @return A themed checkbox with form synchronization when available.
  */
 function renderCheckbox(checkboxProps: CheckboxProps, ref: React.ForwardedRef<React.ElementRef<typeof CheckboxPrimitive.Root>>): React.JSX.Element {
@@ -81,9 +85,11 @@ function renderCheckbox(checkboxProps: CheckboxProps, ref: React.ForwardedRef<Re
 	React.useEffect(initializeFormValue, [form, name, checked, defaultChecked]);
 	// hygiene-ignore single-use -- Keep handleCheckedChange as a named declaration so its authored TSDoc stays attached. TSDoc: Persists the Radix state and notifies the optional caller callback.
 	/**
-	 * Persists the Radix state and notifies the optional caller callback.
-	 * @param next - Checked or indeterminate state reported by Radix.
-	 * @return Nothing; the form and caller receive the value in order.
+ * Persists the Radix state and notifies the optional caller callback.
+ *
+ * @param next - Checked or indeterminate state reported by Radix.
+ *
+ * @return Nothing; the form and caller receive the value in order.
 	 */
 	function handleCheckedChange(next: Parameters<NonNullable<React.ComponentProps<typeof CheckboxPrimitive.Root>['onCheckedChange']>>[0]): void {
 		updateCheckboxValue(next, name, form, onCheckedChange);
@@ -116,8 +122,10 @@ const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root
 // hygiene-ignore single-use -- Keep renderCheckboxIndicator as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the optional checkbox icon or mark inside Radix's indicator slot.
 /**
  * Renders the optional checkbox icon or mark inside Radix's indicator slot.
+ *
  * @param indicatorProps - Native indicator attributes and optional classes.
  * @param ref - Ref forwarded to the Radix indicator element.
+ *
  * @return The centered checkbox indicator.
  */
 function renderCheckboxIndicator(

@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form';
 // hygiene-ignore single-use -- Keep this named React component boundary in the eager demo registry; stable component identity preserves hook ownership and reconciliation state.
 /**
  * Renders the form component example.
+ *
  * @return Renders the example and returns its React element.
  */
 function FormDemo(): React.JSX.Element {

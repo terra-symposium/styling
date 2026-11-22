@@ -20,12 +20,14 @@ import PptxGenJS from 'pptxgenjs';
 import type { TerraDocumentBrand, TerraDocumentBrandOptions } from './theme.js';
 /**
  * Creates the pattern used to split a six-digit hex color into RGB pairs.
+ *
  * @return A global pattern matching each two-character channel.
  */
 const G_REGEX = () => /../g;
 const BTYPE_REGEX = /\btype="[^"]*"/;
 /**
  * Creates the matcher for complete DrawingML shape elements.
+ *
  * @return A global pattern matching each `p:sp` element.
  */
 const P_SP_S_S_P_SP_G_REGEX = () => /<p:sp>[\s\S]*?<\/p:sp>/g;
@@ -796,6 +798,7 @@ export function createPresentationTemplate(options: PresentationTemplateOptions 
 // hygiene-ignore single-use -- Keep specializeEditablePlaceholders as a separate async OOXML pass so each ZIP read, validation, and write completes before the next export step.
 /**
  * Preserve dedicated picture and table insertion controls in editable PowerPoint layouts.
+ *
  * @param fileName Presentation file to update in place.
  */
 async function specializeEditablePlaceholders(fileName: string): Promise<void> {
@@ -903,6 +906,7 @@ async function specializeEditablePlaceholders(fileName: string): Promise<void> {
 // hygiene-ignore single-use -- Keep roundGraphicPictures as a separate async OOXML pass so each ZIP read, validation, and write completes before the next export step.
 /**
  * Give replaceable graphic pictures the Website's softly rounded corners.
+ *
  * @param fileName Presentation file to update in place.
  */
 async function roundGraphicPictures(fileName: string): Promise<void> {

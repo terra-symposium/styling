@@ -53,7 +53,9 @@ export { PortalContainerProvider as PortalProvider };
 
 /**
  * Wraps a portal primitive with the nearest shared UI container by default.
+ *
  * @param PrimitivePortal - Portal component to wrap.
+ *
  * @return Portal component that inherits the shared container.
  */
 export function createTerraPortal<P extends { container?: Element | DocumentFragment | null; children?: React.ReactNode }>(PrimitivePortal: React.ComponentType<P>): React.ComponentType<P> {

@@ -119,11 +119,12 @@ export function DataTableRow({
 	emphasizeFirstColumn?: boolean;
 }): JSX.Element {
 	/**
-	 * Renders one cell using its alignment, width, mapped field, and emphasis settings.
-	 *
-	 * @param t - Cell content and presentation settings for this row.
-	 * @param i - Zero-based cell position, used to emphasize the first column.
-	 * @return A row header or data cell containing the mapped control or content.
+ * Renders one cell using its alignment, width, mapped field, and emphasis settings.
+ *
+ * @param t - Cell content and presentation settings for this row.
+ * @param i - Zero-based cell position, used to emphasize the first column.
+ *
+ * @return A row header or data cell containing the mapped control or content.
 	 */
 	function renderCell(t: DataTableCell, i: number): JSX.Element {
 		const className = cn(ALIGN_CLASS[t.align ?? 'left'], t.width && WIDTH_CLASS[t.width], cellContentClass(t, emphasizeFirstCol && i === 0));
@@ -202,11 +203,12 @@ export function DataTableContent<Row extends object>({
 	pendingRowKey?: Key | null;
 }): JSX.Element {
 	/**
-	 * Renders one heading cell using its label, alignment, and width configuration.
-	 *
-	 * @param d - Column definition whose label and layout are displayed.
-	 * @param i - Zero-based heading position, used when the column key is empty.
-	 * @return A table heading cell for the column.
+ * Renders one heading cell using its label, alignment, and width configuration.
+ *
+ * @param d - Column definition whose label and layout are displayed.
+ * @param i - Zero-based heading position, used when the column key is empty.
+ *
+ * @return A table heading cell for the column.
 	 */
 	function renderColHeader(d: DataTableColumn<Row>, i: number): JSX.Element {
 		return (
@@ -217,11 +219,12 @@ export function DataTableContent<Row extends object>({
 	}
 
 	/**
-	 * Builds the cells, optional detail row, and row presentation for one record.
-	 *
-	 * @param t - Data record rendered by this table row.
-	 * @param i - Zero-based record position passed to row callbacks and fallback keys.
-	 * @return A keyed fragment containing the record row and any detail row.
+ * Builds the cells, optional detail row, and row presentation for one record.
+ *
+ * @param t - Data record rendered by this table row.
+ * @param i - Zero-based record position passed to row callbacks and fallback keys.
+ *
+ * @return A keyed fragment containing the record row and any detail row.
 	 */
 	function renderTableRow(t: Row, i: number): JSX.Element {
 		const id = typeof rowKey === 'function' ? rowKey(t, i) : rowKey ? t[rowKey as keyof Row] : i;

@@ -52,8 +52,10 @@ const classes = {
  * className: - Additional classes for the submenu trigger.
  * inset: - Whether the trigger aligns with inset menu items.
  * children: - Trigger label shown before the chevron.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the Radix trigger element.
+ *
  * @return A submenu trigger with a trailing chevron.
  */
 function DropdownMenuSubTriggerRender(
@@ -82,8 +84,10 @@ const DropdownMenuSubTrigger = React.forwardRef<
 /**
  * Renders the floating panel for a nested dropdown menu.
  * className: - Additional classes for the submenu panel.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the Radix panel.
+ *
  * @return The styled nested dropdown panel.
  */
 function DropdownMenuSubContentRender(
@@ -110,8 +114,10 @@ const DropdownMenuSubContent = React.forwardRef<React.ElementRef<typeof Dropdown
  * className: - Additional classes for the panel surface.
  * collisionPadding: - Minimum distance from viewport edges.
  * sideOffset: - Distance between the trigger and menu panel.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the Radix content panel.
+ *
  * @return A portaled dropdown panel.
  */
 function DropdownMenuContentRender(
@@ -145,8 +151,10 @@ const DropdownMenuContent = React.forwardRef<React.ElementRef<typeof DropdownMen
  * inset: - Whether the item aligns with an inset menu group.
  * intent: - Shared visual intent for the item.
  * variant: - Optional destructive appearance shortcut.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the Radix menu item.
+ *
  * @return The styled dropdown menu item.
  */
 function DropdownMenuItemRender(
@@ -190,8 +198,10 @@ const DropdownMenuItem = React.forwardRef<
  * className: - Additional classes for the checkbox item.
  * children: - Checkbox label content.
  * checked: - Checkbox state controlled by Radix.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the menu item.
+ *
  * @return The checkbox menu item with a checkmark indicator.
  */
 function DropdownMenuCheckboxItemRender(
@@ -221,8 +231,10 @@ const DropdownMenuCheckboxItem = Object.assign(
  * Renders a radio option with its selected-state bullet.
  * className: - Additional classes for the radio item.
  * children: - Radio option label content.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the menu item.
+ *
  * @return The radio menu item with its selection indicator.
  */
 function DropdownMenuRadioItemRender(
@@ -252,8 +264,10 @@ const DropdownMenuRadioItem = Object.assign(
  * Renders a category heading, optionally aligned with inset entries.
  * className: - Additional classes for the label.
  * inset: - Whether the label aligns with inset menu items.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the Radix label.
+ *
  * @return The dropdown menu section label.
  */
 function DropdownMenuLabelRender(
@@ -277,8 +291,10 @@ const DropdownMenuLabel = React.forwardRef<
 /**
  * Renders the horizontal divider between dropdown sections.
  * className: - Additional classes for the separator.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the Radix separator.
+ *
  * @return The dropdown menu separator line.
  */
 function DropdownMenuSeparatorRender(
@@ -297,7 +313,9 @@ const DropdownMenuSeparator = React.forwardRef<React.ElementRef<typeof DropdownM
 /**
  * Renders keyboard shortcut text after a dropdown menu label.
  * className: - Optional style overrides for the shortcut label.
+ *
  * @param attributes - Remaining span attributes forwarded to the label.
+ *
  * @return The styled dropdown keyboard shortcut.
  */
 function DropdownMenuShortcutRender(attributes: React.HTMLAttributes<HTMLSpanElement>): React.JSX.Element {

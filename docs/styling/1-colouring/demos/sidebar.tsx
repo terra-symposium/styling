@@ -11,6 +11,7 @@ import * as UI from '../../../../src/components/ui/index.js';
 // hygiene-ignore single-use -- Keep this named React component boundary in the eager demo registry; stable component identity preserves hook ownership and reconciliation state.
 /**
  * Renders the sidebar component example.
+ *
  * @return Renders the example and returns its React element.
  */
 function SidebarState(): React.JSX.Element {
@@ -20,7 +21,9 @@ function SidebarState(): React.JSX.Element {
 
 /**
  * Renders the sidebar component example.
+ *
  * @param variant - Appearance variant selected in the workbench.
+ *
  * @return Renders the example and returns its React element.
  */
 export default function Demo({ variant }: { variant?: string }): React.JSX.Element {

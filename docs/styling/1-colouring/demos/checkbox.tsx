@@ -11,7 +11,9 @@ import * as UI from '../../../../src/components/ui/index.js';
 // hygiene-ignore single-use -- Keep this named React component boundary in the eager demo registry; stable component identity preserves hook ownership and reconciliation state.
 /**
  * Renders the checkbox component example.
+ *
  * @param kind Control variant shown in the example.
+ *
  * @return Renders the example and returns its React element.
  */
 function CheckControlDemo({ kind }: { kind: 'checkbox' | 'switch' }): React.JSX.Element {
@@ -26,6 +28,7 @@ function CheckControlDemo({ kind }: { kind: 'checkbox' | 'switch' }): React.JSX.
 // hygiene-ignore single-use -- Keep this named React component boundary in the eager demo registry; stable component identity preserves hook ownership and reconciliation state.
 /**
  * Renders the checkbox component example.
+ *
  * @return Renders the example and returns its React element.
  */
 function CheckboxDemo(): React.JSX.Element {

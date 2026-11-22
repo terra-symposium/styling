@@ -54,8 +54,10 @@ const classes = {
  * className: - Additional classes for the submenu trigger.
  * inset: - Whether the label aligns with inset menu items.
  * children: - Label content rendered before the chevron.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the Radix trigger element.
+ *
  * @return A submenu trigger with its chevron indicator.
  */
 function ContextMenuSubTriggerRender(
@@ -88,8 +90,10 @@ const ContextMenuSubTrigger = React.forwardRef<
 /**
  * Renders context menu sub-content panel.
  * className: - Additional classes for the submenu panel.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the sub-content panel.
+ *
  * @return A styled context menu submenu panel.
  */
 function ContextMenuSubContentRender(
@@ -115,8 +119,10 @@ const ContextMenuSubContent = React.forwardRef<React.ElementRef<typeof ContextMe
  * Renders main context menu content panel.
  * collisionPadding: - Minimum distance from viewport edges.
  * className: - Additional classes for the menu panel.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the content panel.
+ *
  * @return A portal-hosted context menu content panel.
  */
 function ContextMenuContentRender(
@@ -148,8 +154,10 @@ const ContextMenuContent = React.forwardRef<React.ElementRef<typeof ContextMenuP
  * className: - Additional classes for the menu item.
  * inset: - Whether the item aligns with an inset menu group.
  * intent: - Visual intent passed to the shared menu item variants.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the menu item.
+ *
  * @return The styled, interactive context menu item.
  */
 function ContextMenuItemRender(
@@ -177,8 +185,10 @@ const ContextMenuItem = React.forwardRef<
  * className: - Additional classes for the checkbox item.
  * children: - Checkbox label content.
  * checked: - Checked state controlled by Radix.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the checkbox item.
+ *
  * @return A checkbox menu item with a checkmark indicator.
  */
 function ContextMenuCheckboxItemRender(
@@ -211,8 +221,10 @@ const ContextMenuCheckboxItem = Object.assign(
  * Renders a radio item and its selected-state bullet.
  * className: - Additional classes for the radio item.
  * children: - Radio label content.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the radio item.
+ *
  * @return A radio menu item with its bullet indicator.
  */
 function ContextMenuRadioItemRender(
@@ -242,8 +254,10 @@ const ContextMenuRadioItem = Object.assign(
  * Renders an optional inset heading inside the context menu.
  * className: - Additional classes for the label.
  * inset: - Whether the label aligns with inset menu items.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the label element.
+ *
  * @return The styled context menu label.
  */
 function ContextMenuLabelRender(
@@ -270,8 +284,10 @@ const ContextMenuLabel = Object.assign(
 /**
  * Renders the divider between context menu items.
  * className: - Additional classes for the separator line.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the separator element.
+ *
  * @return A context menu separator line.
  */
 function ContextMenuSeparatorRender(
@@ -290,7 +306,9 @@ const ContextMenuSeparator = React.forwardRef<React.ElementRef<typeof ContextMen
 /**
  * Renders keyboard shortcut text aligned after a context menu label.
  * className: - Additional classes for the shortcut indicator.
+ *
  * @param attributes - Remaining span attributes forwarded to the indicator.
+ *
  * @return The styled keyboard shortcut indicator.
  */
 function ContextMenuShortcutRender(attributes: React.HTMLAttributes<HTMLSpanElement>): React.JSX.Element {

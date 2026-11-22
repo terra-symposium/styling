@@ -86,8 +86,10 @@ COMPONENTS
 // hygiene-ignore single-use -- Keep CardRender as a named React component to preserve its identity. TSDoc: Renders a card as a div, anchor, slotted child, or collapsible summary.
 /**
  * Renders a card as a div, anchor, slotted child, or collapsible summary.
+ *
  * @param cardProps - Card surface, size, interaction, disclosure, and element props.
  * @param ref - Ref forwarded to the rendered card element.
+ *
  * @return A card container with inherited size context.
  */
 function CardRender(cardProps: CardProps, ref: React.ForwardedRef<HTMLDivElement | HTMLAnchorElement>): React.JSX.Element {
@@ -258,8 +260,10 @@ function CardSummary(_props: CardSummaryProps): null {
 // hygiene-ignore single-use -- Keep CardHeaderRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the card header and optional action aligned at its trailing edge.
 /**
  * Renders the card header and optional action aligned at its trailing edge.
+ *
  * @param headerProps - Header content, action, layout variant, and div attributes.
  * @param ref - Ref forwarded to the header element.
+ *
  * @return A card header using the current card size context.
  */
 function CardHeaderRender(
@@ -304,8 +308,10 @@ const CardHeader = React.forwardRef<
 // hygiene-ignore single-use -- Keep CardTitleRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the card title and optional explanatory tooltip.
 /**
  * Renders the card title and optional explanatory tooltip.
+ *
  * @param titleProps - Heading content, tooltip, and native heading attributes.
  * @param ref - Ref forwarded to the heading element.
+ *
  * @return The card title heading, optionally wrapped in a tooltip.
  */
 function CardTitleRender(
@@ -341,8 +347,10 @@ const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTML
 // hygiene-ignore single-use -- Keep CardHeadingRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a card heading using a caller-selected heading tag and inherited size.
 /**
  * Renders a card heading using a caller-selected heading tag and inherited size.
+ *
  * @param headingProps - Heading attributes and the desired HTML tag.
  * @param ref - Ref forwarded to the selected heading element.
+ *
  * @return A heading element styled for the current card size.
  */
 function CardHeadingRender(
@@ -386,8 +394,10 @@ const CardHeading = React.forwardRef<
 // hygiene-ignore single-use -- Keep CardDescriptionRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders card description text and an optional explanatory tooltip.
 /**
  * Renders card description text and an optional explanatory tooltip.
+ *
  * @param descriptionProps - Paragraph content, tooltip, and native attributes.
  * @param ref - Ref forwarded to the paragraph element.
+ *
  * @return Card description text, optionally wrapped in a tooltip.
  */
 function CardDescriptionRender(
@@ -435,8 +445,10 @@ const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttribu
 // hygiene-ignore single-use -- Keep CardActionRender as a named React component to preserve its identity. TSDoc: Renders the action slot at the trailing edge of a card header.
 /**
  * Renders the action slot at the trailing edge of a card header.
+ *
  * @param actionProps - Div attributes for the card action.
  * @param ref - Ref forwarded to the action element.
+ *
  * @return The positioned card action container.
  */
 function CardActionRender(actionProps: React.HTMLAttributes<HTMLDivElement>, ref: React.ForwardedRef<HTMLDivElement>): React.JSX.Element {
@@ -448,8 +460,10 @@ const CardAction = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 // hygiene-ignore single-use -- Keep CardTextRender as a named React component to preserve its identity. TSDoc: Renders card body text using a selected paragraph or div tag.
 /**
  * Renders card body text using a selected paragraph or div tag.
+ *
  * @param textProps - Text attributes and the desired HTML tag.
  * @param ref - Ref forwarded to the selected text element.
+ *
  * @return Body text styled for the current card size.
  */
 function CardTextRender(textProps: React.HTMLAttributes<HTMLParagraphElement> & { as?: 'p' | 'div' }, ref: React.ForwardedRef<HTMLParagraphElement>): React.JSX.Element {
@@ -481,8 +495,10 @@ const CardText = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTM
 // hygiene-ignore single-use -- Keep CardQuoteRender as a named React component to preserve its identity. TSDoc: Renders a blockquote with typography from the current card size.
 /**
  * Renders a blockquote with typography from the current card size.
+ *
  * @param quoteProps - Blockquote content and native attributes.
  * @param ref - Ref forwarded to the blockquote element.
+ *
  * @return A card-styled blockquote.
  */
 function CardQuoteRender(quoteProps: React.HTMLAttributes<HTMLElement>, ref: React.ForwardedRef<HTMLElement>): React.JSX.Element {
@@ -515,8 +531,10 @@ const CardQuote = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement
 // hygiene-ignore single-use -- Keep CardMetaRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders attribution or timestamp text using a selected inline tag.
 /**
  * Renders attribution or timestamp text using a selected inline tag.
+ *
  * @param metaProps - Text attributes and the desired HTML tag.
  * @param ref - Ref forwarded to the selected meta element.
+ *
  * @return Card metadata styled for the current card size.
  */
 function CardMetaRender(
@@ -555,8 +573,10 @@ const CardMeta = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>
 // hygiene-ignore single-use -- Keep CardContentRender as a named React component to preserve its identity. TSDoc: Renders the card content body with inherited size spacing and typography.
 /**
  * Renders the card content body with inherited size spacing and typography.
+ *
  * @param contentProps - Content attributes and child elements.
  * @param ref - Ref forwarded to the content container.
+ *
  * @return A card content body using its inherited size.
  */
 function CardContentRender(contentProps: React.HTMLAttributes<HTMLDivElement>, ref: React.ForwardedRef<HTMLDivElement>): React.JSX.Element {
@@ -573,8 +593,10 @@ const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDi
 // hygiene-ignore single-use -- Keep CardFooterRender as a named React component to preserve its identity. TSDoc: Renders the card footer with inherited size padding.
 /**
  * Renders the card footer with inherited size padding.
+ *
  * @param footerProps - Footer attributes and child content.
  * @param ref - Ref forwarded to the footer element.
+ *
  * @return A card footer container.
  */
 function CardFooterRender(footerProps: React.HTMLAttributes<HTMLDivElement>, ref: React.ForwardedRef<HTMLDivElement>): React.JSX.Element {

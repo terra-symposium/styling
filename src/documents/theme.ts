@@ -77,6 +77,7 @@ PALETTE HELPERS
  * Converts a space-separated RGB triplet to a hash-prefixed hexadecimal color.
  *
  * @param rgb - Space-separated red, green, and blue channel values.
+ *
  * @returns The channels combined as a hash-prefixed hexadecimal color.
  */
 function hex(rgb: string): string {
@@ -92,6 +93,7 @@ function hex(rgb: string): string {
  * @param scales - Color scales containing light and dark appearance values.
  * @param i - Palette position to select.
  * @param appearance - Appearance variant to read, defaulting to light.
+ *
  * @returns The selected color as a hash-prefixed hexadecimal string.
  */
 function token(scales: ColorScales, i: number, appearance: 'light' | 'dark' = 'light'): string {
@@ -105,6 +107,7 @@ BRAND PALETTE
  * Builds the color, logo, and font settings shared by native Office templates.
  *
  * @param options - Optional hue, color, font, and logo overrides.
+ *
  * @returns A resolved brand with generated scales and merged public color roles.
  */
 export function createDocumentBrand(options: TerraDocumentBrandOptions = {}): TerraDocumentBrand {

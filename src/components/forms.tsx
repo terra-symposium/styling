@@ -503,10 +503,11 @@ export function MappedFormControl({ field, id: suppliedId }: { field: MappedForm
 	if (f.type === 'radio') {
 		const options = f.options;
 		/**
-		 * Renders one radio option with an id linked to its label.
-		 *
-		 * @param r - Radio option definition to display.
-		 * @return A label containing the matching radio control and option text.
+ * Renders one radio option with an id linked to its label.
+ *
+ * @param r - Radio option definition to display.
+ *
+ * @return A label containing the matching radio control and option text.
 		 */
 		function renderRadioOption(r: (typeof options)[number]): React.JSX.Element {
 			const optionId = `${id ?? 'radio'}-${r.value}`;
@@ -557,11 +558,12 @@ export function MappedFormFields({
 	// hygiene-ignore single-use -- Preserve this useId call at the same hook position for every MappedFormFields render.
 	const genId = React.useId();
 	/**
-	 * Renders one field and derives its id and key when the caller omits them.
-	 *
-	 * @param f - Field definition containing its label, control, and presentation.
-	 * @param i - Zero-based field position used for generated ids and keys.
-	 * @return A labelled field layout containing the mapped control.
+ * Renders one field and derives its id and key when the caller omits them.
+ *
+ * @param f - Field definition containing its label, control, and presentation.
+ * @param i - Zero-based field position used for generated ids and keys.
+ *
+ * @return A labelled field layout containing the mapped control.
 	 */
 	function renderField(f: MappedFormField, i: number): React.JSX.Element {
 		// hygiene-ignore single-use -- Capture the caller's ID before reading the custom control so ID getter order stays unchanged.

@@ -11,7 +11,9 @@ import { Trigger as AlertDialogTrigger } from '@radix-ui/react-alert-dialog';
 
 /**
  * Renders the alert dialog component example.
+ *
  * @param variant - Appearance variant selected in the workbench.
+ *
  * @return Renders the example and returns its React element.
  */
 export default function Demo({ variant }: { variant?: string }): React.JSX.Element {

@@ -32,8 +32,10 @@ type PasswordInputProps = Omit<InputProps, 'type'>;
 // hygiene-ignore single-use -- Keep renderPasswordInput as a named declaration so its authored TSDoc stays attached. TSDoc: Renders a password input and its accessible visibility toggle.
 /**
  * Renders a password input and its accessible visibility toggle.
+ *
  * @param inputProps - Native input attributes and optional Styling classes.
  * @param ref - Ref forwarded to the underlying input element.
+ *
  * @return A password input with a show or hide control.
  */
 function renderPasswordInput(inputProps: PasswordInputProps, ref: React.ForwardedRef<HTMLInputElement>): React.JSX.Element {
@@ -42,18 +44,20 @@ function renderPasswordInput(inputProps: PasswordInputProps, ref: React.Forwarde
 	const label = visible ? 'Hide password' : 'Show password';
 	// hygiene-ignore single-use -- Keep invertVisibility as a named declaration so its authored TSDoc stays attached. TSDoc: Returns the opposite visibility state for React's state updater.
 	/**
-	 * Returns the opposite visibility state for React's state updater.
-	 *
-	 * @param current - Current visibility state of the password text.
-	 * @return The visibility state to apply next.
+ * Returns the opposite visibility state for React's state updater.
+ *
+ * @param current - Current visibility state of the password text.
+ *
+ * @return The visibility state to apply next.
 	 */
 	function invertVisibility(current: boolean): boolean {
 		return !current;
 	}
 	// hygiene-ignore single-use -- Keep toggleVisibility as a named declaration so its authored TSDoc stays attached. TSDoc: Toggles whether password characters are visible.
 	/**
-	 * Toggles whether password characters are visible.
-	 * @return Nothing; the input visibility state is inverted.
+ * Toggles whether password characters are visible.
+ *
+ * @return Nothing; the input visibility state is inverted.
 	 */
 	function toggleVisibility(): void {
 		setVisible(invertVisibility);
@@ -80,8 +84,10 @@ function renderPasswordInput(inputProps: PasswordInputProps, ref: React.Forwarde
 
 /**
  * Renders a password input with a visible/redacted toggle.
+ *
  * @param inputProps - Native input attributes and optional Styling classes.
  * @param ref - Ref forwarded to the underlying input element.
+ *
  * @return A password input with a show or hide control.
  */
 export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(renderPasswordInput);

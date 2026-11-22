@@ -223,11 +223,12 @@ export function Marquee({
 	}
 
 	/**
-	 * Renders one animated track and its repeated term copies.
-	 *
-	 * @param joinedTerms - Separator-joined terms displayed along this track.
-	 * @param index - Zero-based row position used to calculate motion and direction.
-	 * @return The animated track for one visible marquee row.
+ * Renders one animated track and its repeated term copies.
+ *
+ * @param joinedTerms - Separator-joined terms displayed along this track.
+ * @param index - Zero-based row position used to calculate motion and direction.
+ *
+ * @return The animated track for one visible marquee row.
 	 */
 	function renderRow(joinedTerms: string, index: number): React.JSX.Element {
 		const speed = Math.round(duration * itemsPerSet * SPEEDS[index % SPEEDS.length]);

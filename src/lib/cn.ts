@@ -21,6 +21,7 @@ import type { ReactNode } from 'react';
  *
  * @param a - Text collected from earlier children.
  * @param c - Child whose primitive value may contribute text.
+ *
  * @return Updated text after processing the child.
  */
 function appendChildText(a: string, c: ReactNode): string {
@@ -35,6 +36,7 @@ HELPERS
  * Merges conditional class values and resolves conflicting Tailwind utilities.
  *
  * @param inputs - Class values accepted by `clsx`.
+ *
  * @return A class string with conflicting Tailwind utilities resolved.
  */
 export function cn(...inputs: ClassValue[]): string {
@@ -45,6 +47,7 @@ export function cn(...inputs: ClassValue[]): string {
  * Converts primitive React children to text and descends into elements with truthy children.
  *
  * @param children - React children whose text should be collected.
+ *
  * @return Concatenated primitive text; non-text nodes and elements without truthy children contribute an empty string.
  */
 export function transformChildrenToString(children: ReactNode | ReactNode[]): string {
@@ -56,6 +59,7 @@ export function transformChildrenToString(children: ReactNode | ReactNode[]): st
  * Converts a primitive React child to text.
  *
  * @param child - Child value to convert.
+ *
  * @return The text for a string, number, or bigint; an empty string otherwise.
  */
 function childToString(child?: ReactNode): string {

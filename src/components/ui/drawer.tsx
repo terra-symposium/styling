@@ -29,8 +29,10 @@ const DrawerClose = DrawerPrimitive.Close;
 /**
  * Renders the dimmed overlay behind an open drawer.
  * className: - Additional classes for the overlay surface.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the overlay element.
+ *
  * @return The styled drawer overlay.
  */
 function DrawerOverlayRender(attributes: React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>, ref: React.ForwardedRef<React.ElementRef<typeof DrawerPrimitive.Overlay>>): React.JSX.Element {
@@ -48,8 +50,10 @@ const DrawerOverlay = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.O
  * Renders drawer content inside a portal with its overlay and handle.
  * className: - Additional classes for the content panel.
  * children: - Content rendered inside the drawer panel.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the Radix drawer content.
+ *
  * @return A portal-hosted drawer panel with overlay and handle.
  */
 function DrawerContentRender(attributes: React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>, ref: React.ForwardedRef<React.ElementRef<typeof DrawerPrimitive.Content>>): React.JSX.Element {
@@ -80,8 +84,10 @@ const DrawerContent = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.C
 /**
  * Renders the accessible title using the shared drawer heading styles.
  * className: - Additional classes for the title.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the title element.
+ *
  * @return The styled drawer title.
  */
 function DrawerTitleRender(attributes: React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>, ref: React.ForwardedRef<React.ElementRef<typeof DrawerPrimitive.Title>>): React.JSX.Element {
@@ -98,8 +104,10 @@ const DrawerTitle = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Tit
 /**
  * Renders the accessible description with drawer body text styling.
  * className: - Additional classes for the description text.
+ *
  * @param attributes - Remaining Radix attributes forwarded to the primitive.
  * @param ref - Forwarded reference to the description element.
+ *
  * @return The styled drawer description.
  */
 function DrawerDescriptionRender(

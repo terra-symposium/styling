@@ -127,10 +127,11 @@ export function Combobox({
 		setOpen(false);
 	}
 	/**
-	 * Renders one selectable option and marks the current selection.
-	 *
-	 * @param option - Option definition to display in the command list.
-	 * @return A command item containing the selected-state icon and rendered option content.
+ * Renders one selectable option and marks the current selection.
+ *
+ * @param option - Option definition to display in the command list.
+ *
+ * @return A command item containing the selected-state icon and rendered option content.
 	 */
 	function renderOptionItem(option: UiComboboxOption): React.JSX.Element {
 		return (

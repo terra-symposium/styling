@@ -33,7 +33,9 @@ type PopoverContentProps = React.ComponentPropsWithoutRef<typeof PopoverPrimitiv
 
 /**
  * Prevents content scrolling from reaching a parent scroll container.
+ *
  * @param event - Wheel or touch-move event from the popover content.
+ *
  * @return Nothing; the event remains local to the popover.
  */
 function stopContentScrollPropagation(event: React.SyntheticEvent<HTMLDivElement>): void {
@@ -43,8 +45,10 @@ function stopContentScrollPropagation(event: React.SyntheticEvent<HTMLDivElement
 // hygiene-ignore single-use -- Keep renderPopoverContent as a named declaration so its authored TSDoc stays attached. TSDoc: Renders popover content inside a portal with shared overlay styling.
 /**
  * Renders popover content inside a portal with shared overlay styling.
+ *
  * @param contentProps - Radix positioning, event, and child props.
  * @param ref - Ref forwarded to the Radix content element.
+ *
  * @return A portal containing the styled popover panel.
  */
 function renderPopoverContent(contentProps: PopoverContentProps, ref: React.ForwardedRef<React.ElementRef<typeof PopoverPrimitive.Content>>): React.JSX.Element {

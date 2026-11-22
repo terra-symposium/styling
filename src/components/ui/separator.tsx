@@ -24,6 +24,7 @@ COMPONENTS
  *
  * @param separatorProps - Native separator attributes and orientation settings.
  * @param ref - Ref forwarded to the Radix separator element.
+ *
  * @return A horizontal or vertical divider with shared surface styling.
  */
 function renderSeparator(separatorProps: React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>, ref: React.ForwardedRef<React.ElementRef<typeof SeparatorPrimitive.Root>>): React.JSX.Element {

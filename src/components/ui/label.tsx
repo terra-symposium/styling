@@ -24,8 +24,10 @@ COMPONENTS
 // hygiene-ignore single-use -- Keep renderLabel as a named declaration so its authored TSDoc stays attached. TSDoc: Renders an accessible form label with shared typography and spacing.
 /**
  * Renders an accessible form label with shared typography and spacing.
+ *
  * @param labelProps - Label content, attributes, and optional classes.
  * @param ref - Ref forwarded to the Radix label element.
+ *
  * @return The styled Radix label primitive.
  */
 function renderLabel(labelProps: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>, ref: React.ForwardedRef<React.ElementRef<typeof LabelPrimitive.Root>>): React.JSX.Element {

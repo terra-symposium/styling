@@ -100,8 +100,10 @@ function FormField<TFieldValues extends FieldValues = FieldValues, TName extends
 // hygiene-ignore single-use -- Keep FormItemRender as a named React component to preserve its identity. TSDoc: Renders the provider boundary that gives each form item a stable ID.
 /**
  * Renders the provider boundary that gives each form item a stable ID.
+ *
  * @param attributes - Container attributes and optional class name.
  * @param ref - Forwarded reference to the form item element.
+ *
  * @return A provider-wrapped form item container.
  */
 function FormItemRender(attributes: React.HTMLAttributes<HTMLDivElement>, ref: React.ForwardedRef<HTMLDivElement>): React.JSX.Element {
@@ -117,8 +119,10 @@ const FormItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
 // hygiene-ignore single-use -- Keep FormLabelRender as a named React component to preserve its identity. TSDoc: Renders a form label connected to the current field and its error state.
 /**
  * Renders a form label connected to the current field and its error state.
+ *
  * @param attributes - Radix label attributes and optional class name.
  * @param ref - Forwarded reference to the label element.
+ *
  * @return The associated, error-aware form label.
  */
 function FormLabelRender(attributes: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>, ref: React.ForwardedRef<React.ElementRef<typeof LabelPrimitive.Root>>): React.JSX.Element {
@@ -131,8 +135,10 @@ const FormLabel = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>,
 // hygiene-ignore single-use -- Keep FormControlRender as a named React component to preserve its identity. TSDoc: Renders a slotted control with form IDs and validation accessibility state.
 /**
  * Renders a slotted control with form IDs and validation accessibility state.
+ *
  * @param attributes - Control attributes passed to the slotted child.
  * @param ref - Forwarded reference to the control element.
+ *
  * @return The slot with associated description and validation attributes.
  */
 function FormControlRender(attributes: React.ComponentPropsWithoutRef<typeof Slot>, ref: React.ForwardedRef<React.ElementRef<typeof Slot>>): React.JSX.Element {
@@ -144,8 +150,10 @@ const FormControl = React.forwardRef<React.ElementRef<typeof Slot>, React.Compon
 // hygiene-ignore single-use -- Keep FormDescriptionRender as a named React component to preserve its identity. TSDoc: Renders explanatory text linked to its current form field.
 /**
  * Renders explanatory text linked to its current form field.
+ *
  * @param attributes - Paragraph attributes and optional class name.
  * @param ref - Forwarded reference to the description paragraph.
+ *
  * @return The field's associated description text.
  */
 function FormDescriptionRender(attributes: React.HTMLAttributes<HTMLParagraphElement>, ref: React.ForwardedRef<HTMLParagraphElement>): React.JSX.Element {
@@ -158,8 +166,10 @@ const FormDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttribu
 // hygiene-ignore single-use -- Keep FormMessageRender as a named React component to preserve its identity. TSDoc: Renders validation feedback, returning nothing when no message exists.
 /**
  * Renders validation feedback, returning nothing when no message exists.
+ *
  * @param attributes - Paragraph attributes, fallback children, and class name.
  * @param ref - Forwarded reference to the message paragraph.
+ *
  * @return The validation message or `null` when no message is available.
  */
 function FormMessageRender(attributes: React.HTMLAttributes<HTMLParagraphElement>, ref: React.ForwardedRef<HTMLParagraphElement>): React.JSX.Element | null {

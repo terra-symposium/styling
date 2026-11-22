@@ -35,8 +35,10 @@ const SheetPortal = createTerraPortal(SheetPrimitive.Portal);
 // hygiene-ignore single-use -- Keep SheetOverlayRender as a named React component to preserve its identity. TSDoc: Renders the dimmed backdrop behind a sheet dialog.
 /**
  * Renders the dimmed backdrop behind a sheet dialog.
+ *
  * @param attributes - Overlay attributes and optional class name.
  * @param ref - Forwarded reference to the overlay element.
+ *
  * @return A full-screen semi-transparent backdrop element.
  */
 function SheetOverlayRender(attributes: React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>, ref: React.ForwardedRef<React.ElementRef<typeof SheetPrimitive.Overlay>>): React.JSX.Element {
@@ -54,8 +56,10 @@ const SheetOverlay = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Ove
 // hygiene-ignore single-use -- Keep SheetContentRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the positioned panel and its built-in close affordance.
 /**
  * Renders the positioned panel and its built-in close affordance.
+ *
  * @param attributes - Dialog attributes, edge placement, variant, and children.
  * @param ref - Forwarded reference to the dialog panel.
+ *
  * @return A portal dialog panel with overlay and close control.
  */
 function SheetContentRender(
@@ -130,8 +134,10 @@ function SheetFooter({ className, ...attributes }: React.HTMLAttributes<HTMLDivE
 // hygiene-ignore single-use -- Keep SheetTitleRender as a named React component to preserve its identity. TSDoc: Renders the accessible title for the sheet dialog.
 /**
  * Renders the accessible title for the sheet dialog.
+ *
  * @param attributes - Title attributes and optional class name.
  * @param ref - Forwarded reference to the title element.
+ *
  * @return The styled sheet title heading.
  */
 function SheetTitleRender(attributes: React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>, ref: React.ForwardedRef<React.ElementRef<typeof SheetPrimitive.Title>>): React.JSX.Element {
@@ -144,8 +150,10 @@ const SheetTitle = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Title
 // hygiene-ignore single-use -- Keep SheetDescriptionRender as a named declaration so its authored TSDoc stays attached. TSDoc: Renders supporting description text and its optional tooltip.
 /**
  * Renders supporting description text and its optional tooltip.
+ *
  * @param attributes - Description props, children, and optional tooltip content.
  * @param ref - Forwarded reference to the description element.
+ *
  * @return The description paragraph, optionally wrapped in a hint.
  */
 function SheetDescriptionRender(

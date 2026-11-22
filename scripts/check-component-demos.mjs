@@ -10,6 +10,7 @@ import { readFile, readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 /**
  * Creates the pattern used to strip optional quotes from generated object keys.
+ *
  * @return A global pattern matching a quote at either key boundary.
  */
 const G_REGEX = () => /^['"]|['"]$/g;
@@ -51,9 +52,11 @@ for (const slug of names) {
 	const demoFile = ts.createSourceFile(`${slug}.tsx`, demo, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
 	let code;
 	/**
-	 * Finds the authored copyable example string in a demo module.
-	 * @param node Syntax node in the demo source tree.
-	 * @return Nothing; stores the matching example source in the enclosing scan.
+ * Finds the authored copyable example string in a demo module.
+ *
+ * @param node Syntax node in the demo source tree.
+ *
+ * @return Nothing; stores the matching example source in the enclosing scan.
 	 */
 	function findCode(node) {
 		if (ts.isVariableDeclaration(node) && node.name.getText(demoFile) === 'exampleCode' && node.initializer && ts.isStringLiteral(node.initializer)) code = node.initializer.text;
@@ -77,7 +80,9 @@ const notesFile = ts.createSourceFile('notes.ts', notes, ts.ScriptTarget.Latest,
 const noteNames = new Set();
 /**
  * Collects component slugs from the authored usage-notes object.
+ *
  * @param node Syntax node in the usage-notes source tree.
+ *
  * @return Nothing; adds discovered note keys to the enclosing set.
  */
 function visitNotes(node) {

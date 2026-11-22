@@ -50,6 +50,7 @@ COMPONENTS
  * @param align - Whether the bubble aligns with the start or end of the message.
  * @param className - Additional classes applied to the bubble surface.
  * @param attributes - Remaining div attributes forwarded to the bubble.
+ *
  * @return A message bubble with variant and alignment metadata.
  */
 function Bubble({
@@ -68,8 +69,8 @@ function Bubble({
  * Rounded, wrapping container for the bubble's body content.
  *
  * @param className - Additional classes applied to the bubble body.
- *
  * @param attributes - Remaining div attributes forwarded to the body container.
+ *
  * @return A rounded, wrapping div for message content.
  */
 function BubbleContent({ className, ...attributes }: React.ComponentProps<'div'>): React.JSX.Element {

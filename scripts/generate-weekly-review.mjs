@@ -167,6 +167,7 @@ function assessBigFiveTimeline(plan, historyCommits) {
 // hygiene-ignore single-use -- Keep the async CLI entry point named so its top-level failure reaches the existing process-level error handler unchanged.
 /**
  * Builds the requested weekly-review PowerPoint from its report data.
+ *
  * @return Nothing; writes the generated deck to the requested output path.
  */
 async function main() {

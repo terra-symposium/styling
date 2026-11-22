@@ -29,8 +29,10 @@ type InputOTPProps = React.ComponentPropsWithoutRef<typeof OTPInput> & {
 // hygiene-ignore single-use -- Keep renderInputOTP as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the one-time-password input with a shared container layout.
 /**
  * Renders the one-time-password input with a shared container layout.
+ *
  * @param otpProps - OTP input attributes and optional container class.
  * @param ref - Ref forwarded to the underlying OTP input.
+ *
  * @return A styled one-time-password input root.
  */
 function renderInputOTP(otpProps: InputOTPProps, ref: React.ForwardedRef<React.ElementRef<typeof OTPInput>>): React.JSX.Element {
@@ -52,8 +54,10 @@ const InputOTP = React.forwardRef<React.ElementRef<typeof OTPInput>, InputOTPPro
 // hygiene-ignore single-use -- Keep renderInputOTPGroup as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the container for a related group of OTP character slots.
 /**
  * Renders the container for a related group of OTP character slots.
+ *
  * @param groupProps - Native div attributes and optional classes.
  * @param ref - Ref forwarded to the slot group element.
+ *
  * @return A flex container for OTP slots.
  */
 function renderInputOTPGroup(groupProps: React.ComponentPropsWithoutRef<'div'>, ref: React.ForwardedRef<HTMLDivElement>): React.JSX.Element {
@@ -66,8 +70,10 @@ const InputOTPGroup = React.forwardRef<React.ElementRef<'div'>, React.ComponentP
 // hygiene-ignore single-use -- Keep renderInputOTPSlot as a named declaration so its authored TSDoc stays attached. TSDoc: Renders one OTP character and the active fake caret when present.
 /**
  * Renders one OTP character and the active fake caret when present.
+ *
  * @param slotProps - Native div attributes and the OTP slot index.
  * @param ref - Ref forwarded to the slot element.
+ *
  * @return The bordered OTP character slot.
  */
 function renderInputOTPSlot(slotProps: React.ComponentPropsWithoutRef<'div'> & { index: number }, ref: React.ForwardedRef<HTMLDivElement>): React.JSX.Element {
@@ -98,8 +104,10 @@ const InputOTPSlot = React.forwardRef<React.ElementRef<'div'>, React.ComponentPr
 // hygiene-ignore single-use -- Keep renderInputOTPSeparator as a named declaration so its authored TSDoc stays attached. TSDoc: Renders the decorative divider between OTP slot groups.
 /**
  * Renders the decorative divider between OTP slot groups.
+ *
  * @param separatorProps - Native div attributes forwarded to the separator.
  * @param ref - Ref forwarded to the separator element.
+ *
  * @return A separator containing a small decorative dot.
  */
 function renderInputOTPSeparator(separatorProps: React.ComponentPropsWithoutRef<'div'>, ref: React.ForwardedRef<HTMLDivElement>): React.JSX.Element {

@@ -30,8 +30,10 @@ COMPONENTS
 // hygiene-ignore single-use -- Keep ButtonRender as a named React component to preserve its identity. TSDoc: Renders the primary button with form, loading, and menu-trigger states.
 /**
  * Renders the primary button with form, loading, and menu-trigger states.
+ *
  * @param buttonProps - Button attributes and Styling variant options.
  * @param ref - Ref forwarded to the native button element.
+ *
  * @return A button or slotted child with accessible loading behavior.
  */
 function ButtonRender(buttonProps: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>): React.JSX.Element {
@@ -93,8 +95,10 @@ type ButtonLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 // hygiene-ignore single-use -- Keep ButtonLinkRender as a named React component to preserve its identity. TSDoc: Renders an anchor using button variants and optional selected-state treatment.
 /**
  * Renders an anchor using button variants and optional selected-state treatment.
+ *
  * @param linkProps - Anchor attributes and Styling variant options.
  * @param ref - Ref forwarded to the anchor element.
+ *
  * @return An anchor styled as a button.
  */
 function ButtonLinkRender(linkProps: ButtonLinkProps, ref: React.ForwardedRef<HTMLAnchorElement>): React.JSX.Element {

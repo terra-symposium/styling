@@ -21,6 +21,7 @@ import type { ArrayOf12, ColorGenOpts, ColorScales } from './types.js';
  *
  * @param title - Document title or filename used to derive a hue.
  * @param hue - Optional explicit hue, returned unchanged when supplied as a number.
+ *
  * @return The explicit hue or a deterministic hue derived from the normalized title.
  */
 export function getHue(title: string, hue?: number): number {
@@ -95,10 +96,11 @@ export function colors(hue: number | null, opts: ColorGenOpts = {}): [ColorScale
 	if (CACHE.has(key)) return CACHE.get(key)!;
 	if (normHue === null) {
 		/**
-		 * Converts a Radix color value to the RGB triplet format used by the theme.
-		 *
-		 * @param r - Radix color string to convert.
-		 * @return Three sRGB channels separated by spaces, rounded to integers and clamped to 0–255.
+ * Converts a Radix color value to the RGB triplet format used by the theme.
+ *
+ * @param r - Radix color string to convert.
+ *
+ * @return Three sRGB channels separated by spaces, rounded to integers and clamped to 0–255.
 		 */
 		function toRgbTriplet(r: string): string {
 			const channels: number[] = [];
@@ -165,6 +167,7 @@ export function invert(hue: number | null): number | null {
  * Resolves the active document theme, allowing an explicit class to override the system preference.
  *
  * @param scope - Optional element used to find the nearest explicit `.dark` or `.light` class.
+ *
  * @return `true` when an explicit dark theme is active or the browser prefers dark mode; otherwise `false`.
  */
 export function isDarkMode(scope?: HTMLElement): boolean {
@@ -334,6 +337,7 @@ MAIN FUNCTION
  *
  * @param colors - Hex colors to composite over the selected background.
  * @param background - Background color used for the alpha blend.
+ *
  * @return Twelve sRGB color strings with their resolved alpha values.
  */
 function getAlphaSrgbColors(colors: ArrayOf12<string>, background: string): ArrayOf12<string> {
@@ -347,6 +351,7 @@ function getAlphaSrgbColors(colors: ArrayOf12<string>, background: string): Arra
  *
  * @param colors - Color strings to composite over the selected background.
  * @param background - Background color used for the alpha blend.
+ *
  * @return Twelve Display-P3 color strings with their resolved alpha values.
  */
 function getAlphaP3Colors(colors: ArrayOf12<string>, background: string): ArrayOf12<string> {

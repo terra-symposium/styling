@@ -81,11 +81,11 @@ function renderRadioGroup(
 	React.useEffect(initializeRadioValue, [form, name, value, defaultValue]);
 	// hygiene-ignore single-use -- Keep handleRadioValueChange as a named declaration so its authored TSDoc stays attached. TSDoc: Saves the selected radio and notifies the optional caller handler.
 	/**
- * Saves the selected radio and notifies the optional caller handler.
- *
- * @param next - Selected radio value reported by Radix.
- *
- * @return Nothing; form state and caller receive the value in order.
+	 * Saves the selected radio and notifies the optional caller handler.
+	 *
+	 * @param next - Selected radio value reported by Radix.
+	 *
+	 * @return Nothing; form state and caller receive the value in order.
 	 */
 	function handleRadioValueChange(next: string): void {
 		if (form && name)

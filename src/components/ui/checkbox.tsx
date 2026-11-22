@@ -85,11 +85,11 @@ function renderCheckbox(checkboxProps: CheckboxProps, ref: React.ForwardedRef<Re
 	React.useEffect(initializeFormValue, [form, name, checked, defaultChecked]);
 	// hygiene-ignore single-use -- Keep handleCheckedChange as a named declaration so its authored TSDoc stays attached. TSDoc: Persists the Radix state and notifies the optional caller callback.
 	/**
- * Persists the Radix state and notifies the optional caller callback.
- *
- * @param next - Checked or indeterminate state reported by Radix.
- *
- * @return Nothing; the form and caller receive the value in order.
+	 * Persists the Radix state and notifies the optional caller callback.
+	 *
+	 * @param next - Checked or indeterminate state reported by Radix.
+	 *
+	 * @return Nothing; the form and caller receive the value in order.
 	 */
 	function handleCheckedChange(next: Parameters<NonNullable<React.ComponentProps<typeof CheckboxPrimitive.Root>['onCheckedChange']>>[0]): void {
 		updateCheckboxValue(next, name, form, onCheckedChange);

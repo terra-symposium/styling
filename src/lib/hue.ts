@@ -96,11 +96,11 @@ export function colors(hue: number | null, opts: ColorGenOpts = {}): [ColorScale
 	if (CACHE.has(key)) return CACHE.get(key)!;
 	if (normHue === null) {
 		/**
- * Converts a Radix color value to the RGB triplet format used by the theme.
- *
- * @param r - Radix color string to convert.
- *
- * @return Three sRGB channels separated by spaces, rounded to integers and clamped to 0–255.
+		 * Converts a Radix color value to the RGB triplet format used by the theme.
+		 *
+		 * @param r - Radix color string to convert.
+		 *
+		 * @return Three sRGB channels separated by spaces, rounded to integers and clamped to 0–255.
 		 */
 		function toRgbTriplet(r: string): string {
 			const channels: number[] = [];

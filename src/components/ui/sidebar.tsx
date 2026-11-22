@@ -79,16 +79,16 @@ function SidebarProviderRender(
 	const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined);
 	// hygiene-ignore single-use -- Keep subscribeToMobileBreakpoint as a named declaration so its authored TSDoc stays attached. TSDoc: Registers the mobile breakpoint listener and returns its cleanup.
 	/**
- * Registers the mobile breakpoint listener and returns its cleanup.
- *
- * @return A callback that removes the media-query listener.
+	 * Registers the mobile breakpoint listener and returns its cleanup.
+	 *
+	 * @return A callback that removes the media-query listener.
 	 */
 	function subscribeToMobileBreakpoint(): () => void {
 		const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
 		/**
- * Updates mobile state when the viewport crosses the breakpoint.
- *
- * @return Nothing; the state reflects the current viewport width.
+		 * Updates mobile state when the viewport crosses the breakpoint.
+		 *
+		 * @return Nothing; the state reflects the current viewport width.
 		 */
 		function updateMobileState(): void {
 			setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
@@ -113,11 +113,11 @@ function SidebarProviderRender(
 	// updates state and persists to cookie
 	// hygiene-ignore single-use -- Keep applySidebarOpenState as a named declaration so its authored TSDoc stays attached. TSDoc: Updates controlled or local sidebar state and persists the choice.
 	/**
- * Updates controlled or local sidebar state and persists the choice.
- *
- * @param value - The next open state or an updater based on the current state.
- *
- * @return Nothing; state, callback, and cookie reflect the chosen value.
+	 * Updates controlled or local sidebar state and persists the choice.
+	 *
+	 * @param value - The next open state or an updater based on the current state.
+	 *
+	 * @return Nothing; state, callback, and cookie reflect the chosen value.
 	 */
 	function applySidebarOpenState(value: boolean | ((value: boolean) => boolean)): void {
 		const openState = typeof value === 'function' ? value(open) : value;
@@ -129,11 +129,11 @@ function SidebarProviderRender(
 
 	// handles toggle based on device type
 	/**
- * Returns the opposite boolean for the sidebar state updaters.
- *
- * @param value - Current open state supplied by a state updater.
- *
- * @return The next open state.
+	 * Returns the opposite boolean for the sidebar state updaters.
+	 *
+	 * @param value - Current open state supplied by a state updater.
+	 *
+	 * @return The next open state.
 	 */
 	function invertSidebarOpenState(value: boolean): boolean {
 		return !value;
@@ -151,11 +151,11 @@ function SidebarProviderRender(
 	// EFFECTS
 	// adds keyboard shortcut
 	/**
- * Handles the sidebar keyboard shortcut.
- *
- * @param event - Keyboard event from the window.
- *
- * @return Nothing; the shortcut toggles the sidebar and prevents default.
+	 * Handles the sidebar keyboard shortcut.
+	 *
+	 * @param event - Keyboard event from the window.
+	 *
+	 * @return Nothing; the shortcut toggles the sidebar and prevents default.
 	 */
 	function handleSidebarShortcut(event: KeyboardEvent): void {
 		if (event.key === 'b' && (event.metaKey || event.ctrlKey)) {
@@ -184,9 +184,9 @@ function SidebarProviderRender(
 	const state: SidebarCtxProps['state'] = open ? 'expanded' : 'collapsed';
 	// hygiene-ignore single-use -- Keep createSidebarContextValue as a named declaration so its authored TSDoc stays attached. TSDoc: Builds the context value consumed by sidebar child controls.
 	/**
- * Builds the context value consumed by sidebar child controls.
- *
- * @return Current state, mobile status, and control methods.
+	 * Builds the context value consumed by sidebar child controls.
+	 *
+	 * @return Current state, mobile status, and control methods.
 	 */
 	function createSidebarContextValue(): SidebarCtxProps {
 		return {

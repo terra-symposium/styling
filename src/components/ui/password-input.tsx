@@ -44,20 +44,20 @@ function renderPasswordInput(inputProps: PasswordInputProps, ref: React.Forwarde
 	const label = visible ? 'Hide password' : 'Show password';
 	// hygiene-ignore single-use -- Keep invertVisibility as a named declaration so its authored TSDoc stays attached. TSDoc: Returns the opposite visibility state for React's state updater.
 	/**
- * Returns the opposite visibility state for React's state updater.
- *
- * @param current - Current visibility state of the password text.
- *
- * @return The visibility state to apply next.
+	 * Returns the opposite visibility state for React's state updater.
+	 *
+	 * @param current - Current visibility state of the password text.
+	 *
+	 * @return The visibility state to apply next.
 	 */
 	function invertVisibility(current: boolean): boolean {
 		return !current;
 	}
 	// hygiene-ignore single-use -- Keep toggleVisibility as a named declaration so its authored TSDoc stays attached. TSDoc: Toggles whether password characters are visible.
 	/**
- * Toggles whether password characters are visible.
- *
- * @return Nothing; the input visibility state is inverted.
+	 * Toggles whether password characters are visible.
+	 *
+	 * @return Nothing; the input visibility state is inverted.
 	 */
 	function toggleVisibility(): void {
 		setVisible(invertVisibility);

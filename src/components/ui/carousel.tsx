@@ -41,11 +41,11 @@ function CarouselRender(carouselProps: React.HTMLAttributes<HTMLDivElement> & Ca
 	const [canScrollNext, setCanScrollNext] = React.useState(false);
 	// hygiene-ignore single-use -- Keep updateCarouselSelection as a named declaration so its authored TSDoc stays attached. TSDoc: Updates previous and next availability after Embla selection changes.
 	/**
- * Updates previous and next availability after Embla selection changes.
- *
- * @param api - Active Embla API.
- *
- * @return Nothing; both control availability states are refreshed.
+	 * Updates previous and next availability after Embla selection changes.
+	 *
+	 * @param api - Active Embla API.
+	 *
+	 * @return Nothing; both control availability states are refreshed.
 	 */
 	function updateCarouselSelection(api: CarouselApi): void {
 		if (!api) return;
@@ -80,9 +80,9 @@ function CarouselRender(carouselProps: React.HTMLAttributes<HTMLDivElement> & Ca
 	React.useEffect(publishCarouselApi, [api, setApi]);
 	// hygiene-ignore single-use -- Keep subscribeToCarouselSelection as a named declaration so its authored TSDoc stays attached. TSDoc: Subscribes to Embla selection updates and returns listener cleanup.
 	/**
- * Subscribes to Embla selection updates and returns listener cleanup.
- *
- * @return A cleanup callback when Embla is available.
+	 * Subscribes to Embla selection updates and returns listener cleanup.
+	 *
+	 * @return A cleanup callback when Embla is available.
 	 */
 	function subscribeToCarouselSelection(): (() => void) | undefined {
 		if (!api) return;
@@ -101,11 +101,11 @@ function CarouselRender(carouselProps: React.HTMLAttributes<HTMLDivElement> & Ca
 	React.useEffect(subscribeToCarouselSelection, [api, onSelect]);
 	// hygiene-ignore single-use -- Keep handleCarouselKeyDown as a named declaration so its authored TSDoc stays attached. TSDoc: Handles arrow-key navigation within the carousel region.
 	/**
- * Handles arrow-key navigation within the carousel region.
- *
- * @param event - Captured keyboard event.
- *
- * @return Nothing; horizontal arrows move the carousel and prevent default.
+	 * Handles arrow-key navigation within the carousel region.
+	 *
+	 * @param event - Captured keyboard event.
+	 *
+	 * @return Nothing; horizontal arrows move the carousel and prevent default.
 	 */
 	function handleCarouselKeyDown(event: React.KeyboardEvent<HTMLDivElement>): void {
 		if (event.key === 'ArrowLeft') {

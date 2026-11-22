@@ -15,11 +15,11 @@ import type { ColorScales } from '../../src/lib/types.ts';
  */
 class MockClassList {
 	/**
- * Reports that no test element has a theme class.
- *
- * @param _className - Class name checked by the DOM API.
- *
- * @return `false` because these fixtures do not declare theme classes.
+	 * Reports that no test element has a theme class.
+	 *
+	 * @param _className - Class name checked by the DOM API.
+	 *
+	 * @return `false` because these fixtures do not declare theme classes.
 	 */
 	contains(_className: string): boolean {
 		return false;
@@ -34,22 +34,22 @@ class MockEl {
 	classList = new MockClassList();
 
 	/**
- * Returns no ancestor because the fixture has no nested theme boundary.
- *
- * @param _selector - Ancestor selector requested by the DOM API.
- *
- * @return `null` because the fixture has no ancestor chain.
+	 * Returns no ancestor because the fixture has no nested theme boundary.
+	 *
+	 * @param _selector - Ancestor selector requested by the DOM API.
+	 *
+	 * @return `null` because the fixture has no ancestor chain.
 	 */
 	closest(_selector: string): null {
 		return null;
 	}
 
 	/**
- * Returns no nested legacy elements in the isolated fixture.
- *
- * @param _selector - Element selector requested by the DOM API.
- *
- * @return An empty collection for the isolated fixture.
+	 * Returns no nested legacy elements in the isolated fixture.
+	 *
+	 * @param _selector - Element selector requested by the DOM API.
+	 *
+	 * @return An empty collection for the isolated fixture.
 	 */
 	querySelectorAll(_selector: string): MockEl[] {
 		return [];
@@ -74,22 +74,22 @@ class MockDoc {
 	) {}
 
 	/**
- * Returns no legacy inline-style targets in the isolated fixture.
- *
- * @param _selector - Element selector requested by the DOM API.
- *
- * @return An empty collection because the fixture has no additional nodes.
+	 * Returns no legacy inline-style targets in the isolated fixture.
+	 *
+	 * @param _selector - Element selector requested by the DOM API.
+	 *
+	 * @return An empty collection because the fixture has no additional nodes.
 	 */
 	querySelectorAll(_selector: string): MockEl[] {
 		return [];
 	}
 
 	/**
- * Stores the event dispatched by the hue utility.
- *
- * @param event - Event details emitted by `applyHue`.
- *
- * @return `true` to indicate that the fake document accepted the event.
+	 * Stores the event dispatched by the hue utility.
+	 *
+	 * @param event - Event details emitted by `applyHue`.
+	 *
+	 * @return `true` to indicate that the fake document accepted the event.
 	 */
 	dispatchEvent(event: { type: string; detail: unknown }): boolean {
 		this.dispatchedEvent = event;

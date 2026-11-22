@@ -49,11 +49,11 @@ function renderTextarea(textareaProps: TextareaProps, ref: React.ForwardedRef<HT
 	const registration = form && name ? form.register(name, { setValueAs }) : null;
 	// hygiene-ignore single-use -- Keep attachTextareaRef as a named declaration so its authored TSDoc stays attached. TSDoc: Combines form registration and caller refs for the rendered textarea.
 	/**
- * Combines form registration and caller refs for the rendered textarea.
- *
- * @param element - Mounted textarea element or null during unmount.
- *
- * @return Nothing; both refs receive the element value.
+	 * Combines form registration and caller refs for the rendered textarea.
+	 *
+	 * @param element - Mounted textarea element or null during unmount.
+	 *
+	 * @return Nothing; both refs receive the element value.
 	 */
 	function attachTextareaRef(element: HTMLTextAreaElement | null): void {
 		registration?.ref(element);
@@ -62,11 +62,11 @@ function renderTextarea(textareaProps: TextareaProps, ref: React.ForwardedRef<HT
 	}
 	// hygiene-ignore single-use -- Keep handleTextareaChange as a named declaration so its authored TSDoc stays attached. TSDoc: Updates form state before notifying the caller's change handler.
 	/**
- * Updates form state before notifying the caller's change handler.
- *
- * @param event - Textarea change event.
- *
- * @return Nothing; both change handlers are invoked in order.
+	 * Updates form state before notifying the caller's change handler.
+	 *
+	 * @param event - Textarea change event.
+	 *
+	 * @return Nothing; both change handlers are invoked in order.
 	 */
 	function handleTextareaChange(event: React.ChangeEvent<HTMLTextAreaElement>): void {
 		registration?.onChange(event);
@@ -74,11 +74,11 @@ function renderTextarea(textareaProps: TextareaProps, ref: React.ForwardedRef<HT
 	}
 	// hygiene-ignore single-use -- Keep handleTextareaBlur as a named declaration so its authored TSDoc stays attached. TSDoc: Updates form state before notifying the caller's blur handler.
 	/**
- * Updates form state before notifying the caller's blur handler.
- *
- * @param event - Textarea focus event.
- *
- * @return Nothing; both blur handlers are invoked in order.
+	 * Updates form state before notifying the caller's blur handler.
+	 *
+	 * @param event - Textarea focus event.
+	 *
+	 * @return Nothing; both blur handlers are invoked in order.
 	 */
 	function handleTextareaBlur(event: React.FocusEvent<HTMLTextAreaElement>): void {
 		registration?.onBlur(event);

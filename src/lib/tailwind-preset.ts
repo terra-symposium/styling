@@ -32,11 +32,11 @@ CONFIG
 function applyOpacityValue(variable: string) {
 	// hygiene-ignore single-use -- Keep applyOpacity as a named declaration so its authored TSDoc stays attached. TSDoc: Builds an RGB declaration with Tailwind's optional opacity modifier.
 	/**
- * Builds an RGB declaration with Tailwind's optional opacity modifier.
- *
- * @param prop - Opacity values supplied by the Tailwind color resolver.
- *
- * @return CSS RGB color using the selected channel variable and opacity.
+	 * Builds an RGB declaration with Tailwind's optional opacity modifier.
+	 *
+	 * @param prop - Opacity values supplied by the Tailwind color resolver.
+	 *
+	 * @return CSS RGB color using the selected channel variable and opacity.
 	 */
 	function applyOpacity(prop: Partial<{ opacityVariable: string; opacityValue: number }>): string {
 		return `rgb(var(${variable}) / ${prop?.opacityValue || '100'})`;

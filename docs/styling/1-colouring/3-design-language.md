@@ -5,11 +5,19 @@ description: The visual roles that make a Terra page or artifact recognisably Te
 
 Terra combines expressive editorial moments with a quiet, readable working interface. Choose type, colour and layout by **role** rather than copying a class list from one page.
 
+Work from the core user task outward: sketch the hierarchy in low fidelity or greyscale, build a simple working version, review it in the real interface, and refine the problems it reveals. Delay detailed visual polish until the task flow works. Reuse a small system of type, colour, spacing, and elevation choices so each screen does not invent its own visual rules.
+
 1. Give each page or slide one clear idea and reading order.
 2. Generate one palette from a hue; use its semantic scale roles throughout.
 3. Use Avara for short editorial display moments and Authentic Sans for functional text.
 4. Balance a strong hue field with open, pale reading space. Keep tables and controls restrained.
 5. Use the real wordmark and purposeful photography; check contrast and cropping at the final size.
+
+## Hierarchy and personality
+
+Guide attention with a restrained combination of size, weight, and colour. De-emphasise supporting labels and inactive content using contrast appropriate to their background. Where the layout already gives context, prefer a natural phrase over repeated `label: value` pairs. Make actions as prominent as their consequence: a primary action should read before a secondary link.
+
+Typeface, palette, corners, and language together establish the interface's personality. Keep those choices consistent with the intended tone instead of mixing formal, playful, and editorial cues without purpose.
 
 ## Website reference
 

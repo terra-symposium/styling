@@ -16,3 +16,7 @@ The PowerPoint uses an editable text brand mark on each layout. Install Avara Bo
 ![Presentation cover with an editable Terra text mark on a saturated field beside a pale panel](/_docs/assets/styling/2-documents/assets/presentation-cover.png 'PowerPoint · editable text mark')
 
 [Open the Website Media Kit](https://terrasymposium.com/assets/) for the public reference. For source files, use the Website's `astro/src/assets/logos/` directory.
+
+## Icons
+
+Choose the icon set by runtime context, then by meaning. The archived web guidance uses Carbon icons for the application and Carbon first in Sanity, with Sanity Icons for missing CMS metaphors. Keep size and alignment consistent with nearby type, and reserve established icons for their existing meanings so users can recognise them reliably.

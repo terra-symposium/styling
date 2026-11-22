@@ -21,3 +21,7 @@ The Media Kit title is Avara italic; the description, section headings and label
 ![Media Kit showing an Avara italic title above Authentic Sans descriptions and labels](/_docs/assets/styling/1-colouring/3-design-language/assets/website-media-kit.png 'Public Website · display and functional type')
 
 Keep display phrases short and check line breaks after rendering. Avoid Avara for paragraphs or table cells. On a computer without the Terra fonts installed, Office substitutes a local font; the logo remains an image to preserve its form.
+
+## Reading rhythm
+
+Use a small type scale and let weight and colour help distinguish levels; avoid adding intermediate sizes for every heading. Constrain long-form text to a readable width, use line height that suits the text size and density, and favour left alignment for paragraphs. Review type at the actual viewport and output size, including narrow screens and exported documents.

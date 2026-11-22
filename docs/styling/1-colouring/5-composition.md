@@ -7,6 +7,10 @@ description: Build Terra layouts with hierarchy, grid, space, and restraint.
 
 Start with a clear outside margin and one alignment grid. Use a numbered kicker, a strong heading, then brief supporting copy before the main content. Let spacing separate ideas; avoid wrapping every block in a Card. The Website changes from a split desktop layout to a reading-first narrow layout rather than squeezing the split.
 
+Use a shared layout frame for global navigation, theme, and page chrome, then let each page own its content. Prefer the existing spacing scale, grid, flex, and width constraints over arbitrary offsets. Keep the gap between sections visibly larger than gaps within a section; the archived styling guidance uses at least a two-to-one ratio as a useful starting point.
+
+When columns stack or navigation collapses, preserve reading order and content grouping first. Reduce decoration before allowing text or controls to become cramped.
+
 ## Editorial and working surfaces
 
 The homepage pairs a strong hue field with open reading space; the Media Kit uses a responsive grid for identity assets and workshop photography. Docs keeps navigation and tools compact while leaving the content column clear. These are distinct layouts using the same type and palette roles.

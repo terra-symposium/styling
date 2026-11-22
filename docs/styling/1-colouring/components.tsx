@@ -139,7 +139,7 @@ export function ComponentWorkbench({ component: comp }: { component: CompSlug })
 	if (comp === 'card') return <CardWorkbench />;
 	if (comp === 'tabs') return <TabsWorkbench />;
 	if (SIMPLE_CONTROLS[comp]) return <SimpleWorkbench component={comp} />;
-	if (VARIANT_TARGETS[comp]) return <VariantWorkbench component={comp} />;
+	if (VARIANT_TGTS[comp]) return <VariantWorkbench component={comp} />;
 	return <ExampleTabs preview={<ComponentDemo component={comp} />} code={DEMO_REGISTRY[comp].code} />;
 }
 
@@ -221,7 +221,7 @@ function finiteChoices(comp: CompSlug, prop: string, fallback: readonly string[]
 /**
  * The element carrying the appearance variant in each authored component example.
  */
-const VARIANT_TARGETS: Partial<Record<CompSlug, { member: string; initial: string; fallback?: readonly string[]; omitDefault?: boolean }>> = {
+const VARIANT_TGTS: Partial<Record<CompSlug, { member: string; initial: string; fallback?: readonly string[]; omitDefault?: boolean }>> = {
 	accordion: { member: 'Accordion', initial: 'default' },
 	'alert-dialog': { member: 'AlertDialogAction', initial: 'default', fallback: BUTTON_VARIANTS },
 	bubble: { member: 'Bubble', initial: 'default' },
@@ -264,12 +264,12 @@ function codeWithVariant(code: string, member: string, variant: string, omitDefa
  * @return A variant selector with live preview and source.
  */
 function VariantWorkbench({ component: comp }: { component: CompSlug }): React.JSX.Element {
-	const target = VARIANT_TARGETS[comp]!;
-	const [variant, setVariant] = React.useState(target.initial);
+	const tgt = VARIANT_TGTS[comp]!;
+	const [variant, setVariant] = React.useState(tgt.initial);
 	return (
 		<div className={GRID_GAP_4_CLASS}>
-			<DemoSelect label={`${target.member} variant`} value={variant} choices={finiteChoices(comp, 'variant', target.fallback ?? [], target.member)} onChange={setVariant} />
-			<ExampleTabs preview={<ComponentDemo component={comp} variant={variant} />} code={codeWithVariant(DEMO_REGISTRY[comp].code, target.member, variant, target.omitDefault)} />
+			<DemoSelect label={`${tgt.member} variant`} value={variant} choices={finiteChoices(comp, 'variant', tgt.fallback ?? [], tgt.member)} onChange={setVariant} />
+			<ExampleTabs preview={<ComponentDemo component={comp} variant={variant} />} code={codeWithVariant(DEMO_REGISTRY[comp].code, tgt.member, variant, tgt.omitDefault)} />
 		</div>
 	);
 }

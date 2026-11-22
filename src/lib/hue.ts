@@ -202,11 +202,11 @@ export function applyHue(hue: number | null, scope?: HTMLElement): void {
 		colorVars[`--secondary-${step}`] = (darkMode ? secondary.dark : secondary.light)[i]!;
 	}
 	// prettier-ignore
-	const legacyTargets = scope
+	const legacyTgts = scope
 		? Array.from(scope.querySelectorAll<HTMLElement>('[style*="--primaryLight1"]'))
 		: Array.from(document.querySelectorAll<HTMLElement>('[style*="--primaryLight1"]'));
-	const targets = scope ? [scope, ...legacyTargets] : [document.documentElement, ...(document.body ? [document.body] : []), ...legacyTargets];
-	for (const el of new Set<HTMLElement>(targets)) {
+	const tgts = scope ? [scope, ...legacyTgts] : [document.documentElement, ...(document.body ? [document.body] : []), ...legacyTgts];
+	for (const el of new Set<HTMLElement>(tgts)) {
 		const declarations: string[] = [];
 		for (const [name, value] of Object.entries(colorVars)) declarations.push(`${name}: ${value};`);
 		el.style.cssText = `${el.style.cssText.replace(/--(?:hue|(?:primary|gray|secondary)-\d+|(?:primary|gray|secondary)(?:Light|Dark)\d+)\s*:[^;]*;?/g, '')}; --hue: ${hue ?? 0}; ${declarations.join('')}`;
@@ -701,11 +701,11 @@ function getTextColor(bg: Color) {
  * @return resolved value.
  */
 function getAlphaColor(tRgb: number[], bgRgb: number[], rgbPrecision: number, alphaPrecision: number, tAlpha?: number) {
-	const scaledTarget: number[] = [];
+	const scaledTgt: number[] = [];
 	const scaledBackground: number[] = [];
-	for (const channel of tRgb) scaledTarget.push(Math.round(channel * rgbPrecision));
+	for (const channel of tRgb) scaledTgt.push(Math.round(channel * rgbPrecision));
 	for (const channel of bgRgb) scaledBackground.push(Math.round(channel * rgbPrecision));
-	const [tr, tg, tb] = scaledTarget;
+	const [tr, tg, tb] = scaledTgt;
 	const [br, bg, bb] = scaledBackground;
 	// prettier-ignore
 	if (tr === undefined || tg === undefined || tb === undefined || br === undefined || bg === undefined || bb === undefined ) throw Error('Color is undefined');

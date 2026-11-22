@@ -62,7 +62,9 @@
 		"docs:preview": "pnpm run build && node scripts/run-docs-site.mjs preview 2030",
 		"test": "pnpm run build && tsx --test tests/lib/*.test.ts tests/components/ui/*.test.ts",
 		"prepare": "husky config/husky",
-		"verify": "pnpm run quality:all && pnpm run test && pnpm run docs:build"
+		"verify": "pnpm run quality:all && pnpm run test && pnpm run docs:build",
+		"skills:prepare": "terra-skills prepare",
+		"skills:check": "terra-skills check"
 	},
 	"dependencies": {
 		"@carbon/icons-react": "11.90.0",
@@ -132,7 +134,8 @@
 		"react-dom": "^19.3.1",
 		"tsx": "^4.22.4",
 		"typescript": "^5.9.3",
-		"typescript-eslint": "8.71.2"
+		"typescript-eslint": "8.71.2",
+		"@terra-symposium/skills": "0.1.2"
 	},
 	"peerDependencies": {
 		"react": "^19.0.0",

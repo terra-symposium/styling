@@ -163,6 +163,9 @@ importers:
       '@terra-symposium/hygiene':
         specifier: 2.5.5
         version: 2.5.5(eslint@10.13.0(jiti@1.21.7))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@terra-symposium/skills':
+        specifier: 0.1.2
+        version: 0.1.2
       '@types/node':
         specifier: ^24.0.0
         version: 24.19.2
@@ -2169,6 +2172,11 @@ packages:
     peerDependenciesMeta:
       eslint:
         optional: true
+
+  '@terra-symposium/skills@0.1.2':
+    resolution: { integrity: sha512-xw1HAEU61QWuHEdJOUggSMdYZ+l6uc2Y52/nob4APxKEEts3jxW2oX205WbSwIj5yvse3GYtWJ/5zL4KGwjESg== }
+    engines: { node: '>=24.12.0' }
+    hasBin: true
 
   '@terra-symposium/styling@0.1.39':
     resolution: { integrity: sha512-GtV0INRB3AhIZJt9U6ZDgVEic0UPSCAfyHr5b8Vj4izGK0OFAxVUQCaKQk3+3gXH/xpnC+dcgbCpUw1xhBHFxQ== }
@@ -7079,6 +7087,10 @@ snapshots:
     transitivePeerDependencies:
       - react
       - react-dom
+
+  '@terra-symposium/skills@0.1.2':
+    dependencies:
+      yaml: 2.9.1
 
   '@terra-symposium/styling@0.1.39(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(tsx@4.23.15)(yaml@2.9.1)':
     dependencies:

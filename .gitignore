@@ -27,3 +27,6 @@ error.log
 # Local generated caches and dependency links
 .astro
 artifacts/*
+
+# Generated agent skills
+/.agents/skills/

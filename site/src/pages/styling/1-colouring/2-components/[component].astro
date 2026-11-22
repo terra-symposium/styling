@@ -38,7 +38,7 @@ const currentPath = pageHref(`styling/1-colouring/2-components/${compRefSlug}`, 
 		rootPath={pageHref('', base)}
 		searchBase={base}
 	>
-		<main class='docs-page-content'>
+		<main class='copy'>
 			<ComponentReference client:only='react' component={compRefSlug as keyof typeof componentTsDocs}>
 				<p slot='fallback'>Loading component example…</p>
 			</ComponentReference>

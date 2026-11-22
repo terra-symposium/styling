@@ -67,7 +67,7 @@ function srcStylesheetProvidesSharedTokensAndExports(): void {
 	assert.match(stylesheet, /\*:focus-visible\s*\{\s*@apply ring-offset-2/);
 	assert.match(stylesheet, /@keyframes docs-toolbar-sweep/);
 	assert.match(stylesheet, /body\s*\{\s*-webkit-font-smoothing:\s*antialiased;/);
-	assert.match(stylesheet, /:where\(\.docs-workspace\)/);
+	assert.match(stylesheet, /:where\(\.workspace\)/);
 	assert.doesNotMatch(stylesheet, /terra-styling|--primary-\d+\s*:/);
 	assert.doesNotMatch(stylesheet, /\.grain|\.animate-crt|@keyframes shake/);
 	assert.match(src('src/styles/effects.css'), /\.grain/);

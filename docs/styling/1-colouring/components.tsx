@@ -669,7 +669,7 @@ function createApiCols(): DataTableColumn<(typeof componentTsDocs)[CompSlug]['me
 			label: 'TypeScript signature',
 			width: 'wider-wrapped',
 			render: member => (
-				<div className='min-w-0 max-w-xl overflow-x-auto [&_.docs-code-block]:mb-0'>
+				<div className='min-w-0 max-w-xl overflow-x-auto [&_.code-block]:mb-0'>
 					<CopyableCode code={member.signature} lang='typescript' />
 				</div>
 			),
@@ -690,8 +690,8 @@ export function ComponentReference({ component: comp }: { component: CompSlug })
 		.map(member => ({ name: member.name, props: member.props.filter(prop => !prop.name.startsWith('on') && !NON_DISPLAY_PROPS.has(prop.name)) }))
 		.filter(member => member.props.length > 0);
 	return (
-		<div className='docs-block-flow'>
-			<section className='docs-block-flow' aria-labelledby='component-usage-heading'>
+		<div className='flow'>
+			<section className='flow' aria-labelledby='component-usage-heading'>
 				<h2 id='component-usage-heading'>Usage</h2>
 				<p>{docs.description}</p>
 				<p>
@@ -707,7 +707,7 @@ export function ComponentReference({ component: comp }: { component: CompSlug })
 				</p>
 				<p>{componentNotes[comp]}</p>
 				<h3 id='component-example-heading'>Rendered Example</h3>
-				<aside className='docs-block my-0 flow-root' data-docs-aside='example'>
+				<aside className='block my-0 flow-root' data-docs-aside='example'>
 					<h4 className='title'>Interactive example</h4>
 					<ComponentWorkbench component={comp} />
 				</aside>
@@ -717,7 +717,7 @@ export function ComponentReference({ component: comp }: { component: CompSlug })
 				</div>
 			</section>
 			{memberProps.length > 0 && (
-				<section className='docs-block-flow' aria-labelledby='component-props-heading'>
+				<section className='flow' aria-labelledby='component-props-heading'>
 					<h2 id='component-props-heading'>Props</h2>
 					<UI.Accordion type='single' collapsible>
 						{memberProps.map(m => (

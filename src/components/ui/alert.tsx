@@ -122,7 +122,7 @@ function statusAlert(
 	{ className, children, description, id, title = defaultTitle }: AlertStatusProps,
 ): React.JSX.Element {
 	return (
-		<Alert id={id} variant={variant} className={cn('docs-block my-0 mb-2 flow-root', className)}>
+		<Alert id={id} variant={variant} className={cn('block my-0 mb-2 flow-root', className)}>
 			<AlertTitle>{title}</AlertTitle>
 			<AlertDescription>{description ?? children}</AlertDescription>
 		</Alert>

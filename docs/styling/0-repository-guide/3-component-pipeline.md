@@ -1,6 +1,6 @@
 ---
 title: Component pipeline
-description: How Styling source, guidance, demos, and generated TypeScript references become the component catalog.
+description: How Styling source, guidance, demos, and generated TypeScript references become.
 ---
 
 ## Goal and design language

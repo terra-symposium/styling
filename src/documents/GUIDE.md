@@ -33,10 +33,7 @@ import { createSpreadsheetTemplate, writeWordTemplate } from '@terra-symposium/s
 const workbook = createSpreadsheetTemplate({ title: 'Project plan' });
 await workbook.xlsx.writeFile('project-plan.xlsx');
 
-await writeWordTemplate('project-brief.docx', {
-	title: 'Project brief',
-	subtitle: 'Purpose, scope and next steps',
-});
+await writeWordTemplate('project-brief.docx', { title: 'Project brief', subtitle: 'Purpose, scope and next steps' });
 ```
 
 The workbook includes a formula-driven Overview and editable, validated Inputs sheet. The Word starter follows the structure of Terra's invoice: a restrained supplier masthead, left-aligned invoice title and metadata, a pale recipient panel, grouped line items, a clear total, and payment details. Its heading styles are reusable Word styles, and the sample fields are placeholders rather than customer or banking data. `terra-document-demo.docx` adds a second page with Heading 1–3, bulleted and numbered lists, a comparison table, and a detail table so the complete style system can be reviewed in Pages or Word.
@@ -44,12 +41,7 @@ The workbook includes a formula-driven Overview and editable, validated Inputs s
 ### Override the brand
 
 ```ts
-const deck = createPresentationTemplate({
-	brand: {
-		logo: false,
-		fonts: { display: 'Avara', body: 'AUTHENTIC Sans 90' },
-	},
-});
+const deck = createPresentationTemplate({ brand: { logo: false, fonts: { display: 'Avara', body: 'AUTHENTIC Sans 90' } } });
 ```
 
 Omit `hue` for a new random hue in the same range used by the Terra website; use `hue: null` for grayscale or a number for a stable palette. The package follows the website's scale mapping: primary comes from the selected hue, while secondary and gray come from the inverted hue. Presentation and spreadsheet fills use generated scale roles; Word pages keep a clean white page with hue-generated heading and text colors. Use `logo: false` to remove the Terra wordmark, or pass an image path to use a consumer's own logo. `logoOnDark` supplies an alternate image for a dark slide background. Color and font overrides apply only to that generated file; the package defaults stay Terra-branded.
@@ -59,17 +51,11 @@ Omit `hue` for a new random hue in the same range used by the Terra website; use
 ```ts
 import { editPresentationTemplate, editSpreadsheetTemplate, editWordTemplate } from '@terra-symposium/styling/documents';
 
-await editPresentationTemplate('starter.pptx', 'edited.pptx', {
-	'The Styling system': 'Product direction',
-});
+await editPresentationTemplate('starter.pptx', 'edited.pptx', { 'The Styling system': 'Product direction' });
 
-await editSpreadsheetTemplate('starter.xlsx', 'edited.xlsx', {
-	Inputs: { A6: 'Confirm the launch date', B6: 'Product lead' },
-});
+await editSpreadsheetTemplate('starter.xlsx', 'edited.xlsx', { Inputs: { A6: 'Confirm the launch date', B6: 'Product lead' } });
 
-await editWordTemplate('starter.docx', 'edited.docx', {
-	'Project brief': 'Product brief',
-});
+await editWordTemplate('starter.docx', 'edited.docx', { 'Project brief': 'Product brief' });
 ```
 
 Presentation and Word text editing targets exact text runs in the shipped templates and preserves the other OOXML parts. Spreadsheet edits target sheet and cell addresses, retaining the workbook's styles and formulas.

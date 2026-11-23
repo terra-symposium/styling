@@ -2,7 +2,7 @@
 	"$schema": "../node_modules/@terra-symposium/hygiene/quality.schema.json",
 	"tsconfig": "config/tsconfig.json",
 	"sourceRoots": ["."],
-	"skippedDirectories": ["node_modules", ".git", ".astro", "dist", "site-dist", "archive/docs-backup", ".agents/skills"],
+	"skippedDirectories": ["node_modules", ".git", ".astro", "dist", "site-dist", ".agents/skills"],
 	"aliases": {
 		"@terra-symposium/docs-site-catalog": "node_modules/@terra-symposium/docs/site/src/lib/catalog.ts",
 		"@terra-symposium/docs-site-catchall": "node_modules/@terra-symposium/docs/site/src/pages/[...slug].astro"

@@ -19,4 +19,4 @@ The PowerPoint uses an editable text brand mark on each layout. Install Avara Bo
 
 ## Icons
 
-Choose the icon set by runtime context, then by meaning. The archived web guidance uses Carbon icons for the application and Carbon first in Sanity, with Sanity Icons for missing CMS metaphors. Keep size and alignment consistent with nearby type, and reserve established icons for their existing meanings so users can recognise them reliably.
+Choose the icon set by runtime context, then by meaning. The styling guidance recommends Carbon icons for the application and Carbon first in Sanity, with Sanity Icons for missing CMS metaphors. Keep size and alignment consistent with nearby type, and reserve established icons for their existing meanings so users can recognise them reliably.

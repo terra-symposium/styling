@@ -7,7 +7,21 @@ description: Create and edit a Terra Word document.
 
 ## Workflow
 
-<Nodes direction={"TB"} height={440} nodes={[ {"id": "create","type": "origin","position": {"x": 0,"y": 0},"data": {"title": "Create Word file"}}, {"id": "prepare","type": "process","position": {"x": 0,"y": 110},"data": {"title": "Fill invoice fields"}}, {"id": "edit","type": "process","position": {"x": 0,"y": 220},"data": {"title": "Apply Word styles"}}, {"id": "review","type": "terminal","position": {"x": 0,"y": 330},"data": {"title": "Review in Word"}}, ]} edges={[ {"id": "create-prepare","source": "create","target": "prepare"}, {"id": "prepare-edit","source": "prepare","target": "edit"}, {"id": "edit-review","source": "edit","target": "review"}, ]} />
+<Nodes
+	direction={'TB'}
+	height={440}
+	nodes={[
+		{ id: 'create', type: 'origin', position: { x: 0, y: 0 }, data: { title: 'Create Word file' } },
+		{ id: 'prepare', type: 'process', position: { x: 0, y: 110 }, data: { title: 'Fill invoice fields' } },
+		{ id: 'edit', type: 'process', position: { x: 0, y: 220 }, data: { title: 'Apply Word styles' } },
+		{ id: 'review', type: 'terminal', position: { x: 0, y: 330 }, data: { title: 'Review in Word' } },
+	]}
+	edges={[
+		{ id: 'create-prepare', source: 'create', target: 'prepare' },
+		{ id: 'prepare-edit', source: 'prepare', target: 'edit' },
+		{ id: 'edit-review', source: 'edit', target: 'review' },
+	]}
+/>
 
 ## Create
 
@@ -15,10 +29,7 @@ description: Create and edit a Terra Word document.
 import { writeWordTemplate } from '@terra-symposium/styling/documents';
 
 await writeWordTemplate('invoice.docx', { title: 'Invoice' });
-await writeWordTemplate('style-example.docx', {
-	title: 'Invoice',
-	showcase: true,
-});
+await writeWordTemplate('style-example.docx', { title: 'Invoice', showcase: true });
 ```
 
 ## Preview
@@ -44,9 +55,7 @@ Pass a fixed `hue`, `hue: null` for grayscale, or `brand.logo: false` when creat
 ```ts
 import { editWordTemplate } from '@terra-symposium/styling/documents';
 
-await editWordTemplate('invoice.docx', 'invoice-final.docx', {
-	Invoice: 'Project invoice',
-});
+await editWordTemplate('invoice.docx', 'invoice-final.docx', { Invoice: 'Project invoice' });
 ```
 
 See the [document guide](https://github.com/Terra-Symposium/styling/blob/development/src/documents/GUIDE.md) for all brand options and editing details.

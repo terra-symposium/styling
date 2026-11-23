@@ -7,7 +7,21 @@ description: Create and edit a Terra spreadsheet.
 
 ## Workflow
 
-<Nodes direction={"TB"} height={440} nodes={[ {"id": "create","type": "origin","position": {"x": 0,"y": 0},"data": {"title": "Create a workbook"}}, {"id": "prepare","type": "process","position": {"x": 0,"y": 110},"data": {"title": "Edit Inputs"}}, {"id": "edit","type": "process","position": {"x": 0,"y": 220},"data": {"title": "Check Overview"}}, {"id": "review","type": "terminal","position": {"x": 0,"y": 330},"data": {"title": "Review formulas"}}, ]} edges={[ {"id": "create-prepare","source": "create","target": "prepare"}, {"id": "prepare-edit","source": "prepare","target": "edit"}, {"id": "edit-review","source": "edit","target": "review"}, ]} />
+<Nodes
+	direction={'TB'}
+	height={440}
+	nodes={[
+		{ id: 'create', type: 'origin', position: { x: 0, y: 0 }, data: { title: 'Create a workbook' } },
+		{ id: 'prepare', type: 'process', position: { x: 0, y: 110 }, data: { title: 'Edit Inputs' } },
+		{ id: 'edit', type: 'process', position: { x: 0, y: 220 }, data: { title: 'Check Overview' } },
+		{ id: 'review', type: 'terminal', position: { x: 0, y: 330 }, data: { title: 'Review formulas' } },
+	]}
+	edges={[
+		{ id: 'create-prepare', source: 'create', target: 'prepare' },
+		{ id: 'prepare-edit', source: 'prepare', target: 'edit' },
+		{ id: 'edit-review', source: 'edit', target: 'review' },
+	]}
+/>
 
 ## Create
 
@@ -41,9 +55,7 @@ Pass a fixed `hue` or `hue: null` when creating the workbook. Edit cells by shee
 ```ts
 import { editSpreadsheetTemplate } from '@terra-symposium/styling/documents';
 
-await editSpreadsheetTemplate('project-plan.xlsx', 'project-plan-final.xlsx', {
-	Inputs: { A6: 'Confirm the launch date', B6: 'Project lead' },
-});
+await editSpreadsheetTemplate('project-plan.xlsx', 'project-plan-final.xlsx', { Inputs: { A6: 'Confirm the launch date', B6: 'Project lead' } });
 ```
 
 See the [document guide](https://github.com/Terra-Symposium/styling/blob/development/src/documents/GUIDE.md) for all brand options and editing details.

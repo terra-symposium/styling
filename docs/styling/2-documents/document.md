@@ -7,21 +7,7 @@ description: Create and edit a Terra Word document.
 
 ## Workflow
 
-<Nodes
-	direction={'TB'}
-	height={440}
-	nodes={[
-		{ id: 'create', type: 'origin', position: { x: 0, y: 0 }, data: { title: 'Create Word file' } },
-		{ id: 'prepare', type: 'process', position: { x: 0, y: 110 }, data: { title: 'Fill invoice fields' } },
-		{ id: 'edit', type: 'process', position: { x: 0, y: 220 }, data: { title: 'Apply Word styles' } },
-		{ id: 'review', type: 'terminal', position: { x: 0, y: 330 }, data: { title: 'Review in Word' } },
-	]}
-	edges={[
-		{ id: 'create-prepare', source: 'create', target: 'prepare' },
-		{ id: 'prepare-edit', source: 'prepare', target: 'edit' },
-		{ id: 'edit-review', source: 'edit', target: 'review' },
-	]}
-/>
+<Nodes direction={'TB'} height={440} nodes={[ { id: 'create', type: 'origin', position: { x: 0, y: 0 }, data: { title: 'Create Word file' } }, { id: 'prepare', type: 'process', position: { x: 0, y: 110 }, data: { title: 'Fill invoice fields' } }, { id: 'edit', type: 'process', position: { x: 0, y: 220 }, data: { title: 'Apply Word styles' } }, { id: 'review', type: 'terminal', position: { x: 0, y: 330 }, data: { title: 'Review in Word' } }, ]} edges={[ { id: 'create-prepare', source: 'create', target: 'prepare' }, { id: 'prepare-edit', source: 'prepare', target: 'edit' }, { id: 'edit-review', source: 'edit', target: 'review' }, ]} />
 
 ## Create
 

@@ -27,6 +27,8 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
+      - name: Build generated package outputs for Quality
+        run: pnpm run build
       - name: Run full-scope Quality
         run: pnpm quality:all
       - name: Require committed Quality fixes

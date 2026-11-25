@@ -62,7 +62,7 @@
 		"docs:preview": "pnpm run build && node scripts/run-docs-site.mjs preview 2030",
 		"test": "pnpm run build && tsx --test tests/lib/*.test.ts tests/components/ui/*.test.ts",
 		"prepare": "husky config/husky",
-		"verify": "pnpm run quality:all && pnpm run test && pnpm run docs:build",
+		"verify": "pnpm run build && pnpm run quality:all && pnpm run test && pnpm run docs:build",
 		"skills:prepare": "terra-skills prepare",
 		"skills:check": "terra-skills check"
 	},

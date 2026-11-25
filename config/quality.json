@@ -7,6 +7,7 @@
 		"@terra-symposium/docs-site-catalog": "node_modules/@terra-symposium/docs/site/src/lib/catalog.ts",
 		"@terra-symposium/docs-site-catchall": "node_modules/@terra-symposium/docs/site/src/pages/[...slug].astro"
 	},
+	"externalPrefixes": ["@oai/artifact-tool"],
 	"languageProfiles": ["c", "java", "python"],
 	"extensions": [
 		".astro",

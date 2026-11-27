@@ -233,7 +233,7 @@ function DialogFooter({
 	showCloseButton?: boolean;
 }): React.JSX.Element {
 	return (
-		<div data-slot='dialog-footer' className={cn('flex flex-col-reverse gap-2 p-4 sm:flex-row sm:justify-end', className)} {...footerProps}>
+		<div data-slot='dialog-footer' className={cn(layout === 'grid' ? 'grid grid-cols-4 gap-2 p-4' : 'flex flex-col-reverse gap-2 p-4 sm:flex-row sm:justify-end', className)} {...footerProps}>
 			{children}
 			{showCloseButton && (
 				<DialogPrimitive.Close asChild>

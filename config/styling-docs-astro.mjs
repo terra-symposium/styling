@@ -38,10 +38,7 @@ export default {
 	srcDir: resolve(projectRoot, 'site/src'),
 	vite: {
 		...docsConfig.vite,
-		ssr: {
-			...docsConfig.vite?.ssr,
-			noExternal: [...new Set([...(docsConfig.vite?.ssr?.noExternal ?? []), 'sonner'])],
-		},
+		ssr: { ...docsConfig.vite?.ssr, noExternal: [...new Set([...(docsConfig.vite?.ssr?.noExternal ?? []), 'sonner'])] },
 		resolve: {
 			...docsConfig.vite?.resolve,
 			dedupe: [...new Set([...(docsConfig.vite?.resolve?.dedupe ?? []), 'react', 'react-dom'])],

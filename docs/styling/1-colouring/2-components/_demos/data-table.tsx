@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/data-table.tsx
+ * docs/styling/1-colouring/2-components/_demos/data-table.tsx
  * Interactive DataTable example and its copyable source.
  */
 

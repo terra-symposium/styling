@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/toggle-group.tsx
+ * docs/styling/1-colouring/2-components/_demos/toggle-group.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

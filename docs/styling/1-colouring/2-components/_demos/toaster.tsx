@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/toaster.tsx
+ * docs/styling/1-colouring/2-components/_demos/toaster.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

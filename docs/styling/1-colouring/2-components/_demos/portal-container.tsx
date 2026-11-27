@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/portal-container.tsx
+ * docs/styling/1-colouring/2-components/_demos/portal-container.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

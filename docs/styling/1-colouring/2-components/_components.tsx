@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/components.tsx
+ * docs/styling/1-colouring/2-components/_components.tsx
  * Catalog, interactive workbenches, and TypeScript reference for Styling components.
  */
 

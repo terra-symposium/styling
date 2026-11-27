@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/docs-toolbar-frame.tsx
+ * docs/styling/1-colouring/2-components/_demos/docs-toolbar-frame.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

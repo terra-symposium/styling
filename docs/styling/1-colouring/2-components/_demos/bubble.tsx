@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/bubble.tsx
+ * docs/styling/1-colouring/2-components/_demos/bubble.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/context-menu.tsx
+ * docs/styling/1-colouring/2-components/_demos/context-menu.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

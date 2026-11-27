@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/scroll-area.tsx
+ * docs/styling/1-colouring/2-components/_demos/scroll-area.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/accordion.tsx
+ * docs/styling/1-colouring/2-components/_demos/accordion.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

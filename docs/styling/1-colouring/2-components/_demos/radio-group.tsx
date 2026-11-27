@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/radio-group.tsx
+ * docs/styling/1-colouring/2-components/_demos/radio-group.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

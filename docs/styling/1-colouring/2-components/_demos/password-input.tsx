@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/password-input.tsx
+ * docs/styling/1-colouring/2-components/_demos/password-input.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

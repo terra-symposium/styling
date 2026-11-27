@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/mapped-form-fields.tsx
+ * docs/styling/1-colouring/2-components/_demos/mapped-form-fields.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

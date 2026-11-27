@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/resizable.tsx
+ * docs/styling/1-colouring/2-components/_demos/resizable.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

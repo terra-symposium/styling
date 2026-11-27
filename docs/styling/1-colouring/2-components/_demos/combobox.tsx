@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/combobox.tsx
+ * docs/styling/1-colouring/2-components/_demos/combobox.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

@@ -16,9 +16,9 @@ Each reference page has four sources. Keep them in agreement when behavior chang
 | Source                     | What it contributes                                          | Where to edit                                                          |
 | -------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------------- |
 | Public component and types | Runtime behavior, props, signatures, JSDoc, literal defaults | `src/components/ui/` or the owning composition under `src/components/` |
-| Usage note                 | When to use it and accessibility guidance                    | `docs/styling/1-colouring/demos/notes.ts`                              |
-| Demo module                | Interactive preview and copyable `exampleCode`               | `docs/styling/1-colouring/demos/<slug>.tsx`                            |
-| Reference page             | Grouped catalog, workbench controls, API and props display   | `docs/styling/1-colouring/components.tsx`                              |
+| Usage note                 | When to use it and accessibility guidance                    | `docs/styling/1-colouring/2-components/_demos/notes.ts`               |
+| Demo module                | Interactive preview and copyable `exampleCode`               | `docs/styling/1-colouring/2-components/_demos/<slug>.tsx`             |
+| Reference page             | Grouped catalog, workbench controls, API and props display   | `docs/styling/1-colouring/2-components/_components.tsx`               |
 
 :::caution[Do not rely on generated prose alone]
 

@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/dropdown-menu.tsx
+ * docs/styling/1-colouring/2-components/_demos/dropdown-menu.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

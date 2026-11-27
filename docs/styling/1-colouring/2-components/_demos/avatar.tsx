@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/avatar.tsx
+ * docs/styling/1-colouring/2-components/_demos/avatar.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

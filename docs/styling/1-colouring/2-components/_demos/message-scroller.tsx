@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/message-scroller.tsx
+ * docs/styling/1-colouring/2-components/_demos/message-scroller.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

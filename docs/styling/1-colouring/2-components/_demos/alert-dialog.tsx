@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/alert-dialog.tsx
+ * docs/styling/1-colouring/2-components/_demos/alert-dialog.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

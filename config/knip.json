@@ -16,8 +16,8 @@
 		"config/tailwind.global.config.mjs",
 		"config/tailwind.postcss.config.cjs",
 		"docs/styling/**/*.mdx",
-		"docs/styling/1-colouring/*.tsx",
-		"docs/styling/1-colouring/demos/*.tsx",
+		"docs/styling/1-colouring/2-components/_components.tsx",
+		"docs/styling/1-colouring/2-components/_demos/*.tsx",
 		"tests/**/*.{ts,tsx}",
 		"config/**/*.{js,mjs,cjs,ts}"
 	],

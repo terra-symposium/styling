@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/form-select.tsx
+ * docs/styling/1-colouring/2-components/_demos/form-select.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

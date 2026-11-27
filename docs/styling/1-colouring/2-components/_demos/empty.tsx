@@ -1,5 +1,5 @@
 /**
- * docs/styling/1-colouring/demos/empty.tsx
+ * docs/styling/1-colouring/2-components/_demos/empty.tsx
  */
 /*//////////////////////////////////////////////////
 IMPORTS

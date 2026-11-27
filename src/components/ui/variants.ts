@@ -214,13 +214,6 @@ export const ACTION_VARIANTS = cva(ACTION_BASE, {
 		},
 		size: ACTION_SIZE_VALUES,
 	},
-	compoundVariants: [
-		{
-			variant: 'primary-saturated',
-			size: 'md',
-			class: 'border-primary-10 bg-primary-9 shadow-primary-9/15 hover:bg-primary-10 min-h-12 min-w-44 px-5 text-sm font-extrabold text-white shadow-lg hover:-translate-y-px',
-		},
-	],
 	defaultVariants: { variant: 'primary', size: 'md' },
 });
 const TOGGLE_SELECTED_COLORS: Record<UiColor, string> = {

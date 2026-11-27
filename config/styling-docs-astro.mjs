@@ -38,8 +38,13 @@ export default {
 	srcDir: resolve(projectRoot, 'site/src'),
 	vite: {
 		...docsConfig.vite,
+		ssr: {
+			...docsConfig.vite?.ssr,
+			noExternal: [...new Set([...(docsConfig.vite?.ssr?.noExternal ?? []), 'sonner'])],
+		},
 		resolve: {
 			...docsConfig.vite?.resolve,
+			dedupe: [...new Set([...(docsConfig.vite?.resolve?.dedupe ?? []), 'react', 'react-dom'])],
 			alias: Array.isArray(configuredAliases) ? [...stylingAliases, ...configuredAliases] : { ...Object.fromEntries(stylingAliases.map(toStylingAliasEntry)), ...configuredAliases },
 		},
 	},

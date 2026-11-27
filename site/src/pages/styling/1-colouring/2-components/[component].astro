@@ -9,7 +9,7 @@ IMPORTS
 import DocsSiteLayout from '@terra-symposium/docs/site-layout.astro';
 import { pageHref, siteNavigation } from '@terra-symposium/docs-site-catalog';
 import { componentTsDocs } from '../../../../../../dist/cache/component-tsdocs.js';
-import { ComponentReference } from '../../../../../../docs/styling/1-colouring/components.tsx';
+import { ComponentReference } from '../../../../../../docs/styling/1-colouring/2-components/_components.tsx';
 
 const { component: compRefSlug = '' } = Astro.params;
 const docs = componentTsDocs[compRefSlug as keyof typeof componentTsDocs];
@@ -39,9 +39,7 @@ const currentPath = pageHref(`styling/1-colouring/2-components/${compRefSlug}`, 
 		searchBase={base}
 	>
 		<main class='copy'>
-			<ComponentReference client:only='react' component={compRefSlug as keyof typeof componentTsDocs}>
-				<p slot='fallback'>Loading component example…</p>
-			</ComponentReference>
+			<ComponentReference client:load component={compRefSlug as keyof typeof componentTsDocs} />
 		</main>
 	</DocsSiteLayout>
 ) : null}

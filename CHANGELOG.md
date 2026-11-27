@@ -1,5 +1,16 @@
 # @terra-symposium/styling
 
+## 0.2.0
+
+### Minor Changes
+
+- 4e3eb02: Add a document creation entry point with editable Terra-branded PowerPoint, spreadsheet and Word templates, including saturation and consumer branding overrides.
+- 4e3eb02: Consolidate the shared UI and Docs styles into `@terra-symposium/styling/global.css`, keep visual effects as an optional stylesheet, and source the palette from the host's dynamic hue theme.
+
+### Patch Changes
+
+- 05d3f19: Standardize repository structure, release metadata, documentation, and verification entry points.
+
 ## 0.1.28
 
 ### Patch Changes

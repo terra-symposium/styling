@@ -41,7 +41,7 @@ const ungrouped = Object.entries(docs)
 	.filter(([, entry]) => !groups.has(entry.group))
 	.map(([slug]) => slug);
 if (ungrouped.length) throw new Error(`Components missing from the catalog: ${ungrouped.join(', ')}`);
-const demoDir = resolve(root, 'docs/styling/1-colouring/demos');
+const demoDir = resolve(root, 'docs/styling/1-colouring/2-components/_demos');
 const names = new Set((await readdir(demoDir)).filter(name => name.endsWith('.tsx')).map(name => name.slice(0, -4)));
 const missing = Object.keys(docs).filter(slug => !names.has(slug));
 const stale = [...names].filter(slug => !docs[slug]);

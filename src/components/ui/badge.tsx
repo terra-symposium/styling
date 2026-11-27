@@ -75,7 +75,7 @@ function Badge({
 			data-variant={variant}
 			className={cn(
 				cva(
-					'inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-red-700 aria-invalid:ring-red-700/20 dark:aria-invalid:ring-red-700/40 [&>svg]:pointer-events-none [&>svg]:size-3!',
+					'inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent font-medium whitespace-nowrap transition-all has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-red-700 aria-invalid:ring-red-700/20 dark:aria-invalid:ring-red-700/40 [&>svg]:pointer-events-none [&>svg]:size-3!',
 					{
 						variants: {
 							variant: {
@@ -83,10 +83,10 @@ function Badge({
 							},
 							size: {
 								xs: 'px-1.5 py-0.5 text-[0.65rem]',
-								sm: 'px-2 py-0.5 text-xs',
-								md: 'px-3 py-1 text-sm',
-								lg: 'px-3 py-1 text-sm',
-								xl: 'px-4 py-2 text-sm font-bold',
+								sm: 'px-2 py-1 text-xs',
+								md: 'px-3 py-1.5 text-sm',
+								lg: 'px-4 py-2 text-base',
+								xl: 'px-5 py-2.5 text-lg font-bold',
 							},
 							rounded: {
 								full: 'rounded-full',

@@ -233,15 +233,11 @@ function DialogFooter({
 	showCloseButton?: boolean;
 }): React.JSX.Element {
 	return (
-		<div
-			data-slot='dialog-footer'
-			className={cn('mt-2 flex flex-col-reverse gap-2 rounded-lg border bg-primary-3/50 p-4 sm:flex-row sm:justify-end', layout === 'grid' && 'grid sm:grid-cols-4', className)}
-			{...footerProps}
-		>
+		<div data-slot='dialog-footer' className={cn('flex flex-col-reverse gap-2 p-4 sm:flex-row sm:justify-end', className)} {...footerProps}>
 			{children}
 			{showCloseButton && (
 				<DialogPrimitive.Close asChild>
-					<Button variant='gray-outline'>Close</Button>
+					<Button variant='primary-tonal'>Close</Button>
 				</DialogPrimitive.Close>
 			)}
 		</div>
@@ -290,13 +286,8 @@ function renderDialogDescription(
 			{children}
 		</DialogPrimitive.Description>
 	);
-	return tooltip ? (
-		<Hint content={tooltip} disabledTrigger>
-			{description}
-		</Hint>
-	) : (
-		description
-	);
+	// prettier-ignore
+	return tooltip ? <Hint content={tooltip} disabledTrigger>{description}</Hint> : description;
 }
 const DialogDescription = React.forwardRef(renderDialogDescription);
 DialogDescription.displayName = 'DialogDescription';

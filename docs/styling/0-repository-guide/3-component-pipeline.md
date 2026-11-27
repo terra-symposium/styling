@@ -35,7 +35,7 @@ The generator uses a component export's JSDoc summary, then a source comment, th
 3. The build emits JavaScript, declarations, fonts, and `global.css`. `pnpm run docs:build` then checks Docs TypeScript and demos and builds the static site.
 4. The Markdown [Components index](/styling/1-colouring/2-components/) loads `ComponentCatalog`. One Astro route, `/styling/1-colouring/2-components/[component]/`, creates a page for every generated slug.
 
-The route loads the generated metadata. `ComponentReference` renders the source link, usage note, interactive demo, TypeScript API table, and prop accordions. Demos load from the registry in `components.tsx`; selected variants update both the preview and copyable code where the workbench supports them.
+The route loads the generated metadata. `ComponentReference` renders the source link, usage note, interactive demo, and TypeScript API table. Each API row includes its own prop details; exports used in the authored composition can focus the shared workbench on that export while keeping the complete example rendered. Appearance controls update both the preview and copyable code.
 
 The site currently builds at `docs.base: "/"`. Its reference screenshots use `/_docs/assets/...` URLs for files copied from `docs/styling/`. If the site moves beneath a URL prefix, update those image paths and verify them at the published address.
 
